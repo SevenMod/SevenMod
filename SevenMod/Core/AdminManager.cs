@@ -118,6 +118,11 @@ namespace SevenMod.Core
         /// <c>false</c>.</returns>
         public static bool CheckAccess(ClientInfo client, AdminFlags adminFlag)
         {
+            if (client == null)
+            {
+                return true;
+            }
+
             if (!admins.ContainsKey(client.playerId))
             {
                 return false;
@@ -143,6 +148,11 @@ namespace SevenMod.Core
         /// otherwise <c>false</c>.</returns>
         public static bool CanTarget(ClientInfo client, ClientInfo target)
         {
+            if (client == null)
+            {
+                return true;
+            }
+
             var clientImmunity = 0;
             if (admins.ContainsKey(client.playerId))
             {
