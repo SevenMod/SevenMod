@@ -121,7 +121,7 @@ namespace SevenMod.Core
                 }
 
                 element = (XmlElement)node;
-                if (!element.HasAttribute("Enabled") || !new[] { "True", "true", "1" }.Contains(element.GetAttribute("Enabled")))
+                if (!element.HasAttribute("Enabled") || !element.GetAttribute("Enabled").ToLower().Equals("true"))
                 {
                     continue;
                 }
