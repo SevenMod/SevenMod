@@ -20,6 +20,7 @@ namespace SevenMod.Plugin.BaseBans
 
             RegisterAdminCommand(typeof(AdminCmdBan), AdminFlags.Ban);
             RegisterAdminCommand(typeof(AdminCmdUnban), AdminFlags.Unban);
+            RegisterAdminCommand(typeof(AdminCmdAddban), AdminFlags.Ban);
         }
     }
 }

@@ -72,6 +72,7 @@
     <Compile Include="Plugin\Advertisements\Advertisements.cs" />
     <Compile Include="Plugin\Advertisements\AdvertisementsConfig.cs" />
     <Compile Include="Plugin\BaseBans\AdminCmdBan.cs" />
+    <Compile Include="Plugin\BaseBans\AdminCmdAddban.cs" />
     <Compile Include="Plugin\BaseBans\AdminCmdUnban.cs" />
     <Compile Include="Plugin\BaseBans\BaseBans.cs" />
     <Compile Include="Plugin\BaseCommands\AdminCmdWho.cs" />
