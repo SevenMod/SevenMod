@@ -39,11 +39,14 @@ namespace SevenMod.Core
                 return;
             }
 
-            AdminFlags flags = Registry[this.GetType()];
-            if ((flags == 0) || !AdminManager.CheckAccess(senderInfo.RemoteClientInfo, flags))
+            if (senderInfo.RemoteClientInfo != null)
             {
-                this.ReplyToCommand(senderInfo, "You do not have access to that command");
-                return;
+                AdminFlags flags = Registry[this.GetType()];
+                if ((flags == 0) || !AdminManager.CheckAccess(senderInfo.RemoteClientInfo, flags))
+                {
+                    this.ReplyToCommand(senderInfo, "You do not have access to that command");
+                    return;
+                }
             }
 
             this.Exec(args, senderInfo);
@@ -57,7 +60,7 @@ namespace SevenMod.Core
         /// <param name="message">The message to send.</param>
         protected void ReplyToCommand(CommandSenderInfo senderInfo, string message)
         {
-            if (ChatHook.ShouldReplyToChat(senderInfo.RemoteClientInfo))
+            if ((senderInfo.RemoteClientInfo != null) && ChatHook.ShouldReplyToChat(senderInfo.RemoteClientInfo))
             {
                 senderInfo.RemoteClientInfo.SendPackage(new NetPackageGameMessage(EnumGameMessages.Chat, message, "[SM]", false, "SevenMod", false));
             }
