@@ -1,0 +1,5 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<BaseVotes>
+  <Option Name="VoteBanPercent" Value="0.60" />
+  <Option Name="VoteKickPercent" Value="0.60" />
+</BaseVotes>

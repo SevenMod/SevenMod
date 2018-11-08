@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Plugins>
+  <AdminFlatFile Enabled="True" />
+  <BaseCommands Enabled="True" />
+  <BaseVotes Enabled="True" />
+  <MOTD Enabled="True" />
+  <Advertisements Enabled="True" />
+</Plugins>

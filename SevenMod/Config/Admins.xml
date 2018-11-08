@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<AdminRoot>
+  <Groups>
+    <Group Name="" Immunity="" Flags="" />
+  </Groups>
+  <Admins>
+    <Admin AuthId="" Immunity="" Flags="" Groups="" />
+  </Admins>
+</AdminRoot>

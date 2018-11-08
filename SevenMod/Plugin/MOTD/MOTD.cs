@@ -1,0 +1,36 @@
+﻿// <copyright file="MOTD.cs" company="Steve Guidetti">
+// Copyright (c) Steve Guidetti. All rights reserved.
+// Licensed under the MIT license. See LICENSE.txt file in the project root for full license information.
+// </copyright>
+
+namespace SevenMod.Plugin.MOTD
+{
+    using SevenMod.Core;
+
+    /// <summary>
+    /// <para>Plugin: MOTD</para>
+    /// <para>Displays a set of messages in chat to players upon connecting to the server.</para>
+    /// </summary>
+    public class MOTD : PluginAbstract
+    {
+        /// <inheritdoc/>
+        public override void LoadPlugin()
+        {
+            base.LoadPlugin();
+            ConfigManager.ParseConfig(MOTDConfig.Instance, "MOTD");
+        }
+
+        /// <inheritdoc/>
+        public override void PlayerSpawnedInWorld(ClientInfo client, RespawnType respawnReason, Vector3i position)
+        {
+            base.PlayerSpawnedInWorld(client, respawnReason, position);
+            if (respawnReason == RespawnType.JoinMultiplayer)
+            {
+                foreach (var line in MOTDConfig.Instance.Lines)
+                {
+                    client.SendPackage(new NetPackageGameMessage(EnumGameMessages.Chat, line, "[MOTD]", false, "SevenMod", false));
+                }
+            }
+        }
+    }
+}

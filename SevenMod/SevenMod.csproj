@@ -1,0 +1,137 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{13679247-136C-4816-A745-185E973C0C06}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>SevenMod</RootNamespace>
+    <AssemblyName>SevenMod</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Debug\SevenMod.xml</DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Release\SevenMod.xml</DocumentationFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Assembly-CSharp, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\7dtd-binaries\Assembly-CSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="Assembly-CSharp-firstpass">
+      <HintPath>..\7dtd-binaries\Assembly-CSharp-firstpass.dll</HintPath>
+    </Reference>
+    <Reference Include="LogLibrary, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\7dtd-binaries\LogLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="UnityEngine, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\7dtd-binaries\UnityEngine.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="API.cs" />
+    <Compile Include="Core\AdminFlags.cs" />
+    <Compile Include="Core\AdminManager.cs" />
+    <Compile Include="Core\ChatHook.cs" />
+    <Compile Include="Core\ConfigManager.cs" />
+    <Compile Include="Core\AdminInfo.cs" />
+    <Compile Include="Core\AdminCmdAbstract.cs" />
+    <Compile Include="Core\CoreConfig.cs" />
+    <Compile Include="Core\IChatHookListener.cs" />
+    <Compile Include="Core\IPluginAPI.cs" />
+    <Compile Include="Core\PluginAbstract.cs" />
+    <Compile Include="Plugin\AdminFlatFile\GroupInfo.cs" />
+    <Compile Include="Plugin\AdminFlatFile\AdminFlatFile.cs" />
+    <Compile Include="Plugin\Advertisements\Advertisements.cs" />
+    <Compile Include="Plugin\Advertisements\AdvertisementsConfig.cs" />
+    <Compile Include="Plugin\BaseCommands\AdminCmdWho.cs" />
+    <Compile Include="Plugin\BaseCommands\BaseCommands.cs" />
+    <Compile Include="Plugin\BaseCommands\AdminCmdKick.cs" />
+    <Compile Include="Plugin\BaseVotes\AdminCmdVote.cs" />
+    <Compile Include="Plugin\BaseVotes\AdminCmdVoteBan.cs" />
+    <Compile Include="Plugin\BaseVotes\AdminCmdVoteKick.cs" />
+    <Compile Include="Plugin\BaseVotes\BaseVotes.cs" />
+    <Compile Include="Plugin\BaseVotes\BaseVotesConfig.cs" />
+    <Compile Include="Core\IVoteResultListener.cs" />
+    <Compile Include="Core\VoteManager.cs" />
+    <Compile Include="Plugin\MOTD\MOTD.cs" />
+    <Compile Include="Plugin\MOTD\MOTDConfig.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ModInfo.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="packages.config" />
+    <AdditionalFiles Include="stylecop.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Config\Admins.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Config\Advertisements.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Config\BaseVotes.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Config\Core.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Config\MOTD.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Config\Plugins.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Analyzer Include="..\packages\StyleCop.Analyzers.1.0.2\analyzers\dotnet\cs\StyleCop.Analyzers.CodeFixes.dll" />
+    <Analyzer Include="..\packages\StyleCop.Analyzers.1.0.2\analyzers\dotnet\cs\StyleCop.Analyzers.dll" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PreBuildEvent>
+    </PreBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup>
+    <PostBuildEvent>
+rmdir "$(ProjectDir)..\bin\Mods\SevenMod" /s /q
+mkdir "$(ProjectDir)..\bin\Mods\SevenMod"
+mkdir "$(ProjectDir)..\bin\Mods\SevenMod\Config"
+
+copy "$(ProjectDir)$(OutDir)SevenMod.dll" "$(ProjectDir)..\bin\Mods\SevenMod\SevenMod.dll"
+copy "$(ProjectDir)$(OutDir)ModInfo.xml" "$(ProjectDir)..\bin\Mods\SevenMod\ModInfo.xml"
+xcopy "$(ProjectDir)$(OutDir)Config" "$(ProjectDir)..\bin\Mods\SevenMod\Config" /e /y /i /c
+</PostBuildEvent>
+  </PropertyGroup>
+</Project>

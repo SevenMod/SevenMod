@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<xml>
+  <ModInfo>
+    <Name value="SevenMod"/>
+    <Description value="Server management tool for 7 Days to Die"/>
+    <Author value="Steve Guidetti"/>
+    <Version value="1.0"/>
+    <Website value="https://github.com/stevotvr/sevenmod"/>
+  </ModInfo>
+</xml>
