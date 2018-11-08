@@ -35,21 +35,10 @@ namespace SevenMod.Plugin.BaseCommands
                 return;
             }
 
-            string playerId;
-            ClientInfo target;
-            if (ConsoleHelper.ParseParamPartialNameOrId(args[0], out playerId, out target) != 1)
+            foreach (var target in this.ParseTargetString(senderInfo, args[0]))
             {
-                this.ReplyToCommand(senderInfo, "No valid targets found");
-                return;
+                SdtdConsole.Instance.ExecuteSync($"kick {target.playerId}", null);
             }
-
-            if (!AdminManager.CanTarget(senderInfo.RemoteClientInfo, target))
-            {
-                this.ReplyToCommand(senderInfo, $"Cannot target {target.playerName}");
-                return;
-            }
-
-            SdtdConsole.Instance.ExecuteSync($"kick {playerId}", null);
         }
     }
 }

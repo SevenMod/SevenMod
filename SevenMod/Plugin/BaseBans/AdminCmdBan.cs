@@ -41,26 +41,18 @@ namespace SevenMod.Plugin.BaseBans
                 return;
             }
 
-            if (ConsoleHelper.ParseParamPartialNameOrId(args[0], out string playerId, out ClientInfo target) != 1)
+            var target = this.ParseSingleTargetString(senderInfo, args[0]);
+            if (target != null)
             {
-                this.ReplyToCommand(senderInfo, "No valid targets found");
-                return;
-            }
+                var unit = "minutes";
+                if (duration == 0)
+                {
+                    unit = "years";
+                    duration = 999999;
+                }
 
-            if (!AdminManager.CanTarget(senderInfo.RemoteClientInfo, target))
-            {
-                this.ReplyToCommand(senderInfo, $"Cannot target {target.playerName}");
-                return;
+                SdtdConsole.Instance.ExecuteSync($"ban add {target.playerId} {duration} {unit}", null);
             }
-
-            var unit = "minutes";
-            if (duration == 0)
-            {
-                unit = "years";
-                duration = 999999;
-            }
-
-            SdtdConsole.Instance.ExecuteSync($"ban add {playerId} {duration} {unit}", null);
         }
     }
 }

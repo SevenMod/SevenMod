@@ -69,5 +69,57 @@ namespace SevenMod.Core
                 SdtdConsole.Instance.Output(message);
             }
         }
+
+        /// <summary>
+        /// Parse a player target string into a list of currently connected clients.
+        /// </summary>
+        /// <param name="senderInfo">The calling client information.</param>
+        /// <param name="targetString">The player target string.</param>
+        /// <returns>A list of <see cref="ClientInfo"/> objects representing the matching
+        /// clients.</returns>
+        protected List<ClientInfo> ParseTargetString(CommandSenderInfo senderInfo, string targetString)
+        {
+            var list = new List<ClientInfo>();
+
+            var target = this.ParseSingleTargetString(senderInfo, targetString);
+            if (target == null)
+            {
+                list.Add(target);
+            }
+
+            foreach (var client in list)
+            {
+                if (!AdminManager.CanTarget(senderInfo.RemoteClientInfo, target))
+                {
+                    this.ReplyToCommand(senderInfo, $"Cannot target {target.playerName}");
+                    list.Remove(client);
+                }
+            }
+
+            return list;
+        }
+
+        /// <summary>
+        /// Parse a single player target string into a <see cref="ClientInfo"/> object representing
+        /// a currently connected client, or <c>null</c> if no unique target is found.
+        /// </summary>
+        /// <param name="senderInfo">The calling client information.</param>
+        /// <param name="targetString">The player target string.</param>
+        /// <returns>A <see cref="ClientInfo"/> object representing a matching client if one is
+        /// found; otherwise <c>null</c>.</returns>
+        protected ClientInfo ParseSingleTargetString(CommandSenderInfo senderInfo, string targetString)
+        {
+            var count = ConsoleHelper.ParseParamPartialNameOrId(targetString, out string _, out ClientInfo target, false);
+            if (count < 1 || (target == null))
+            {
+                this.ReplyToCommand(senderInfo, "No valid targets found");
+            }
+            else if (count > 1)
+            {
+                this.ReplyToCommand(senderInfo, "Multiple valid targets found");
+            }
+
+            return target;
+        }
     }
 }

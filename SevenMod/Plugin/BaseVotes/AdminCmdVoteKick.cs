@@ -40,23 +40,13 @@ namespace SevenMod.Plugin.BaseVotes
                 return;
             }
 
-            string playerId;
-            ClientInfo target;
-            if (ConsoleHelper.ParseParamPartialNameOrId(args[0], out playerId, out target) != 1)
+            var target = this.ParseSingleTargetString(senderInfo, args[0]);
+            if (target != null)
             {
-                this.ReplyToCommand(senderInfo, "No valid targets found");
-                return;
+                var message = $"A vote has begun to kick {target.playerName} from the server";
+                var listener = new VoteKickListener(target);
+                VoteManager.Instance.StartVote(message, null, listener);
             }
-
-            if (!AdminManager.CanTarget(senderInfo.RemoteClientInfo, target))
-            {
-                this.ReplyToCommand(senderInfo, $"Cannot target {target.playerName}");
-                return;
-            }
-
-            var message = $"A vote has begun to kick {target.playerName} from the server";
-            var listener = new VoteKickListener(target);
-            VoteManager.Instance.StartVote(message, null, listener);
         }
 
         /// <summary>
