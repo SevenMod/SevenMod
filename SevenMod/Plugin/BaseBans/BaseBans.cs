@@ -8,7 +8,7 @@ namespace SevenMod.Plugin.BaseBans
     using SevenMod.Core;
 
     /// <summary>
-    /// <para>Plugin: BaseCommands</para>
+    /// <para>Plugin: BaseBans</para>
     /// <para>Adds the sm_ban and sm_unban admin commands.</para>
     /// </summary>
     public class BaseBans : PluginAbstract
