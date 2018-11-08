@@ -110,7 +110,7 @@ namespace SevenMod.Core
 
             var root = xml.GetElementsByTagName("Plugins")[0];
 
-            var parentType = Type.GetType("SevenMod.Core.IPluginAPI");
+            var parentType = Type.GetType("SevenMod.Core.PluginAbstract");
             XmlElement element;
             Type type;
             foreach (XmlNode node in root.ChildNodes)
@@ -129,7 +129,7 @@ namespace SevenMod.Core
                 try
                 {
                     type = Type.GetType($"SevenMod.Plugin.{element.Name}.{element.Name}", true, true);
-                    if (type.IsInstanceOfType(parentType))
+                    if (type.IsSubclassOf(parentType))
                     {
                         Log.Out("Added {0}", node.Name);
                         list.Add(Activator.CreateInstance(type) as PluginAbstract);
