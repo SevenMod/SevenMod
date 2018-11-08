@@ -41,7 +41,7 @@ namespace SevenMod.Core
 
             if (senderInfo.RemoteClientInfo != null)
             {
-                AdminFlags flags = Registry[this.GetType()];
+                var flags = Registry[this.GetType()];
                 if ((flags == 0) || !AdminManager.CheckAccess(senderInfo.RemoteClientInfo, flags))
                 {
                     this.ReplyToCommand(senderInfo, "You do not have access to that command");
