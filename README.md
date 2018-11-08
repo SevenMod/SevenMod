@@ -24,6 +24,10 @@ Loads admin users from a local configuration file.
 
 Periodically shows messages in chat.
 
+### BaseBans
+
+Adds the sm_ban and sm_unban admin commands.
+
 ### BaseCommands
 
 Adds the sm_kick and sm_who admin commands.
