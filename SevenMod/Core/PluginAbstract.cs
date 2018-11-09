@@ -12,6 +12,11 @@ namespace SevenMod.Core
     /// </summary>
     public abstract class PluginAbstract : IPluginAPI
     {
+        /// <summary>
+        /// Gets the metadata for the plugin.
+        /// </summary>
+        public abstract PluginInfo Info { get; }
+
         /// <inheritdoc/>
         public virtual void CalcChunkColorsDone(Chunk chunk)
         {
@@ -86,6 +91,37 @@ namespace SevenMod.Core
             }
 
             AdminCmdAbstract.Registry.Add(handler, flags);
+        }
+
+        /// <summary>
+        /// Structure for containing metadata for a plugin.
+        /// </summary>
+        public struct PluginInfo
+        {
+            /// <summary>
+            /// The name of the plugin.
+            /// </summary>
+            public string Name;
+
+            /// <summary>
+            /// The name of the plugin author(s).
+            /// </summary>
+            public string Author;
+
+            /// <summary>
+            /// A brief description for the plugin.
+            /// </summary>
+            public string Description;
+
+            /// <summary>
+            /// The version identifier.
+            /// </summary>
+            public string Version;
+
+            /// <summary>
+            /// The website associated with the plugin.
+            /// </summary>
+            public string Website;
         }
     }
 }

@@ -14,6 +14,16 @@ namespace SevenMod.Plugin.MOTD
     public class MOTD : PluginAbstract
     {
         /// <inheritdoc/>
+        public override PluginInfo Info => new PluginInfo
+        {
+            Name = "Message of the Day",
+            Author = "SevenMod",
+            Description = "Displays a set of messages in chat to players upon connecting to the server.",
+            Version = "0.1.0.0",
+            Website = "https://github.com/stevotvr/sevenmod"
+        };
+
+        /// <inheritdoc/>
         public override void LoadPlugin()
         {
             base.LoadPlugin();

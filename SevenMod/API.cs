@@ -5,7 +5,6 @@
 
 namespace SevenMod
 {
-    using System.Collections.Generic;
     using SevenMod.Core;
 
     /// <summary>
@@ -13,15 +12,10 @@ namespace SevenMod
     /// </summary>
     public class API : ModApiAbstract
     {
-        /// <summary>
-        /// The active plugins.
-        /// </summary>
-        private List<PluginAbstract> plugins = new List<PluginAbstract>();
-
         /// <inheritdoc/>
         public override void CalcChunkColorsDone(Chunk _chunk)
         {
-            foreach (var plugin in this.plugins)
+            foreach (var plugin in PluginManager.ActivePlugins)
             {
                 plugin.CalcChunkColorsDone(_chunk);
             }
@@ -37,36 +31,24 @@ namespace SevenMod
         public override void GameAwake()
         {
             ConfigManager.Init();
-            this.plugins = ConfigManager.GetPlugins();
-            foreach (var plugin in this.plugins)
-            {
-                plugin.LoadPlugin();
-            }
-
-            foreach (var plugin in this.plugins)
-            {
-                plugin.GameAwake();
-            }
+            PluginManager.Refresh();
         }
 
         /// <inheritdoc/>
         public override void GameShutdown()
         {
-            foreach (var plugin in this.plugins)
+            foreach (var plugin in PluginManager.ActivePlugins)
             {
                 plugin.GameShutdown();
             }
 
-            foreach (var plugin in this.plugins)
-            {
-                plugin.UnloadPlugin();
-            }
+            PluginManager.UnloadAll();
         }
 
         /// <inheritdoc/>
         public override void GameStartDone()
         {
-            foreach (var plugin in this.plugins)
+            foreach (var plugin in PluginManager.ActivePlugins)
             {
                 plugin.GameStartDone();
             }
@@ -75,7 +57,7 @@ namespace SevenMod
         /// <inheritdoc/>
         public override void GameUpdate()
         {
-            foreach (var plugin in this.plugins)
+            foreach (var plugin in PluginManager.ActivePlugins)
             {
                 plugin.GameUpdate();
             }
@@ -84,7 +66,7 @@ namespace SevenMod
         /// <inheritdoc/>
         public override void PlayerDisconnected(ClientInfo _cInfo, bool _bShutdown)
         {
-            foreach (var plugin in this.plugins)
+            foreach (var plugin in PluginManager.ActivePlugins)
             {
                 plugin.PlayerDisconnected(_cInfo, _bShutdown);
             }
@@ -93,7 +75,7 @@ namespace SevenMod
         /// <inheritdoc/>
         public override void PlayerLogin(ClientInfo _cInfo, string _compatibilityVersion)
         {
-            foreach (var plugin in this.plugins)
+            foreach (var plugin in PluginManager.ActivePlugins)
             {
                 plugin.PlayerLogin(_cInfo, _compatibilityVersion);
             }
@@ -102,7 +84,7 @@ namespace SevenMod
         /// <inheritdoc/>
         public override void PlayerSpawnedInWorld(ClientInfo _cInfo, RespawnType _respawnReason, Vector3i _pos)
         {
-            foreach (var plugin in this.plugins)
+            foreach (var plugin in PluginManager.ActivePlugins)
             {
                 plugin.PlayerSpawnedInWorld(_cInfo, _respawnReason, _pos);
             }
@@ -111,7 +93,7 @@ namespace SevenMod
         /// <inheritdoc/>
         public override void PlayerSpawning(ClientInfo _cInfo, int _chunkViewDim, PlayerProfile _playerProfile)
         {
-            foreach (var plugin in this.plugins)
+            foreach (var plugin in PluginManager.ActivePlugins)
             {
                 plugin.PlayerSpawning(_cInfo, _chunkViewDim, _playerProfile);
             }
@@ -120,7 +102,7 @@ namespace SevenMod
         /// <inheritdoc/>
         public override void SavePlayerData(ClientInfo _cInfo, PlayerDataFile _playerDataFile)
         {
-            foreach (var plugin in this.plugins)
+            foreach (var plugin in PluginManager.ActivePlugins)
             {
                 plugin.SavePlayerData(_cInfo, _playerDataFile);
             }

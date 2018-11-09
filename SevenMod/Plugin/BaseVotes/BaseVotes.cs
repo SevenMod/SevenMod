@@ -14,6 +14,16 @@ namespace SevenMod.Plugin.BaseVotes
     public class BaseVotes : PluginAbstract
     {
         /// <inheritdoc/>
+        public override PluginInfo Info => new PluginInfo
+        {
+            Name = "Basic Votes",
+            Author = "SevenMod",
+            Description = "Adds basic voting commands.",
+            Version = "0.1.0.0",
+            Website = "https://github.com/stevotvr/sevenmod"
+        };
+
+        /// <inheritdoc/>
         public override void LoadPlugin()
         {
             base.LoadPlugin();

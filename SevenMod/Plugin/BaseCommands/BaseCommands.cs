@@ -14,6 +14,16 @@ namespace SevenMod.Plugin.BaseCommands
     public class BaseCommands : PluginAbstract
     {
         /// <inheritdoc/>
+        public override PluginInfo Info => new PluginInfo
+        {
+            Name = "Basic Commands",
+            Author = "SevenMod",
+            Description = "Adds basic admin commands.",
+            Version = "0.1.0.0",
+            Website = "https://github.com/stevotvr/sevenmod"
+        };
+
+        /// <inheritdoc/>
         public override void LoadPlugin()
         {
             base.LoadPlugin();

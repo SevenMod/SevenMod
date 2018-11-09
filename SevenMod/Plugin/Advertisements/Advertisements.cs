@@ -14,6 +14,16 @@ namespace SevenMod.Plugin.Advertisements
     /// </summary>
     public sealed class Advertisements : PluginAbstract, IDisposable
     {
+        /// <inheritdoc/>
+        public override PluginInfo Info => new PluginInfo
+        {
+            Name = "Advertisements",
+            Author = "SevenMod",
+            Description = "Periodically shows messages in chat.",
+            Version = "0.1.0.0",
+            Website = "https://github.com/stevotvr/sevenmod"
+        };
+
         /// <summary>
         /// The timer for periodically sending messages.
         /// </summary>

@@ -63,10 +63,12 @@
     <Compile Include="Core\ConfigManager.cs" />
     <Compile Include="Core\AdminInfo.cs" />
     <Compile Include="Core\AdminCmdAbstract.cs" />
+    <Compile Include="Core\ConsoleCmdSM.cs" />
     <Compile Include="Core\CoreConfig.cs" />
     <Compile Include="Core\IChatHookListener.cs" />
     <Compile Include="Core\IPluginAPI.cs" />
     <Compile Include="Core\PluginAbstract.cs" />
+    <Compile Include="Core\PluginManager.cs" />
     <Compile Include="Plugin\AdminFlatFile\GroupInfo.cs" />
     <Compile Include="Plugin\AdminFlatFile\AdminFlatFile.cs" />
     <Compile Include="Plugin\Advertisements\Advertisements.cs" />
@@ -90,6 +92,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Config\plugins.ini">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="ModInfo.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -112,10 +117,6 @@
     </Content>
     <Content Include="Config\MOTD.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Config\Plugins.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <SubType>Designer</SubType>
     </Content>
   </ItemGroup>
   <ItemGroup>

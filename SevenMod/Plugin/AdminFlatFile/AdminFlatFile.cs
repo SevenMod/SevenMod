@@ -17,6 +17,16 @@ namespace SevenMod.Plugin.AdminFlatFile
     public class AdminFlatFile : PluginAbstract
     {
         /// <inheritdoc/>
+        public override PluginInfo Info => new PluginInfo
+        {
+            Name = "Admin File Reader",
+            Author = "SevenMod",
+            Description = "Loads admin users from a local configuration file.",
+            Version = "0.1.0.0",
+            Website = "https://github.com/stevotvr/sevenmod"
+        };
+
+        /// <inheritdoc/>
         public override void LoadPlugin()
         {
             base.LoadPlugin();

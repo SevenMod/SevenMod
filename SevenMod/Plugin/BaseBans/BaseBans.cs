@@ -14,6 +14,16 @@ namespace SevenMod.Plugin.BaseBans
     public class BaseBans : PluginAbstract
     {
         /// <inheritdoc/>
+        public override PluginInfo Info => new PluginInfo
+        {
+            Name = "Basic Ban Commands",
+            Author = "SevenMod",
+            Description = "Adds basic banning commands.",
+            Version = "0.1.0.0",
+            Website = "https://github.com/stevotvr/sevenmod"
+        };
+
+        /// <inheritdoc/>
         public override void LoadPlugin()
         {
             base.LoadPlugin();
