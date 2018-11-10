@@ -91,7 +91,7 @@ namespace SevenMod.Core
                     for (var i = 0; i < list.Count; i++)
                     {
                         var p = list[i].Info;
-                        SdtdConsole.Instance.Output($"{i + 1,4:d2} \"{p.Name}\" ({p.Version}) by {p.Author}");
+                        SdtdConsole.Instance.Output($"{i + 1, 4:d2} \"{p.Name}\" ({p.Version}) by {p.Author}");
                     }
 
                     break;

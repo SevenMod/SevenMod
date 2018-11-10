@@ -1,4 +1,4 @@
-﻿// <copyright file="AdminCmdBan.cs" company="Steve Guidetti">
+﻿// <copyright file="AdminCmdUnban.cs" company="Steve Guidetti">
 // Copyright (c) Steve Guidetti. All rights reserved.
 // Licensed under the MIT license. See LICENSE.txt file in the project root for full license information.
 // </copyright>
