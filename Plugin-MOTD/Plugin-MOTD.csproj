@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{13679247-136C-4816-A745-185E973C0C06}</ProjectGuid>
+    <ProjectGuid>{6610E5BF-A12F-44A5-95E4-029D2789B21D}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SevenMod</RootNamespace>
-    <AssemblyName>SevenMod</AssemblyName>
+    <RootNamespace>SevenMod.Plugin.MOTD</RootNamespace>
+    <AssemblyName>Plugin.MOTD</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
@@ -21,7 +21,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Debug\SevenMod.xml</DocumentationFile>
+    <DocumentationFile>bin\Debug\Plugin.MOTD.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -30,7 +30,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Release\SevenMod.xml</DocumentationFile>
+    <DocumentationFile>bin\Release\Plugin.MOTD.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Assembly-CSharp, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
@@ -56,41 +56,29 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="API.cs" />
-    <Compile Include="Core\AdminFlags.cs" />
-    <Compile Include="Core\AdminManager.cs" />
-    <Compile Include="Core\ChatHook.cs" />
-    <Compile Include="Core\ConfigManager.cs" />
-    <Compile Include="Core\AdminInfo.cs" />
-    <Compile Include="Core\AdminCmdAbstract.cs" />
-    <Compile Include="Core\ConsoleCmdSM.cs" />
-    <Compile Include="Core\CoreConfig.cs" />
-    <Compile Include="Core\IChatHookListener.cs" />
-    <Compile Include="Core\IPluginAPI.cs" />
-    <Compile Include="Core\PluginAbstract.cs" />
-    <Compile Include="Core\PluginManager.cs" />
-    <Compile Include="Core\IVoteResultListener.cs" />
-    <Compile Include="Core\VoteManager.cs" />
+    <Compile Include="MOTD.cs" />
+    <Compile Include="MOTDConfig.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Config\plugins.ini">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="ModInfo.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
     <None Include="packages.config" />
     <AdditionalFiles Include="stylecop.json" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Config\Core.xml">
+    <Content Include="Config\MOTD.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
   <ItemGroup>
     <Analyzer Include="..\packages\StyleCop.Analyzers.1.0.2\analyzers\dotnet\cs\StyleCop.Analyzers.CodeFixes.dll" />
     <Analyzer Include="..\packages\StyleCop.Analyzers.1.0.2\analyzers\dotnet\cs\StyleCop.Analyzers.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SevenMod\SevenMod.csproj">
+      <Project>{13679247-136c-4816-a745-185e973c0c06}</Project>
+      <Name>SevenMod</Name>
+      <Private>True</Private>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
@@ -99,14 +87,8 @@
   </PropertyGroup>
   <PropertyGroup>
     <PostBuildEvent>
-rmdir "$(ProjectDir)..\bin\Mods\SevenMod" /s /q
-mkdir "$(ProjectDir)..\bin\Mods\SevenMod"
-mkdir "$(ProjectDir)..\bin\Mods\SevenMod\Config"
-mkdir "$(ProjectDir)..\bin\Mods\SevenMod\Plugins"
-
-copy "$(ProjectDir)$(OutDir)SevenMod.dll" "$(ProjectDir)..\bin\Mods\SevenMod\SevenMod.dll"
-copy "$(ProjectDir)$(OutDir)ModInfo.xml" "$(ProjectDir)..\bin\Mods\SevenMod\ModInfo.xml"
-xcopy "$(ProjectDir)$(OutDir)Config" "$(ProjectDir)..\bin\Mods\SevenMod\Config" /e /y /i /c
+copy "$(ProjectDir)$(OutDir)Plugin.MOTD.dll" "$(ProjectDir)..\bin\Mods\SevenMod\Plugins\motd.dll"
+copy "$(ProjectDir)$(OutDir)Config\MOTD.xml" "$(ProjectDir)..\bin\Mods\SevenMod\Config\MOTD.xml"
 </PostBuildEvent>
   </PropertyGroup>
 </Project>

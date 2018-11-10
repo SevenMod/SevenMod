@@ -8,6 +8,7 @@ namespace SevenMod.Core
     using System;
     using System.Collections.Generic;
     using System.IO;
+    using System.Reflection;
     using System.Text.RegularExpressions;
 
     /// <summary>
@@ -15,6 +16,11 @@ namespace SevenMod.Core
     /// </summary>
     public class PluginManager
     {
+        /// <summary>
+        /// The path to the directory containing the plugin files.
+        /// </summary>
+        public static readonly string PluginPath = $"{Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)}{Path.DirectorySeparatorChar}Plugins{Path.DirectorySeparatorChar}";
+
         /// <summary>
         /// The currently active plugins.
         /// </summary>
@@ -55,9 +61,10 @@ namespace SevenMod.Core
             }
 
             var parentType = Type.GetType("SevenMod.Core.PluginAbstract");
+            var dll = Assembly.LoadFile($"{PluginPath}{name}.dll");
             try
             {
-                var type = Type.GetType($"SevenMod.Plugin.{name}.{name}", true, true);
+                var type = dll.GetType($"SevenMod.Plugin.{name}.{name}", true, true);
                 if (type.IsSubclassOf(parentType))
                 {
                     Log.Out("Added {0}", type.Name);
