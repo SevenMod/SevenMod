@@ -80,17 +80,14 @@ namespace SevenMod.Core
         /// <summary>
         /// Registers an admin command.
         /// </summary>
-        /// <param name="handler">The <see cref="Type"/> of the <see cref="AdminCmdAbstract"/>
-        /// implementation for the command.</param>
-        /// <param name="flags">The <see cref="AdminFlags"/> required to execute the command.</param>
-        protected static void RegisterAdminCommand(Type handler, AdminFlags flags)
+        /// <param name="command">The name of the command.</param>
+        /// <param name="handler">An instance of <see cref="AdminCmdAbstract"/> which will handle
+        /// calls to the command.</param>
+        /// <param name="accessFlags">The <see cref="AdminFlags"/> required to execute the
+        /// command.</param>
+        protected void RegAdminCmd(string command, AdminCmdAbstract handler, AdminFlags accessFlags)
         {
-            if (!handler.IsSubclassOf(typeof(AdminCmdAbstract)))
-            {
-                throw new Exception($"{handler.Name} is not a subclass of AdminCmdAbstract");
-            }
-
-            AdminCmdAbstract.Registry.Add(handler, flags);
+            AdminCmdRouter.RegisterAdminCmd(this, command, handler, accessFlags);
         }
 
         /// <summary>

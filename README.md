@@ -26,15 +26,15 @@ Periodically shows messages in chat.
 
 ### BaseBans
 
-Adds the sm_ban and sm_unban admin commands.
+Adds the ban, addban, and unban admin commands.
 
 ### BaseCommands
 
-Adds the sm_kick and sm_who admin commands.
+Adds the kick and who admin commands.
 
 ### BaseVotes
 
-Adds the sm_vote, sm_votekick, and sm_voteban admin commands.
+Adds the vote, votekick, and voteban admin commands.
 
 ### MOTD
 

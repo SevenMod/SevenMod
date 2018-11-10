@@ -47,7 +47,7 @@ namespace SevenMod.Core
             if (message.StartsWith(CoreConfig.Instance.PublicChatTrigger) || message.StartsWith(CoreConfig.Instance.SilentChatTrigger))
             {
                 replyToChat.Add(client.entityId);
-                ConnectionManager.Instance.ServerConsoleCommand(client, "sm_" + message.Substring(1));
+                ConnectionManager.Instance.ServerConsoleCommand(client, $"sm {message.Substring(1)}");
                 replyToChat.Remove(client.entityId);
 
                 return message.StartsWith(CoreConfig.Instance.PublicChatTrigger);

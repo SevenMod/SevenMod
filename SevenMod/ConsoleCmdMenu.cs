@@ -1,21 +1,22 @@
-﻿// <copyright file="ConsoleCmdSM.cs" company="Steve Guidetti">
+﻿// <copyright file="ConsoleCmdMenu.cs" company="Steve Guidetti">
 // Copyright (c) Steve Guidetti. All rights reserved.
 // Licensed under the MIT license. See LICENSE.txt file in the project root for full license information.
 // </copyright>
 
-namespace SevenMod.Core
+namespace SevenMod
 {
     using System.Collections.Generic;
+    using SevenMod.Core;
 
     /// <summary>
     /// Console command for managing SevenMod features.
     /// </summary>
-    public class ConsoleCmdSM : ConsoleCmdAbstract
+    public class ConsoleCmdMenu : ConsoleCmdAbstract
     {
         /// <inheritdoc/>
         public override string[] GetCommands()
         {
-            return new string[] { "sm" };
+            return new string[] { "sm_menu" };
         }
 
         /// <inheritdoc/>

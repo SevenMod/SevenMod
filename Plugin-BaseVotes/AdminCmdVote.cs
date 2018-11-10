@@ -9,25 +9,16 @@ namespace SevenMod.Plugin.BaseVotes
     using SevenMod.Core;
 
     /// <summary>
-    /// <para>Admin Command: sm_vote</para>
-    /// <para>Starts a generic vote with a custom question and up to four answer options.</para>
+    /// Admin command that starts a generic vote with a custom question and up to four answer
+    /// options.
     /// </summary>
     public class AdminCmdVote : AdminCmdAbstract
     {
         /// <inheritdoc/>
-        public override string[] GetCommands()
-        {
-            return new string[] { "sm_vote" };
-        }
+        public override string Description => "starts a vote";
 
         /// <inheritdoc/>
-        public override string GetDescription()
-        {
-            return "starts a vote";
-        }
-
-        /// <inheritdoc/>
-        public override void Exec(List<string> args, CommandSenderInfo senderInfo)
+        public override void Execute(List<string> args, CommandSenderInfo senderInfo)
         {
             if (VoteManager.Instance.VoteInProgress)
             {
@@ -36,13 +27,13 @@ namespace SevenMod.Plugin.BaseVotes
 
             if (args.Count < 1)
             {
-                this.ReplyToCommand(senderInfo, "Not enough parameters");
+                ReplyToCommand(senderInfo, "[SM] Not enough parameters");
                 return;
             }
 
             if (args.Count > 5)
             {
-                this.ReplyToCommand(senderInfo, "Too many options");
+                ReplyToCommand(senderInfo, "[SM] Too many options");
                 return;
             }
 

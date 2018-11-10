@@ -9,7 +9,7 @@ namespace SevenMod.Plugin.BaseCommands
 
     /// <summary>
     /// <para>Plugin: BaseCommands</para>
-    /// <para>Adds the sm_kick and sm_who admin commands.</para>
+    /// <para>Adds the kick and who admin commands.</para>
     /// </summary>
     public class BaseCommands : PluginAbstract
     {
@@ -28,8 +28,8 @@ namespace SevenMod.Plugin.BaseCommands
         {
             base.LoadPlugin();
 
-            RegisterAdminCommand(typeof(AdminCmdKick), AdminFlags.Kick);
-            RegisterAdminCommand(typeof(AdminCmdWho), AdminFlags.Generic);
+            this.RegAdminCmd("kick", new AdminCmdKick(), AdminFlags.Kick);
+            this.RegAdminCmd("who", new AdminCmdWho(), AdminFlags.Generic);
         }
     }
 }

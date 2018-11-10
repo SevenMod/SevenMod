@@ -9,7 +9,7 @@ namespace SevenMod.Plugin.BaseBans
 
     /// <summary>
     /// <para>Plugin: BaseBans</para>
-    /// <para>Adds the sm_ban and sm_unban admin commands.</para>
+    /// <para>Adds the ban, addban, and unban admin commands.</para>
     /// </summary>
     public class BaseBans : PluginAbstract
     {
@@ -28,9 +28,9 @@ namespace SevenMod.Plugin.BaseBans
         {
             base.LoadPlugin();
 
-            RegisterAdminCommand(typeof(AdminCmdBan), AdminFlags.Ban);
-            RegisterAdminCommand(typeof(AdminCmdUnban), AdminFlags.Unban);
-            RegisterAdminCommand(typeof(AdminCmdAddban), AdminFlags.Ban);
+            this.RegAdminCmd("addban", new AdminCmdAddban(), AdminFlags.Ban);
+            this.RegAdminCmd("ban", new AdminCmdBan(), AdminFlags.Ban);
+            this.RegAdminCmd("unban", new AdminCmdUnban(), AdminFlags.Unban);
         }
     }
 }

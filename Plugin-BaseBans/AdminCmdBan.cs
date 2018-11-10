@@ -9,35 +9,25 @@ namespace SevenMod.Plugin.BaseBans
     using SevenMod.Core;
 
     /// <summary>
-    /// <para>Admin Command: sm_ban</para>
-    /// <para>Bans a player from the server.</para>
+    /// Admin command that bans a player from the server.
     /// </summary>
     public class AdminCmdBan : AdminCmdAbstract
     {
         /// <inheritdoc/>
-        public override string[] GetCommands()
-        {
-            return new string[] { "sm_ban" };
-        }
+        public override string Description => "bans a player from the server";
 
         /// <inheritdoc/>
-        public override string GetDescription()
-        {
-            return "bans a player from the server";
-        }
-
-        /// <inheritdoc/>
-        public override void Exec(List<string> args, CommandSenderInfo senderInfo)
+        public override void Execute(List<string> args, CommandSenderInfo senderInfo)
         {
             if (args.Count < 2)
             {
-                this.ReplyToCommand(senderInfo, "Not enough parameters");
+                ReplyToCommand(senderInfo, "[SM] Not enough parameters");
                 return;
             }
 
             if (!int.TryParse(args[1], out int duration) || duration < 0)
             {
-                this.ReplyToCommand(senderInfo, "Invaid ban duration");
+                ReplyToCommand(senderInfo, "[SM] Invaid ban duration");
                 return;
             }
 

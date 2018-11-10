@@ -9,7 +9,6 @@ namespace SevenMod.Core
     using System.Collections.Generic;
     using System.IO;
     using System.Reflection;
-    using System.Text.RegularExpressions;
 
     /// <summary>
     /// Manages plugins.
@@ -113,6 +112,7 @@ namespace SevenMod.Core
             if (Plugins.ContainsKey(name))
             {
                 Plugins[name].UnloadPlugin();
+                AdminCmdRouter.UnregisterPlugin(Plugins[name]);
                 Plugins.Remove(name);
             }
         }
@@ -125,6 +125,7 @@ namespace SevenMod.Core
             foreach (var plugin in Plugins.Values)
             {
                 plugin.UnloadPlugin();
+                AdminCmdRouter.UnregisterPlugin(plugin);
             }
 
             Plugins.Clear();

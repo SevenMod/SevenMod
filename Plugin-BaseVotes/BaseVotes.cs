@@ -9,7 +9,7 @@ namespace SevenMod.Plugin.BaseVotes
 
     /// <summary>
     /// <para>Plugin: BaseVotes</para>
-    /// <para>Adds the sm_vote, sm_votekick, and sm_voteban admin commands.</para>
+    /// <para>Adds the vote, votekick, and voteban admin commands.</para>
     /// </summary>
     public class BaseVotes : PluginAbstract
     {
@@ -30,9 +30,9 @@ namespace SevenMod.Plugin.BaseVotes
 
             ConfigManager.ParseConfig(BaseVotesConfig.Instance, "BaseVotes");
 
-            RegisterAdminCommand(typeof(AdminCmdVote), AdminFlags.Vote);
-            RegisterAdminCommand(typeof(AdminCmdVoteKick), AdminFlags.Vote);
-            RegisterAdminCommand(typeof(AdminCmdVoteBan), AdminFlags.Vote);
+            this.RegAdminCmd("vote", new AdminCmdVote(), AdminFlags.Vote);
+            this.RegAdminCmd("voteban", new AdminCmdVoteBan(), AdminFlags.Vote);
+            this.RegAdminCmd("votekick", new AdminCmdVoteKick(), AdminFlags.Vote);
         }
     }
 }

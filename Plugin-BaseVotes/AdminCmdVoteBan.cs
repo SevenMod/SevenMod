@@ -9,25 +9,15 @@ namespace SevenMod.Plugin.BaseVotes
     using SevenMod.Core;
 
     /// <summary>
-    /// <para>Admin Command: sm_voteban</para>
-    /// <para>Starts a vote to temporarily ban a player from the server.</para>
+    /// Admin command that starts a vote to temporarily ban a player from the server.
     /// </summary>
     public class AdminCmdVoteBan : AdminCmdAbstract
     {
         /// <inheritdoc/>
-        public override string[] GetCommands()
-        {
-            return new string[] { "sm_voteban" };
-        }
+        public override string Description => "starts a vote to temporarily ban a player from the server";
 
         /// <inheritdoc/>
-        public override string GetDescription()
-        {
-            return "starts a vote to temporarily ban a player from the server";
-        }
-
-        /// <inheritdoc/>
-        public override void Exec(List<string> args, CommandSenderInfo senderInfo)
+        public override void Execute(List<string> args, CommandSenderInfo senderInfo)
         {
             if (VoteManager.Instance.VoteInProgress)
             {
@@ -36,7 +26,7 @@ namespace SevenMod.Plugin.BaseVotes
 
             if (args.Count < 1)
             {
-                this.ReplyToCommand(senderInfo, "Not enough parameters");
+                ReplyToCommand(senderInfo, "[SM] Not enough parameters");
                 return;
             }
 

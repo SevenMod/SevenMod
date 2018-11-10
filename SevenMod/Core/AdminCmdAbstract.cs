@@ -12,45 +12,12 @@ namespace SevenMod.Core
     /// Represents an admin command, a special console command that is managed by the mod, with
     /// built in permission checking.
     /// </summary>
-    public abstract class AdminCmdAbstract : ConsoleCmdAbstract
+    public abstract class AdminCmdAbstract
     {
         /// <summary>
-        /// The map of registered admin commands to their required <see cref="AdminFlags"/>.
+        /// Gets the description for the command.
         /// </summary>
-        internal static readonly Dictionary<Type, AdminFlags> Registry = new Dictionary<Type, AdminFlags>();
-
-        /// <inheritdoc/>
-        public override int DefaultPermissionLevel => 2000;
-
-        /// <summary>
-        /// Executes the logic of the admin command. This is called after checking the calling
-        /// client's permission.
-        /// </summary>
-        /// <param name="args">The list of arguments supplied by the client.</param>
-        /// <param name="senderInfo">Information about the calling client.</param>
-        public abstract void Exec(List<string> args, CommandSenderInfo senderInfo);
-
-        /// <inheritdoc/>
-        public override void Execute(List<string> args, CommandSenderInfo senderInfo)
-        {
-            if (!Registry.ContainsKey(this.GetType()))
-            {
-                this.ReplyToCommand(senderInfo, "Unknown command");
-                return;
-            }
-
-            if (senderInfo.RemoteClientInfo != null)
-            {
-                var flags = Registry[this.GetType()];
-                if ((flags == 0) || !AdminManager.CheckAccess(senderInfo.RemoteClientInfo, flags))
-                {
-                    this.ReplyToCommand(senderInfo, "You do not have access to that command");
-                    return;
-                }
-            }
-
-            this.Exec(args, senderInfo);
-        }
+        public virtual string Description { get; } = string.Empty;
 
         /// <summary>
         /// Sends a response to a client in the console or chat depending on which input method the
@@ -58,7 +25,7 @@ namespace SevenMod.Core
         /// </summary>
         /// <param name="senderInfo">The calling client information.</param>
         /// <param name="message">The message to send.</param>
-        protected void ReplyToCommand(CommandSenderInfo senderInfo, string message)
+        public static void ReplyToCommand(CommandSenderInfo senderInfo, string message)
         {
             if ((senderInfo.RemoteClientInfo != null) && ChatHook.ShouldReplyToChat(senderInfo.RemoteClientInfo))
             {
@@ -69,6 +36,14 @@ namespace SevenMod.Core
                 SdtdConsole.Instance.Output(message);
             }
         }
+
+        /// <summary>
+        /// Executes the logic of the admin command. This is called after checking the calling
+        /// client's permission.
+        /// </summary>
+        /// <param name="args">The list of arguments supplied by the client.</param>
+        /// <param name="senderInfo">Information about the calling client.</param>
+        public abstract void Execute(List<string> args, CommandSenderInfo senderInfo);
 
         /// <summary>
         /// Parse a player target string into a list of currently connected clients.
@@ -91,7 +66,7 @@ namespace SevenMod.Core
             {
                 if (!AdminManager.CanTarget(senderInfo.RemoteClientInfo, target))
                 {
-                    this.ReplyToCommand(senderInfo, $"Cannot target {target.playerName}");
+                    ReplyToCommand(senderInfo, $"[SM] Cannot target {target.playerName}");
                     list.Remove(client);
                 }
             }
@@ -112,11 +87,11 @@ namespace SevenMod.Core
             var count = ConsoleHelper.ParseParamPartialNameOrId(targetString, out string _, out ClientInfo target, false);
             if (count < 1 || (target == null))
             {
-                this.ReplyToCommand(senderInfo, "No valid targets found");
+                ReplyToCommand(senderInfo, "[SM] No valid targets found");
             }
             else if (count > 1)
             {
-                this.ReplyToCommand(senderInfo, "Multiple valid targets found");
+                ReplyToCommand(senderInfo, "[SM] Multiple valid targets found");
             }
 
             return target;

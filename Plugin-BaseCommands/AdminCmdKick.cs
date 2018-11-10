@@ -9,29 +9,19 @@ namespace SevenMod.Plugin.BaseCommands
     using SevenMod.Core;
 
     /// <summary>
-    /// <para>Admin Command: sm_kick</para>
-    /// <para>Kicks a player from the server.</para>
+    /// Admin command that kicks a player from the server.
     /// </summary>
     public class AdminCmdKick : AdminCmdAbstract
     {
         /// <inheritdoc/>
-        public override string[] GetCommands()
-        {
-            return new string[] { "sm_kick" };
-        }
+        public override string Description => "kicks a player from the server";
 
         /// <inheritdoc/>
-        public override string GetDescription()
-        {
-            return "kicks a player from the server";
-        }
-
-        /// <inheritdoc/>
-        public override void Exec(List<string> args, CommandSenderInfo senderInfo)
+        public override void Execute(List<string> args, CommandSenderInfo senderInfo)
         {
             if (args.Count < 1)
             {
-                this.ReplyToCommand(senderInfo, "Not enough parameters");
+                ReplyToCommand(senderInfo, "[SM] Not enough parameters");
                 return;
             }
 

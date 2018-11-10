@@ -9,35 +9,25 @@ namespace SevenMod.Plugin.BaseBans
     using SevenMod.Core;
 
     /// <summary>
-    /// <para>Admin Command: sm_addban</para>
-    /// <para>Adds a player ID to the server ban list.</para>
+    /// Admin command that adds a player ID to the server ban list.
     /// </summary>
     public class AdminCmdAddban : AdminCmdAbstract
     {
         /// <inheritdoc/>
-        public override string[] GetCommands()
-        {
-            return new string[] { "sm_addban" };
-        }
+        public override string Description => "adds a player ID to the server ban list";
 
         /// <inheritdoc/>
-        public override string GetDescription()
-        {
-            return "adds a player ID to the server ban list";
-        }
-
-        /// <inheritdoc/>
-        public override void Exec(List<string> args, CommandSenderInfo senderInfo)
+        public override void Execute(List<string> args, CommandSenderInfo senderInfo)
         {
             if (args.Count < 1)
             {
-                this.ReplyToCommand(senderInfo, "Not enough parameters");
+                ReplyToCommand(senderInfo, "[SM] Not enough parameters");
                 return;
             }
 
             if (!ConsoleHelper.ParseParamSteamIdValid(args[0]))
             {
-                this.ReplyToCommand(senderInfo, "Invalid player ID");
+                ReplyToCommand(senderInfo, "[SM] Invalid player ID");
                 return;
             }
 

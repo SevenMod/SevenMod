@@ -9,27 +9,17 @@ namespace SevenMod.Plugin.BaseCommands
     using SevenMod.Core;
 
     /// <summary>
-    /// <para>Admin Command: sm_who</para>
-    /// <para>Displays a list of connected clients and their access flags.</para>
+    /// Admin command that displays a list of connected clients and their access flags.
     /// </summary>
     public class AdminCmdWho : AdminCmdAbstract
     {
         /// <inheritdoc/>
-        public override string[] GetCommands()
-        {
-            return new string[] { "sm_who" };
-        }
+        public override string Description => "lists connected clients and their access flags";
 
         /// <inheritdoc/>
-        public override string GetDescription()
+        public override void Execute(List<string> args, CommandSenderInfo senderInfo)
         {
-            return "lists connected clients and their access flags";
-        }
-
-        /// <inheritdoc/>
-        public override void Exec(List<string> args, CommandSenderInfo senderInfo)
-        {
-            this.ReplyToCommand(senderInfo, string.Format("  {0,-24} {1,-18} {2}", "Name", "Username", "Admin access"));
+            ReplyToCommand(senderInfo, string.Format("  {0,-24} {1,-18} {2}", "Name", "Username", "Admin access"));
             foreach (var client in GameManager.Instance.World.Players.dict.Values)
             {
                 var player = ConnectionManager.Instance.GetClientInfoForEntityId(client.entityId);
@@ -45,7 +35,7 @@ namespace SevenMod.Plugin.BaseCommands
                         }
                     }
 
-                    this.ReplyToCommand(senderInfo, string.Format("  {0,-24} {1,-18} {2}", player.playerName, player.playerId, flags));
+                    ReplyToCommand(senderInfo, string.Format("  {0,-24} {1,-18} {2}", player.playerName, player.playerId, flags));
                 }
             }
         }

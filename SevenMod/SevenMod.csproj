@@ -56,6 +56,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Core\AdminCmdRouter.cs" />
     <Compile Include="API.cs" />
     <Compile Include="Core\AdminFlags.cs" />
     <Compile Include="Core\AdminManager.cs" />
@@ -63,7 +64,7 @@
     <Compile Include="Core\ConfigManager.cs" />
     <Compile Include="Core\AdminInfo.cs" />
     <Compile Include="Core\AdminCmdAbstract.cs" />
-    <Compile Include="Core\ConsoleCmdSM.cs" />
+    <Compile Include="ConsoleCmdMenu.cs" />
     <Compile Include="Core\CoreConfig.cs" />
     <Compile Include="Core\IChatHookListener.cs" />
     <Compile Include="Core\IPluginAPI.cs" />
