@@ -74,9 +74,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Config\plugins.ini">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
     <None Include="ModInfo.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

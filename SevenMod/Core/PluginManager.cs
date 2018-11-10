@@ -85,24 +85,11 @@ namespace SevenMod.Core
         /// </summary>
         public static void Refresh()
         {
-            var list = new List<PluginAbstract>();
-
-            StreamReader file = new StreamReader($"{ConfigManager.ConfigPath}plugins.ini");
-            string line;
-            while ((line = file.ReadLine()) != null)
+            var files = Directory.GetFiles(PluginPath, "*.dll");
+            foreach (var file in files)
             {
-                if (line.TrimStart().StartsWith(";"))
-                {
-                    continue;
-                }
-
-                line = Regex.Replace(line, @"[^a-zA-Z0-9\-_]", string.Empty);
-                if (line.Length == 0)
-                {
-                    continue;
-                }
-
-                Load(line);
+                var name = Path.GetFileNameWithoutExtension(file);
+                Load(name);
             }
         }
 
