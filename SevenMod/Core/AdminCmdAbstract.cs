@@ -60,7 +60,7 @@ namespace SevenMod.Core
             {
                 if (!AdminManager.CanTarget(senderInfo.RemoteClientInfo, target))
                 {
-                    ReplyToCommand(senderInfo, $"[SM] Cannot target {target.playerName}");
+                    ReplyToCommand(senderInfo, $"Cannot target {target.playerName}");
                     list.Remove(client);
                 }
             }
@@ -81,11 +81,11 @@ namespace SevenMod.Core
             var count = ConsoleHelper.ParseParamPartialNameOrId(targetString, out string _, out ClientInfo target, false);
             if (count < 1 || (target == null))
             {
-                ReplyToCommand(senderInfo, "[SM] No valid targets found");
+                ReplyToCommand(senderInfo, "No valid targets found");
             }
             else if (count > 1)
             {
-                ReplyToCommand(senderInfo, "[SM] Multiple valid targets found");
+                ReplyToCommand(senderInfo, "Multiple valid targets found");
             }
 
             return target;
