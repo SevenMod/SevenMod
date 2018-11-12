@@ -20,30 +20,23 @@ namespace SevenMod.Core
         public virtual string Description { get; } = string.Empty;
 
         /// <summary>
-        /// Sends a response to a client in the console or chat depending on which input method the
-        /// client used to call the currently executing command.
-        /// </summary>
-        /// <param name="senderInfo">The calling client information.</param>
-        /// <param name="message">The message to send.</param>
-        public static void ReplyToCommand(CommandSenderInfo senderInfo, string message)
-        {
-            if ((senderInfo.RemoteClientInfo != null) && ChatHook.ShouldReplyToChat(senderInfo.RemoteClientInfo))
-            {
-                senderInfo.RemoteClientInfo.SendPackage(new NetPackageGameMessage(EnumGameMessages.Chat, message, "[SM]", false, "SevenMod", false));
-            }
-            else
-            {
-                SdtdConsole.Instance.Output(message);
-            }
-        }
-
-        /// <summary>
         /// Executes the logic of the admin command. This is called after checking the calling
         /// client's permission.
         /// </summary>
         /// <param name="args">The list of arguments supplied by the client.</param>
         /// <param name="senderInfo">Information about the calling client.</param>
         public abstract void Execute(List<string> args, CommandSenderInfo senderInfo);
+
+        /// <summary>
+        /// Sends a response to a client in the console or chat depending on which input method the
+        /// client used to call the currently executing command.
+        /// </summary>
+        /// <param name="senderInfo">The calling client information.</param>
+        /// <param name="message">The message to send.</param>
+        protected static void ReplyToCommand(CommandSenderInfo senderInfo, string message)
+        {
+            ChatHelper.ReplyToCommand(senderInfo, message);
+        }
 
         /// <summary>
         /// Parse a player target string into a list of currently connected clients.

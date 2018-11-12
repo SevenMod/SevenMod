@@ -60,6 +60,7 @@
     <Compile Include="API.cs" />
     <Compile Include="Core\AdminFlags.cs" />
     <Compile Include="Core\AdminManager.cs" />
+    <Compile Include="Core\ChatHelper.cs" />
     <Compile Include="Core\ChatHook.cs" />
     <Compile Include="Core\ConfigManager.cs" />
     <Compile Include="Core\AdminInfo.cs" />
