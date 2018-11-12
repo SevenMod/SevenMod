@@ -3,9 +3,10 @@
 // Licensed under the MIT license. See LICENSE.txt file in the project root for full license information.
 // </copyright>
 
-namespace SevenMod.Core
+namespace SevenMod.Chat
 {
     using System.Collections.Generic;
+    using SevenMod.Core;
 
     /// <summary>
     /// Hooks into the game chat and allows plugins to register their own chat hooks.

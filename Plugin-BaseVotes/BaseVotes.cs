@@ -5,6 +5,7 @@
 
 namespace SevenMod.Plugin.BaseVotes
 {
+    using SevenMod.Admin;
     using SevenMod.Core;
 
     /// <summary>

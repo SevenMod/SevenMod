@@ -6,6 +6,8 @@
 namespace SevenMod.Core
 {
     using System.Collections.Generic;
+    using SevenMod.Admin;
+    using SevenMod.Chat;
 
     /// <summary>
     /// Routes the sm console command to the appropriate admin command.

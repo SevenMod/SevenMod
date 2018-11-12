@@ -5,6 +5,7 @@
 
 namespace SevenMod.Plugin.BaseCommands
 {
+    using SevenMod.Admin;
     using SevenMod.Core;
 
     /// <summary>

@@ -8,6 +8,7 @@ namespace SevenMod.Plugin.AdminFlatFile
     using System;
     using System.Collections.Generic;
     using System.Xml;
+    using SevenMod.Admin;
     using SevenMod.Core;
 
     /// <summary>

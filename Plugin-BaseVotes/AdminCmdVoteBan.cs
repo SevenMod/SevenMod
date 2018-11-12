@@ -7,6 +7,7 @@ namespace SevenMod.Plugin.BaseVotes
 {
     using System.Collections.Generic;
     using SevenMod.Core;
+    using SevenMod.Voting;
 
     /// <summary>
     /// Admin command that starts a vote to temporarily ban a player from the server.

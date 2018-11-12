@@ -5,6 +5,7 @@
 
 namespace SevenMod
 {
+    using SevenMod.Chat;
     using SevenMod.Core;
 
     /// <summary>

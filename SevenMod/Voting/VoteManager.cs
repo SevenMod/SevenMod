@@ -3,10 +3,11 @@
 // Licensed under the MIT license. See LICENSE.txt file in the project root for full license information.
 // </copyright>
 
-namespace SevenMod.Core
+namespace SevenMod.Voting
 {
     using System;
     using System.Collections.Generic;
+    using SevenMod.Chat;
 
     /// <summary>
     /// Manages the voting system.

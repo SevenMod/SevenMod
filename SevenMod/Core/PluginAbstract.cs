@@ -5,7 +5,7 @@
 
 namespace SevenMod.Core
 {
-    using System;
+    using SevenMod.Admin;
 
     /// <summary>
     /// Represents the default implementation of the <see cref="IPluginAPI"/> interface.

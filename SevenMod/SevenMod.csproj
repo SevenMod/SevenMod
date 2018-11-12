@@ -58,21 +58,21 @@
   <ItemGroup>
     <Compile Include="Core\AdminCmdRouter.cs" />
     <Compile Include="API.cs" />
-    <Compile Include="Core\AdminFlags.cs" />
-    <Compile Include="Core\AdminManager.cs" />
-    <Compile Include="Core\ChatHelper.cs" />
-    <Compile Include="Core\ChatHook.cs" />
+    <Compile Include="Admin\AdminFlags.cs" />
+    <Compile Include="Admin\AdminManager.cs" />
+    <Compile Include="Chat\ChatHelper.cs" />
+    <Compile Include="Chat\ChatHook.cs" />
     <Compile Include="Core\ConfigManager.cs" />
-    <Compile Include="Core\AdminInfo.cs" />
+    <Compile Include="Admin\AdminInfo.cs" />
     <Compile Include="Core\AdminCmdAbstract.cs" />
     <Compile Include="ConsoleCmdMenu.cs" />
     <Compile Include="Core\CoreConfig.cs" />
-    <Compile Include="Core\IChatHookListener.cs" />
+    <Compile Include="Chat\IChatHookListener.cs" />
     <Compile Include="Core\IPluginAPI.cs" />
     <Compile Include="Core\PluginAbstract.cs" />
     <Compile Include="Core\PluginManager.cs" />
-    <Compile Include="Core\IVoteResultListener.cs" />
-    <Compile Include="Core\VoteManager.cs" />
+    <Compile Include="Voting\IVoteResultListener.cs" />
+    <Compile Include="Voting\VoteManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

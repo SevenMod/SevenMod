@@ -6,6 +6,7 @@
 namespace SevenMod.Plugin.BaseCommands
 {
     using System.Collections.Generic;
+    using SevenMod.Admin;
     using SevenMod.Core;
 
     /// <summary>

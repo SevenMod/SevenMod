@@ -5,6 +5,7 @@
 
 namespace SevenMod.Plugin.BaseBans
 {
+    using SevenMod.Admin;
     using SevenMod.Core;
 
     /// <summary>

@@ -5,8 +5,9 @@
 
 namespace SevenMod.Core
 {
-    using System;
     using System.Collections.Generic;
+    using SevenMod.Admin;
+    using SevenMod.Chat;
 
     /// <summary>
     /// Represents an admin command, a special console command that is managed by the mod, with
