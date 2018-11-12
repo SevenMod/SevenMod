@@ -21,13 +21,13 @@ namespace SevenMod.Plugin.BaseBans
         {
             if (args.Count < 1)
             {
-                ReplyToCommand(senderInfo, "[SM] Not enough parameters");
+                ReplyToCommand(senderInfo, "Not enough parameters");
                 return;
             }
 
             if (!ConsoleHelper.ParseParamSteamIdValid(args[0]))
             {
-                ReplyToCommand(senderInfo, "[SM] Invalid player ID");
+                ReplyToCommand(senderInfo, "Invalid player ID");
                 return;
             }
 

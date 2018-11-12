@@ -27,13 +27,13 @@ namespace SevenMod.Plugin.BaseVotes
 
             if (args.Count < 1)
             {
-                ReplyToCommand(senderInfo, "[SM] Not enough parameters");
+                ReplyToCommand(senderInfo, "Not enough parameters");
                 return;
             }
 
             if (args.Count > 5)
             {
-                ReplyToCommand(senderInfo, "[SM] Too many options");
+                ReplyToCommand(senderInfo, "Too many options");
                 return;
             }
 

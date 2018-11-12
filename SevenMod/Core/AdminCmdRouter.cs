@@ -37,7 +37,7 @@ namespace SevenMod.Core
         {
             if ((_params.Count < 1) || !registry.ContainsKey(_params[0]))
             {
-                AdminCmdAbstract.ReplyToCommand(_senderInfo, "[SM] Unknown command");
+                ChatHelper.ReplyToCommand(_senderInfo, "Unknown command");
                 return;
             }
 
@@ -48,7 +48,7 @@ namespace SevenMod.Core
                 var flags = info.AccessFlags;
                 if ((flags == 0) || !AdminManager.CheckAccess(_senderInfo.RemoteClientInfo, flags))
                 {
-                    AdminCmdAbstract.ReplyToCommand(_senderInfo, "[SM] You do not have access to that command");
+                    ChatHelper.ReplyToCommand(_senderInfo, "You do not have access to that command");
                     return;
                 }
             }

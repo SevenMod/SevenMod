@@ -21,7 +21,7 @@ namespace SevenMod.Plugin.BaseCommands
         {
             if (args.Count < 1)
             {
-                ReplyToCommand(senderInfo, "[SM] Not enough parameters");
+                ReplyToCommand(senderInfo, "Not enough parameters");
                 return;
             }
 

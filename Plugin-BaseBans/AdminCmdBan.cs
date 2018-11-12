@@ -21,13 +21,13 @@ namespace SevenMod.Plugin.BaseBans
         {
             if (args.Count < 2)
             {
-                ReplyToCommand(senderInfo, "[SM] Not enough parameters");
+                ReplyToCommand(senderInfo, "Not enough parameters");
                 return;
             }
 
             if (!int.TryParse(args[1], out int duration) || duration < 0)
             {
-                ReplyToCommand(senderInfo, "[SM] Invaid ban duration");
+                ReplyToCommand(senderInfo, "Invaid ban duration");
                 return;
             }
 
