@@ -29,11 +29,6 @@ namespace SevenMod.Core
         public static readonly string Data = $"{Base}Data{Path.DirectorySeparatorChar}";
 
         /// <summary>
-        /// The path to the directory containing the extension files.
-        /// </summary>
-        public static readonly string Exts = $"{Base}Exts{Path.DirectorySeparatorChar}";
-
-        /// <summary>
         /// The path to the directory containing the plugin files.
         /// </summary>
         public static readonly string Plugins = $"{Base}Plugins{Path.DirectorySeparatorChar}";
