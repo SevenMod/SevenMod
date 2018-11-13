@@ -8,8 +8,8 @@ namespace SevenMod.Database
     using System.Data;
     using System.Data.SQLite;
     using System.IO;
-    using System.Reflection;
     using MySql.Data.MySqlClient;
+    using SevenMod.Core;
 
     /// <summary>
     /// Represents a connection to a SQLite database.
@@ -19,7 +19,7 @@ namespace SevenMod.Database
         /// <summary>
         /// The path to the directory where database files are stored.
         /// </summary>
-        private static readonly string ConfigPath = $"{Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)}{Path.DirectorySeparatorChar}Data{Path.DirectorySeparatorChar}Databases{Path.DirectorySeparatorChar}";
+        private static readonly string ConfigPath = $"{SMPath.Data}Databases{Path.DirectorySeparatorChar}";
 
         /// <summary>
         /// The backing SQLite database connection.

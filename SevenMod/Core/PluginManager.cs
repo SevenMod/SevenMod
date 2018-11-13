@@ -16,11 +16,6 @@ namespace SevenMod.Core
     public class PluginManager
     {
         /// <summary>
-        /// The path to the directory containing the plugin files.
-        /// </summary>
-        public static readonly string PluginPath = $"{Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)}{Path.DirectorySeparatorChar}Plugins{Path.DirectorySeparatorChar}";
-
-        /// <summary>
         /// The currently active plugins.
         /// </summary>
         private static readonly Dictionary<string, PluginAbstract> Plugins = new Dictionary<string, PluginAbstract>();
@@ -60,7 +55,7 @@ namespace SevenMod.Core
             }
 
             var parentType = Type.GetType("SevenMod.Core.PluginAbstract");
-            var dll = Assembly.LoadFile($"{PluginPath}{name}.dll");
+            var dll = Assembly.LoadFile($"{SMPath.Plugins}{name}.dll");
             try
             {
                 var type = dll.GetType($"SevenMod.Plugin.{name}.{name}", true, true);
@@ -84,7 +79,7 @@ namespace SevenMod.Core
         /// </summary>
         public static void Refresh()
         {
-            var files = Directory.GetFiles(PluginPath, "*.dll");
+            var files = Directory.GetFiles(SMPath.Plugins, "*.dll");
             foreach (var file in files)
             {
                 var name = Path.GetFileNameWithoutExtension(file);

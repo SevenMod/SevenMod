@@ -120,7 +120,7 @@ namespace SevenMod.Database
             var xml = new XmlDocument();
             try
             {
-                xml.Load($"{ConfigManager.ConfigPath}Databases.xml");
+                xml.Load($"{SMPath.Config}Databases.xml");
             }
             catch (XmlException)
             {

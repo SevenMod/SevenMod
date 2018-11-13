@@ -19,11 +19,6 @@ namespace SevenMod.Core
     public class ConfigManager
     {
         /// <summary>
-        /// The path to the directory containing the configuration files.
-        /// </summary>
-        public static readonly string ConfigPath = $"{Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)}{Path.DirectorySeparatorChar}Config{Path.DirectorySeparatorChar}";
-
-        /// <summary>
         /// Initializes the <see cref="ConfigManager"/> class.
         /// </summary>
         public static void Init()
@@ -42,7 +37,7 @@ namespace SevenMod.Core
             var xml = new XmlDocument();
             try
             {
-                xml.Load($"{ConfigPath}{configName}.xml");
+                xml.Load($"{SMPath.Config}{configName}.xml");
             }
             catch
             {

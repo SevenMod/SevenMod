@@ -43,7 +43,7 @@ namespace SevenMod.Plugin.AdminFlatFile
             var xml = new XmlDocument();
             try
             {
-                xml.Load($"{ConfigManager.ConfigPath}Admins.xml");
+                xml.Load($"{SMPath.Config}Admins.xml");
             }
             catch (XmlException)
             {
