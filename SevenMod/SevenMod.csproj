@@ -38,29 +38,45 @@
     <Reference Include="Assembly-CSharp, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\7dtd-binaries\Assembly-CSharp.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Assembly-CSharp-firstpass">
       <HintPath>..\7dtd-binaries\Assembly-CSharp-firstpass.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="LogLibrary, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\7dtd-binaries\LogLibrary.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="MySql.Data, Version=6.7.9.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
       <HintPath>..\packages\MySql.Data.6.7.9\lib\net20\MySql.Data.dll</HintPath>
     </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
+    <Reference Include="System">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Core">
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Data.SQLite, Version=1.0.109.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Data.SQLite.Core.1.0.109.2\lib\net20\System.Data.SQLite.dll</HintPath>
     </Reference>
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Data.DataSetExtensions">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Data">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Xml">
+      <Private>True</Private>
+    </Reference>
     <Reference Include="UnityEngine, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\7dtd-binaries\UnityEngine.dll</HintPath>
+      <Private>True</Private>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -116,13 +132,21 @@
   </PropertyGroup>
   <PropertyGroup>
     <PostBuildEvent>
-rmdir "$(ProjectDir)..\bin\Mods\SevenMod" /s /q
+rmdir "$(ProjectDir)..\bin" /s /q
+mkdir "$(ProjectDir)..\bin\7DaysToDieServer_Data\Managed\x64"
+mkdir "$(ProjectDir)..\bin\7DaysToDieServer_Data\Managed\x86"
 mkdir "$(ProjectDir)..\bin\Mods\SevenMod"
 mkdir "$(ProjectDir)..\bin\Mods\SevenMod\Config"
 mkdir "$(ProjectDir)..\bin\Mods\SevenMod\Plugins"
 
 copy "$(ProjectDir)$(OutDir)SevenMod.dll" "$(ProjectDir)..\bin\Mods\SevenMod\SevenMod.dll"
 copy "$(ProjectDir)$(OutDir)ModInfo.xml" "$(ProjectDir)..\bin\Mods\SevenMod\ModInfo.xml"
+
+copy "$(ProjectDir)$(OutDir)MySql.Data.dll" "$(ProjectDir)..\bin\7DaysToDieServer_Data\Managed\MySql.Data.dll"
+copy "$(ProjectDir)$(OutDir)System.Data.SQLite.dll" "$(ProjectDir)..\bin\7DaysToDieServer_Data\Managed\System.Data.SQLite.dll"
+copy "$(ProjectDir)$(OutDir)x64\SQLite.Interop.dll" "$(ProjectDir)..\bin\7DaysToDieServer_Data\Managed\x64\SQLite.Interop.dll"
+copy "$(ProjectDir)$(OutDir)x86\SQLite.Interop.dll" "$(ProjectDir)..\bin\7DaysToDieServer_Data\Managed\x86\SQLite.Interop.dll"
+
 xcopy "$(ProjectDir)$(OutDir)Config" "$(ProjectDir)..\bin\Mods\SevenMod\Config" /e /y /i /c
 </PostBuildEvent>
   </PropertyGroup>
