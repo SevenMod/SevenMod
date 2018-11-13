@@ -203,7 +203,7 @@ namespace SevenMod.Database
                     var portElements = element.GetElementsByTagName("Port");
                     if (passElements.Count > 0)
                     {
-                        int.TryParse(passElements[0].InnerText, out port);
+                        int.TryParse(portElements[0].InnerText, out port);
                     }
 
                     var connection = new ConnectionInfo(DatabaseDriver.MySQL, database, host, user, pass, port);
