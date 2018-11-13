@@ -87,6 +87,22 @@ namespace SevenMod.Database
         }
 
         /// <summary>
+        /// Check if a database connection configuration exists.
+        /// </summary>
+        /// <param name="name">The name of the database connection configuration.</param>
+        /// <returns><c>true</c> if the configuration exists; <c>false</c> otherwise.</returns>
+        public static bool ConfigExists(string name)
+        {
+            if (!configLoaded)
+            {
+                ParseConfig();
+                configLoaded = true;
+            }
+
+            return Connections.ContainsKey(name);
+        }
+
+        /// <summary>
         /// Executes a query on the database without returning a result.
         /// </summary>
         /// <param name="sql">The SQL string to execute.</param>
