@@ -106,7 +106,12 @@ namespace SevenMod.Admin
         /// <returns>The <see cref="AdminInfo"/> for the admin user.</returns>
         public static AdminInfo GetAdmin(string authId)
         {
-            return admins[authId];
+            if (admins.ContainsKey(authId))
+            {
+                return admins[authId];
+            }
+
+            return new AdminInfo(authId, 0, 0);
         }
 
         /// <summary>
