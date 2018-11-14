@@ -30,6 +30,7 @@ namespace SevenMod.Plugin.BaseCommands
             base.LoadPlugin();
 
             this.RegAdminCmd("kick", new AdminCmdKick(), AdminFlags.Kick);
+            this.RegAdminCmd("reloadadmins", new AdminCmdReloadAdmins(), AdminFlags.Ban);
             this.RegAdminCmd("who", new AdminCmdWho(), AdminFlags.Generic);
         }
     }

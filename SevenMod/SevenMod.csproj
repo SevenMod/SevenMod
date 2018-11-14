@@ -80,7 +80,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Admin\ConsoleCmdReloadAdmins.cs" />
     <Compile Include="Core\AdminCmdRouter.cs" />
     <Compile Include="API.cs" />
     <Compile Include="Admin\AdminFlags.cs" />
