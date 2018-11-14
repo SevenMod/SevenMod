@@ -39,7 +39,6 @@ namespace SevenMod.Plugin.AdminFlatFile
         /// </summary>
         private void LoadAdmins()
         {
-            AdminManager.RemoveAllAdmins();
             var xml = new XmlDocument();
             try
             {

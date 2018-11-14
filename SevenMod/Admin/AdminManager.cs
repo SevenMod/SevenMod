@@ -5,6 +5,7 @@
 
 namespace SevenMod.Admin
 {
+    using System;
     using System.Collections.Generic;
 
     /// <summary>
@@ -69,7 +70,15 @@ namespace SevenMod.Admin
         /// <param name="flags">The user's access flag string.</param>
         public static void AddAdmin(string authId, int immunity, string flags)
         {
-            admins.Add(authId, new AdminInfo(authId, immunity, ParseFlags(flags)));
+            var admin = new AdminInfo(authId, immunity, ParseFlags(flags));
+            if (admins.ContainsKey(authId))
+            {
+                immunity = Math.Max(immunity, admins[authId].Immunity);
+                var combinedFlags = admin.Flags | admins[authId].Flags;
+                admin = new AdminInfo(authId, immunity, combinedFlags);
+            }
+
+            admins[authId] = admin;
         }
 
         /// <summary>

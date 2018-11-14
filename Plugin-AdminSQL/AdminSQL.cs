@@ -40,8 +40,6 @@ namespace SevenMod.Plugin.AdminSQL
         /// </summary>
         private void LoadAdmins()
         {
-            AdminManager.RemoveAllAdmins();
-
             if (!Database.ConfigExists("admins"))
             {
                 Log.Error("[SevenMod] The admins database configuration was not found.");
