@@ -206,7 +206,7 @@ namespace SevenMod.Database
                         continue;
                     }
 
-                    var user = hostElements[0].InnerText;
+                    var user = userElements[0].InnerText;
 
                     var pass = string.Empty;
                     var passElements = element.GetElementsByTagName("Pass");
