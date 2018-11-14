@@ -21,6 +21,11 @@ namespace SevenMod.Core
         void UnloadPlugin();
 
         /// <summary>
+        /// Called when the admins list has been cleared.
+        /// </summary>
+        void ReloadAdmins();
+
+        /// <summary>
         /// Called when a chunk has its colors calculated.
         /// </summary>
         /// <param name="chunk">An instance of the <see cref="Chunk"/> class representing the

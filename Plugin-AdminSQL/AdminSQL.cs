@@ -29,9 +29,9 @@ namespace SevenMod.Plugin.AdminSQL
         };
 
         /// <inheritdoc/>
-        public override void LoadPlugin()
+        public override void ReloadAdmins()
         {
-            base.LoadPlugin();
+            base.ReloadAdmins();
             this.LoadAdmins();
         }
 

@@ -68,6 +68,11 @@ namespace SevenMod.Core
         }
 
         /// <inheritdoc/>
+        public virtual void ReloadAdmins()
+        {
+        }
+
+        /// <inheritdoc/>
         public virtual void SavePlayerData(ClientInfo client, PlayerDataFile playerDataFile)
         {
         }
