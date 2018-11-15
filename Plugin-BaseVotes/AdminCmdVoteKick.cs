@@ -6,6 +6,7 @@
 namespace SevenMod.Plugin.BaseVotes
 {
     using System.Collections.Generic;
+    using SevenMod.Chat;
     using SevenMod.Core;
     using SevenMod.Voting;
 
@@ -73,10 +74,7 @@ namespace SevenMod.Plugin.BaseVotes
                     message = string.Format("Vote failed with {0:P2} of the vote.", percents[0]);
                 }
 
-                foreach (var client in ConnectionManager.Instance.GetClients())
-                {
-                    client.SendPackage(new NetPackageGameMessage(EnumGameMessages.Chat, message, "[Vote]", false, "SevenMod", false));
-                }
+                ChatHelper.SendToAll(message, "[Vote]");
             }
         }
     }

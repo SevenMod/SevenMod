@@ -20,11 +20,36 @@ namespace SevenMod.Chat
         {
             if ((senderInfo.RemoteClientInfo != null) && ChatHook.ShouldReplyToChat(senderInfo.RemoteClientInfo))
             {
-                senderInfo.RemoteClientInfo.SendPackage(new NetPackageGameMessage(EnumGameMessages.Chat, message, "[SM]", false, "SevenMod", false));
+                SendTo(senderInfo.RemoteClientInfo, message);
             }
             else
             {
                 SdtdConsole.Instance.Output(message);
+            }
+        }
+
+        /// <summary>
+        /// Sends a chat message to an individual client.
+        /// </summary>
+        /// <param name="client">The <see cref="ClientInfo"/> object representing the client.</param>
+        /// <param name="message">The message text.</param>
+        /// <param name="prefix">The prefix for the message.</param>
+        public static void SendTo(ClientInfo client, string message, string prefix = "[SM]")
+        {
+            client.SendPackage(new NetPackageGameMessage(EnumGameMessages.Chat, message, prefix, false, "SevenMod", false));
+        }
+
+        /// <summary>
+        /// Sends a chat message to all connected clients.
+        /// </summary>
+        /// <param name="message">The message text.</param>
+        /// <param name="prefix">The prefix for the message.</param>
+        public static void SendToAll(string message, string prefix = "[SM]")
+        {
+            var package = new NetPackageGameMessage(EnumGameMessages.Chat, message, prefix, false, "SevenMod", false);
+            foreach (var player in ConnectionManager.Instance.GetClients())
+            {
+                player.SendPackage(package);
             }
         }
     }

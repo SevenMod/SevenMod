@@ -6,6 +6,7 @@
 namespace SevenMod.Plugin.Advertisements
 {
     using System;
+    using SevenMod.Chat;
     using SevenMod.Core;
 
     /// <summary>
@@ -71,10 +72,7 @@ namespace SevenMod.Plugin.Advertisements
                 this.index = (this.index + 1) % AdvertisementsConfig.Instance.Messages.Count;
             }
 
-            foreach (var client in ConnectionManager.Instance.GetClients())
-            {
-                client.SendPackage(new NetPackageGameMessage(EnumGameMessages.Chat, message, "[AD]", false, "SevenMod", false));
-            }
+            ChatHelper.SendToAll(message, "[AD]");
         }
     }
 }

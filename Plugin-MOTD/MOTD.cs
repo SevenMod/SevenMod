@@ -5,6 +5,7 @@
 
 namespace SevenMod.Plugin.MOTD
 {
+    using SevenMod.Chat;
     using SevenMod.Core;
 
     /// <summary>
@@ -38,7 +39,7 @@ namespace SevenMod.Plugin.MOTD
             {
                 foreach (var line in MOTDConfig.Instance.Lines)
                 {
-                    client.SendPackage(new NetPackageGameMessage(EnumGameMessages.Chat, line, "[MOTD]", false, "SevenMod", false));
+                    ChatHelper.SendTo(client, line, "[MOTD]");
                 }
             }
         }

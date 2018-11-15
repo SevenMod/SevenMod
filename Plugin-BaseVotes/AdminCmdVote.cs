@@ -6,6 +6,7 @@
 namespace SevenMod.Plugin.BaseVotes
 {
     using System.Collections.Generic;
+    using SevenMod.Chat;
     using SevenMod.Core;
     using SevenMod.Voting;
 
@@ -49,15 +50,10 @@ namespace SevenMod.Plugin.BaseVotes
             /// <inheritdoc/>
             public void OnVoteEnd(string[] options, int[] votes, float[] percents)
             {
-                string msg;
-                foreach (var client in ConnectionManager.Instance.GetClients())
+                ChatHelper.SendToAll("Voting has ended", "[Vote]");
+                for (var i = 0; i < options.Length; i++)
                 {
-                    client.SendPackage(new NetPackageGameMessage(EnumGameMessages.Chat, "Voting has ended", "[Vote]", false, "SevenMod", false));
-                    for (var i = 0; i < options.Length; i++)
-                    {
-                        msg = string.Format("{0}: {1:P2} ({2} votes)", options[i], percents[i], votes[i]);
-                        client.SendPackage(new NetPackageGameMessage(EnumGameMessages.Chat, msg, "[Result]", false, "SevenMod", false));
-                    }
+                    ChatHelper.SendToAll(string.Format("{0}: {1:P2} ({2} votes)", options[i], percents[i], votes[i]), "[Result]");
                 }
             }
         }
