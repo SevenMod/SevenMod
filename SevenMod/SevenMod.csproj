@@ -80,6 +80,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Chat\Colors.cs" />
     <Compile Include="Core\AdminCmdRouter.cs" />
     <Compile Include="API.cs" />
     <Compile Include="Admin\AdminFlags.cs" />
