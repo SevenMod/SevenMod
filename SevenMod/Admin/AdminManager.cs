@@ -7,6 +7,7 @@ namespace SevenMod.Admin
 {
     using System;
     using System.Collections.Generic;
+    using System.Text.RegularExpressions;
 
     /// <summary>
     /// Manages admin users of the mod.
@@ -70,15 +71,20 @@ namespace SevenMod.Admin
         /// <param name="flags">The user's access flag string.</param>
         public static void AddAdmin(string authId, int immunity, string flags)
         {
-            var admin = new AdminInfo(authId, immunity, ParseFlags(flags));
-            if (admins.ContainsKey(authId))
+            if (!NormalizeSteamId(authId, out string steamId64))
             {
-                immunity = Math.Max(immunity, admins[authId].Immunity);
-                var combinedFlags = admin.Flags | admins[authId].Flags;
-                admin = new AdminInfo(authId, immunity, combinedFlags);
+                return;
             }
 
-            admins[authId] = admin;
+            var admin = new AdminInfo(steamId64, immunity, ParseFlags(flags));
+            if (admins.ContainsKey(steamId64))
+            {
+                immunity = Math.Max(immunity, admins[steamId64].Immunity);
+                var combinedFlags = admin.Flags | admins[steamId64].Flags;
+                admin = new AdminInfo(steamId64, immunity, combinedFlags);
+            }
+
+            admins[steamId64] = admin;
         }
 
         /// <summary>
@@ -205,6 +211,59 @@ namespace SevenMod.Admin
             }
 
             return flags;
+        }
+
+        /// <summary>
+        /// Convert any SteamID format into the SteamID64 format.
+        /// </summary>
+        /// <param name="input">The input SteamID.</param>
+        /// <param name="output">This variable will be set to the SteamID64 string if the
+        /// conversion is successful; otherwise it will be set to <c>null</c>.</param>
+        /// <returns><c>true</c> if the conversion was successful; <c>false</c> if
+        /// <paramref name="input"/> is not a valid SteamID.</returns>
+        protected static bool NormalizeSteamId(string input, out string output)
+        {
+            if (string.IsNullOrEmpty(input))
+            {
+                output = null;
+
+                return false;
+            }
+
+            input = input.ToUpper();
+            Match match;
+
+            if ("BOT".Equals(input))
+            {
+                output = "BOT";
+
+                return true;
+            }
+            else if ((match = Regex.Match(input, @"^STEAM_0:([0-1]):([0-9]+)$")).Success)
+            {
+                var p1 = long.Parse(match.Groups[1].Value);
+                var p2 = long.Parse(match.Groups[2].Value);
+                output = (((p2 * 2) + p1) + 76561197960265728L).ToString();
+
+                return true;
+            }
+            else if ((match = Regex.Match(input, @"^\[?U:1:([0-9]+)\]?$")).Success)
+            {
+                var p1 = long.Parse(match.Groups[1].Value);
+                output = (p1 + 76561197960265728L).ToString();
+
+                return true;
+            }
+            else if (Regex.IsMatch(input, "^[0-9]{17}$"))
+            {
+                output = string.Copy(input);
+
+                return true;
+            }
+
+            output = null;
+
+            return false;
         }
     }
 }
