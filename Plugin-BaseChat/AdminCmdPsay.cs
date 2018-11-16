@@ -36,7 +36,7 @@ namespace SevenMod.Plugin.BaseChat
             string sender;
             if (senderInfo.RemoteClientInfo == null)
             {
-                sender = "[i][Server] (Private)";
+                sender = "[i](Private) [Server]";
             }
             else
             {

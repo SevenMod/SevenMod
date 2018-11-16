@@ -30,20 +30,20 @@ namespace SevenMod.Plugin.BaseChat
             string sender;
             if (senderInfo.RemoteClientInfo == null)
             {
-                sender = "[PM][Server]";
+                sender = $"[{Colors.Cyan}](Admins) [Server]";
             }
             else
             {
-                sender = $"[PM]{senderInfo.RemoteClientInfo.playerName}";
+                sender = $"[{Colors.Cyan}](Admins) {senderInfo.RemoteClientInfo.playerName}";
             }
 
             var message = string.Join(" ", args.ToArray());
-            message = $"[{Colors.Lightblue}]{message}[-]";
+            message = $"{message}[-]";
             foreach (var client in ConnectionManager.Instance.GetClients())
             {
                 if (AdminManager.IsAdmin(client.playerId))
                 {
-                    ChatHelper.SendTo(client, message, sender);
+                    ChatHelper.SendTo(client, message, null, sender);
                 }
             }
         }
