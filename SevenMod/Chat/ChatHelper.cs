@@ -16,14 +16,20 @@ namespace SevenMod.Chat
         /// </summary>
         /// <param name="senderInfo">The calling client information.</param>
         /// <param name="message">The message to send.</param>
-        public static void ReplyToCommand(CommandSenderInfo senderInfo, string message)
+        /// <param name="prefix">The prefix for the message.</param>
+        public static void ReplyToCommand(CommandSenderInfo senderInfo, string message, string prefix = "SM")
         {
             if ((senderInfo.RemoteClientInfo != null) && ChatHook.ShouldReplyToChat(senderInfo.RemoteClientInfo))
             {
-                SendTo(senderInfo.RemoteClientInfo, message);
+                SendTo(senderInfo.RemoteClientInfo, message, prefix);
             }
             else
             {
+                if (!string.IsNullOrEmpty(prefix))
+                {
+                    message = $"[{prefix}] {message}";
+                }
+
                 SdtdConsole.Instance.Output(message);
             }
         }
