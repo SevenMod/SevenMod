@@ -34,9 +34,15 @@ namespace SevenMod.Chat
         /// <param name="client">The <see cref="ClientInfo"/> object representing the client.</param>
         /// <param name="message">The message text.</param>
         /// <param name="prefix">The prefix for the message.</param>
-        public static void SendTo(ClientInfo client, string message, string prefix = "[SM]")
+        /// <param name="name">The name to attach to the message.</param>
+        public static void SendTo(ClientInfo client, string message, string prefix = "SM", string name = null)
         {
-            client.SendPackage(new NetPackageGameMessage(EnumGameMessages.Chat, message, prefix, false, "SevenMod", false));
+            if (!string.IsNullOrEmpty(prefix))
+            {
+                message = $"[{Colors.Green}][\u200B{prefix}][-] {message}";
+            }
+
+            client.SendPackage(new NetPackageGameMessage(EnumGameMessages.Chat, message, name, false, "SevenMod", false));
         }
 
         /// <summary>
@@ -44,12 +50,12 @@ namespace SevenMod.Chat
         /// </summary>
         /// <param name="message">The message text.</param>
         /// <param name="prefix">The prefix for the message.</param>
-        public static void SendToAll(string message, string prefix = "[SM]")
+        /// <param name="name">The name to attach to the message.</param>
+        public static void SendToAll(string message, string prefix = "SM", string name = null)
         {
-            var package = new NetPackageGameMessage(EnumGameMessages.Chat, message, prefix, false, "SevenMod", false);
-            foreach (var player in ConnectionManager.Instance.GetClients())
+            foreach (var client in ConnectionManager.Instance.GetClients())
             {
-                player.SendPackage(package);
+                SendTo(client, message, prefix, name);
             }
         }
     }

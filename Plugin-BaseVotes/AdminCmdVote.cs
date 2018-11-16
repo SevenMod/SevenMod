@@ -50,10 +50,10 @@ namespace SevenMod.Plugin.BaseVotes
             /// <inheritdoc/>
             public void OnVoteEnd(string[] options, int[] votes, float[] percents)
             {
-                ChatHelper.SendToAll("Voting has ended", "[Vote]");
+                ChatHelper.SendToAll("Voting has ended", "Vote");
                 for (var i = 0; i < options.Length; i++)
                 {
-                    ChatHelper.SendToAll(string.Format("{0}: {1:P2} ({2} votes)", options[i], percents[i], votes[i]), "[Result]");
+                    ChatHelper.SendToAll(string.Format("{0}: {1:P2} ({2} votes)", options[i], percents[i], votes[i]), "Result");
                 }
             }
         }

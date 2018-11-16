@@ -74,7 +74,7 @@ namespace SevenMod.Plugin.BaseVotes
                     message = string.Format("Vote failed with {0:P2} of the vote.", percents[0]);
                 }
 
-                ChatHelper.SendToAll(message, "[Vote]");
+                ChatHelper.SendToAll(message, "Vote");
             }
         }
     }

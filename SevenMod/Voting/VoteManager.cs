@@ -88,20 +88,20 @@ namespace SevenMod.Voting
             foreach (var client in ConnectionManager.Instance.GetClients())
             {
                 this.votingPool.Add(client.playerId, -1);
-                client.SendPackage(new NetPackageGameMessage(EnumGameMessages.Chat, message, "[Vote]", false, "SevenMod", false));
+                ChatHelper.SendTo(client, message, "Vote");
                 if (this.boolVote)
                 {
                     msg = "Enter /yes or /no into chat to cast your vote";
-                    client.SendPackage(new NetPackageGameMessage(EnumGameMessages.Chat, msg, "[Vote]", false, "SevenMod", false));
+                    ChatHelper.SendTo(client, msg, "Vote");
                 }
                 else
                 {
                     msg = "Enter /# to cast your vote";
-                    client.SendPackage(new NetPackageGameMessage(EnumGameMessages.Chat, msg, "[Vote]", false, "SevenMod", false));
+                    ChatHelper.SendTo(client, msg, "Vote");
                     for (var i = 0; i < this.voteOptions.Length; i++)
                     {
                         msg = $"/{i + 1}: {this.voteOptions[i]}";
-                        client.SendPackage(new NetPackageGameMessage(EnumGameMessages.Chat, msg, "[Option]", false, "SevenMod", false));
+                        ChatHelper.SendTo(client, msg, "Option");
                     }
                 }
             }

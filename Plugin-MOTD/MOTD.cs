@@ -39,7 +39,7 @@ namespace SevenMod.Plugin.MOTD
             {
                 foreach (var line in MOTDConfig.Instance.Lines)
                 {
-                    ChatHelper.SendTo(client, line, "[MOTD]");
+                    ChatHelper.SendTo(client, line, "MOTD");
                 }
             }
         }

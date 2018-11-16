@@ -36,15 +36,15 @@ namespace SevenMod.Plugin.BaseChat
             string sender;
             if (senderInfo.RemoteClientInfo == null)
             {
-                sender = "[PM][Server]";
+                sender = "[i][Server] (Private)";
             }
             else
             {
-                sender = $"[PM]{senderInfo.RemoteClientInfo.playerName}";
+                sender = $"[i](Private) {senderInfo.RemoteClientInfo.playerName}";
             }
 
             var message = string.Join(" ", args.GetRange(1, args.Count - 1).ToArray());
-            ChatHelper.SendToAll($"[{Colors.Yellow}]{message}[-]", sender);
+            ChatHelper.SendToAll($"{message}[/i]", null, sender);
         }
     }
 }

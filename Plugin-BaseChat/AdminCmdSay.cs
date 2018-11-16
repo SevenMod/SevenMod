@@ -43,7 +43,7 @@ namespace SevenMod.Plugin.BaseChat
             }
 
             var message = string.Join(" ", args.GetRange(startIdx, args.Count - startIdx).ToArray());
-            ChatHelper.SendToAll($"[{color}]{message}[-]", "[Admin]");
+            ChatHelper.SendToAll($"[{color}]{message}[-]", "Admin");
         }
     }
 }

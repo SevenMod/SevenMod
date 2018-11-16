@@ -72,7 +72,7 @@ namespace SevenMod.Plugin.Advertisements
                 this.index = (this.index + 1) % AdvertisementsConfig.Instance.Messages.Count;
             }
 
-            ChatHelper.SendToAll(message, "[AD]");
+            ChatHelper.SendToAll(message, "AD");
         }
     }
 }
