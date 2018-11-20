@@ -23,7 +23,7 @@ namespace SevenMod.Plugin.BaseCommands
             ReplyToCommand(senderInfo, string.Format("  {0,-24} {1,-18} {2}", "Name", "Username", "Admin access"));
             foreach (var client in GameManager.Instance.World.Players.dict.Values)
             {
-                var player = ConnectionManager.Instance.GetClientInfoForEntityId(client.entityId);
+                var player = ConnectionManager.Instance.Clients.ForEntityId(client.entityId);
                 var admin = AdminManager.GetAdmin(player.playerId);
                 if (admin != null)
                 {

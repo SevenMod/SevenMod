@@ -5,6 +5,7 @@
 
 namespace SevenMod.Core
 {
+    using System.Text;
     using SevenMod.Admin;
 
     /// <summary>
@@ -38,11 +39,6 @@ namespace SevenMod.Core
         }
 
         /// <inheritdoc/>
-        public virtual void GameUpdate()
-        {
-        }
-
-        /// <inheritdoc/>
         public virtual void LoadPlugin()
         {
         }
@@ -53,8 +49,9 @@ namespace SevenMod.Core
         }
 
         /// <inheritdoc/>
-        public virtual void PlayerLogin(ClientInfo client, string compatibilityVersion)
+        public virtual bool PlayerLogin(ClientInfo client, StringBuilder rejectReason)
         {
+            return true;
         }
 
         /// <inheritdoc/>

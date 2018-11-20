@@ -5,6 +5,8 @@
 
 namespace SevenMod.Core
 {
+    using System.Text;
+
     /// <summary>
     /// Represents a plugin.
     /// </summary>
@@ -49,32 +51,28 @@ namespace SevenMod.Core
         void GameStartDone();
 
         /// <summary>
-        /// Called every time the game executes an update. This happens very frequently, so don't
-        /// perform any intensive tasks here without rate limiting.
-        /// </summary>
-        void GameUpdate();
-
-        /// <summary>
         /// Called when a player disconnects from the server.
         /// </summary>
-        /// <param name="client">An instance of the <see cref="ClientInfo"/></param> class
-        /// representing the player.
-        /// <param name="shutdown">TODO: Find out what this is.</param>
+        /// <param name="client">An instance of the <see cref="ClientInfo"/> class representing the
+        /// player.</param>
+        /// <param name="shutdown">Value indicating whether the server is shutting down.</param>
         void PlayerDisconnected(ClientInfo client, bool shutdown);
 
         /// <summary>
         /// Called when a player first connects to the server.
         /// </summary>
-        /// <param name="client">An instance of the <see cref="ClientInfo"/></param> class
-        /// representing the player. May be <c>null</c>.
-        /// <param name="compatibilityVersion">TODO: Find out what this is.</param>
-        void PlayerLogin(ClientInfo client, string compatibilityVersion);
+        /// <param name="client">An instance of the <see cref="ClientInfo"/> class representing the
+        /// player. May be <c>null</c>.</param>
+        /// <param name="rejectReason"><see cref="StringBuilder"/> object to contain the reason for
+        /// rejecting the client.</param>
+        /// <returns><c>true</c> to accept the client; <c>false</c> to reject the client.</returns>
+        bool PlayerLogin(ClientInfo client, StringBuilder rejectReason);
 
         /// <summary>
         /// Called every time a player spawns into the world.
         /// </summary>
-        /// <param name="client">An instance of the <see cref="ClientInfo"/></param> class
-        /// representing the player.
+        /// <param name="client">An instance of the <see cref="ClientInfo"/> class representing the
+        /// player.</param>
         /// <param name="respawnReason">A <see cref="RespawnType"/> value indicating the reason for
         /// the player spawning.</param>
         /// <param name="pos">An instance of the <see cref="Vector3i"/> class representing the
@@ -84,8 +82,8 @@ namespace SevenMod.Core
         /// <summary>
         /// Called immediately before a player spawns into the world.
         /// </summary>
-        /// <param name="client">An instance of the <see cref="ClientInfo"/></param> class
-        /// representing the player.
+        /// <param name="client">An instance of the <see cref="ClientInfo"/> class representing the
+        /// player.</param>
         /// <param name="chunkViewDim">TODO: Find out what this is.</param>
         /// <param name="playerProfile">An instance of the <see cref="PlayerProfile"/> class
         /// representing the player's persistent profile.</param>
@@ -94,8 +92,8 @@ namespace SevenMod.Core
         /// <summary>
         /// Called when a player data file is saved to the server.
         /// </summary>
-        /// <param name="client">An instance of the <see cref="ClientInfo"/></param> class
-        /// representing the player.
+        /// <param name="client">An instance of the <see cref="ClientInfo"/> class representing the
+        /// player.</param>
         /// <param name="playerDataFile">An instance of the <see cref="PlayerDataFile"/> class
         /// representing the player's data file.</param>
         void SavePlayerData(ClientInfo client, PlayerDataFile playerDataFile);

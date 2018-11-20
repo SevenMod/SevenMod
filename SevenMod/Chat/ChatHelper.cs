@@ -48,7 +48,7 @@ namespace SevenMod.Chat
                 message = $"[{Colors.Green}][\u200B{prefix}][-] {message}";
             }
 
-            client.SendPackage(new NetPackageGameMessage(EnumGameMessages.Chat, message, name, false, "SevenMod", false));
+            client.SendPackage(new NetPackageChat(EChatType.Global, 0, message, name, false, null));
         }
 
         /// <summary>
@@ -59,7 +59,7 @@ namespace SevenMod.Chat
         /// <param name="name">The name to attach to the message.</param>
         public static void SendToAll(string message, string prefix = "SM", string name = null)
         {
-            foreach (var client in ConnectionManager.Instance.GetClients())
+            foreach (var client in ConnectionManager.Instance.Clients.List)
             {
                 SendTo(client, message, prefix, name);
             }

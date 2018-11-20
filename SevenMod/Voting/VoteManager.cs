@@ -85,7 +85,7 @@ namespace SevenMod.Voting
             this.timer.Enabled = true;
 
             string msg;
-            foreach (var client in ConnectionManager.Instance.GetClients())
+            foreach (var client in ConnectionManager.Instance.Clients.List)
             {
                 this.votingPool.Add(client.playerId, -1);
                 ChatHelper.SendTo(client, message, "Vote");

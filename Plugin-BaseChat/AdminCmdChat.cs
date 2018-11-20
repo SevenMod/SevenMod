@@ -39,7 +39,7 @@ namespace SevenMod.Plugin.BaseChat
 
             var message = string.Join(" ", args.ToArray());
             message = $"{message}[-]";
-            foreach (var client in ConnectionManager.Instance.GetClients())
+            foreach (var client in ConnectionManager.Instance.Clients.List)
             {
                 if (AdminManager.IsAdmin(client.playerId))
                 {
