@@ -137,11 +137,11 @@
   <PropertyGroup>
     <PostBuildEvent>
 rmdir "$(ProjectDir)..\bin" /s /q
-mkdir "$(ProjectDir)..\bin\Mods\SevenMod"
 mkdir "$(ProjectDir)..\bin\Mods\SevenMod\Config"
+mkdir "$(ProjectDir)..\bin\Mods\SevenMod\Data\Databases"
+mkdir "$(ProjectDir)..\bin\Mods\SevenMod\Plugins"
 mkdir "$(ProjectDir)..\bin\Mods\SevenMod\x64"
 mkdir "$(ProjectDir)..\bin\Mods\SevenMod\x86"
-mkdir "$(ProjectDir)..\bin\Mods\SevenMod\Plugins"
 
 copy "$(ProjectDir)$(OutDir)SevenMod.dll" "$(ProjectDir)..\bin\Mods\SevenMod\API.dll"
 copy "$(ProjectDir)$(OutDir)ModInfo.xml" "$(ProjectDir)..\bin\Mods\SevenMod\ModInfo.xml"
