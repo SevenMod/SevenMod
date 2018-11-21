@@ -139,7 +139,7 @@
 rmdir "$(ProjectDir)..\bin" /s /q
 mkdir "$(ProjectDir)..\bin\Mods\SevenMod\Config"
 mkdir "$(ProjectDir)..\bin\Mods\SevenMod\Data\Databases"
-mkdir "$(ProjectDir)..\bin\Mods\SevenMod\Plugins"
+mkdir "$(ProjectDir)..\bin\Mods\SevenMod\Plugins\Disabled"
 mkdir "$(ProjectDir)..\bin\Mods\SevenMod\x64"
 mkdir "$(ProjectDir)..\bin\Mods\SevenMod\x86"
 
