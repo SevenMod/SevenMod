@@ -52,7 +52,7 @@ namespace SevenMod.Core
 
             if (targetString.StartsWith("@"))
             {
-                switch (targetString.Substring(1, targetString.IndexOf(' ')).ToLower())
+                switch (targetString.Substring(1).ToLower())
                 {
                     case "all":
                         list.AddRange(ConnectionManager.Instance.Clients.List);
