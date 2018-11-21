@@ -12,13 +12,17 @@ This mod is in early development and is not ready for use in a live environment.
 * Chat triggers for admin console commands
 * Modular design with plugins that can be enabled or disabled
 
-## Built-in Plugins
+## Plugins
 
-SevenMod comes with several built-in plugins that provide basic functionality.
+SevenMod comes with several plugins that provide basic functionality.
 
 ### AdminFlatFile
 
 Loads admin users from a local configuration file.
+
+### AdminSQL
+
+Loads admin users from a SQL database.
 
 ### Advertisements
 
@@ -28,6 +32,10 @@ Periodically shows messages in chat.
 
 Adds the ban, addban, and unban admin commands.
 
+### BaseChat
+
+Adds basic chat commands for admins.
+
 ### BaseCommands
 
 Adds the kick and who admin commands.
@@ -36,9 +44,13 @@ Adds the kick and who admin commands.
 
 Adds the vote, votekick, and voteban admin commands.
 
-### MOTD
+### PlayerCommands
 
-Displays a set of messages in chat to players upon connecting to the server.
+Adds player targeting commands like slay.
+
+### ReservedSlots
+
+Adds reserved slots based on admin flags.
 
 ## License
 
