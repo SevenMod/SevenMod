@@ -101,6 +101,7 @@
     <Compile Include="Core\PluginAbstract.cs" />
     <Compile Include="Core\PluginManager.cs" />
     <Compile Include="Core\SMPath.cs" />
+    <Compile Include="Core\SteamUtils.cs" />
     <Compile Include="Database\Database.cs" />
     <Compile Include="Database\SQLiteDatabase.cs" />
     <Compile Include="Database\MySqlDatabase.cs" />

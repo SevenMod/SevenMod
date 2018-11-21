@@ -50,17 +50,72 @@ namespace SevenMod.Core
         {
             var list = new List<ClientInfo>();
 
-            var target = this.ParseSingleTargetString(senderInfo, targetString);
-            if (target == null)
+            if (targetString.StartsWith("@"))
             {
-                list.Add(target);
+                switch (targetString.Substring(1, targetString.IndexOf(' ')).ToLower())
+                {
+                    case "all":
+                        list.AddRange(ConnectionManager.Instance.Clients.List);
+                        break;
+                    case "me":
+                        if (senderInfo.RemoteClientInfo == null)
+                        {
+                            ReplyToCommand(senderInfo, "Server cannot target self");
+                            break;
+                        }
+
+                        list.Add(senderInfo.RemoteClientInfo);
+                        break;
+                    case "!me":
+                        list.AddRange(ConnectionManager.Instance.Clients.List);
+                        list.Remove(senderInfo.RemoteClientInfo);
+                        break;
+                }
+            }
+            else if (targetString.StartsWith("#"))
+            {
+                var exactMatch = targetString.Substring(1);
+                if (exactMatch.Substring(0, 6).EqualsCaseInsensitive("STEAM_"))
+                {
+                    exactMatch = $"STEAM_{exactMatch.Substring(6).Replace('_', ':')}";
+                }
+
+                if (SteamUtils.NormalizeSteamId(exactMatch, out string steamId))
+                {
+                    list.Add(ConnectionManager.Instance.Clients.ForPlayerId(steamId));
+                }
+                else if (int.TryParse(exactMatch, out int entId))
+                {
+                    list.Add(ConnectionManager.Instance.Clients.ForEntityId(entId));
+                }
+                else
+                {
+                    list.Add(ConnectionManager.Instance.Clients.GetForPlayerName(exactMatch, false));
+                    if (list.Count == 0)
+                    {
+                        list.Add(ConnectionManager.Instance.Clients.GetForPlayerName(exactMatch));
+                    }
+                }
+
+                if (list.Count == 0)
+                {
+                    ReplyToCommand(senderInfo, "No valid targets found");
+                }
+            }
+            else
+            {
+                var target = this.ParseSingleTargetString(senderInfo, targetString);
+                if (target != null)
+                {
+                    list.Add(target);
+                }
             }
 
             foreach (var client in list)
             {
-                if (!AdminManager.CanTarget(senderInfo.RemoteClientInfo, target))
+                if (!AdminManager.CanTarget(senderInfo.RemoteClientInfo, client))
                 {
-                    ReplyToCommand(senderInfo, $"Cannot target {target.playerName}");
+                    ReplyToCommand(senderInfo, $"Cannot target {client.playerName}");
                     list.Remove(client);
                 }
             }
