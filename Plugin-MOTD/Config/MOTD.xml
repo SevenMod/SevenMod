@@ -1,7 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
-<MOTD>
-  <List Name="Lines">
-    <Item>Line 1</Item>
-    <Item>Line 2</Item>
-  </List>
-</MOTD>
