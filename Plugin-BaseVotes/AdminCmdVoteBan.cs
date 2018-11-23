@@ -7,6 +7,7 @@ namespace SevenMod.Plugin.BaseVotes
 {
     using System.Collections.Generic;
     using SevenMod.Chat;
+    using SevenMod.Console;
     using SevenMod.Core;
     using SevenMod.Voting;
 
@@ -52,19 +53,25 @@ namespace SevenMod.Plugin.BaseVotes
             private ClientInfo target;
 
             /// <summary>
+            /// The value of the VoteBanPercent console value.
+            /// </summary>
+            private ConVarValue percent;
+
+            /// <summary>
             /// Initializes a new instance of the <see cref="VoteBanListener"/> class.
             /// </summary>
             /// <param name="target">The target client for the ban vote.</param>
             public VoteBanListener(ClientInfo target)
             {
                 this.target = target;
+                this.percent = ConVarManager.FindConVar("VoteBanPercent").Value;
             }
 
             /// <inheritdoc/>
             public void OnVoteEnd(string[] options, int[] votes, float[] percents)
             {
                 string message;
-                if (percents[0] >= BaseVotesConfig.Instance.VoteBanPercent)
+                if (percents[0] >= this.percent.AsFloat)
                 {
                     message = string.Format("Vote succeeded with {0:P2} of the vote. Banning {1}...", percents[0], this.target.playerName);
                     SdtdConsole.Instance.ExecuteSync($"ban add {this.target.playerId} 30 minutes \"Vote banned\"", null);

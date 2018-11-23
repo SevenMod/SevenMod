@@ -85,17 +85,19 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Chat\Colors.cs" />
+    <Compile Include="Console\ConVar.cs" />
+    <Compile Include="Console\ConVarChangedEventArgs.cs" />
+    <Compile Include="Console\ConVarManager.cs" />
+    <Compile Include="Console\ConVarValue.cs" />
     <Compile Include="Core\AdminCmdRouter.cs" />
     <Compile Include="API.cs" />
     <Compile Include="Admin\AdminFlags.cs" />
     <Compile Include="Admin\AdminManager.cs" />
     <Compile Include="Chat\ChatHelper.cs" />
     <Compile Include="Chat\ChatHook.cs" />
-    <Compile Include="Core\ConfigManager.cs" />
     <Compile Include="Admin\AdminInfo.cs" />
     <Compile Include="Core\AdminCmdAbstract.cs" />
     <Compile Include="ConsoleCmdMenu.cs" />
-    <Compile Include="Core\CoreConfig.cs" />
     <Compile Include="Chat\IChatHookListener.cs" />
     <Compile Include="Core\IPluginAPI.cs" />
     <Compile Include="Core\PluginAbstract.cs" />
@@ -117,9 +119,6 @@
     <AdditionalFiles Include="stylecop.json" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Config\Core.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="Config\Databases.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <SubType>Designer</SubType>

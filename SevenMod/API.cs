@@ -68,7 +68,7 @@ namespace SevenMod
         /// </summary>
         private void GameAwake()
         {
-            ConfigManager.Init();
+            ChatHook.Init();
             PluginManager.Refresh();
         }
 

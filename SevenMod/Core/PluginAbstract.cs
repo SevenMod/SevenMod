@@ -7,6 +7,7 @@ namespace SevenMod.Core
 {
     using System.Text;
     using SevenMod.Admin;
+    using SevenMod.Console;
 
     /// <summary>
     /// Represents the default implementation of the <see cref="IPluginAPI"/> interface.
@@ -20,6 +21,11 @@ namespace SevenMod.Core
 
         /// <inheritdoc/>
         public virtual void CalcChunkColorsDone(Chunk chunk)
+        {
+        }
+
+        /// <inheritdoc/>
+        public virtual void ConfigsExecuted()
         {
         }
 
@@ -77,6 +83,50 @@ namespace SevenMod.Core
         /// <inheritdoc/>
         public virtual void UnloadPlugin()
         {
+        }
+
+        /// <summary>
+        /// Find an existing console variable with the specified name.
+        /// </summary>
+        /// <param name="name">The name of the console variable to locate.</param>
+        /// <returns>The <see cref="ConVar"/> representing the console variable if found; otherwise
+        /// <c>null</c>.</returns>
+        protected ConVar FindConVar(string name)
+        {
+            return ConVarManager.FindConVar(name);
+        }
+
+        /// <summary>
+        /// Creates a new <see cref="ConVar"/> or returns the existing one if one with the same
+        /// name already exists.
+        /// </summary>
+        /// <param name="name">The name of the variable.</param>
+        /// <param name="defaultValue">The default value of the variable as a string.</param>
+        /// <param name="description">An optional description for the variable.</param>
+        /// <param name="hasMin">Optional value indicating whether the variable has a minimum
+        /// value.</param>
+        /// <param name="min">The minimum value of the variable if <paramref name="hasMin"/> is
+        /// <c>true</c>.</param>
+        /// <param name="hasMax">Optional value indicating whether the variable has a maximum
+        /// value.</param>
+        /// <param name="max">The maximum value of the variable if <paramref name="hasMax"/> is
+        /// <c>true</c>.</param>
+        /// <returns>An instance of the <see cref="ConVar"/> representing the console
+        /// variable.</returns>
+        protected ConVar CreateConVar(string name, string defaultValue, string description = "", bool hasMin = false, float min = 0.0f, bool hasMax = false, float max = 1.0f)
+        {
+            return ConVarManager.CreateConVar(this, name, defaultValue, description, hasMin, min, hasMax, max);
+        }
+
+        /// <summary>
+        /// Adds a configuration file to be automatically loaded.
+        /// </summary>
+        /// <param name="autoCreate">A value indicating whether the file should be automatically
+        /// created if it does not exist.</param>
+        /// <param name="name">The name of the configuration file without extension.</param>
+        protected void AutoExecConfig(bool autoCreate, string name)
+        {
+            ConVarManager.AutoExecConfig(this, autoCreate, name);
         }
 
         /// <summary>

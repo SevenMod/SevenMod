@@ -13,6 +13,11 @@ namespace SevenMod.Core
     public interface IPluginAPI
     {
         /// <summary>
+        /// Called when the configuration files have been loaded.
+        /// </summary>
+        void ConfigsExecuted();
+
+        /// <summary>
         /// Called when the plugin is loaded. Perform any initial setup tasks here.
         /// </summary>
         void LoadPlugin();

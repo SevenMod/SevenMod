@@ -9,6 +9,7 @@ namespace SevenMod.Core
     using System.Collections.Generic;
     using System.IO;
     using System.Reflection;
+    using SevenMod.Console;
 
     /// <summary>
     /// Manages plugins.
@@ -61,12 +62,18 @@ namespace SevenMod.Core
                 var type = dll.GetType($"SevenMod.Plugin.{name}.{name}", true, true);
                 if (type.IsSubclassOf(parentType))
                 {
-                    Log.Out("Added {0}", type.Name);
                     var plugin = Activator.CreateInstance(type) as PluginAbstract;
                     plugin.LoadPlugin();
                     plugin.GameAwake();
                     plugin.ReloadAdmins();
+                    if (ConVarManager.ConfigsLoaded)
+                    {
+                        ConVarManager.ExecuteConfigs(plugin);
+                        plugin.ConfigsExecuted();
+                    }
+
                     Plugins.Add(name, plugin);
+                    Log.Out("Added {0}", type.Name);
                 }
             }
             catch (Exception e)
@@ -85,6 +92,15 @@ namespace SevenMod.Core
             {
                 var name = Path.GetFileNameWithoutExtension(file);
                 Load(name);
+            }
+
+            if (!ConVarManager.ConfigsLoaded)
+            {
+                ConVarManager.ExecuteConfigs();
+                foreach (var plugin in Plugins.Values)
+                {
+                    plugin.ConfigsExecuted();
+                }
             }
         }
 
@@ -109,6 +125,7 @@ namespace SevenMod.Core
             {
                 Plugins[name].UnloadPlugin();
                 AdminCmdRouter.UnregisterPlugin(Plugins[name]);
+                ConVarManager.UnloadPlugin(Plugins[name]);
                 Plugins.Remove(name);
             }
         }

@@ -7,6 +7,7 @@ namespace SevenMod.Plugin.BaseVotes
 {
     using System.Collections.Generic;
     using SevenMod.Chat;
+    using SevenMod.Console;
     using SevenMod.Core;
     using SevenMod.Voting;
 
@@ -52,19 +53,25 @@ namespace SevenMod.Plugin.BaseVotes
             private ClientInfo target;
 
             /// <summary>
+            /// The value of the VoteKickPercent console value.
+            /// </summary>
+            private ConVarValue percent;
+
+            /// <summary>
             /// Initializes a new instance of the <see cref="VoteKickListener"/> class.
             /// </summary>
             /// <param name="target">The target client for the kick vote.</param>
             public VoteKickListener(ClientInfo target)
             {
                 this.target = target;
+                this.percent = ConVarManager.FindConVar("VoteKickPercent").Value;
             }
 
             /// <inheritdoc/>
             public void OnVoteEnd(string[] options, int[] votes, float[] percents)
             {
                 string message;
-                if (percents[0] >= BaseVotesConfig.Instance.VoteKickPercent)
+                if (percents[0] >= this.percent.AsFloat)
                 {
                     message = string.Format("Vote succeeded with {0:P2} of the vote. Kicking {1}...", percents[0], this.target.playerName);
                     SdtdConsole.Instance.ExecuteSync($"kick {this.target.playerId} \"Vote kicked\"", null);

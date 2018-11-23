@@ -7,6 +7,7 @@ namespace SevenMod.Plugin.ReservedSlots
 {
     using System.Text;
     using SevenMod.Admin;
+    using SevenMod.Console;
     using SevenMod.Core;
 
     /// <summary>
@@ -15,6 +16,11 @@ namespace SevenMod.Plugin.ReservedSlots
     /// </summary>
     public class ReservedSlots : PluginAbstract
     {
+        /// <summary>
+        /// The value of the ReservedSlots console variable.
+        /// </summary>
+        private ConVarValue reservedSlots;
+
         /// <summary>
         /// The player limit for the server.
         /// </summary>
@@ -35,14 +41,17 @@ namespace SevenMod.Plugin.ReservedSlots
         {
             base.LoadPlugin();
 
+            this.reservedSlots = this.CreateConVar("ReservedSlots", "0", "The number of reserved slots.", true, 0).Value;
+
+            this.AutoExecConfig(true, "ReservedSlots");
+
             this.maxPlayers = GamePrefs.GetInt(EnumGamePrefs.ServerMaxPlayerCount);
-            ConfigManager.ParseConfig(ReservedSlotsConfig.Instance, "ReservedSlots");
         }
 
         /// <inheritdoc/>
         public override bool PlayerLogin(ClientInfo client, StringBuilder rejectReason)
         {
-            if ((this.maxPlayers - (ConnectionManager.Instance.ClientCount() - 1)) <= ReservedSlotsConfig.Instance.ReservedSlots)
+            if ((this.maxPlayers - (ConnectionManager.Instance.ClientCount() - 1)) <= this.reservedSlots.AsInt)
             {
                 if (!AdminManager.CheckAccess(client, AdminFlags.Reservation))
                 {

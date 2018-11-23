@@ -61,17 +61,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Advertisements.cs" />
-    <Compile Include="AdvertisementsConfig.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
     <AdditionalFiles Include="stylecop.json" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Config\Advertisements.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
   </ItemGroup>
   <ItemGroup>
     <Analyzer Include="..\packages\StyleCop.Analyzers.1.0.2\analyzers\dotnet\cs\StyleCop.Analyzers.CodeFixes.dll" />
@@ -92,7 +86,6 @@
   <PropertyGroup>
     <PostBuildEvent>
 copy "$(ProjectDir)$(OutDir)Plugin.Advertisements.dll" "$(ProjectDir)..\bin\Mods\SevenMod\Plugins\advertisements.dll"
-copy "$(ProjectDir)$(OutDir)Config\Advertisements.xml" "$(ProjectDir)..\bin\Mods\SevenMod\Config\Advertisements.xml"
 </PostBuildEvent>
   </PropertyGroup>
 </Project>

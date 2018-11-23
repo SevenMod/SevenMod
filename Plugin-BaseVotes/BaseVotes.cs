@@ -29,7 +29,10 @@ namespace SevenMod.Plugin.BaseVotes
         {
             base.LoadPlugin();
 
-            ConfigManager.ParseConfig(BaseVotesConfig.Instance, "BaseVotes");
+            this.CreateConVar("VoteBanPercent", "0.60", "The percentage of players that must vote yes for a successful ban vote.", true, 0, true, 1);
+            this.CreateConVar("VoteKickPercent", "0.60", "The percentage of players that must vote yes for a successful kick vote.", true, 0, true, 1);
+
+            this.AutoExecConfig(true, "BaseVotes");
 
             this.RegAdminCmd("vote", new AdminCmdVote(), AdminFlags.Vote);
             this.RegAdminCmd("voteban", new AdminCmdVoteBan(), AdminFlags.Vote);

@@ -63,17 +63,11 @@
     <Compile Include="AdminCmdVoteBan.cs" />
     <Compile Include="AdminCmdVoteKick.cs" />
     <Compile Include="BaseVotes.cs" />
-    <Compile Include="BaseVotesConfig.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
     <AdditionalFiles Include="stylecop.json" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Config\BaseVotes.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
   </ItemGroup>
   <ItemGroup>
     <Analyzer Include="..\packages\StyleCop.Analyzers.1.0.2\analyzers\dotnet\cs\StyleCop.Analyzers.CodeFixes.dll" />
@@ -94,7 +88,6 @@
   <PropertyGroup>
     <PostBuildEvent>
 copy "$(ProjectDir)$(OutDir)Plugin.BaseVotes.dll" "$(ProjectDir)..\bin\Mods\SevenMod\Plugins\basevotes.dll"
-copy "$(ProjectDir)$(OutDir)Config\BaseVotes.xml" "$(ProjectDir)..\bin\Mods\SevenMod\Config\BaseVotes.xml"
 </PostBuildEvent>
   </PropertyGroup>
 </Project>

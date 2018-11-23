@@ -6,6 +6,7 @@
 namespace SevenMod.Chat
 {
     using System.Collections.Generic;
+    using SevenMod.Console;
     using SevenMod.Core;
 
     /// <summary>
@@ -22,6 +23,25 @@ namespace SevenMod.Chat
         /// Client entity IDs for which commands should reply to via game chat.
         /// </summary>
         private static List<int> replyToChat = new List<int>();
+
+        /// <summary>
+        /// The public chat prefix.
+        /// </summary>
+        private static ConVarValue publicChatTrigger;
+
+        /// <summary>
+        /// The silent chat prefix.
+        /// </summary>
+        private static ConVarValue silentChatTrigger;
+
+        /// <summary>
+        /// Initializes the chat hook system.
+        /// </summary>
+        public static void Init()
+        {
+            publicChatTrigger = ConVarManager.CreateConVar("PublicChatTrigger", "!", "Chat prefix for public commands.").Value;
+            silentChatTrigger = ConVarManager.CreateConVar("SilentChatTrigger", "/", "Chat prefix for silent commands.").Value;
+        }
 
         /// <summary>
         /// Processes a chat message.
@@ -45,13 +65,13 @@ namespace SevenMod.Chat
                 }
             }
 
-            if (message.StartsWith(CoreConfig.Instance.PublicChatTrigger) || message.StartsWith(CoreConfig.Instance.SilentChatTrigger))
+            if (message.StartsWith(publicChatTrigger.AsString) || message.StartsWith(silentChatTrigger.AsString))
             {
                 replyToChat.Add(client.entityId);
                 ConnectionManager.Instance.ServerConsoleCommand(client, $"sm {message.Substring(1)}");
                 replyToChat.Remove(client.entityId);
 
-                return message.StartsWith(CoreConfig.Instance.PublicChatTrigger);
+                return message.StartsWith(publicChatTrigger.AsString);
             }
 
             return true;
