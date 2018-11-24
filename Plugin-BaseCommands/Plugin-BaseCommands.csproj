@@ -59,9 +59,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AdminCmdKick.cs" />
-    <Compile Include="AdminCmdReloadAdmins.cs" />
-    <Compile Include="AdminCmdWho.cs" />
     <Compile Include="BaseCommands.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

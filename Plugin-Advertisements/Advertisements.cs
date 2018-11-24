@@ -10,7 +10,7 @@ namespace SevenMod.Plugin.Advertisements
     using System.IO;
     using System.Timers;
     using SevenMod.Chat;
-    using SevenMod.Console;
+    using SevenMod.ConVar;
     using SevenMod.Core;
 
     /// <summary>

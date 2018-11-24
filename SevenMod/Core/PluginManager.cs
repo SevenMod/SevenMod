@@ -10,6 +10,7 @@ namespace SevenMod.Core
     using System.IO;
     using System.Reflection;
     using SevenMod.Console;
+    using SevenMod.ConVar;
 
     /// <summary>
     /// Manages plugins.
@@ -124,7 +125,7 @@ namespace SevenMod.Core
             if (Plugins.ContainsKey(name))
             {
                 Plugins[name].UnloadPlugin();
-                AdminCmdRouter.UnregisterPlugin(Plugins[name]);
+                AdminCommandManager.UnloadPlugin(Plugins[name]);
                 ConVarManager.UnloadPlugin(Plugins[name]);
                 Plugins.Remove(name);
             }
@@ -138,7 +139,8 @@ namespace SevenMod.Core
             foreach (var plugin in Plugins.Values)
             {
                 plugin.UnloadPlugin();
-                AdminCmdRouter.UnregisterPlugin(plugin);
+                AdminCommandManager.UnloadPlugin(plugin);
+                ConVarManager.UnloadPlugin(plugin);
             }
 
             Plugins.Clear();

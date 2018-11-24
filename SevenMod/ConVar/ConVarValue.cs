@@ -3,7 +3,7 @@
 // Licensed under the MIT license. See LICENSE.txt file in the project root for full license information.
 // </copyright>
 
-namespace SevenMod.Console
+namespace SevenMod.ConVar
 {
     using System;
     using System.Linq;
@@ -21,7 +21,7 @@ namespace SevenMod.Console
         /// <summary>
         /// Initializes a new instance of the <see cref="ConVarValue"/> class.
         /// </summary>
-        /// <param name="conVar">The <see cref="SevenMod.Console.ConVar"/> containing this value.</param>
+        /// <param name="conVar">The <see cref="SevenMod.ConVar.ConVar"/> containing this value.</param>
         /// <param name="value">The initial value as a string.</param>
         internal ConVarValue(ConVar conVar, string value)
         {
@@ -30,7 +30,7 @@ namespace SevenMod.Console
         }
 
         /// <summary>
-        /// Gets the <see cref="SevenMod.Console.ConVar"/> containing this value.
+        /// Gets the <see cref="SevenMod.ConVar.ConVar"/> containing this value.
         /// </summary>
         public ConVar ConVar { get; }
 

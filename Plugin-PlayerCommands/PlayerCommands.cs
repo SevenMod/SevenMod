@@ -6,6 +6,8 @@
 namespace SevenMod.Plugin.PlayerCommands
 {
     using SevenMod.Admin;
+    using SevenMod.Chat;
+    using SevenMod.Console;
     using SevenMod.Core;
 
     /// <summary>
@@ -29,7 +31,27 @@ namespace SevenMod.Plugin.PlayerCommands
         {
             base.LoadPlugin();
 
-            this.RegAdminCmd("slay", new AdminCmdSlay(), AdminFlags.Slay);
+            this.RegAdminCmd("slay", AdminFlags.Slay, "Kills a player").Executed += this.SlayExecuted;
+        }
+
+        /// <summary>
+        /// Called when the slay admin command is executed.
+        /// </summary>
+        /// <param name="sender">The origin of the event.</param>
+        /// <param name="e">A <see cref="AdminCommandEventArgs"/> object that contains the event
+        /// data.</param>
+        private void SlayExecuted(object sender, AdminCommandEventArgs e)
+        {
+            if (e.Arguments.Count < 1)
+            {
+                ChatHelper.ReplyToCommand(e.SenderInfo, "Not enough parameters");
+                return;
+            }
+
+            foreach (var target in SMConsoleHelper.ParseTargetString(e.SenderInfo, e.Arguments[0]))
+            {
+                SdtdConsole.Instance.ExecuteSync($"kill {target.playerId}", null);
+            }
         }
     }
 }

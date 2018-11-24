@@ -1,44 +1,21 @@
-﻿// <copyright file="AdminCmdAbstract.cs" company="Steve Guidetti">
+﻿// <copyright file="SMConsoleHelper.cs" company="Steve Guidetti">
 // Copyright (c) Steve Guidetti. All rights reserved.
 // Licensed under the MIT license. See LICENSE.txt file in the project root for full license information.
 // </copyright>
 
-namespace SevenMod.Core
+namespace SevenMod.Console
 {
     using System.Collections.Generic;
     using SevenMod.Admin;
     using SevenMod.Chat;
+    using SevenMod.Core;
 
     /// <summary>
     /// Represents an admin command, a special console command that is managed by the mod, with
     /// built in permission checking.
     /// </summary>
-    public abstract class AdminCmdAbstract
+    public class SMConsoleHelper
     {
-        /// <summary>
-        /// Gets the description for the command.
-        /// </summary>
-        public virtual string Description { get; } = string.Empty;
-
-        /// <summary>
-        /// Executes the logic of the admin command. This is called after checking the calling
-        /// client's permission.
-        /// </summary>
-        /// <param name="args">The list of arguments supplied by the client.</param>
-        /// <param name="senderInfo">Information about the calling client.</param>
-        public abstract void Execute(List<string> args, CommandSenderInfo senderInfo);
-
-        /// <summary>
-        /// Sends a response to a client in the console or chat depending on which input method the
-        /// client used to call the currently executing command.
-        /// </summary>
-        /// <param name="senderInfo">The calling client information.</param>
-        /// <param name="message">The message to send.</param>
-        protected static void ReplyToCommand(CommandSenderInfo senderInfo, string message)
-        {
-            ChatHelper.ReplyToCommand(senderInfo, message);
-        }
-
         /// <summary>
         /// Parse a player target string into a list of currently connected clients.
         /// </summary>
@@ -46,7 +23,7 @@ namespace SevenMod.Core
         /// <param name="targetString">The player target string.</param>
         /// <returns>A list of <see cref="ClientInfo"/> objects representing the matching
         /// clients.</returns>
-        protected List<ClientInfo> ParseTargetString(CommandSenderInfo senderInfo, string targetString)
+        public static List<ClientInfo> ParseTargetString(CommandSenderInfo senderInfo, string targetString)
         {
             var list = new List<ClientInfo>();
 
@@ -60,7 +37,7 @@ namespace SevenMod.Core
                     case "me":
                         if (senderInfo.RemoteClientInfo == null)
                         {
-                            ReplyToCommand(senderInfo, "Server cannot target self");
+                            ChatHelper.ReplyToCommand(senderInfo, "Server cannot target self");
                             break;
                         }
 
@@ -99,12 +76,12 @@ namespace SevenMod.Core
 
                 if (list.Count == 0)
                 {
-                    ReplyToCommand(senderInfo, "No valid targets found");
+                    ChatHelper.ReplyToCommand(senderInfo, "No valid targets found");
                 }
             }
             else
             {
-                var target = this.ParseSingleTargetString(senderInfo, targetString);
+                var target = ParseSingleTargetString(senderInfo, targetString);
                 if (target != null)
                 {
                     list.Add(target);
@@ -115,7 +92,7 @@ namespace SevenMod.Core
             {
                 if (!AdminManager.CanTarget(senderInfo.RemoteClientInfo, client))
                 {
-                    ReplyToCommand(senderInfo, $"Cannot target {client.playerName}");
+                    ChatHelper.ReplyToCommand(senderInfo, $"Cannot target {client.playerName}");
                     list.Remove(client);
                 }
             }
@@ -131,16 +108,16 @@ namespace SevenMod.Core
         /// <param name="targetString">The player target string.</param>
         /// <returns>A <see cref="ClientInfo"/> object representing a matching client if one is
         /// found; otherwise <c>null</c>.</returns>
-        protected ClientInfo ParseSingleTargetString(CommandSenderInfo senderInfo, string targetString)
+        public static ClientInfo ParseSingleTargetString(CommandSenderInfo senderInfo, string targetString)
         {
-            var count = ConsoleHelper.ParseParamPartialNameOrId(targetString, out string _, out ClientInfo target, false);
+            var count = global::ConsoleHelper.ParseParamPartialNameOrId(targetString, out string _, out ClientInfo target, false);
             if (count < 1 || (target == null))
             {
-                ReplyToCommand(senderInfo, "No valid targets found");
+                ChatHelper.ReplyToCommand(senderInfo, "No valid targets found");
             }
             else if (count > 1)
             {
-                ReplyToCommand(senderInfo, "Multiple valid targets found");
+                ChatHelper.ReplyToCommand(senderInfo, "Multiple valid targets found");
             }
 
             return target;

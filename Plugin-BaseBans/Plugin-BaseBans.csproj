@@ -59,9 +59,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AdminCmdAddban.cs" />
-    <Compile Include="AdminCmdBan.cs" />
-    <Compile Include="AdminCmdUnban.cs" />
     <Compile Include="BaseBans.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

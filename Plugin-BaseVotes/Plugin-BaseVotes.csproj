@@ -59,9 +59,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AdminCmdVote.cs" />
-    <Compile Include="AdminCmdVoteBan.cs" />
-    <Compile Include="AdminCmdVoteKick.cs" />
     <Compile Include="BaseVotes.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

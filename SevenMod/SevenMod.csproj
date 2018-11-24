@@ -85,18 +85,21 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Chat\Colors.cs" />
-    <Compile Include="Console\ConVar.cs" />
-    <Compile Include="Console\ConVarChangedEventArgs.cs" />
-    <Compile Include="Console\ConVarManager.cs" />
-    <Compile Include="Console\ConVarValue.cs" />
-    <Compile Include="Core\AdminCmdRouter.cs" />
+    <Compile Include="Console\AdminCommand.cs" />
+    <Compile Include="Console\AdminCommandManager.cs" />
+    <Compile Include="Console\AdminCommandEventArgs.cs" />
+    <Compile Include="Console\AdminCommandRouter.cs" />
+    <Compile Include="Console\SMConsoleHelper.cs" />
+    <Compile Include="ConVar\ConVar.cs" />
+    <Compile Include="ConVar\ConVarChangedEventArgs.cs" />
+    <Compile Include="ConVar\ConVarManager.cs" />
+    <Compile Include="ConVar\ConVarValue.cs" />
     <Compile Include="API.cs" />
     <Compile Include="Admin\AdminFlags.cs" />
     <Compile Include="Admin\AdminManager.cs" />
     <Compile Include="Chat\ChatHelper.cs" />
     <Compile Include="Chat\ChatHook.cs" />
     <Compile Include="Admin\AdminInfo.cs" />
-    <Compile Include="Core\AdminCmdAbstract.cs" />
     <Compile Include="ConsoleCmdMenu.cs" />
     <Compile Include="Chat\IChatHookListener.cs" />
     <Compile Include="Core\IPluginAPI.cs" />

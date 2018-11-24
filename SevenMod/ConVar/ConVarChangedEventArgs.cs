@@ -3,7 +3,7 @@
 // Licensed under the MIT license. See LICENSE.txt file in the project root for full license information.
 // </copyright>
 
-namespace SevenMod.Console
+namespace SevenMod.ConVar
 {
     using System;
 
@@ -15,7 +15,7 @@ namespace SevenMod.Console
         /// <summary>
         /// Initializes a new instance of the <see cref="ConVarChangedEventArgs"/> class.
         /// </summary>
-        /// <param name="conVar">The <see cref="SevenMod.Console.ConVar"/> that raised the
+        /// <param name="conVar">The <see cref="SevenMod.ConVar.ConVar"/> that raised the
         /// event.</param>
         /// <param name="oldValue">The old value of the variable as a string.</param>
         /// <param name="newValue">The new value of the variable as a string.</param>
@@ -27,7 +27,7 @@ namespace SevenMod.Console
         }
 
         /// <summary>
-        /// Gets the <see cref="SevenMod.Console.ConVar"/> that raised the event.
+        /// Gets the <see cref="SevenMod.ConVar.ConVar"/> that raised the event.
         /// </summary>
         public ConVar ConVar { get; }
 

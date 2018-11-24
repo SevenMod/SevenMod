@@ -7,7 +7,7 @@ namespace SevenMod.Plugin.ReservedSlots
 {
     using System.Text;
     using SevenMod.Admin;
-    using SevenMod.Console;
+    using SevenMod.ConVar;
     using SevenMod.Core;
 
     /// <summary>

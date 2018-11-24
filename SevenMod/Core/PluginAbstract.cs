@@ -8,6 +8,7 @@ namespace SevenMod.Core
     using System.Text;
     using SevenMod.Admin;
     using SevenMod.Console;
+    using SevenMod.ConVar;
 
     /// <summary>
     /// Represents the default implementation of the <see cref="IPluginAPI"/> interface.
@@ -130,16 +131,18 @@ namespace SevenMod.Core
         }
 
         /// <summary>
-        /// Registers an admin command.
+        /// Creates a new <see cref="AdminCommand"/> or returns the existing one if one with the
+        /// same name already exists.
         /// </summary>
-        /// <param name="command">The name of the command.</param>
-        /// <param name="handler">An instance of <see cref="AdminCmdAbstract"/> which will handle
-        /// calls to the command.</param>
-        /// <param name="accessFlags">The <see cref="AdminFlags"/> required to execute the
-        /// command.</param>
-        protected void RegAdminCmd(string command, AdminCmdAbstract handler, AdminFlags accessFlags)
+        /// <param name="cmd">The name of the admin command.</param>
+        /// <param name="accessFlags">The <see cref="AdminFlags"/> value required to execute the
+        /// admin command.</param>
+        /// <param name="description">An optional description for the admin command.</param>
+        /// <returns>An instance of the <see cref="AdminCommand"/> class representing the admin
+        /// command.</returns>
+        protected AdminCommand RegAdminCmd(string cmd, AdminFlags accessFlags, string description = "")
         {
-            AdminCmdRouter.RegisterAdminCmd(this, command, handler, accessFlags);
+            return AdminCommandManager.CreateAdminCommand(this, cmd, accessFlags, description);
         }
 
         /// <summary>

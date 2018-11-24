@@ -59,9 +59,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AdminCmdChat.cs" />
-    <Compile Include="AdminCmdPsay.cs" />
-    <Compile Include="AdminCmdSay.cs" />
     <Compile Include="BaseChat.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
