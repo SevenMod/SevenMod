@@ -15,6 +15,16 @@ namespace SevenMod
     /// </summary>
     public class API : IModApi
     {
+        /// <summary>
+        /// Gets a value indicating whether <see cref="GameAwake"/> has been called.
+        /// </summary>
+        public static bool IsGameAwake { get; private set; }
+
+        /// <summary>
+        /// Gets a value indicating whether <see cref="GameStartDone"/> has been called.
+        /// </summary>
+        public static bool IsGameStartDone { get; private set; }
+
         /// <inheritdoc/>
         public void InitMod()
         {
@@ -28,6 +38,9 @@ namespace SevenMod
             ModEvents.PlayerSpawnedInWorld.RegisterHandler(this.PlayerSpawnedInWorld);
             ModEvents.PlayerSpawning.RegisterHandler(this.PlayerSpawning);
             ModEvents.SavePlayerData.RegisterHandler(this.SavePlayerData);
+
+            ChatHook.Init();
+            PluginManager.Refresh();
         }
 
         /// <summary>
@@ -64,8 +77,12 @@ namespace SevenMod
         /// </summary>
         private void GameAwake()
         {
-            ChatHook.Init();
-            PluginManager.Refresh();
+            foreach (var plugin in PluginManager.ActivePlugins)
+            {
+                plugin.GameAwake();
+            }
+
+            IsGameAwake = true;
         }
 
         /// <summary>
@@ -90,6 +107,8 @@ namespace SevenMod
             {
                 plugin.GameStartDone();
             }
+
+            IsGameStartDone = true;
         }
 
         /// <summary>

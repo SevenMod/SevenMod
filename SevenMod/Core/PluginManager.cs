@@ -64,8 +64,17 @@ namespace SevenMod.Core
                 {
                     var plugin = Activator.CreateInstance(type) as PluginAbstract;
                     plugin.LoadPlugin();
-                    plugin.GameAwake();
                     plugin.ReloadAdmins();
+                    if (API.IsGameAwake)
+                    {
+                        plugin.GameAwake();
+                    }
+
+                    if (API.IsGameStartDone)
+                    {
+                        plugin.GameStartDone();
+                    }
+
                     if (ConVarManager.ConfigsLoaded)
                     {
                         ConVarManager.ExecuteConfigs(plugin);
