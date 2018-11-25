@@ -5,6 +5,8 @@
 
 namespace SevenMod.ConVar
 {
+    using SevenMod.Core;
+
     /// <summary>
     /// Represents a console variable.
     /// </summary>
@@ -13,6 +15,7 @@ namespace SevenMod.ConVar
         /// <summary>
         /// Initializes a new instance of the <see cref="ConVar"/> class.
         /// </summary>
+        /// <param name="plugin">The plugin that created the console variable.</param>
         /// <param name="name">The name of the variable.</param>
         /// <param name="defaultValue">The default value of the variable as a string.</param>
         /// <param name="description">The description for the variable.</param>
@@ -20,7 +23,7 @@ namespace SevenMod.ConVar
         /// <param name="min">The minimum value of the variable if <paramref name="hasMin"/> is <c>true</c>.</param>
         /// <param name="hasMax">A value indicating whether the variable has a maximum value.</param>
         /// <param name="max">The maximum value of the variable if <paramref name="hasMax"/> is <c>true</c>.</param>
-        public ConVar(string name, string defaultValue, string description, bool hasMin, float min, bool hasMax, float max)
+        public ConVar(PluginAbstract plugin, string name, string defaultValue, string description, bool hasMin, float min, bool hasMax, float max)
         {
             this.Name = name;
             this.DefaultValue = defaultValue;
@@ -30,6 +33,7 @@ namespace SevenMod.ConVar
             this.HasMax = hasMax;
             this.MaxValue = max;
             this.Value = new ConVarValue(this, defaultValue);
+            this.Plugin = plugin;
         }
 
         /// <summary>
@@ -83,6 +87,11 @@ namespace SevenMod.ConVar
         /// Gets the default value of the variable.
         /// </summary>
         public string DefaultValue { get; }
+
+        /// <summary>
+        /// Gets the plugin that created the console variable.
+        /// </summary>
+        internal PluginAbstract Plugin { get; }
 
         /// <summary>
         /// Resets the value to the default.

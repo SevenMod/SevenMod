@@ -22,16 +22,6 @@ namespace SevenMod.ConVar
         private static Dictionary<string, ConVar> conVars = new Dictionary<string, ConVar>();
 
         /// <summary>
-        /// The list of core console variables.
-        /// </summary>
-        private static List<ConVar> coreConVars = new List<ConVar>();
-
-        /// <summary>
-        /// The map of plugins to console variables created by the plugin.
-        /// </summary>
-        private static Dictionary<PluginAbstract, List<ConVar>> pluginMap = new Dictionary<PluginAbstract, List<ConVar>>();
-
-        /// <summary>
         /// The list of config files to be automatically executed.
         /// </summary>
         private static List<ConfigInfo> configs = new List<ConfigInfo>();
@@ -75,15 +65,8 @@ namespace SevenMod.ConVar
             }
             else
             {
-                conVar = new ConVar(name, defaultValue, description, hasMin, min, hasMax, max);
+                conVar = new ConVar(plugin, name, defaultValue, description, hasMin, min, hasMax, max);
             }
-
-            if (!pluginMap.ContainsKey(plugin))
-            {
-                pluginMap[plugin] = new List<ConVar>();
-            }
-
-            pluginMap[plugin].Add(conVar);
 
             conVars[key] = conVar;
             return conVar;
@@ -132,43 +115,8 @@ namespace SevenMod.ConVar
         /// <param name="plugin">The plugin for which to unload configuration.</param>
         public static void UnloadPlugin(PluginAbstract plugin)
         {
-            if (pluginMap.ContainsKey(plugin))
-            {
-                conVars.RemoveAll((ConVar conVar) => pluginMap[plugin].Contains(conVar));
-            }
-
-            configs.RemoveAll((ConfigInfo config) => config.Plugin.Equals(plugin));
-            pluginMap.Remove(plugin);
-        }
-
-        /// <summary>
-        /// Creates a new <see cref="ConVar"/> or returns the existing one if one with the same name already exists.
-        /// </summary>
-        /// <param name="name">The name of the variable.</param>
-        /// <param name="defaultValue">The default value of the variable as a string.</param>
-        /// <param name="description">Optional description for the variable.</param>
-        /// <param name="hasMin">Optional value indicating whether the variable has a minimum value.</param>
-        /// <param name="min">The minimum value of the variable if <paramref name="hasMin"/> is <c>true</c>.</param>
-        /// <param name="hasMax">Optional value indicating whether the variable has a maximum value.</param>
-        /// <param name="max">The maximum value of the variable if <paramref name="hasMax"/> is <c>true</c>.</param>
-        /// <returns>The <see cref="ConVar"/> object representing the console variable.</returns>
-        internal static ConVar CreateConVar(string name, string defaultValue, string description = "", bool hasMin = false, float min = 0.0f, bool hasMax = false, float max = 1.0f)
-        {
-            name = name.Trim();
-            ConVar conVar;
-            var key = name.ToLower();
-            if (conVars.ContainsKey(key))
-            {
-                conVar = conVars[key];
-            }
-            else
-            {
-                conVar = new ConVar(name, defaultValue, description, hasMin, min, hasMax, max);
-            }
-
-            conVars[key] = conVar;
-            coreConVars.Add(conVar);
-            return conVar;
+            conVars.RemoveAll((ConVar conVar) => plugin.Equals(conVar.Plugin));
+            configs.RemoveAll((ConfigInfo config) => plugin.Equals(config.Plugin));
         }
 
         /// <summary>
@@ -229,42 +177,42 @@ namespace SevenMod.ConVar
             var root = xml.CreateElement(config.Name);
             xml.AppendChild(root);
 
-            if (config.Plugin == null || pluginMap.ContainsKey(config.Plugin))
+            foreach (var conVar in conVars.Values)
             {
-                var list = (config.Plugin == null) ? coreConVars : pluginMap[config.Plugin];
-                foreach (var conVar in list)
+                if (conVar.Plugin != config.Plugin)
                 {
-                    root.AppendChild(xml.CreateWhitespace("\r\n\r\n  "));
-
-                    var description = new StringBuilder().AppendLine();
-                    if (!string.IsNullOrEmpty(conVar.Description))
-                    {
-                        description.Append("    ").AppendLine(conVar.Description).AppendLine();
-                    }
-
-                    if (conVar.HasMin)
-                    {
-                        description.Append("    Min: ").AppendLine(conVar.MinValue.ToString());
-                    }
-
-                    if (conVar.HasMax)
-                    {
-                        description.Append("    Max: ").AppendLine(conVar.MaxValue.ToString());
-                    }
-
-                    description.Append("    Default: ").AppendLine(conVar.DefaultValue).Append("  ");
-                    root.AppendChild(xml.CreateComment(description.ToString()));
-                    root.AppendChild(xml.CreateWhitespace("\r\n  "));
-
-                    var prop = xml.CreateElement("property");
-                    prop.SetAttribute("name", conVar.Name);
-                    prop.SetAttribute("value", conVar.DefaultValue);
-                    root.AppendChild(prop);
+                    continue;
                 }
 
-                root.AppendChild(xml.CreateWhitespace("\r\n\r\n"));
+                root.AppendChild(xml.CreateWhitespace("\r\n\r\n  "));
+
+                var description = new StringBuilder().AppendLine();
+                if (!string.IsNullOrEmpty(conVar.Description))
+                {
+                    description.Append("    ").AppendLine(conVar.Description).AppendLine();
+                }
+
+                if (conVar.HasMin)
+                {
+                    description.Append("    Min: ").AppendLine(conVar.MinValue.ToString());
+                }
+
+                if (conVar.HasMax)
+                {
+                    description.Append("    Max: ").AppendLine(conVar.MaxValue.ToString());
+                }
+
+                description.Append("    Default: ").AppendLine(conVar.DefaultValue).Append("  ");
+                root.AppendChild(xml.CreateComment(description.ToString()));
+                root.AppendChild(xml.CreateWhitespace("\r\n  "));
+
+                var prop = xml.CreateElement("property");
+                prop.SetAttribute("name", conVar.Name);
+                prop.SetAttribute("value", conVar.DefaultValue);
+                root.AppendChild(prop);
             }
 
+            root.AppendChild(xml.CreateWhitespace("\r\n\r\n"));
             xml.Save(path);
         }
 

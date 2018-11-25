@@ -38,8 +38,8 @@ namespace SevenMod.Chat
         /// </summary>
         public static void Init()
         {
-            publicChatTrigger = ConVarManager.CreateConVar("PublicChatTrigger", "!", "Chat prefix for public commands.").Value;
-            silentChatTrigger = ConVarManager.CreateConVar("SilentChatTrigger", "/", "Chat prefix for silent commands.").Value;
+            publicChatTrigger = ConVarManager.CreateConVar(null, "PublicChatTrigger", "!", "Chat prefix for public commands.").Value;
+            silentChatTrigger = ConVarManager.CreateConVar(null, "SilentChatTrigger", "/", "Chat prefix for silent commands.").Value;
         }
 
         /// <summary>
