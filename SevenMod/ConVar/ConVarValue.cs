@@ -21,7 +21,7 @@ namespace SevenMod.ConVar
         /// <summary>
         /// Initializes a new instance of the <see cref="ConVarValue"/> class.
         /// </summary>
-        /// <param name="conVar">The <see cref="SevenMod.ConVar.ConVar"/> containing this value.</param>
+        /// <param name="conVar">The <see cref="SevenMod.ConVar.ConVar"/> object containing this value.</param>
         /// <param name="value">The initial value as a string.</param>
         internal ConVarValue(ConVar conVar, string value)
         {
@@ -30,7 +30,7 @@ namespace SevenMod.ConVar
         }
 
         /// <summary>
-        /// Gets the <see cref="SevenMod.ConVar.ConVar"/> containing this value.
+        /// Gets the <see cref="SevenMod.ConVar.ConVar"/> object containing this value.
         /// </summary>
         public ConVar ConVar { get; }
 

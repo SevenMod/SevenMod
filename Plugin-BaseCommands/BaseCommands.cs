@@ -11,8 +11,7 @@ namespace SevenMod.Plugin.BaseCommands
     using SevenMod.Core;
 
     /// <summary>
-    /// <para>Plugin: BaseCommands</para>
-    /// <para>Adds the kick and who admin commands.</para>
+    /// Plugin that adds the kick and who admin commands.
     /// </summary>
     public class BaseCommands : PluginAbstract
     {
@@ -39,9 +38,8 @@ namespace SevenMod.Plugin.BaseCommands
         /// <summary>
         /// Called when the kick admin command is executed.
         /// </summary>
-        /// <param name="sender">The origin of the event.</param>
-        /// <param name="e">A <see cref="AdminCommandEventArgs"/> object that contains the event
-        /// data.</param>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">An <see cref="AdminCommandEventArgs"/> object containing the event data.</param>
         private void KickExecuted(object sender, AdminCommandEventArgs e)
         {
             if (e.Arguments.Count < 1)
@@ -59,9 +57,8 @@ namespace SevenMod.Plugin.BaseCommands
         /// <summary>
         /// Called when the reloadadmins admin command is executed.
         /// </summary>
-        /// <param name="sender">The origin of the event.</param>
-        /// <param name="e">A <see cref="AdminCommandEventArgs"/> object that contains the event
-        /// data.</param>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">An <see cref="AdminCommandEventArgs"/> object containing the event data.</param>
         private void ReloadAdminsExecuted(object sender, AdminCommandEventArgs e)
         {
             AdminManager.RemoveAllAdmins();
@@ -74,9 +71,8 @@ namespace SevenMod.Plugin.BaseCommands
         /// <summary>
         /// Called when the who admin command is executed.
         /// </summary>
-        /// <param name="sender">The origin of the event.</param>
-        /// <param name="e">A <see cref="AdminCommandEventArgs"/> object that contains the event
-        /// data.</param>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">An <see cref="AdminCommandEventArgs"/> object containing the event data.</param>
         private void WhoExecuted(object sender, AdminCommandEventArgs e)
         {
             ChatHelper.ReplyToCommand(e.SenderInfo, string.Format("  {0,-24} {1,-18} {2}", "Name", "Username", "Admin access"));

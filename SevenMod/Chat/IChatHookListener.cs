@@ -13,10 +13,9 @@ namespace SevenMod.Chat
         /// <summary>
         /// Called when a client sends a chat message.
         /// </summary>
-        /// <param name="client">The client that sent the message.</param>
+        /// <param name="client">The <see cref="ClientInfo"/> object representing the client that sent the message.</param>
         /// <param name="message">The message text.</param>
-        /// <returns><c>true</c> to allow the message to continue propagating; <c>false</c> to
-        /// consume the message.</returns>
+        /// <returns><c>true</c> to allow the message to continue propagating; <c>false</c> to consume the message.</returns>
         bool OnChatMessage(ClientInfo client, string message);
     }
 }

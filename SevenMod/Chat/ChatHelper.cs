@@ -11,12 +11,11 @@ namespace SevenMod.Chat
     public class ChatHelper
     {
         /// <summary>
-        /// Sends a response to a client in the console or chat depending on which input method the
-        /// client used to call the currently executing command.
+        /// Sends a response to a client in the console or chat depending on which input method the client used to call the currently executing command.
         /// </summary>
-        /// <param name="senderInfo">The calling client information.</param>
+        /// <param name="senderInfo">The <see cref="CommandSenderInfo"/> object representing calling client information.</param>
         /// <param name="message">The message to send.</param>
-        /// <param name="prefix">The prefix for the message.</param>
+        /// <param name="prefix">Optional prefix for the message.</param>
         public static void ReplyToCommand(CommandSenderInfo senderInfo, string message, string prefix = "SM")
         {
             if ((senderInfo.RemoteClientInfo != null) && ChatHook.ShouldReplyToChat(senderInfo.RemoteClientInfo))
@@ -39,8 +38,8 @@ namespace SevenMod.Chat
         /// </summary>
         /// <param name="client">The <see cref="ClientInfo"/> object representing the client.</param>
         /// <param name="message">The message text.</param>
-        /// <param name="prefix">The prefix for the message.</param>
-        /// <param name="name">The name to attach to the message.</param>
+        /// <param name="prefix">Optional prefix for the message.</param>
+        /// <param name="name">Optional name to attach to the message.</param>
         public static void SendTo(ClientInfo client, string message, string prefix = "SM", string name = null)
         {
             if (!string.IsNullOrEmpty(prefix))
@@ -55,8 +54,8 @@ namespace SevenMod.Chat
         /// Sends a chat message to all connected clients.
         /// </summary>
         /// <param name="message">The message text.</param>
-        /// <param name="prefix">The prefix for the message.</param>
-        /// <param name="name">The name to attach to the message.</param>
+        /// <param name="prefix">Optional prefix for the message.</param>
+        /// <param name="name">Optional name to attach to the message.</param>
         public static void SendToAll(string message, string prefix = "SM", string name = null)
         {
             foreach (var client in ConnectionManager.Instance.Clients.List)

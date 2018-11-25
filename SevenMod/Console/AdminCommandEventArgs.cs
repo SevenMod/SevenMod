@@ -16,10 +16,9 @@ namespace SevenMod.Console
         /// <summary>
         /// Initializes a new instance of the <see cref="AdminCommandEventArgs"/> class.
         /// </summary>
-        /// <param name="command">The <see cref="AdminCommand"/> that raised the event.</param>
+        /// <param name="command">The <see cref="AdminCommand"/> object that raised the event.</param>
         /// <param name="arguments">The list of arguments supplied to the admin command.</param>
-        /// <param name="senderInfo">The <see cref="CommandSenderInfo"/> object representing the
-        /// client that executed the admin command.</param>
+        /// <param name="senderInfo">The <see cref="CommandSenderInfo"/> object representing the client that executed the admin command.</param>
         internal AdminCommandEventArgs(AdminCommand command, List<string> arguments, CommandSenderInfo senderInfo)
         {
             this.Command = command;
@@ -28,7 +27,7 @@ namespace SevenMod.Console
         }
 
         /// <summary>
-        /// Gets the <see cref="AdminCommand"/> that was executed.
+        /// Gets the <see cref="AdminCommand"/> object representing the admin command that was executed.
         /// </summary>
         public AdminCommand Command { get; }
 
@@ -38,8 +37,7 @@ namespace SevenMod.Console
         public List<string> Arguments { get; }
 
         /// <summary>
-        /// Gets the <see cref="CommandSenderInfo"/> object representing the client that executed
-        /// the admin command.
+        /// Gets the <see cref="CommandSenderInfo"/> object representing the client that executed the admin command.
         /// </summary>
         public CommandSenderInfo SenderInfo { get; }
     }

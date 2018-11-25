@@ -16,10 +16,8 @@ namespace SevenMod.Core
         /// Convert any SteamID format into the SteamID64 format.
         /// </summary>
         /// <param name="input">The input SteamID.</param>
-        /// <param name="output">This variable will be set to the SteamID64 string if the
-        /// conversion is successful; otherwise it will be set to <c>null</c>.</param>
-        /// <returns><c>true</c> if the conversion was successful; <c>false</c> if
-        /// <paramref name="input"/> is not a valid SteamID.</returns>
+        /// <param name="output">This variable will be set to the SteamID64 string if the conversion is successful; otherwise it will be set to <c>null</c>.</param>
+        /// <returns><c>true</c> if the conversion was successful; <c>false</c> if <paramref name="input"/> is not a valid SteamID.</returns>
         public static bool NormalizeSteamId(string input, out string output)
         {
             if (string.IsNullOrEmpty(input))

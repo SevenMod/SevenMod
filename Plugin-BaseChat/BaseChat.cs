@@ -11,8 +11,7 @@ namespace SevenMod.Plugin.BaseChat
     using SevenMod.Core;
 
     /// <summary>
-    /// <para>Plugin: BaseChat</para>
-    /// <para>Adds basic admin chat commands.</para>
+    /// Plugin that adds basic admin chat commands.
     /// </summary>
     public class BaseChat : PluginAbstract
     {
@@ -39,9 +38,8 @@ namespace SevenMod.Plugin.BaseChat
         /// <summary>
         /// Called when the say admin command is executed.
         /// </summary>
-        /// <param name="sender">The origin of the event.</param>
-        /// <param name="e">A <see cref="AdminCommandEventArgs"/> object that contains the event
-        /// data.</param>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">An <see cref="AdminCommandEventArgs"/> object containing the event data.</param>
         private void SayExecuted(object sender, AdminCommandEventArgs e)
         {
             if (e.Arguments.Count < 1)
@@ -73,9 +71,8 @@ namespace SevenMod.Plugin.BaseChat
         /// <summary>
         /// Called when the psay admin command is executed.
         /// </summary>
-        /// <param name="sender">The origin of the event.</param>
-        /// <param name="e">A <see cref="AdminCommandEventArgs"/> object that contains the event
-        /// data.</param>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">An <see cref="AdminCommandEventArgs"/> object containing the event data.</param>
         private void PsayExecuted(object sender, AdminCommandEventArgs e)
         {
             if (e.Arguments.Count < 2)
@@ -108,9 +105,8 @@ namespace SevenMod.Plugin.BaseChat
         /// <summary>
         /// Called when the chat admin command is executed.
         /// </summary>
-        /// <param name="sender">The origin of the event.</param>
-        /// <param name="e">A <see cref="AdminCommandEventArgs"/> object that contains the event
-        /// data.</param>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">An <see cref="AdminCommandEventArgs"/> object containing the event data.</param>
         private void ChatExecuted(object sender, AdminCommandEventArgs e)
         {
             if (e.Arguments.Count < 1)

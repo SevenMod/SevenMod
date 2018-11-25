@@ -14,7 +14,7 @@ namespace SevenMod.Chat
     public class ChatHook
     {
         /// <summary>
-        /// <see cref="IChatHookListener"/>s registered by plugins.
+        /// <see cref="IChatHookListener"/> objects registered by plugins.
         /// </summary>
         private static List<IChatHookListener> listeners = new List<IChatHookListener>();
 
@@ -24,12 +24,12 @@ namespace SevenMod.Chat
         private static List<int> replyToChat = new List<int>();
 
         /// <summary>
-        /// The public chat prefix.
+        /// The value of the PublicChatTrigger <see cref="ConVar"/>.
         /// </summary>
         private static ConVarValue publicChatTrigger;
 
         /// <summary>
-        /// The silent chat prefix.
+        /// The value of the SilentChatTrigger <see cref="ConVar"/>.
         /// </summary>
         private static ConVarValue silentChatTrigger;
 
@@ -45,10 +45,9 @@ namespace SevenMod.Chat
         /// <summary>
         /// Processes a chat message.
         /// </summary>
-        /// <param name="client">The client that sent the message.</param>
+        /// <param name="client">The <see cref="ClientInfo"/> object representing the client that sent the message.</param>
         /// <param name="message">The message text.</param>
-        /// <returns><c>true</c> to allow the message to continue propagating; <c>false</c> to
-        /// consume the message.</returns>
+        /// <returns><c>true</c> to allow the message to continue propagating; <c>false</c> to consume the message.</returns>
         public static bool HookChatMessage(ClientInfo client, string message)
         {
             if (client == null)
@@ -79,7 +78,7 @@ namespace SevenMod.Chat
         /// <summary>
         /// Checks whether commands should reply to a user via chat.
         /// </summary>
-        /// <param name="client">The client for which to reply.</param>
+        /// <param name="client">The <see cref="ClientInfo"/> object representing the client for which to reply.</param>
         /// <returns><c>true</c> to reply via chat; <c>false</c> to reply via console.</returns>
         public static bool ShouldReplyToChat(ClientInfo client)
         {

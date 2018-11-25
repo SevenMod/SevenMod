@@ -13,8 +13,7 @@ namespace SevenMod.Plugin.AdminSQL
     using SevenMod.Database;
 
     /// <summary>
-    /// <para>Plugin: AdminSQL</para>
-    /// <para>Loads admin users from a database.</para>
+    /// Plugin that loads admin users from a database.
     /// </summary>
     public class AdminSQL : PluginAbstract
     {

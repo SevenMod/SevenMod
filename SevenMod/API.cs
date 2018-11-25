@@ -33,8 +33,7 @@ namespace SevenMod
         /// <summary>
         /// Called when a chunk has its colors calculated.
         /// </summary>
-        /// <param name="chunk">An instance of the <see cref="Chunk"/> class representing the
-        /// chunk.</param>
+        /// <param name="chunk">The <see cref="Chunk"/> object representing the chunk.</param>
         private void CalcChunkColorsDone(Chunk chunk)
         {
             foreach (var plugin in PluginManager.ActivePlugins)
@@ -46,12 +45,10 @@ namespace SevenMod
         /// <summary>
         /// Called when a chat message is sent.
         /// </summary>
-        /// <param name="client">An instance of the <see cref="ClientInfo"/> class representing the
-        /// client that sent the message.</param>
+        /// <param name="client">The <see cref="ClientInfo"/> object representing the client that sent the message.</param>
         /// <param name="type">The type of chat message.</param>
         /// <param name="msg">The message text.</param>
-        /// <returns><c>true</c> to allow the message to continue propagating; <c>false</c> to
-        /// consume the message.</returns>
+        /// <returns><c>true</c> to allow the message to continue propagating; <c>false</c> to consume the message.</returns>
         private bool ChatMessage(ClientInfo client, EChatType type, string msg)
         {
             if (type == EChatType.Global)
@@ -63,8 +60,7 @@ namespace SevenMod
         }
 
         /// <summary>
-        /// Called when the server is ready for interaction. At this point,
-        /// <c>GameManager.Instance.World</c> is set.
+        /// Called when the server is ready for interaction.
         /// </summary>
         private void GameAwake()
         {
@@ -99,9 +95,8 @@ namespace SevenMod
         /// <summary>
         /// Called when a player disconnects from the server.
         /// </summary>
-        /// <param name="client">An instance of the <see cref="ClientInfo"/> class representing the
-        /// player.</param>
-        /// <param name="shutdown">Value indicating whether the server is shutting down.</param>
+        /// <param name="client">The <see cref="ClientInfo"/> object representing the player.</param>
+        /// <param name="shutdown">A value indicating whether the server is shutting down.</param>
         private void PlayerDisconnected(ClientInfo client, bool shutdown)
         {
             foreach (var plugin in PluginManager.ActivePlugins)
@@ -113,10 +108,8 @@ namespace SevenMod
         /// <summary>
         /// Called when a player first connects to the server.
         /// </summary>
-        /// <param name="client">An instance of the <see cref="ClientInfo"/> class representing the
-        /// player. May be <c>null</c>.</param>
-        /// <param name="rejectReason"><see cref="StringBuilder"/> object to contain the reason for
-        /// rejecting the client.</param>
+        /// <param name="client">The <see cref="ClientInfo"/> object representing the player. May be <c>null</c>.</param>
+        /// <param name="rejectReason">A <see cref="StringBuilder"/> object to contain the reason for rejecting the client.</param>
         /// <returns><c>true</c> to accept the client; <c>false</c> to reject the client.</returns>
         private bool PlayerLogin(ClientInfo client, StringBuilder rejectReason)
         {
@@ -134,12 +127,9 @@ namespace SevenMod
         /// <summary>
         /// Called every time a player spawns into the world.
         /// </summary>
-        /// <param name="client">An instance of the <see cref="ClientInfo"/> class representing the
-        /// player.</param>
-        /// <param name="respawnReason">A <see cref="RespawnType"/> value indicating the reason for
-        /// the player spawning.</param>
-        /// <param name="pos">An instance of the <see cref="Vector3i"/> class representing the
-        /// position of the player in the world.</param>
+        /// <param name="client">The <see cref="ClientInfo"/> object representing the player.</param>
+        /// <param name="respawnReason">The <see cref="RespawnType"/> value indicating the reason for the player spawning.</param>
+        /// <param name="pos">The <see cref="Vector3i"/> object representing the position of the player in the world.</param>
         private void PlayerSpawnedInWorld(ClientInfo client, RespawnType respawnReason, Vector3i pos)
         {
             foreach (var plugin in PluginManager.ActivePlugins)
@@ -151,11 +141,9 @@ namespace SevenMod
         /// <summary>
         /// Called immediately before a player spawns into the world.
         /// </summary>
-        /// <param name="client">An instance of the <see cref="ClientInfo"/> class representing the
-        /// player.</param>
+        /// <param name="client">The <see cref="ClientInfo"/> object representing the player.</param>
         /// <param name="chunkViewDim">TODO: Find out what this is.</param>
-        /// <param name="playerProfile">An instance of the <see cref="PlayerProfile"/> class
-        /// representing the player's persistent profile.</param>
+        /// <param name="playerProfile">The <see cref="PlayerProfile"/> object representing the player's persistent profile.</param>
         private void PlayerSpawning(ClientInfo client, int chunkViewDim, PlayerProfile playerProfile)
         {
             foreach (var plugin in PluginManager.ActivePlugins)
@@ -167,10 +155,8 @@ namespace SevenMod
         /// <summary>
         /// Called when a player data file is saved to the server.
         /// </summary>
-        /// <param name="client">An instance of the <see cref="ClientInfo"/> class representing the
-        /// player.</param>
-        /// <param name="playerDataFile">An instance of the <see cref="PlayerDataFile"/> class
-        /// representing the player's data file.</param>
+        /// <param name="client">The <see cref="ClientInfo"/> object representing the player.</param>
+        /// <param name="playerDataFile">The <see cref="PlayerDataFile"/> object representing the player's data file.</param>
         private void SavePlayerData(ClientInfo client, PlayerDataFile playerDataFile)
         {
             foreach (var plugin in PluginManager.ActivePlugins)

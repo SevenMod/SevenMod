@@ -90,30 +90,23 @@ namespace SevenMod.Core
         /// Find an existing console variable with the specified name.
         /// </summary>
         /// <param name="name">The name of the console variable to locate.</param>
-        /// <returns>The <see cref="ConVar"/> representing the console variable if found; otherwise
-        /// <c>null</c>.</returns>
+        /// <returns>The <see cref="ConVar"/> object representing the console variable if found; otherwise <c>null</c>.</returns>
         protected ConVar FindConVar(string name)
         {
             return ConVarManager.FindConVar(name);
         }
 
         /// <summary>
-        /// Creates a new <see cref="ConVar"/> or returns the existing one if one with the same
-        /// name already exists.
+        /// Creates a new <see cref="ConVar"/> or returns the existing one if one with the same name already exists.
         /// </summary>
         /// <param name="name">The name of the variable.</param>
         /// <param name="defaultValue">The default value of the variable as a string.</param>
-        /// <param name="description">An optional description for the variable.</param>
-        /// <param name="hasMin">Optional value indicating whether the variable has a minimum
-        /// value.</param>
-        /// <param name="min">The minimum value of the variable if <paramref name="hasMin"/> is
-        /// <c>true</c>.</param>
-        /// <param name="hasMax">Optional value indicating whether the variable has a maximum
-        /// value.</param>
-        /// <param name="max">The maximum value of the variable if <paramref name="hasMax"/> is
-        /// <c>true</c>.</param>
-        /// <returns>An instance of the <see cref="ConVar"/> representing the console
-        /// variable.</returns>
+        /// <param name="description">Optional description for the variable.</param>
+        /// <param name="hasMin">Optional value indicating whether the variable has a minimum value.</param>
+        /// <param name="min">The minimum value of the variable if <paramref name="hasMin"/> is <c>true</c>.</param>
+        /// <param name="hasMax">Optional value indicating whether the variable has a maximum value.</param>
+        /// <param name="max">The maximum value of the variable if <paramref name="hasMax"/> is <c>true</c>.</param>
+        /// <returns>The <see cref="ConVar"/> object representing the console variable.</returns>
         protected ConVar CreateConVar(string name, string defaultValue, string description = "", bool hasMin = false, float min = 0.0f, bool hasMax = false, float max = 1.0f)
         {
             return ConVarManager.CreateConVar(this, name, defaultValue, description, hasMin, min, hasMax, max);
@@ -122,8 +115,7 @@ namespace SevenMod.Core
         /// <summary>
         /// Adds a configuration file to be automatically loaded.
         /// </summary>
-        /// <param name="autoCreate">A value indicating whether the file should be automatically
-        /// created if it does not exist.</param>
+        /// <param name="autoCreate">A value indicating whether the file should be automatically created if it does not exist.</param>
         /// <param name="name">The name of the configuration file without extension.</param>
         protected void AutoExecConfig(bool autoCreate, string name)
         {
@@ -131,15 +123,12 @@ namespace SevenMod.Core
         }
 
         /// <summary>
-        /// Creates a new <see cref="AdminCommand"/> or returns the existing one if one with the
-        /// same name already exists.
+        /// Creates a new <see cref="AdminCommand"/> or returns the existing one if one with the same name already exists.
         /// </summary>
         /// <param name="cmd">The name of the admin command.</param>
-        /// <param name="accessFlags">The <see cref="AdminFlags"/> value required to execute the
-        /// admin command.</param>
+        /// <param name="accessFlags">The <see cref="AdminFlags"/> value required to execute the admin command.</param>
         /// <param name="description">An optional description for the admin command.</param>
-        /// <returns>An instance of the <see cref="AdminCommand"/> class representing the admin
-        /// command.</returns>
+        /// <returns>The <see cref="AdminCommand"/> object representing the admin command.</returns>
         protected AdminCommand RegAdminCmd(string cmd, AdminFlags accessFlags, string description = "")
         {
             return AdminCommandManager.CreateAdminCommand(this, cmd, accessFlags, description);

@@ -12,8 +12,7 @@ namespace SevenMod.Plugin.AdminFlatFile
     using SevenMod.Core;
 
     /// <summary>
-    /// <para>Plugin: AdminFlatFile</para>
-    /// <para>Loads admin users from a local configuration file.</para>
+    /// Plugin that loads admin users from a local configuration file.
     /// </summary>
     public class AdminFlatFile : PluginAbstract
     {

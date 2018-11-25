@@ -11,8 +11,7 @@ namespace SevenMod.Plugin.BaseBans
     using SevenMod.Core;
 
     /// <summary>
-    /// <para>Plugin: BaseBans</para>
-    /// <para>Adds the ban, addban, and unban admin commands.</para>
+    /// Plugin that adds the ban, addban, and unban admin commands.
     /// </summary>
     public class BaseBans : PluginAbstract
     {
@@ -39,9 +38,8 @@ namespace SevenMod.Plugin.BaseBans
         /// <summary>
         /// Called when the addban admin command is executed.
         /// </summary>
-        /// <param name="sender">The origin of the event.</param>
-        /// <param name="e">A <see cref="AdminCommandEventArgs"/> object that contains the event
-        /// data.</param>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">An <see cref="AdminCommandEventArgs"/> object containing the event data.</param>
         private void AddBanExecuted(object sender, AdminCommandEventArgs e)
         {
             if (e.Arguments.Count < 1)
@@ -62,9 +60,8 @@ namespace SevenMod.Plugin.BaseBans
         /// <summary>
         /// Called when the ban admin command is executed.
         /// </summary>
-        /// <param name="sender">The origin of the event.</param>
-        /// <param name="e">A <see cref="AdminCommandEventArgs"/> object that contains the event
-        /// data.</param>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">An <see cref="AdminCommandEventArgs"/> object containing the event data.</param>
         private void BanExecuted(object sender, AdminCommandEventArgs e)
         {
             if (e.Arguments.Count < 2)
@@ -96,9 +93,8 @@ namespace SevenMod.Plugin.BaseBans
         /// <summary>
         /// Called when the unban admin command is executed.
         /// </summary>
-        /// <param name="sender">The origin of the event.</param>
-        /// <param name="e">A <see cref="AdminCommandEventArgs"/> object that contains the event
-        /// data.</param>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">An <see cref="AdminCommandEventArgs"/> object containing the event data.</param>
         private void UnbanExecuted(object sender, AdminCommandEventArgs e)
         {
             if (e.Arguments.Count < 1)

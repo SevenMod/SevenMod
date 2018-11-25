@@ -29,8 +29,7 @@ namespace SevenMod.Admin
         public string AuthID { get; }
 
         /// <summary>
-        /// Gets the user's immunity level. Users with lower values cannot target users with higher
-        /// values.
+        /// Gets the user's immunity level. Users with lower values cannot target users with higher values.
         /// </summary>
         public int Immunity { get; }
 

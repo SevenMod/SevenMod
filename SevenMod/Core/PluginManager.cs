@@ -31,8 +31,7 @@ namespace SevenMod.Core
         /// Gets the metadata for a plugin.
         /// </summary>
         /// <param name="name">The name of the plugin.</param>
-        /// <returns>The <see cref="PluginAbstract.PluginInfo"/> struct containing the metadata for
-        /// the plugin, or <c>null</c> if the plugin is not loaded.</returns>
+        /// <returns>The <see cref="PluginAbstract.PluginInfo"/> object containing the metadata for the plugin, or <c>null</c> if the plugin is not loaded.</returns>
         public static PluginAbstract.PluginInfo? GetPluginInfo(string name)
         {
             name = name.ToLower();
@@ -84,7 +83,7 @@ namespace SevenMod.Core
         }
 
         /// <summary>
-        /// Loads the enabled plugins defined in the plugins.ini file.
+        /// Loads the enabled plugins.
         /// </summary>
         public static void Refresh()
         {

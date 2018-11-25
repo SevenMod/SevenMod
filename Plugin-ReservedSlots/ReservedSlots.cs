@@ -11,13 +11,12 @@ namespace SevenMod.Plugin.ReservedSlots
     using SevenMod.Core;
 
     /// <summary>
-    /// <para>Plugin: ReservedSlots</para>
-    /// <para>Adds reserved slots.</para>
+    /// Plugin that adds reserved slots.
     /// </summary>
     public class ReservedSlots : PluginAbstract
     {
         /// <summary>
-        /// The value of the ReservedSlots console variable.
+        /// The value of the ReservedSlots <see cref="ConVar"/>.
         /// </summary>
         private ConVarValue reservedSlots;
 

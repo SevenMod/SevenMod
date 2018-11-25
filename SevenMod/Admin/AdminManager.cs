@@ -48,15 +48,7 @@ namespace SevenMod.Admin
         };
 
         /// <summary>
-        /// Gets a copy of the <see cref="admins"/>.
-        /// </summary>
-        public static Dictionary<string, AdminInfo> Admins
-        {
-            get => new Dictionary<string, AdminInfo>(admins);
-        }
-
-        /// <summary>
-        /// Gets a copy of the <see cref="adminFlagKeys"/>.
+        /// Gets the map of admin access flag characters to the associated <see cref="AdminFlags"/> value.
         /// </summary>
         public static Dictionary<char, AdminFlags> AdminFlagKeys
         {
@@ -115,10 +107,10 @@ namespace SevenMod.Admin
         }
 
         /// <summary>
-        /// Gets the <see cref="AdminInfo"/> for an admin user.
+        /// Gets the <see cref="AdminInfo"/> object for an admin user.
         /// </summary>
-        /// <param name="authId">The 64 bit auth ID of the user to check.</param>
-        /// <returns>The <see cref="AdminInfo"/> for the admin user.</returns>
+        /// <param name="authId">The 64 bit auth ID of the user to locate.</param>
+        /// <returns>The <see cref="AdminInfo"/> object for the admin user.</returns>
         public static AdminInfo GetAdmin(string authId)
         {
             if (admins.ContainsKey(authId))
@@ -132,10 +124,9 @@ namespace SevenMod.Admin
         /// <summary>
         /// Checks whether a client has a specific set of admin access flags.
         /// </summary>
-        /// <param name="client">The <see cref="ClientInfo"/> representing the client.</param>
-        /// <param name="adminFlag">The <see cref="AdminFlags"/> against which to match.</param>
-        /// <returns><c>true</c> if the user has access to the specified flags; otherwise
-        /// <c>false</c>.</returns>
+        /// <param name="client">The <see cref="ClientInfo"/> object representing the client.</param>
+        /// <param name="adminFlag">The <see cref="AdminFlags"/> value against which to match the client.</param>
+        /// <returns><c>true</c> if the user has access to the specified flags; otherwise <c>false</c>.</returns>
         public static bool CheckAccess(ClientInfo client, AdminFlags adminFlag)
         {
             if (client == null)
@@ -160,12 +151,9 @@ namespace SevenMod.Admin
         /// <summary>
         /// Checks whether a client is allowed to target a another specific client.
         /// </summary>
-        /// <param name="client">The <see cref="ClientInfo"/> representing the source
-        /// client.</param>
-        /// <param name="target">The <see cref="ClientInfo"/> representing the target
-        /// client.</param>
-        /// <returns><c>true</c> if <paramref name="client"/> can target <paramref name="target"/>;
-        /// otherwise <c>false</c>.</returns>
+        /// <param name="client">The <see cref="ClientInfo"/> object representing the source client.</param>
+        /// <param name="target">The <see cref="ClientInfo"/> object representing the target client.</param>
+        /// <returns><c>true</c> if <paramref name="client"/> can target <paramref name="target"/>; otherwise <c>false</c>.</returns>
         public static bool CanTarget(ClientInfo client, ClientInfo target)
         {
             if (client == null)

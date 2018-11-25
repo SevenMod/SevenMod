@@ -33,9 +33,8 @@ namespace SevenMod.Console
         /// <summary>
         /// Handler for the <see cref="Executed"/> event.
         /// </summary>
-        /// <param name="sender">The origin of the event.</param>
-        /// <param name="e">A <see cref="AdminCommandEventArgs"/> object that contains the event
-        /// data.</param>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">An <see cref="AdminCommandEventArgs"/> object containing the event data.</param>
         public delegate void AdminCommandEventHandler(object sender, AdminCommandEventArgs e);
 
         /// <summary>
@@ -67,8 +66,7 @@ namespace SevenMod.Console
         /// Executes the admin command.
         /// </summary>
         /// <param name="arguments">The list of arguments for the command.</param>
-        /// <param name="senderInfo">The <see cref="CommandSenderInfo"/> object representing the
-        /// client that is executing the command.</param>
+        /// <param name="senderInfo">The <see cref="CommandSenderInfo"/> object representing the client that is executing the command.</param>
         internal void Execute(List<string> arguments, CommandSenderInfo senderInfo)
         {
             this.Executed?.Invoke(this, new AdminCommandEventArgs(this, arguments, senderInfo));

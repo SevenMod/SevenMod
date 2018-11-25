@@ -14,8 +14,7 @@ namespace SevenMod.Plugin.Advertisements
     using SevenMod.Core;
 
     /// <summary>
-    /// <para>Plugin: Advertisements</para>
-    /// <para>Periodically shows messages in chat.</para>
+    /// Plugin that periodically shows messages in chat.
     /// </summary>
     public sealed class Advertisements : PluginAbstract, IDisposable
     {
@@ -25,12 +24,12 @@ namespace SevenMod.Plugin.Advertisements
         private static readonly string ListPath = $"{SMPath.Config}AdvertisementsList.txt";
 
         /// <summary>
-        /// The value of the AdvertInterval console variable.
+        /// The value of the AdvertInterval <see cref="ConVar"/>.
         /// </summary>
         private ConVarValue interval;
 
         /// <summary>
-        /// The value of the AdvertRandomOrder console variable.
+        /// The value of the AdvertRandomOrder <see cref="ConVar"/>.
         /// </summary>
         private ConVarValue randomOrder;
 
@@ -99,9 +98,8 @@ namespace SevenMod.Plugin.Advertisements
         /// <summary>
         /// Called when the interval console variable changes.
         /// </summary>
-        /// <param name="sender">The origin of the event.</param>
-        /// <param name="e">A <see cref="ConVarChangedEventArgs"/> object that contains the event
-        /// data.</param>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">A <see cref="ConVarChangedEventArgs"/> object containing the event data.</param>
         private void IntervalConVarChanged(object sender, ConVarChangedEventArgs e)
         {
             this.timer.Interval = this.interval.AsInt * 60000;
@@ -150,8 +148,7 @@ namespace SevenMod.Plugin.Advertisements
         /// Called by the <see cref="watcher"/> when the message list file changes.
         /// </summary>
         /// <param name="sender">The source of the event.</param>
-        /// <param name="e">A <see cref="FileSystemEventArgs"/> object that contains the event
-        /// data.</param>
+        /// <param name="e">A <see cref="FileSystemEventArgs"/> object containing the event data.</param>
         private void ListFileChanged(object sender, FileSystemEventArgs e)
         {
             this.LoadMessages();
@@ -173,8 +170,7 @@ namespace SevenMod.Plugin.Advertisements
         /// Called by the <see cref="timer"/> to display the next advertisement message.
         /// </summary>
         /// <param name="sender">The source of the event.</param>
-        /// <param name="e">An <see cref="ElapsedEventArgs"/> object that contains the event
-        /// data.</param>
+        /// <param name="e">An <see cref="ElapsedEventArgs"/> object containing the event data.</param>
         private void TimerElapsed(object sender, ElapsedEventArgs e)
         {
             if (this.messages.Count == 0)

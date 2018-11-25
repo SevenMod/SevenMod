@@ -16,14 +16,10 @@ namespace SevenMod.ConVar
         /// <param name="name">The name of the variable.</param>
         /// <param name="defaultValue">The default value of the variable as a string.</param>
         /// <param name="description">The description for the variable.</param>
-        /// <param name="hasMin">A value indicating whether the variable has a minimum
-        /// value.</param>
-        /// <param name="min">The minimum value of the variable if <paramref name="hasMin"/> is
-        /// <c>true</c>.</param>
-        /// <param name="hasMax">A value indicating whether the variable has a maximum
-        /// value.</param>
-        /// <param name="max">The maximum value of the variable if <paramref name="hasMax"/> is
-        /// <c>true</c>.</param>
+        /// <param name="hasMin">A value indicating whether the variable has a minimum value.</param>
+        /// <param name="min">The minimum value of the variable if <paramref name="hasMin"/> is <c>true</c>.</param>
+        /// <param name="hasMax">A value indicating whether the variable has a maximum value.</param>
+        /// <param name="max">The maximum value of the variable if <paramref name="hasMax"/> is <c>true</c>.</param>
         public ConVar(string name, string defaultValue, string description, bool hasMin, float min, bool hasMax, float max)
         {
             this.Name = name;
@@ -40,8 +36,7 @@ namespace SevenMod.ConVar
         /// Handler for the <see cref="ConVarChanged"/> event.
         /// </summary>
         /// <param name="sender">The origin of the event.</param>
-        /// <param name="e">A <see cref="ConVarChangedEventArgs"/> object that contains the event
-        /// data.</param>
+        /// <param name="e">A <see cref="ConVarChangedEventArgs"/> object containing the event data.</param>
         public delegate void ConVarChangedEventHandler(object sender, ConVarChangedEventArgs e);
 
         /// <summary>
@@ -80,7 +75,7 @@ namespace SevenMod.ConVar
         public float MaxValue { get; }
 
         /// <summary>
-        /// Gets the current value of the variable.
+        /// Gets the <see cref="ConVarValue"/> object representing the value of the variable.
         /// </summary>
         public ConVarValue Value { get; }
 

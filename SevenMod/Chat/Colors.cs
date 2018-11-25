@@ -16,7 +16,7 @@ namespace SevenMod.Chat
         /// <summary>
         /// Map of common color names to their hexadecimal string value.
         /// </summary>
-        private static readonly Dictionary<string, string> ColorNames = new Dictionary<string, string>()
+        private static Dictionary<string, string> colorNames = new Dictionary<string, string>()
         {
             { "white", "FFFFFF" },
             { "red", "FF0000" },
@@ -36,85 +36,83 @@ namespace SevenMod.Chat
         /// <summary>
         /// Gets the hexadecimal string value for white.
         /// </summary>
-        public static string White { get; } = ColorNames["white"];
+        public static string White { get; } = colorNames["white"];
 
         /// <summary>
         /// Gets the hexadecimal string value for red.
         /// </summary>
-        public static string Red { get; } = ColorNames["red"];
+        public static string Red { get; } = colorNames["red"];
 
         /// <summary>
         /// Gets the hexadecimal string value for green.
         /// </summary>
-        public static string Green { get; } = ColorNames["green"];
+        public static string Green { get; } = colorNames["green"];
 
         /// <summary>
         /// Gets the hexadecimal string value for blue.
         /// </summary>
-        public static string Blue { get; } = ColorNames["blue"];
+        public static string Blue { get; } = colorNames["blue"];
 
         /// <summary>
         /// Gets the hexadecimal string value for yellow.
         /// </summary>
-        public static string Yellow { get; } = ColorNames["yellow"];
+        public static string Yellow { get; } = colorNames["yellow"];
 
         /// <summary>
         /// Gets the hexadecimal string value for purple.
         /// </summary>
-        public static string Purple { get; } = ColorNames["purple"];
+        public static string Purple { get; } = colorNames["purple"];
 
         /// <summary>
         /// Gets the hexadecimal string value for cyan.
         /// </summary>
-        public static string Cyan { get; } = ColorNames["cyan"];
+        public static string Cyan { get; } = colorNames["cyan"];
 
         /// <summary>
         /// Gets the hexadecimal string value for orange.
         /// </summary>
-        public static string Orange { get; } = ColorNames["orange"];
+        public static string Orange { get; } = colorNames["orange"];
 
         /// <summary>
         /// Gets the hexadecimal string value for pink.
         /// </summary>
-        public static string Pink { get; } = ColorNames["pink"];
+        public static string Pink { get; } = colorNames["pink"];
 
         /// <summary>
         /// Gets the hexadecimal string value for olive.
         /// </summary>
-        public static string Olive { get; } = ColorNames["olive"];
+        public static string Olive { get; } = colorNames["olive"];
 
         /// <summary>
         /// Gets the hexadecimal string value for lime.
         /// </summary>
-        public static string Lime { get; } = ColorNames["lime"];
+        public static string Lime { get; } = colorNames["lime"];
 
         /// <summary>
         /// Gets the hexadecimal string value for violet.
         /// </summary>
-        public static string Violet { get; } = ColorNames["violet"];
+        public static string Violet { get; } = colorNames["violet"];
 
         /// <summary>
         /// Gets the hexadecimal string value for light blue.
         /// </summary>
-        public static string Lightblue { get; } = ColorNames["lightblue"];
+        public static string Lightblue { get; } = colorNames["lightblue"];
 
         /// <summary>
         /// Checks whether a given string is valid named color.
         /// </summary>
         /// <param name="colorStr">The string to check.</param>
-        /// <returns><c>true</c> if <paramref name="colorStr"/> is a valid color name; <c>false</c>
-        /// otherwise.</returns>
+        /// <returns><c>true</c> if <paramref name="colorStr"/> is a valid color name; otherwise <c>false</c>.</returns>
         public static bool IsValidColorName(string colorStr)
         {
-            return ColorNames.ContainsKey(colorStr.ToLower());
+            return colorNames.ContainsKey(colorStr.ToLower());
         }
 
         /// <summary>
         /// Checks whether a given string is a valid hexadecimal color.
         /// </summary>
         /// <param name="colorStr">The string to check.</param>
-        /// <returns><c>true</c> if <paramref name="colorStr"/> is a valid hexadecimal color;
-        /// <c>false</c> otherwise.</returns>
+        /// <returns><c>true</c> if <paramref name="colorStr"/> is a valid hexadecimal color; otherwise <c>false</c>.</returns>
         public static bool IsValidColorHex(string colorStr)
         {
             return Regex.IsMatch(colorStr, @"^[0-9A-Za-z]{6}$");
@@ -124,15 +122,13 @@ namespace SevenMod.Chat
         /// Gets the hexadecimal string for a color name.
         /// </summary>
         /// <param name="colorName">The name of the color.</param>
-        /// <param name="defaultHex">The default value to return if <paramref name="colorName"/> is
-        /// not a valid color name.</param>
-        /// <returns>The hexadecimal color string; <paramref name="defaultHex"/> if
-        /// <paramref name="colorName"/> is not a valid color name.</returns>
+        /// <param name="defaultHex">The default value to return if <paramref name="colorName"/> is not a valid color name.</param>
+        /// <returns>The hexadecimal color string; <paramref name="defaultHex"/> if <paramref name="colorName"/> is not a valid color name.</returns>
         public static string GetHexFromColorName(string colorName, string defaultHex = "000000")
         {
             if (IsValidColorName(colorName))
             {
-                return ColorNames[colorName];
+                return colorNames[colorName];
             }
 
             return defaultHex;

@@ -25,18 +25,17 @@ namespace SevenMod.Voting
         private string[] voteOptions;
 
         /// <summary>
-        /// The value indicating whether the currently running vote is a yes/no vote.
+        /// A value indicating whether the currently running vote is a yes/no vote.
         /// </summary>
         private bool boolVote;
 
         /// <summary>
-        /// The map of eligible voter auth IDs to their selected option item index in the currently
-        /// running vote.
+        /// The map of eligible voter auth IDs to their selected option item index in the currently running vote.
         /// </summary>
         private Dictionary<string, int> votingPool = new Dictionary<string, int>();
 
         /// <summary>
-        /// The <see cref="IVoteResultListener"/> for the currently running vote.
+        /// The <see cref="IVoteResultListener"/> object for the currently running vote.
         /// </summary>
         private IVoteResultListener voteListener;
 
@@ -54,8 +53,7 @@ namespace SevenMod.Voting
         /// Starts a vote if one is not already in progress.
         /// </summary>
         /// <param name="message">The vote prompt.</param>
-        /// <param name="options">The list of answer options; <c>null</c> for a boolean yes/no
-        /// vote.</param>
+        /// <param name="options">The list of answer options; <c>null</c> for a boolean yes/no vote.</param>
         /// <param name="listener">The vote result listener.</param>
         public void StartVote(string message, List<string> options, IVoteResultListener listener)
         {
@@ -166,8 +164,7 @@ namespace SevenMod.Voting
         /// Called by the <see cref="timer"/> at the end of a vote.
         /// </summary>
         /// <param name="sender">The source of the event.</param>
-        /// <param name="e">An <see cref="System.Timers.ElapsedEventArgs"/> object that contains
-        /// the event data.</param>
+        /// <param name="e">An <see cref="System.Timers.ElapsedEventArgs"/> object that contains the event data.</param>
         private void VoteElapsed(object sender, System.Timers.ElapsedEventArgs e)
         {
             var counts = new int[this.voteOptions.Length];

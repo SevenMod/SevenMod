@@ -15,8 +15,7 @@ namespace SevenMod.ConVar
         /// <summary>
         /// Initializes a new instance of the <see cref="ConVarChangedEventArgs"/> class.
         /// </summary>
-        /// <param name="conVar">The <see cref="SevenMod.ConVar.ConVar"/> that raised the
-        /// event.</param>
+        /// <param name="conVar">The <see cref="SevenMod.ConVar.ConVar"/> object that raised the event.</param>
         /// <param name="oldValue">The old value of the variable as a string.</param>
         /// <param name="newValue">The new value of the variable as a string.</param>
         internal ConVarChangedEventArgs(ConVar conVar, string oldValue, string newValue)
@@ -27,7 +26,7 @@ namespace SevenMod.ConVar
         }
 
         /// <summary>
-        /// Gets the <see cref="SevenMod.ConVar.ConVar"/> that raised the event.
+        /// Gets the <see cref="SevenMod.ConVar.ConVar"/> object representing the console variable whose value changed.
         /// </summary>
         public ConVar ConVar { get; }
 

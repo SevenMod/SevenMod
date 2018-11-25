@@ -13,8 +13,7 @@ namespace SevenMod.Plugin.BaseVotes
     using SevenMod.Voting;
 
     /// <summary>
-    /// <para>Plugin: BaseVotes</para>
-    /// <para>Adds the vote, votekick, and voteban admin commands.</para>
+    /// Plugin that adds the vote, votekick, and voteban admin commands.
     /// </summary>
     public class BaseVotes : PluginAbstract
     {
@@ -46,9 +45,8 @@ namespace SevenMod.Plugin.BaseVotes
         /// <summary>
         /// Called when the vote admin command is executed.
         /// </summary>
-        /// <param name="sender">The origin of the event.</param>
-        /// <param name="e">A <see cref="AdminCommandEventArgs"/> object that contains the event
-        /// data.</param>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">An <see cref="AdminCommandEventArgs"/> object containing the event data.</param>
         private void VoteExecuted(object sender, AdminCommandEventArgs e)
         {
             if (VoteManager.Instance.VoteInProgress)
@@ -74,9 +72,8 @@ namespace SevenMod.Plugin.BaseVotes
         /// <summary>
         /// Called when the voteban admin command is executed.
         /// </summary>
-        /// <param name="sender">The origin of the event.</param>
-        /// <param name="e">A <see cref="AdminCommandEventArgs"/> object that contains the event
-        /// data.</param>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">An <see cref="AdminCommandEventArgs"/> object containing the event data.</param>
         private void VoteBanExecuted(object sender, AdminCommandEventArgs e)
         {
             if (VoteManager.Instance.VoteInProgress)
@@ -102,9 +99,8 @@ namespace SevenMod.Plugin.BaseVotes
         /// <summary>
         /// Called when the votekick admin command is executed.
         /// </summary>
-        /// <param name="sender">The origin of the event.</param>
-        /// <param name="e">A <see cref="AdminCommandEventArgs"/> object that contains the event
-        /// data.</param>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">An <see cref="AdminCommandEventArgs"/> object containing the event data.</param>
         private void VoteKickExecuted(object sender, AdminCommandEventArgs e)
         {
             if (VoteManager.Instance.VoteInProgress)
@@ -154,7 +150,7 @@ namespace SevenMod.Plugin.BaseVotes
             private ClientInfo target;
 
             /// <summary>
-            /// The value of the VoteBanPercent console value.
+            /// The value of the VoteBanPercent <see cref="ConVar"/>.
             /// </summary>
             private ConVarValue percent;
 
@@ -197,7 +193,7 @@ namespace SevenMod.Plugin.BaseVotes
             private ClientInfo target;
 
             /// <summary>
-            /// The value of the VoteKickPercent console value.
+            /// The value of the VoteKickPercent <see cref="ConVar"/>.
             /// </summary>
             private ConVarValue percent;
 

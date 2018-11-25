@@ -11,8 +11,7 @@ namespace SevenMod.Plugin.PlayerCommands
     using SevenMod.Core;
 
     /// <summary>
-    /// <para>Plugin: PlayerCommands</para>
-    /// <para>Adds miscellaneous player admin commands.</para>
+    /// Plugin that adds miscellaneous player admin commands.
     /// </summary>
     public class PlayerCommands : PluginAbstract
     {
@@ -37,9 +36,8 @@ namespace SevenMod.Plugin.PlayerCommands
         /// <summary>
         /// Called when the slay admin command is executed.
         /// </summary>
-        /// <param name="sender">The origin of the event.</param>
-        /// <param name="e">A <see cref="AdminCommandEventArgs"/> object that contains the event
-        /// data.</param>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">An <see cref="AdminCommandEventArgs"/> object containing the event data.</param>
         private void SlayExecuted(object sender, AdminCommandEventArgs e)
         {
             if (e.Arguments.Count < 1)

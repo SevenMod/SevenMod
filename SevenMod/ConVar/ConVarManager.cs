@@ -45,8 +45,7 @@ namespace SevenMod.ConVar
         /// Find an existing console variable with the specified name.
         /// </summary>
         /// <param name="name">The name of the console variable to locate.</param>
-        /// <returns>The <see cref="ConVar"/> representing the console variable if found; otherwise
-        /// <c>null</c>.</returns>
+        /// <returns>The <see cref="ConVar"/> object representing the console variable if found; otherwise <c>null</c>.</returns>
         public static ConVar FindConVar(string name)
         {
             conVars.TryGetValue(name.ToLower().Trim(), out ConVar value);
@@ -54,23 +53,17 @@ namespace SevenMod.ConVar
         }
 
         /// <summary>
-        /// Creates a new <see cref="ConVar"/> or returns the existing one if one with the same
-        /// name already exists.
+        /// Creates a new <see cref="ConVar"/> or returns the existing one if one with the same name already exists.
         /// </summary>
         /// <param name="plugin">The plugin creating the variable.</param>
         /// <param name="name">The name of the variable.</param>
         /// <param name="defaultValue">The default value of the variable as a string.</param>
-        /// <param name="description">An optional description for the variable.</param>
-        /// <param name="hasMin">Optional value indicating whether the variable has a minimum
-        /// value.</param>
-        /// <param name="min">The minimum value of the variable if <paramref name="hasMin"/> is
-        /// <c>true</c>.</param>
-        /// <param name="hasMax">Optional value indicating whether the variable has a maximum
-        /// value.</param>
-        /// <param name="max">The maximum value of the variable if <paramref name="hasMax"/> is
-        /// <c>true</c>.</param>
-        /// <returns>An instance of the <see cref="ConVar"/> representing the console
-        /// variable.</returns>
+        /// <param name="description">Optional description for the variable.</param>
+        /// <param name="hasMin">Optional value indicating whether the variable has a minimum value.</param>
+        /// <param name="min">The minimum value of the variable if <paramref name="hasMin"/> is <c>true</c>.</param>
+        /// <param name="hasMax">Optional value indicating whether the variable has a maximum value.</param>
+        /// <param name="max">The maximum value of the variable if <paramref name="hasMax"/> is <c>true</c>.</param>
+        /// <returns>The <see cref="ConVar"/> object representing the console variable.</returns>
         public static ConVar CreateConVar(PluginAbstract plugin, string name, string defaultValue, string description = "", bool hasMin = false, float min = 0.0f, bool hasMax = false, float max = 1.0f)
         {
             name = name.Trim();
@@ -100,8 +93,7 @@ namespace SevenMod.ConVar
         /// Adds a configuration file to be automatically loaded.
         /// </summary>
         /// <param name="plugin">The plugin associated with this configuration file.</param>
-        /// <param name="autoCreate">A value indicating whether the file should be automatically
-        /// created if it does not exist.</param>
+        /// <param name="autoCreate">A value indicating whether the file should be automatically created if it does not exist.</param>
         /// <param name="name">The name of the configuration file without extension.</param>
         public static void AutoExecConfig(PluginAbstract plugin, bool autoCreate, string name)
         {
@@ -150,22 +142,16 @@ namespace SevenMod.ConVar
         }
 
         /// <summary>
-        /// Creates a new <see cref="ConVar"/> or returns the existing one if one with the same
-        /// name already exists.
+        /// Creates a new <see cref="ConVar"/> or returns the existing one if one with the same name already exists.
         /// </summary>
         /// <param name="name">The name of the variable.</param>
         /// <param name="defaultValue">The default value of the variable as a string.</param>
-        /// <param name="description">An optional description for the variable.</param>
-        /// <param name="hasMin">Optional value indicating whether the variable has a minimum
-        /// value.</param>
-        /// <param name="min">The minimum value of the variable if <paramref name="hasMin"/> is
-        /// <c>true</c>.</param>
-        /// <param name="hasMax">Optional value indicating whether the variable has a maximum
-        /// value.</param>
-        /// <param name="max">The maximum value of the variable if <paramref name="hasMax"/> is
-        /// <c>true</c>.</param>
-        /// <returns>An instance of the <see cref="ConVar"/> representing the console
-        /// variable.</returns>
+        /// <param name="description">Optional description for the variable.</param>
+        /// <param name="hasMin">Optional value indicating whether the variable has a minimum value.</param>
+        /// <param name="min">The minimum value of the variable if <paramref name="hasMin"/> is <c>true</c>.</param>
+        /// <param name="hasMax">Optional value indicating whether the variable has a maximum value.</param>
+        /// <param name="max">The maximum value of the variable if <paramref name="hasMax"/> is <c>true</c>.</param>
+        /// <returns>The <see cref="ConVar"/> object representing the console variable.</returns>
         internal static ConVar CreateConVar(string name, string defaultValue, string description = "", bool hasMin = false, float min = 0.0f, bool hasMax = false, float max = 1.0f)
         {
             name = name.Trim();
@@ -188,7 +174,7 @@ namespace SevenMod.ConVar
         /// <summary>
         /// Executes a single automatically executed configuration file.
         /// </summary>
-        /// <param name="config">The configuration file metadata.</param>
+        /// <param name="config">The <see cref="ConfigInfo"/> object containing the configuration file metadata.</param>
         private static void ExecuteConfig(ConfigInfo config)
         {
             var path = $"{SMPath.Config}{config.Name}.xml";
@@ -229,7 +215,7 @@ namespace SevenMod.ConVar
         /// <summary>
         /// Creates a configuration file.
         /// </summary>
-        /// <param name="config">The configuration file metadata.</param>
+        /// <param name="config">The <see cref="ConfigInfo"/> object containing the configuration file metadata.</param>
         private static void GenerateConfig(ConfigInfo config)
         {
             var path = $"{SMPath.Config}{config.Name}.xml";
@@ -291,8 +277,7 @@ namespace SevenMod.ConVar
             /// Initializes a new instance of the <see cref="ConfigInfo"/> struct.
             /// </summary>
             /// <param name="plugin">The plugin associated with this configuration file.</param>
-            /// <param name="autoCreate">A value indicating whether the file should be
-            /// automatically created if it does not exist.</param>
+            /// <param name="autoCreate">A value indicating whether the file should be automatically created if it does not exist.</param>
             /// <param name="name">The name of the configuration file without extension.</param>
             public ConfigInfo(PluginAbstract plugin, bool autoCreate, string name)
             {
@@ -307,8 +292,7 @@ namespace SevenMod.ConVar
             public PluginAbstract Plugin { get; }
 
             /// <summary>
-            /// Gets a value indicating whether the file should be automatically created if it does
-            /// not exist.
+            /// Gets a value indicating whether the file should be automatically created if it does not exist.
             /// </summary>
             public bool AutoCreate { get; }
 

@@ -24,8 +24,7 @@ namespace SevenMod.Console
         /// Find an existing admin command with the specified name.
         /// </summary>
         /// <param name="command">The name of the admin command to locate.</param>
-        /// <returns>The <see cref="AdminCommand"/> representing the admin command if found;
-        /// otherwise <c>null</c>.</returns>
+        /// <returns>The <see cref="AdminCommand"/> object representing the admin command if found; otherwise <c>null</c>.</returns>
         public static AdminCommand FindCommand(string command)
         {
             commands.TryGetValue(command.Trim().ToLower(), out AdminCommand adminCommand);
@@ -33,16 +32,13 @@ namespace SevenMod.Console
         }
 
         /// <summary>
-        /// Creates a new <see cref="AdminCommand"/> or returns the existing one if one with the
-        /// same name already exists.
+        /// Creates a new <see cref="AdminCommand"/> or returns the existing one if one with the same name already exists.
         /// </summary>
         /// <param name="plugin">The plugin creating the admin command.</param>
         /// <param name="command">The name of the admin command.</param>
-        /// <param name="accessFlags">The <see cref="AdminFlags"/> value required to execute the
-        /// admin command.</param>
+        /// <param name="accessFlags">The <see cref="AdminFlags"/> value required to execute the admin command.</param>
         /// <param name="description">An optional description for the admin command.</param>
-        /// <returns>An instance of the <see cref="AdminCommand"/> class representing the admin
-        /// command.</returns>
+        /// <returns>The <see cref="AdminCommand"/> object representing the admin command.</returns>
         public static AdminCommand CreateAdminCommand(PluginAbstract plugin, string command, AdminFlags accessFlags, string description = "")
         {
             command = command.Trim();
@@ -67,8 +63,7 @@ namespace SevenMod.Console
         /// </summary>
         /// <param name="command">The name of the admin command to execute.</param>
         /// <param name="arguments">The arguments for the admin command.</param>
-        /// <param name="senderInfo">The <see cref="CommandSenderInfo"/> object representing the
-        /// client executing the command.</param>
+        /// <param name="senderInfo">The <see cref="CommandSenderInfo"/> object representing the client executing the command.</param>
         public static void ExecuteCommand(string command, List<string> arguments, CommandSenderInfo senderInfo)
         {
             var key = command.Trim().ToLower();

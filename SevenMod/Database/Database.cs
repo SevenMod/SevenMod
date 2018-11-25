@@ -43,12 +43,10 @@ namespace SevenMod.Database
         }
 
         /// <summary>
-        /// Creates a new instance of a <see cref="Database"/> class representing a connection to a
-        /// database defined by the named configuration.
+        /// Creates a new instance of a <see cref="Database"/> class representing a connection to a database defined by the named configuration.
         /// </summary>
         /// <param name="connectionName">The name of the database configuration.</param>
-        /// <returns>An instance of a <see cref="Database"/> class representing a connection to the
-        /// database.</returns>
+        /// <returns>An instance of a <see cref="Database"/> class representing a connection to the database.</returns>
         public static Database Connect(string connectionName)
         {
             if (!configLoaded)
@@ -90,7 +88,7 @@ namespace SevenMod.Database
         /// Check if a database connection configuration exists.
         /// </summary>
         /// <param name="name">The name of the database connection configuration.</param>
-        /// <returns><c>true</c> if the configuration exists; <c>false</c> otherwise.</returns>
+        /// <returns><c>true</c> if the configuration exists; otherwise <c>false</c>.</returns>
         public static bool ConfigExists(string name)
         {
             if (!configLoaded)
@@ -241,8 +239,7 @@ namespace SevenMod.Database
             /// <summary>
             /// Initializes a new instance of the <see cref="ConnectionInfo"/> struct.
             /// </summary>
-            /// <param name="driver">The <see cref="DatabaseDriver"/> value representing the
-            /// database driver to use.</param>
+            /// <param name="driver">The <see cref="DatabaseDriver"/> value representing the database driver to use.</param>
             /// <param name="database">The name of the database.</param>
             public ConnectionInfo(DatabaseDriver driver, string database)
                 : this(driver, database, string.Empty, string.Empty, string.Empty, 0)
@@ -252,8 +249,7 @@ namespace SevenMod.Database
             /// <summary>
             /// Initializes a new instance of the <see cref="ConnectionInfo"/> struct.
             /// </summary>
-            /// <param name="driver">The <see cref="DatabaseDriver"/> value representing the
-            /// database driver to use.</param>
+            /// <param name="driver">The <see cref="DatabaseDriver"/> value representing the database driver to use.</param>
             /// <param name="database">The name of the database.</param>
             /// <param name="host">The address of the database host.</param>
             /// <param name="user">The name of the database user to use.</param>
