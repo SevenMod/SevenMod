@@ -16,7 +16,7 @@ namespace SevenMod.Chat
         /// <summary>
         /// Map of common color names to their hexadecimal string value.
         /// </summary>
-        private static Dictionary<string, string> colorNames = new Dictionary<string, string>()
+        private static readonly Dictionary<string, string> ColorNames = new Dictionary<string, string>()
         {
             { "white", "FFFFFF" },
             { "red", "FF0000" },
@@ -36,67 +36,67 @@ namespace SevenMod.Chat
         /// <summary>
         /// Gets the hexadecimal string value for white.
         /// </summary>
-        public static string White { get; } = colorNames["white"];
+        public static string White { get; } = ColorNames["white"];
 
         /// <summary>
         /// Gets the hexadecimal string value for red.
         /// </summary>
-        public static string Red { get; } = colorNames["red"];
+        public static string Red { get; } = ColorNames["red"];
 
         /// <summary>
         /// Gets the hexadecimal string value for green.
         /// </summary>
-        public static string Green { get; } = colorNames["green"];
+        public static string Green { get; } = ColorNames["green"];
 
         /// <summary>
         /// Gets the hexadecimal string value for blue.
         /// </summary>
-        public static string Blue { get; } = colorNames["blue"];
+        public static string Blue { get; } = ColorNames["blue"];
 
         /// <summary>
         /// Gets the hexadecimal string value for yellow.
         /// </summary>
-        public static string Yellow { get; } = colorNames["yellow"];
+        public static string Yellow { get; } = ColorNames["yellow"];
 
         /// <summary>
         /// Gets the hexadecimal string value for purple.
         /// </summary>
-        public static string Purple { get; } = colorNames["purple"];
+        public static string Purple { get; } = ColorNames["purple"];
 
         /// <summary>
         /// Gets the hexadecimal string value for cyan.
         /// </summary>
-        public static string Cyan { get; } = colorNames["cyan"];
+        public static string Cyan { get; } = ColorNames["cyan"];
 
         /// <summary>
         /// Gets the hexadecimal string value for orange.
         /// </summary>
-        public static string Orange { get; } = colorNames["orange"];
+        public static string Orange { get; } = ColorNames["orange"];
 
         /// <summary>
         /// Gets the hexadecimal string value for pink.
         /// </summary>
-        public static string Pink { get; } = colorNames["pink"];
+        public static string Pink { get; } = ColorNames["pink"];
 
         /// <summary>
         /// Gets the hexadecimal string value for olive.
         /// </summary>
-        public static string Olive { get; } = colorNames["olive"];
+        public static string Olive { get; } = ColorNames["olive"];
 
         /// <summary>
         /// Gets the hexadecimal string value for lime.
         /// </summary>
-        public static string Lime { get; } = colorNames["lime"];
+        public static string Lime { get; } = ColorNames["lime"];
 
         /// <summary>
         /// Gets the hexadecimal string value for violet.
         /// </summary>
-        public static string Violet { get; } = colorNames["violet"];
+        public static string Violet { get; } = ColorNames["violet"];
 
         /// <summary>
         /// Gets the hexadecimal string value for light blue.
         /// </summary>
-        public static string Lightblue { get; } = colorNames["lightblue"];
+        public static string Lightblue { get; } = ColorNames["lightblue"];
 
         /// <summary>
         /// Checks whether a given string is valid named color.
@@ -105,7 +105,7 @@ namespace SevenMod.Chat
         /// <returns><c>true</c> if <paramref name="colorStr"/> is a valid color name; otherwise <c>false</c>.</returns>
         public static bool IsValidColorName(string colorStr)
         {
-            return colorNames.ContainsKey(colorStr.ToLower());
+            return ColorNames.ContainsKey(colorStr.ToLower());
         }
 
         /// <summary>
@@ -128,7 +128,7 @@ namespace SevenMod.Chat
         {
             if (IsValidColorName(colorName))
             {
-                return colorNames[colorName];
+                return ColorNames[colorName];
             }
 
             return defaultHex;

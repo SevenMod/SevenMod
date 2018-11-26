@@ -86,7 +86,7 @@ namespace SevenMod.Core
 
                     break;
                 case "list":
-                    var list = PluginManager.ActivePlugins;
+                    var list = PluginManager.Plugins;
                     SdtdConsole.Instance.Output($"[SM] Listing {list.Count} plugins:");
                     for (var i = 0; i < list.Count; i++)
                     {

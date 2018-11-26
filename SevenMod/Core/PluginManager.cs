@@ -20,12 +20,12 @@ namespace SevenMod.Core
         /// <summary>
         /// The currently active plugins.
         /// </summary>
-        private static readonly Dictionary<string, PluginAbstract> Plugins = new Dictionary<string, PluginAbstract>();
+        private static Dictionary<string, PluginAbstract> plugins = new Dictionary<string, PluginAbstract>();
 
         /// <summary>
         /// Gets a list of the currently active plugins.
         /// </summary>
-        public static List<PluginAbstract> ActivePlugins { get => new List<PluginAbstract>(Plugins.Values); }
+        public static List<PluginAbstract> Plugins { get => new List<PluginAbstract>(plugins.Values); }
 
         /// <summary>
         /// Gets the metadata for a plugin.
@@ -35,9 +35,9 @@ namespace SevenMod.Core
         public static PluginAbstract.PluginInfo? GetPluginInfo(string name)
         {
             name = name.ToLower();
-            if (Plugins.ContainsKey(name))
+            if (plugins.ContainsKey(name))
             {
-                return Plugins[name].Info;
+                return plugins[name].Info;
             }
 
             return null;
@@ -50,7 +50,7 @@ namespace SevenMod.Core
         public static void Load(string name)
         {
             name = name.ToLower();
-            if (Plugins.ContainsKey(name))
+            if (plugins.ContainsKey(name))
             {
                 return;
             }
@@ -81,7 +81,7 @@ namespace SevenMod.Core
                         plugin.ConfigsExecuted();
                     }
 
-                    Plugins.Add(name, plugin);
+                    plugins.Add(name, plugin);
                     Log.Out("Added {0}", type.Name);
                 }
             }
@@ -106,7 +106,7 @@ namespace SevenMod.Core
             if (!ConVarManager.ConfigsLoaded)
             {
                 ConVarManager.ExecuteConfigs();
-                foreach (var plugin in Plugins.Values)
+                foreach (var plugin in plugins.Values)
                 {
                     plugin.ConfigsExecuted();
                 }
@@ -130,12 +130,12 @@ namespace SevenMod.Core
         public static void Unload(string name)
         {
             name = name.ToLower();
-            if (Plugins.ContainsKey(name))
+            if (plugins.ContainsKey(name))
             {
-                Plugins[name].UnloadPlugin();
-                AdminCommandManager.UnloadPlugin(Plugins[name]);
-                ConVarManager.UnloadPlugin(Plugins[name]);
-                Plugins.Remove(name);
+                plugins[name].UnloadPlugin();
+                AdminCommandManager.UnloadPlugin(plugins[name]);
+                ConVarManager.UnloadPlugin(plugins[name]);
+                plugins.Remove(name);
             }
         }
 
@@ -144,14 +144,14 @@ namespace SevenMod.Core
         /// </summary>
         public static void UnloadAll()
         {
-            foreach (var plugin in Plugins.Values)
+            foreach (var plugin in plugins.Values)
             {
                 plugin.UnloadPlugin();
                 AdminCommandManager.UnloadPlugin(plugin);
                 ConVarManager.UnloadPlugin(plugin);
             }
 
-            Plugins.Clear();
+            plugins.Clear();
         }
     }
 }

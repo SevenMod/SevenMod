@@ -15,14 +15,9 @@ namespace SevenMod.Admin
     public class AdminManager
     {
         /// <summary>
-        /// Maps admin auth IDs to their <see cref="AdminInfo"/> objects.
-        /// </summary>
-        private static Dictionary<string, AdminInfo> admins = new Dictionary<string, AdminInfo>();
-
-        /// <summary>
         /// Maps admin access flag characters to the associated <see cref="AdminFlags"/> value.
         /// </summary>
-        private static Dictionary<char, AdminFlags> adminFlagKeys = new Dictionary<char, AdminFlags>()
+        private static readonly Dictionary<char, AdminFlags> AdminFlagKeysValue = new Dictionary<char, AdminFlags>()
         {
             { 'a', AdminFlags.Reservation },
             { 'b', AdminFlags.Generic },
@@ -48,11 +43,16 @@ namespace SevenMod.Admin
         };
 
         /// <summary>
+        /// Maps admin auth IDs to their <see cref="AdminInfo"/> objects.
+        /// </summary>
+        private static Dictionary<string, AdminInfo> admins = new Dictionary<string, AdminInfo>();
+
+        /// <summary>
         /// Gets the map of admin access flag characters to the associated <see cref="AdminFlags"/> value.
         /// </summary>
         public static Dictionary<char, AdminFlags> AdminFlagKeys
         {
-            get => new Dictionary<char, AdminFlags>(adminFlagKeys);
+            get => new Dictionary<char, AdminFlags>(AdminFlagKeysValue);
         }
 
         /// <summary>
@@ -192,9 +192,9 @@ namespace SevenMod.Admin
 
             foreach (var f in flagString)
             {
-                if (adminFlagKeys.ContainsKey(f))
+                if (AdminFlagKeysValue.ContainsKey(f))
                 {
-                    flags |= adminFlagKeys[f];
+                    flags |= AdminFlagKeysValue[f];
                 }
             }
 

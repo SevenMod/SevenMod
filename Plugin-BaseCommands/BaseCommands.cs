@@ -62,7 +62,7 @@ namespace SevenMod.Plugin.BaseCommands
         private void ReloadAdminsExecuted(object sender, AdminCommandEventArgs e)
         {
             AdminManager.RemoveAllAdmins();
-            foreach (var plugin in PluginManager.ActivePlugins)
+            foreach (var plugin in PluginManager.Plugins)
             {
                 plugin.ReloadAdmins();
             }

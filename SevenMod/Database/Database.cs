@@ -19,10 +19,10 @@ namespace SevenMod.Database
         /// <summary>
         /// The available database connection configurations.
         /// </summary>
-        private static readonly Dictionary<string, ConnectionInfo> Connections = new Dictionary<string, ConnectionInfo>();
+        private static Dictionary<string, ConnectionInfo> connections = new Dictionary<string, ConnectionInfo>();
 
         /// <summary>
-        /// Whether the database configuration file has been read.
+        /// A value indicating whether the database configuration file has been read.
         /// </summary>
         private static bool configLoaded;
 
@@ -55,10 +55,10 @@ namespace SevenMod.Database
                 configLoaded = true;
             }
 
-            if (Connections.ContainsKey(connectionName))
+            if (connections.ContainsKey(connectionName))
             {
                 Database conn;
-                switch (Connections[connectionName].Driver)
+                switch (connections[connectionName].Driver)
                 {
                     case DatabaseDriver.MySQL:
                         conn = new MySqlDatabase();
@@ -72,7 +72,7 @@ namespace SevenMod.Database
 
                 try
                 {
-                    conn.Setup(Connections[connectionName]);
+                    conn.Setup(connections[connectionName]);
                     return conn;
                 }
                 catch (Exception e)
@@ -97,7 +97,7 @@ namespace SevenMod.Database
                 configLoaded = true;
             }
 
-            return Connections.ContainsKey(name);
+            return connections.ContainsKey(name);
         }
 
         /// <summary>
@@ -157,7 +157,7 @@ namespace SevenMod.Database
                 }
 
                 var name = element.GetAttribute("Name");
-                if (Connections.ContainsKey(name))
+                if (connections.ContainsKey(name))
                 {
                     continue;
                 }
@@ -221,12 +221,12 @@ namespace SevenMod.Database
                     }
 
                     var connection = new ConnectionInfo(DatabaseDriver.MySQL, database, host, user, pass, port);
-                    Connections.Add(name, connection);
+                    connections.Add(name, connection);
                 }
                 else
                 {
                     var connection = new ConnectionInfo(DatabaseDriver.SQLite, database);
-                    Connections.Add(name, connection);
+                    connections.Add(name, connection);
                 }
             }
         }
