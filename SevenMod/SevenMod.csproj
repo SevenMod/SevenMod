@@ -84,6 +84,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Chat\ChatMessageEventArgs.cs" />
     <Compile Include="Chat\Colors.cs" />
     <Compile Include="Console\AdminCommand.cs" />
     <Compile Include="Console\AdminCommandManager.cs" />
@@ -101,7 +102,6 @@
     <Compile Include="Chat\ChatHook.cs" />
     <Compile Include="Admin\AdminInfo.cs" />
     <Compile Include="ConsoleCmdMenu.cs" />
-    <Compile Include="Chat\IChatHookListener.cs" />
     <Compile Include="Core\IPluginAPI.cs" />
     <Compile Include="Core\PluginAbstract.cs" />
     <Compile Include="Core\PluginManager.cs" />

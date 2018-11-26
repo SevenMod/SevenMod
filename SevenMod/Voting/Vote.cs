@@ -13,7 +13,7 @@ namespace SevenMod.Voting
     /// <summary>
     /// Represents a vote.
     /// </summary>
-    public class Vote : IDisposable, IChatHookListener
+    public class Vote : IDisposable
     {
         /// <summary>
         /// The answer options for this vote.
@@ -61,7 +61,7 @@ namespace SevenMod.Voting
 
             this.data = data;
 
-            ChatHook.RegisterChatHook(this);
+            ChatHook.ChatMessage += this.ChatMessage;
 
             this.timer = new Timer(20000);
             this.timer.Elapsed += this.VoteElapsed;
@@ -96,17 +96,27 @@ namespace SevenMod.Voting
         public event EventHandler<VoteEndedEventArgs> Ended;
 
         /// <inheritdoc/>
-        public bool OnChatMessage(ClientInfo client, string message)
+        public void Dispose()
         {
-            if (!this.votingPool.ContainsKey(client.playerId))
+            this.EndVote();
+        }
+
+        /// <summary>
+        /// Called when a chat message is received from a client.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">A <see cref="ChatMessageEventArgs"/> object containing the event data.</param>
+        private void ChatMessage(object sender, ChatMessageEventArgs e)
+        {
+            if (!this.votingPool.ContainsKey(e.Client.playerId))
             {
-                return true;
+                return;
             }
 
             var index = -1;
             if (this.boolVote)
             {
-                switch (message.ToLower())
+                switch (e.Message.ToLower())
                 {
                     case "/yes":
                         index = 0;
@@ -118,7 +128,7 @@ namespace SevenMod.Voting
             }
             else
             {
-                switch (message)
+                switch (e.Message)
                 {
                     case "/1":
                         index = 0;
@@ -137,17 +147,9 @@ namespace SevenMod.Voting
 
             if ((index > -1) && (index < this.voteOptions.Length))
             {
-                this.votingPool[client.playerId] = index;
-                return false;
+                this.votingPool[e.Client.playerId] = index;
+                e.Handled = true;
             }
-
-            return true;
-        }
-
-        /// <inheritdoc/>
-        public void Dispose()
-        {
-            this.EndVote();
         }
 
         /// <summary>
@@ -185,7 +187,7 @@ namespace SevenMod.Voting
         private void EndVote()
         {
             this.timer.Dispose();
-            ChatHook.UnregisterChatHook(this);
+            ChatHook.ChatMessage -= this.ChatMessage;
         }
     }
 }

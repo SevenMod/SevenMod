@@ -5,19 +5,16 @@
 
 namespace SevenMod.Chat
 {
+    using System;
     using System.Collections.Generic;
     using SevenMod.ConVar;
+    using SevenMod.Core;
 
     /// <summary>
     /// Hooks into the game chat and allows plugins to register their own chat hooks.
     /// </summary>
     public class ChatHook
     {
-        /// <summary>
-        /// <see cref="IChatHookListener"/> objects registered by plugins.
-        /// </summary>
-        private static List<IChatHookListener> listeners = new List<IChatHookListener>();
-
         /// <summary>
         /// Client entity IDs for which commands should reply to via game chat.
         /// </summary>
@@ -32,6 +29,11 @@ namespace SevenMod.Chat
         /// The value of the SilentChatTrigger <see cref="ConVar"/>.
         /// </summary>
         private static ConVarValue silentChatTrigger;
+
+        /// <summary>
+        /// Occurs when a chat message is received.
+        /// </summary>
+        public static event EventHandler<ChatMessageEventArgs> ChatMessage;
 
         /// <summary>
         /// Initializes the chat hook system.
@@ -55,11 +57,17 @@ namespace SevenMod.Chat
                 return true;
             }
 
-            foreach (var listener in listeners)
+            if (ChatMessage != null)
             {
-                if (!listener.OnChatMessage(client, message))
+                var args = new ChatMessageEventArgs(client, message);
+                foreach (var d in ChatMessage.GetInvocationList())
                 {
-                    return false;
+                    Log.Out($"{d.Target}.{d.Method}");
+                    d.DynamicInvoke(null, args);
+                    if (args.Handled)
+                    {
+                        return false;
+                    }
                 }
             }
 
@@ -83,24 +91,6 @@ namespace SevenMod.Chat
         public static bool ShouldReplyToChat(ClientInfo client)
         {
             return replyToChat.Contains(client.entityId);
-        }
-
-        /// <summary>
-        /// Registers a custom chat hook.
-        /// </summary>
-        /// <param name="listener">The <see cref="IChatHookListener"/> to register.</param>
-        public static void RegisterChatHook(IChatHookListener listener)
-        {
-            listeners.Add(listener);
-        }
-
-        /// <summary>
-        /// Unregisters a custom chat hook.
-        /// </summary>
-        /// <param name="listener">The <see cref="IChatHookListener"/> to unregister.</param>
-        public static void UnregisterChatHook(IChatHookListener listener)
-        {
-            listeners.Remove(listener);
         }
     }
 }
