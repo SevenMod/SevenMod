@@ -69,11 +69,6 @@
     <AdditionalFiles Include="stylecop.json" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Config\Admins.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
-  <ItemGroup>
     <Analyzer Include="..\packages\StyleCop.Analyzers.1.0.2\analyzers\dotnet\cs\StyleCop.Analyzers.CodeFixes.dll" />
     <Analyzer Include="..\packages\StyleCop.Analyzers.1.0.2\analyzers\dotnet\cs\StyleCop.Analyzers.dll" />
   </ItemGroup>
@@ -92,7 +87,6 @@
   <PropertyGroup>
     <PostBuildEvent>
 copy "$(ProjectDir)$(OutDir)Plugin.AdminFlatFile.dll" "$(ProjectDir)..\bin\Mods\SevenMod\Plugins\adminflatfile.dll"
-copy "$(ProjectDir)$(OutDir)Config\Admins.xml" "$(ProjectDir)..\bin\Mods\SevenMod\Config\Admins.xml"
 </PostBuildEvent>
   </PropertyGroup>
 </Project>

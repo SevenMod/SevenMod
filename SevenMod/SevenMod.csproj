@@ -123,12 +123,6 @@
     <AdditionalFiles Include="stylecop.json" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Config\Databases.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <SubType>Designer</SubType>
-    </Content>
-  </ItemGroup>
-  <ItemGroup>
     <Analyzer Include="..\packages\StyleCop.Analyzers.1.0.2\analyzers\dotnet\cs\StyleCop.Analyzers.CodeFixes.dll" />
     <Analyzer Include="..\packages\StyleCop.Analyzers.1.0.2\analyzers\dotnet\cs\StyleCop.Analyzers.dll" />
   </ItemGroup>
@@ -154,7 +148,6 @@ copy "$(ProjectDir)$(OutDir)System.Data.SQLite.dll" "$(ProjectDir)..\bin\Mods\Se
 copy "$(ProjectDir)$(OutDir)x64\SQLite.Interop.dll" "$(ProjectDir)..\bin\Mods\SevenMod\x64\SQLite.Interop.dll"
 copy "$(ProjectDir)$(OutDir)x86\SQLite.Interop.dll" "$(ProjectDir)..\bin\Mods\SevenMod\x86\SQLite.Interop.dll"
 
-xcopy "$(ProjectDir)$(OutDir)Config" "$(ProjectDir)..\bin\Mods\SevenMod\Config" /e /y /i /c
 xcopy "$(ProjectDir)..\lib" "$(ProjectDir)..\bin\Mods\SevenMod" /e /y /i /c
 
 copy "$(ProjectDir)..\LICENSE.txt" "$(ProjectDir)..\bin\Mods\SevenMod\LICENSE.txt"

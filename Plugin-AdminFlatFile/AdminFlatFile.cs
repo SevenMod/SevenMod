@@ -7,6 +7,7 @@ namespace SevenMod.Plugin.AdminFlatFile
 {
     using System;
     using System.Collections.Generic;
+    using System.IO;
     using System.Xml;
     using SevenMod.Admin;
     using SevenMod.Core;
@@ -16,6 +17,11 @@ namespace SevenMod.Plugin.AdminFlatFile
     /// </summary>
     public class AdminFlatFile : PluginAbstract
     {
+        /// <summary>
+        /// The path to the plugin configuration file.
+        /// </summary>
+        private static readonly string ConfigPath = $"{SMPath.Config}Admins.xml";
+
         /// <inheritdoc/>
         public override PluginInfo Info => new PluginInfo
         {
@@ -38,14 +44,19 @@ namespace SevenMod.Plugin.AdminFlatFile
         /// </summary>
         private void LoadAdmins()
         {
+            if (!File.Exists(ConfigPath))
+            {
+                this.CreateConfig();
+            }
+
             var xml = new XmlDocument();
             try
             {
-                xml.Load($"{SMPath.Config}Admins.xml");
+                xml.Load(ConfigPath);
             }
-            catch (XmlException)
+            catch (XmlException e)
             {
-                Log.Error("[SevenMod] Failed to load Admins.xml");
+                Log.Error($"[SM] Failed reading configuration from {ConfigPath}: {e.Message}");
                 return;
             }
 
@@ -121,6 +132,41 @@ namespace SevenMod.Plugin.AdminFlatFile
 
                     AdminManager.AddAdmin(authId, immunity, flags);
                 }
+            }
+        }
+
+        /// <summary>
+        /// Creates the admin configuration file.
+        /// </summary>
+        private void CreateConfig()
+        {
+            var settings = new XmlWriterSettings();
+            settings.Indent = true;
+            using (var writer = XmlWriter.Create(ConfigPath, settings))
+            {
+                writer.WriteStartElement("AdminFlatFile");
+
+                writer.WriteStartElement("Groups");
+                writer.WriteStartElement("Group");
+                writer.WriteAttributeString("Name", string.Empty);
+                writer.WriteAttributeString("Immunity", string.Empty);
+                writer.WriteAttributeString("Flags", string.Empty);
+                writer.WriteEndElement();
+                writer.WriteEndElement();
+
+                writer.WriteStartElement("Admins");
+                writer.WriteStartElement("Admin");
+                writer.WriteAttributeString("AuthId", string.Empty);
+                writer.WriteAttributeString("Immunity", string.Empty);
+                writer.WriteAttributeString("Flags", string.Empty);
+                writer.WriteAttributeString("Groups", string.Empty);
+                writer.WriteEndElement();
+                writer.WriteEndElement();
+
+                writer.WriteEndElement();
+
+                writer.Close();
+                writer.Flush();
             }
         }
     }

@@ -8,6 +8,7 @@ namespace SevenMod.Database
     using System;
     using System.Collections.Generic;
     using System.Data;
+    using System.IO;
     using System.Xml;
     using SevenMod.Core;
 
@@ -16,6 +17,11 @@ namespace SevenMod.Database
     /// </summary>
     public abstract class Database
     {
+        /// <summary>
+        /// The path to the database configuration file.
+        /// </summary>
+        private static readonly string ConfigPath = $"{SMPath.Config}Databases.xml";
+
         /// <summary>
         /// The available database connection configurations.
         /// </summary>
@@ -131,14 +137,19 @@ namespace SevenMod.Database
         /// </summary>
         private static void ParseConfig()
         {
+            if (!File.Exists(ConfigPath))
+            {
+                CreateConfig();
+            }
+
             var xml = new XmlDocument();
             try
             {
                 xml.Load($"{SMPath.Config}Databases.xml");
             }
-            catch (XmlException)
+            catch (XmlException e)
             {
-                Log.Error("[SevenMod] Failed to load Datebases.xml");
+                Log.Error($"[SM] Failed reading configuration from {ConfigPath}: {e.Message}");
                 return;
             }
 
@@ -228,6 +239,43 @@ namespace SevenMod.Database
                     var connection = new ConnectionInfo(DatabaseDriver.SQLite, database);
                     connections.Add(name, connection);
                 }
+            }
+        }
+
+        /// <summary>
+        /// Creates the default database configuration file.
+        /// </summary>
+        private static void CreateConfig()
+        {
+            var settings = new XmlWriterSettings();
+            settings.Indent = true;
+            using (var writer = XmlWriter.Create(ConfigPath, settings))
+            {
+                writer.WriteStartElement("Databases");
+                writer.WriteElementString("DefaultDriver", "sqlite");
+
+                writer.WriteStartElement("Connection");
+                writer.WriteAttributeString("Name", "storage-local");
+                writer.WriteElementString("Driver", "sqlite");
+                writer.WriteElementString("Database", "storage-local");
+                writer.WriteEndElement();
+
+                writer.WriteStartElement("Connection");
+                writer.WriteAttributeString("Name", "example");
+                writer.WriteElementString("Driver", "mysql");
+                writer.WriteElementString("Host", "127.0.0.1");
+                writer.WriteElementString("Database", "sevenmod");
+                writer.WriteElementString("User", "root");
+                writer.WriteStartElement("Pass");
+                writer.WriteRaw(string.Empty);
+                writer.WriteEndElement();
+                writer.WriteElementString("Port", "3306");
+                writer.WriteEndElement();
+
+                writer.WriteEndElement();
+
+                writer.Close();
+                writer.Flush();
             }
         }
 
