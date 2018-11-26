@@ -14,7 +14,7 @@ namespace SevenMod.ConVar
     /// <summary>
     /// Manages console variables.
     /// </summary>
-    public class ConVarManager
+    internal class ConVarManager
     {
         /// <summary>
         /// The list of registered console variables.

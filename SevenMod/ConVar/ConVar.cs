@@ -24,7 +24,7 @@ namespace SevenMod.ConVar
         /// <param name="min">The minimum value of the variable if <paramref name="hasMin"/> is <c>true</c>.</param>
         /// <param name="hasMax">A value indicating whether the variable has a maximum value.</param>
         /// <param name="max">The maximum value of the variable if <paramref name="hasMax"/> is <c>true</c>.</param>
-        public ConVar(PluginAbstract plugin, string name, string defaultValue, string description, bool hasMin, float min, bool hasMax, float max)
+        internal ConVar(PluginAbstract plugin, string name, string defaultValue, string description, bool hasMin, float min, bool hasMax, float max)
         {
             this.Name = name;
             this.DefaultValue = defaultValue;

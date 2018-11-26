@@ -13,7 +13,7 @@ namespace SevenMod.Console
     /// <summary>
     /// Manages admin commands.
     /// </summary>
-    public class AdminCommandManager
+    internal class AdminCommandManager
     {
         /// <summary>
         /// The list of registered admin commands.
@@ -92,7 +92,7 @@ namespace SevenMod.Console
         /// Unloads all admin commands associated with a plugin.
         /// </summary>
         /// <param name="plugin">The plugin for which to unload admin commands.</param>
-        internal static void UnloadPlugin(PluginAbstract plugin)
+        public static void UnloadPlugin(PluginAbstract plugin)
         {
             commands.RemoveAll((AdminCommand command) => command.Plugin.Equals(plugin));
         }

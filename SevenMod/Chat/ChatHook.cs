@@ -37,7 +37,7 @@ namespace SevenMod.Chat
         /// <summary>
         /// Initializes the chat hook system.
         /// </summary>
-        public static void Init()
+        internal static void Init()
         {
             publicChatTrigger = ConVarManager.CreateConVar(null, "PublicChatTrigger", "!", "Chat prefix for public commands.").Value;
             silentChatTrigger = ConVarManager.CreateConVar(null, "SilentChatTrigger", "/", "Chat prefix for silent commands.").Value;
@@ -49,7 +49,7 @@ namespace SevenMod.Chat
         /// <param name="client">The <see cref="ClientInfo"/> object representing the client that sent the message.</param>
         /// <param name="message">The message text.</param>
         /// <returns><c>true</c> to allow the message to continue propagating; <c>false</c> to consume the message.</returns>
-        public static bool HookChatMessage(ClientInfo client, string message)
+        internal static bool HookChatMessage(ClientInfo client, string message)
         {
             if (client == null)
             {
@@ -87,7 +87,7 @@ namespace SevenMod.Chat
         /// </summary>
         /// <param name="client">The <see cref="ClientInfo"/> object representing the client for which to reply.</param>
         /// <returns><c>true</c> to reply via chat; <c>false</c> to reply via console.</returns>
-        public static bool ShouldReplyToChat(ClientInfo client)
+        internal static bool ShouldReplyToChat(ClientInfo client)
         {
             return replyToChat.Contains(client.entityId);
         }

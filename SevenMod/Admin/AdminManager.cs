@@ -186,7 +186,7 @@ namespace SevenMod.Admin
         /// </summary>
         /// <param name="flagString">A string of access flag characters.</param>
         /// <returns>The <see cref="AdminFlags"/> representing the access flags.</returns>
-        protected static AdminFlags ParseFlags(string flagString)
+        private static AdminFlags ParseFlags(string flagString)
         {
             AdminFlags flags = 0;
 
