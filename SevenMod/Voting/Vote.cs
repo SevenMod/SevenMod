@@ -91,16 +91,9 @@ namespace SevenMod.Voting
         }
 
         /// <summary>
-        /// Handler for the <see cref="Ended"/> event.
-        /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="e">A <see cref="VoteEndedEventArgs"/> object containing the event data.</param>
-        public delegate void VoteEndedEventHandler(object sender, VoteEndedEventArgs e);
-
-        /// <summary>
         /// Occurs when the vote ends.
         /// </summary>
-        public event VoteEndedEventHandler Ended;
+        public event EventHandler<VoteEndedEventArgs> Ended;
 
         /// <inheritdoc/>
         public bool OnChatMessage(ClientInfo client, string message)

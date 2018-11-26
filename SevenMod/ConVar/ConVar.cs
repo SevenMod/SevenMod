@@ -5,6 +5,7 @@
 
 namespace SevenMod.ConVar
 {
+    using System;
     using SevenMod.Core;
 
     /// <summary>
@@ -37,16 +38,9 @@ namespace SevenMod.ConVar
         }
 
         /// <summary>
-        /// Handler for the <see cref="ConVarChanged"/> event.
-        /// </summary>
-        /// <param name="sender">The origin of the event.</param>
-        /// <param name="e">A <see cref="ConVarChangedEventArgs"/> object containing the event data.</param>
-        public delegate void ConVarChangedEventHandler(object sender, ConVarChangedEventArgs e);
-
-        /// <summary>
         /// Occurs when the value of the variable is changed.
         /// </summary>
-        public event ConVarChangedEventHandler ConVarChanged;
+        public event EventHandler<ConVarChangedEventArgs> ConVarChanged;
 
         /// <summary>
         /// Gets the name of the variable.

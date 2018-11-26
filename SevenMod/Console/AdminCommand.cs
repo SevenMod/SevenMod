@@ -5,6 +5,7 @@
 
 namespace SevenMod.Console
 {
+    using System;
     using System.Collections.Generic;
     using SevenMod.Admin;
     using SevenMod.Core;
@@ -31,16 +32,9 @@ namespace SevenMod.Console
         }
 
         /// <summary>
-        /// Handler for the <see cref="Executed"/> event.
-        /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="e">An <see cref="AdminCommandEventArgs"/> object containing the event data.</param>
-        public delegate void AdminCommandEventHandler(object sender, AdminCommandEventArgs e);
-
-        /// <summary>
         /// Occurs when this command is executed.
         /// </summary>
-        public event AdminCommandEventHandler Executed;
+        public event EventHandler<AdminCommandEventArgs> Executed;
 
         /// <summary>
         /// Gets the name of the command.
