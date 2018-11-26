@@ -17,11 +17,6 @@ namespace SevenMod.Database
     public class SQLiteDatabase : Database
     {
         /// <summary>
-        /// The path to the directory where database files are stored.
-        /// </summary>
-        private static readonly string ConfigPath = $"{SMPath.Data}Databases{Path.DirectorySeparatorChar}";
-
-        /// <summary>
         /// The backing SQLite database connection.
         /// </summary>
         private SQLiteConnection connection;
@@ -59,7 +54,7 @@ namespace SevenMod.Database
         /// <inheritdoc/>
         protected override void Setup(ConnectionInfo connection)
         {
-            var filePath = $"{ConfigPath}{connection.Database}";
+            var filePath = $"{SMPath.Databases}{connection.Database}";
             var connString = $"Data Source={filePath};Version=3;New={!File.Exists(filePath)};Compress=True;";
             this.connection = new SQLiteConnection(connString);
         }

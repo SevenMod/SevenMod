@@ -39,6 +39,7 @@ namespace SevenMod
             ModEvents.PlayerSpawning.RegisterHandler(this.PlayerSpawning);
             ModEvents.SavePlayerData.RegisterHandler(this.SavePlayerData);
 
+            SMPath.Init();
             ChatHook.Init();
             PluginManager.Refresh();
         }

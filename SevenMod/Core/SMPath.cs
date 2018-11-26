@@ -29,8 +29,31 @@ namespace SevenMod.Core
         public static readonly string Data = $"{Base}Data{Path.DirectorySeparatorChar}";
 
         /// <summary>
+        /// The path to the directory containing the database files.
+        /// </summary>
+        public static readonly string Databases = $"{Data}Databases{Path.DirectorySeparatorChar}";
+
+        /// <summary>
         /// The path to the directory containing the plugin files.
         /// </summary>
         public static readonly string Plugins = $"{Base}Plugins{Path.DirectorySeparatorChar}";
+
+        /// <summary>
+        /// The path to the directory containing the disabled plugin files.
+        /// </summary>
+        public static readonly string DisabledPlugins = $"{Plugins}Disabled{Path.DirectorySeparatorChar}";
+
+        /// <summary>
+        /// Creates directories.
+        /// </summary>
+        internal static void Init()
+        {
+            Directory.CreateDirectory(Base);
+            Directory.CreateDirectory(Config);
+            Directory.CreateDirectory(Data);
+            Directory.CreateDirectory(Databases);
+            Directory.CreateDirectory(Plugins);
+            Directory.CreateDirectory(DisabledPlugins);
+        }
     }
 }
