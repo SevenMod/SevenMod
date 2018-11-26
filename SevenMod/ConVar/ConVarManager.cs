@@ -167,53 +167,49 @@ namespace SevenMod.ConVar
         private static void GenerateConfig(ConfigInfo config)
         {
             var path = $"{SMPath.Config}{config.Name}.xml";
-            if (File.Exists(path))
+
+            using (var writer = XmlWriter.Create(path))
             {
-                return;
+                writer.WriteWhitespace("\r\n");
+                writer.WriteStartElement(config.Name);
+
+                foreach (var conVar in conVars.Values)
+                {
+                    if (conVar.Plugin != config.Plugin)
+                    {
+                        continue;
+                    }
+
+                    var description = new StringBuilder().AppendLine();
+                    if (!string.IsNullOrEmpty(conVar.Description))
+                    {
+                        description.Append("    ").AppendLine(conVar.Description).AppendLine();
+                    }
+
+                    if (conVar.HasMin)
+                    {
+                        description.Append("    Min: ").AppendLine(conVar.MinValue.ToString());
+                    }
+
+                    if (conVar.HasMax)
+                    {
+                        description.Append("    Max: ").AppendLine(conVar.MaxValue.ToString());
+                    }
+
+                    description.Append("    Default: ").AppendLine(conVar.DefaultValue).Append("  ");
+
+                    writer.WriteWhitespace("\r\n\r\n  ");
+                    writer.WriteComment(description.ToString());
+                    writer.WriteWhitespace("\r\n  ");
+                    writer.WriteStartElement("property");
+                    writer.WriteAttributeString("name", conVar.Name);
+                    writer.WriteAttributeString("value", conVar.DefaultValue);
+                    writer.WriteEndElement();
+                }
+
+                writer.WriteWhitespace("\r\n\r\n");
+                writer.WriteEndElement();
             }
-
-            var xml = new XmlDocument();
-            xml.AppendChild(xml.CreateXmlDeclaration("1.0", "utf-8", null));
-            var root = xml.CreateElement(config.Name);
-            xml.AppendChild(root);
-
-            foreach (var conVar in conVars.Values)
-            {
-                if (conVar.Plugin != config.Plugin)
-                {
-                    continue;
-                }
-
-                root.AppendChild(xml.CreateWhitespace("\r\n\r\n  "));
-
-                var description = new StringBuilder().AppendLine();
-                if (!string.IsNullOrEmpty(conVar.Description))
-                {
-                    description.Append("    ").AppendLine(conVar.Description).AppendLine();
-                }
-
-                if (conVar.HasMin)
-                {
-                    description.Append("    Min: ").AppendLine(conVar.MinValue.ToString());
-                }
-
-                if (conVar.HasMax)
-                {
-                    description.Append("    Max: ").AppendLine(conVar.MaxValue.ToString());
-                }
-
-                description.Append("    Default: ").AppendLine(conVar.DefaultValue).Append("  ");
-                root.AppendChild(xml.CreateComment(description.ToString()));
-                root.AppendChild(xml.CreateWhitespace("\r\n  "));
-
-                var prop = xml.CreateElement("property");
-                prop.SetAttribute("name", conVar.Name);
-                prop.SetAttribute("value", conVar.DefaultValue);
-                root.AppendChild(prop);
-            }
-
-            root.AppendChild(xml.CreateWhitespace("\r\n\r\n"));
-            xml.Save(path);
         }
 
         /// <summary>
