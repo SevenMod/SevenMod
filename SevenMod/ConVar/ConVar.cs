@@ -100,7 +100,7 @@ namespace SevenMod.ConVar
         /// </summary>
         /// <param name="oldVal">The old value as a string.</param>
         /// <param name="newVal">The new value as a string.</param>
-        internal void NotifyConVarChanged(string oldVal, string newVal)
+        internal void OnConVarChanged(string oldVal, string newVal)
         {
             this.ConVarChanged?.Invoke(this, new ConVarChangedEventArgs(this, oldVal, newVal));
         }

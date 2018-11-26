@@ -30,9 +30,9 @@ namespace SevenMod.Plugin.BaseChat
         {
             base.LoadPlugin();
 
-            this.RegAdminCmd("say", AdminFlags.Chat, "Sends a message to all players").Executed += this.SayExecuted;
-            this.RegAdminCmd("psay", AdminFlags.Chat, "Sends a message privately to one player").Executed += this.PsayExecuted;
-            this.RegAdminCmd("chat", AdminFlags.Chat, "Sends a message to all admins").Executed += this.ChatExecuted;
+            this.RegAdminCmd("say", AdminFlags.Chat, "Sends a message to all players").Executed += this.OnSayCommandExecuted;
+            this.RegAdminCmd("psay", AdminFlags.Chat, "Sends a message privately to one player").Executed += this.OnPsayCommandExecuted;
+            this.RegAdminCmd("chat", AdminFlags.Chat, "Sends a message to all admins").Executed += this.OnChatCommandExecuted;
         }
 
         /// <summary>
@@ -40,7 +40,7 @@ namespace SevenMod.Plugin.BaseChat
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">An <see cref="AdminCommandEventArgs"/> object containing the event data.</param>
-        private void SayExecuted(object sender, AdminCommandEventArgs e)
+        private void OnSayCommandExecuted(object sender, AdminCommandEventArgs e)
         {
             if (e.Arguments.Count < 1)
             {
@@ -73,7 +73,7 @@ namespace SevenMod.Plugin.BaseChat
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">An <see cref="AdminCommandEventArgs"/> object containing the event data.</param>
-        private void PsayExecuted(object sender, AdminCommandEventArgs e)
+        private void OnPsayCommandExecuted(object sender, AdminCommandEventArgs e)
         {
             if (e.Arguments.Count < 2)
             {
@@ -107,7 +107,7 @@ namespace SevenMod.Plugin.BaseChat
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">An <see cref="AdminCommandEventArgs"/> object containing the event data.</param>
-        private void ChatExecuted(object sender, AdminCommandEventArgs e)
+        private void OnChatCommandExecuted(object sender, AdminCommandEventArgs e)
         {
             if (e.Arguments.Count < 1)
             {

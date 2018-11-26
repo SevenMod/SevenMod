@@ -61,7 +61,7 @@ namespace SevenMod.Console
         /// </summary>
         /// <param name="arguments">The list of arguments for the command.</param>
         /// <param name="senderInfo">The <see cref="CommandSenderInfo"/> object representing the client that is executing the command.</param>
-        internal void Execute(List<string> arguments, CommandSenderInfo senderInfo)
+        internal void OnExecute(List<string> arguments, CommandSenderInfo senderInfo)
         {
             this.Executed?.Invoke(this, new AdminCommandEventArgs(this, arguments, senderInfo));
         }

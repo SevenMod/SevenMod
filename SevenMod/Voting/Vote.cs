@@ -61,10 +61,10 @@ namespace SevenMod.Voting
 
             this.data = data;
 
-            ChatHook.ChatMessage += this.ChatMessage;
+            ChatHook.ChatMessage += this.OnChatMessage;
 
             this.timer = new Timer(20000);
-            this.timer.Elapsed += this.VoteElapsed;
+            this.timer.Elapsed += this.OnVoteEnded;
             this.timer.Enabled = true;
 
             string msg;
@@ -106,7 +106,7 @@ namespace SevenMod.Voting
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">A <see cref="ChatMessageEventArgs"/> object containing the event data.</param>
-        private void ChatMessage(object sender, ChatMessageEventArgs e)
+        private void OnChatMessage(object sender, ChatMessageEventArgs e)
         {
             if (!this.votingPool.ContainsKey(e.Client.playerId))
             {
@@ -157,7 +157,7 @@ namespace SevenMod.Voting
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">An <see cref="ElapsedEventArgs"/> object that contains the event data.</param>
-        private void VoteElapsed(object sender, ElapsedEventArgs e)
+        private void OnVoteEnded(object sender, ElapsedEventArgs e)
         {
             var counts = new int[this.voteOptions.Length];
             foreach (var vote in this.votingPool.Values)
@@ -187,7 +187,7 @@ namespace SevenMod.Voting
         private void EndVote()
         {
             this.timer.Dispose();
-            ChatHook.ChatMessage -= this.ChatMessage;
+            ChatHook.ChatMessage -= this.OnChatMessage;
         }
     }
 }

@@ -85,7 +85,7 @@ namespace SevenMod.Console
                 }
             }
 
-            info.Execute(arguments, senderInfo);
+            info.OnExecute(arguments, senderInfo);
         }
 
         /// <summary>

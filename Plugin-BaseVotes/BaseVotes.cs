@@ -47,9 +47,9 @@ namespace SevenMod.Plugin.BaseVotes
 
             this.AutoExecConfig(true, "BaseVotes");
 
-            this.RegAdminCmd("vote", AdminFlags.Vote, "Starts a vote").Executed += this.VoteExecuted;
-            this.RegAdminCmd("voteban", AdminFlags.Vote, "Starts a vote to temporarily ban a player from the server").Executed += this.VoteBanExecuted;
-            this.RegAdminCmd("votekick", AdminFlags.Vote, "Starts a vote to kick a player from the server").Executed += this.VoteKickExecuted;
+            this.RegAdminCmd("vote", AdminFlags.Vote, "Starts a vote").Executed += this.OnVoteCommandExecuted;
+            this.RegAdminCmd("voteban", AdminFlags.Vote, "Starts a vote to temporarily ban a player from the server").Executed += this.OnVotebanCommandExecuted;
+            this.RegAdminCmd("votekick", AdminFlags.Vote, "Starts a vote to kick a player from the server").Executed += this.OnVotekickCommandExecuted;
         }
 
         /// <summary>
@@ -57,7 +57,7 @@ namespace SevenMod.Plugin.BaseVotes
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">An <see cref="AdminCommandEventArgs"/> object containing the event data.</param>
-        private void VoteExecuted(object sender, AdminCommandEventArgs e)
+        private void OnVoteCommandExecuted(object sender, AdminCommandEventArgs e)
         {
             if (e.Arguments.Count < 1)
             {
@@ -73,7 +73,7 @@ namespace SevenMod.Plugin.BaseVotes
 
             if (VoteManager.StartVote(e.Arguments[0], e.Arguments.GetRange(1, e.Arguments.Count - 1)))
             {
-                VoteManager.CurrentVote.Ended += this.VoteEnded;
+                VoteManager.CurrentVote.Ended += this.OnVoteEnded;
             }
         }
 
@@ -82,7 +82,7 @@ namespace SevenMod.Plugin.BaseVotes
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">A <see cref="VoteEndedEventArgs"/> object containing the event data.</param>
-        private void VoteEnded(object sender, VoteEndedEventArgs e)
+        private void OnVoteEnded(object sender, VoteEndedEventArgs e)
         {
             ChatHelper.SendToAll("Voting has ended", "Vote");
             for (var i = 0; i < e.Options.Length; i++)
@@ -96,7 +96,7 @@ namespace SevenMod.Plugin.BaseVotes
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">An <see cref="AdminCommandEventArgs"/> object containing the event data.</param>
-        private void VoteBanExecuted(object sender, AdminCommandEventArgs e)
+        private void OnVotebanCommandExecuted(object sender, AdminCommandEventArgs e)
         {
             if (e.Arguments.Count < 1)
             {
@@ -110,7 +110,7 @@ namespace SevenMod.Plugin.BaseVotes
                 var message = $"A vote has begun to ban {target.playerName} from the server";
                 if (VoteManager.StartVote(message, null, target))
                 {
-                    VoteManager.CurrentVote.Ended += this.VoteBanEnded;
+                    VoteManager.CurrentVote.Ended += this.OnBanVoteEnded;
                 }
             }
         }
@@ -120,7 +120,7 @@ namespace SevenMod.Plugin.BaseVotes
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">A <see cref="VoteEndedEventArgs"/> object containing the event data.</param>
-        private void VoteBanEnded(object sender, VoteEndedEventArgs e)
+        private void OnBanVoteEnded(object sender, VoteEndedEventArgs e)
         {
             string message;
             if (e.Percents[0] >= this.voteBanPercent.AsFloat)
@@ -142,7 +142,7 @@ namespace SevenMod.Plugin.BaseVotes
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">An <see cref="AdminCommandEventArgs"/> object containing the event data.</param>
-        private void VoteKickExecuted(object sender, AdminCommandEventArgs e)
+        private void OnVotekickCommandExecuted(object sender, AdminCommandEventArgs e)
         {
             if (e.Arguments.Count < 1)
             {
@@ -156,7 +156,7 @@ namespace SevenMod.Plugin.BaseVotes
                 var message = $"A vote has begun to kick {target.playerName} from the server";
                 if (VoteManager.StartVote(message, null, target))
                 {
-                    VoteManager.CurrentVote.Ended += this.VoteKickEnded;
+                    VoteManager.CurrentVote.Ended += this.OnKickVoteEnded;
                 }
             }
         }
@@ -166,7 +166,7 @@ namespace SevenMod.Plugin.BaseVotes
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">A <see cref="VoteEndedEventArgs"/> object containing the event data.</param>
-        private void VoteKickEnded(object sender, VoteEndedEventArgs e)
+        private void OnKickVoteEnded(object sender, VoteEndedEventArgs e)
         {
             string message;
             if (e.Percents[0] >= this.voteKickPercent.AsFloat)

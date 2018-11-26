@@ -58,7 +58,7 @@ namespace SevenMod.ConVar
 
                 if (!this.AsString.Equals(value.ToString()))
                 {
-                    this.ConVar.NotifyConVarChanged(this.AsString, value.ToString());
+                    this.ConVar.OnConVarChanged(this.AsString, value.ToString());
                     this.AsString = value.ToString();
                 }
             }

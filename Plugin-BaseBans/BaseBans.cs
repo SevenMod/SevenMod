@@ -30,9 +30,9 @@ namespace SevenMod.Plugin.BaseBans
         {
             base.LoadPlugin();
 
-            this.RegAdminCmd("addban", AdminFlags.Ban, "Adds a player to the server ban list").Executed += this.AddBanExecuted;
-            this.RegAdminCmd("ban", AdminFlags.Ban, "Bans a player from the server").Executed += this.BanExecuted;
-            this.RegAdminCmd("unban", AdminFlags.Unban, "Unbans a player from the server").Executed += this.UnbanExecuted;
+            this.RegAdminCmd("addban", AdminFlags.Ban, "Adds a player to the server ban list").Executed += this.OnAddbanCommandExecuted;
+            this.RegAdminCmd("ban", AdminFlags.Ban, "Bans a player from the server").Executed += this.OnBanCommandExecuted;
+            this.RegAdminCmd("unban", AdminFlags.Unban, "Unbans a player from the server").Executed += this.OnUnbanCommandExecuted;
         }
 
         /// <summary>
@@ -40,7 +40,7 @@ namespace SevenMod.Plugin.BaseBans
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">An <see cref="AdminCommandEventArgs"/> object containing the event data.</param>
-        private void AddBanExecuted(object sender, AdminCommandEventArgs e)
+        private void OnAddbanCommandExecuted(object sender, AdminCommandEventArgs e)
         {
             if (e.Arguments.Count < 1)
             {
@@ -62,7 +62,7 @@ namespace SevenMod.Plugin.BaseBans
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">An <see cref="AdminCommandEventArgs"/> object containing the event data.</param>
-        private void BanExecuted(object sender, AdminCommandEventArgs e)
+        private void OnBanCommandExecuted(object sender, AdminCommandEventArgs e)
         {
             if (e.Arguments.Count < 2)
             {
@@ -95,7 +95,7 @@ namespace SevenMod.Plugin.BaseBans
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">An <see cref="AdminCommandEventArgs"/> object containing the event data.</param>
-        private void UnbanExecuted(object sender, AdminCommandEventArgs e)
+        private void OnUnbanCommandExecuted(object sender, AdminCommandEventArgs e)
         {
             if (e.Arguments.Count < 1)
             {

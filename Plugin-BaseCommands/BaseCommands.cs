@@ -30,9 +30,9 @@ namespace SevenMod.Plugin.BaseCommands
         {
             base.LoadPlugin();
 
-            this.RegAdminCmd("kick", AdminFlags.Kick, "Kicks a player from the server").Executed += this.KickExecuted;
-            this.RegAdminCmd("reloadadmins", AdminFlags.Ban, "Reloads the admin list").Executed += this.ReloadAdminsExecuted;
-            this.RegAdminCmd("who", AdminFlags.Generic, "Lists connected clients and their access flags").Executed += this.WhoExecuted;
+            this.RegAdminCmd("kick", AdminFlags.Kick, "Kicks a player from the server").Executed += this.OnKickCommandExecuted;
+            this.RegAdminCmd("reloadadmins", AdminFlags.Ban, "Reloads the admin list").Executed += this.OnReloadadminsCommandExecuted;
+            this.RegAdminCmd("who", AdminFlags.Generic, "Lists connected clients and their access flags").Executed += this.OnWhoCommandExecuted;
         }
 
         /// <summary>
@@ -40,7 +40,7 @@ namespace SevenMod.Plugin.BaseCommands
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">An <see cref="AdminCommandEventArgs"/> object containing the event data.</param>
-        private void KickExecuted(object sender, AdminCommandEventArgs e)
+        private void OnKickCommandExecuted(object sender, AdminCommandEventArgs e)
         {
             if (e.Arguments.Count < 1)
             {
@@ -59,7 +59,7 @@ namespace SevenMod.Plugin.BaseCommands
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">An <see cref="AdminCommandEventArgs"/> object containing the event data.</param>
-        private void ReloadAdminsExecuted(object sender, AdminCommandEventArgs e)
+        private void OnReloadadminsCommandExecuted(object sender, AdminCommandEventArgs e)
         {
             AdminManager.RemoveAllAdmins();
             foreach (var plugin in PluginManager.Plugins)
@@ -73,7 +73,7 @@ namespace SevenMod.Plugin.BaseCommands
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">An <see cref="AdminCommandEventArgs"/> object containing the event data.</param>
-        private void WhoExecuted(object sender, AdminCommandEventArgs e)
+        private void OnWhoCommandExecuted(object sender, AdminCommandEventArgs e)
         {
             ChatHelper.ReplyToCommand(e.SenderInfo, string.Format("  {0,-24} {1,-18} {2}", "Name", "Username", "Admin access"));
             foreach (var client in GameManager.Instance.World.Players.dict.Values)

@@ -30,7 +30,7 @@ namespace SevenMod.Plugin.PlayerCommands
         {
             base.LoadPlugin();
 
-            this.RegAdminCmd("slay", AdminFlags.Slay, "Kills a player").Executed += this.SlayExecuted;
+            this.RegAdminCmd("slay", AdminFlags.Slay, "Kills a player").Executed += this.OnSlayCommandExecuted;
         }
 
         /// <summary>
@@ -38,7 +38,7 @@ namespace SevenMod.Plugin.PlayerCommands
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">An <see cref="AdminCommandEventArgs"/> object containing the event data.</param>
-        private void SlayExecuted(object sender, AdminCommandEventArgs e)
+        private void OnSlayCommandExecuted(object sender, AdminCommandEventArgs e)
         {
             if (e.Arguments.Count < 1)
             {

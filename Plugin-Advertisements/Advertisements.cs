@@ -82,10 +82,10 @@ namespace SevenMod.Plugin.Advertisements
             this.LoadMessages();
 
             this.timer = new Timer(this.interval.AsInt * 60000);
-            this.timer.Elapsed += this.TimerElapsed;
+            this.timer.Elapsed += this.OnTimerElapsed;
             this.timer.Start();
 
-            this.interval.ConVar.ConVarChanged += this.IntervalConVarChanged;
+            this.interval.ConVar.ConVarChanged += this.OnIntervalConVarChanged;
         }
 
         /// <inheritdoc/>
@@ -100,7 +100,7 @@ namespace SevenMod.Plugin.Advertisements
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">A <see cref="ConVarChangedEventArgs"/> object containing the event data.</param>
-        private void IntervalConVarChanged(object sender, ConVarChangedEventArgs e)
+        private void OnIntervalConVarChanged(object sender, ConVarChangedEventArgs e)
         {
             this.timer.Interval = this.interval.AsInt * 60000;
         }
@@ -137,9 +137,9 @@ namespace SevenMod.Plugin.Advertisements
             {
                 this.watcher = new FileSystemWatcher(SMPath.Config, Path.GetFileName(ListPath));
                 this.watcher.NotifyFilter = NotifyFilters.FileName | NotifyFilters.LastWrite | NotifyFilters.DirectoryName;
-                this.watcher.Changed += this.ListFileChanged;
-                this.watcher.Deleted += this.ListFileChanged;
-                this.watcher.Renamed += this.ListFileChanged;
+                this.watcher.Changed += this.OnListFileChanged;
+                this.watcher.Deleted += this.OnListFileChanged;
+                this.watcher.Renamed += this.OnListFileChanged;
                 this.watcher.EnableRaisingEvents = true;
             }
         }
@@ -149,7 +149,7 @@ namespace SevenMod.Plugin.Advertisements
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">A <see cref="FileSystemEventArgs"/> object containing the event data.</param>
-        private void ListFileChanged(object sender, FileSystemEventArgs e)
+        private void OnListFileChanged(object sender, FileSystemEventArgs e)
         {
             this.LoadMessages();
         }
@@ -171,7 +171,7 @@ namespace SevenMod.Plugin.Advertisements
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">An <see cref="ElapsedEventArgs"/> object containing the event data.</param>
-        private void TimerElapsed(object sender, ElapsedEventArgs e)
+        private void OnTimerElapsed(object sender, ElapsedEventArgs e)
         {
             if (this.messages.Count == 0)
             {
