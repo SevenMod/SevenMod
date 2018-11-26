@@ -110,7 +110,8 @@
     <Compile Include="Database\Database.cs" />
     <Compile Include="Database\SQLiteDatabase.cs" />
     <Compile Include="Database\MySqlDatabase.cs" />
-    <Compile Include="Voting\IVoteResultListener.cs" />
+    <Compile Include="Voting\Vote.cs" />
+    <Compile Include="Voting\VoteEndedEventArgs.cs" />
     <Compile Include="Voting\VoteManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

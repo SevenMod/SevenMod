@@ -17,6 +17,16 @@ namespace SevenMod.Plugin.BaseVotes
     /// </summary>
     public class BaseVotes : PluginAbstract
     {
+        /// <summary>
+        /// The value of the VoteBanPercent <see cref="ConVar"/>.
+        /// </summary>
+        private ConVarValue voteBanPercent;
+
+        /// <summary>
+        /// The value of the VoteKickPercent <see cref="ConVar"/>.
+        /// </summary>
+        private ConVarValue voteKickPercent;
+
         /// <inheritdoc/>
         public override PluginInfo Info => new PluginInfo
         {
@@ -32,8 +42,8 @@ namespace SevenMod.Plugin.BaseVotes
         {
             base.LoadPlugin();
 
-            this.CreateConVar("VoteBanPercent", "0.60", "The percentage of players that must vote yes for a successful ban vote.", true, 0, true, 1);
-            this.CreateConVar("VoteKickPercent", "0.60", "The percentage of players that must vote yes for a successful kick vote.", true, 0, true, 1);
+            this.voteBanPercent = this.CreateConVar("VoteBanPercent", "0.60", "The percentage of players that must vote yes for a successful ban vote.", true, 0, true, 1).Value;
+            this.voteKickPercent = this.CreateConVar("VoteKickPercent", "0.60", "The percentage of players that must vote yes for a successful kick vote.", true, 0, true, 1).Value;
 
             this.AutoExecConfig(true, "BaseVotes");
 
@@ -49,11 +59,6 @@ namespace SevenMod.Plugin.BaseVotes
         /// <param name="e">An <see cref="AdminCommandEventArgs"/> object containing the event data.</param>
         private void VoteExecuted(object sender, AdminCommandEventArgs e)
         {
-            if (VoteManager.Instance.VoteInProgress)
-            {
-                return;
-            }
-
             if (e.Arguments.Count < 1)
             {
                 ChatHelper.ReplyToCommand(e.SenderInfo, "Not enough parameters");
@@ -66,7 +71,24 @@ namespace SevenMod.Plugin.BaseVotes
                 return;
             }
 
-            VoteManager.Instance.StartVote(e.Arguments[0], e.Arguments.GetRange(1, e.Arguments.Count - 1), new VoteListener());
+            if (VoteManager.StartVote(e.Arguments[0], e.Arguments.GetRange(1, e.Arguments.Count - 1)))
+            {
+                VoteManager.CurrentVote.Ended += this.VoteEnded;
+            }
+        }
+
+        /// <summary>
+        /// Called when a generic vote ends.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">A <see cref="VoteEndedEventArgs"/> object containing the event data.</param>
+        private void VoteEnded(object sender, VoteEndedEventArgs e)
+        {
+            ChatHelper.SendToAll("Voting has ended", "Vote");
+            for (var i = 0; i < e.Options.Length; i++)
+            {
+                ChatHelper.SendToAll(string.Format("{0}: {1:P2} ({2} votes)", e.Options[i], e.Percents[i], e.Votes[i]), "Result");
+            }
         }
 
         /// <summary>
@@ -76,11 +98,6 @@ namespace SevenMod.Plugin.BaseVotes
         /// <param name="e">An <see cref="AdminCommandEventArgs"/> object containing the event data.</param>
         private void VoteBanExecuted(object sender, AdminCommandEventArgs e)
         {
-            if (VoteManager.Instance.VoteInProgress)
-            {
-                return;
-            }
-
             if (e.Arguments.Count < 1)
             {
                 ChatHelper.ReplyToCommand(e.SenderInfo, "Not enough parameters");
@@ -91,9 +108,33 @@ namespace SevenMod.Plugin.BaseVotes
             if (target != null)
             {
                 var message = $"A vote has begun to ban {target.playerName} from the server";
-                var listener = new VoteBanListener(target);
-                VoteManager.Instance.StartVote(message, null, listener);
+                if (VoteManager.StartVote(message, null, target))
+                {
+                    VoteManager.CurrentVote.Ended += this.VoteBanEnded;
+                }
             }
+        }
+
+        /// <summary>
+        /// Called when a ban vote ends.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">A <see cref="VoteEndedEventArgs"/> object containing the event data.</param>
+        private void VoteBanEnded(object sender, VoteEndedEventArgs e)
+        {
+            string message;
+            if (e.Percents[0] >= this.voteBanPercent.AsFloat)
+            {
+                var target = e.Data as ClientInfo;
+                message = string.Format("Vote succeeded with {0:P2} of the vote. Banning {1}...", e.Percents[0], target.playerName);
+                SdtdConsole.Instance.ExecuteSync($"ban add {target.playerId} 30 minutes \"Vote banned\"", null);
+            }
+            else
+            {
+                message = string.Format("Vote failed with {0:P2} of the vote.", e.Percents[0]);
+            }
+
+            ChatHelper.SendToAll(message, "Vote");
         }
 
         /// <summary>
@@ -103,11 +144,6 @@ namespace SevenMod.Plugin.BaseVotes
         /// <param name="e">An <see cref="AdminCommandEventArgs"/> object containing the event data.</param>
         private void VoteKickExecuted(object sender, AdminCommandEventArgs e)
         {
-            if (VoteManager.Instance.VoteInProgress)
-            {
-                return;
-            }
-
             if (e.Arguments.Count < 1)
             {
                 ChatHelper.ReplyToCommand(e.SenderInfo, "Not enough parameters");
@@ -118,111 +154,33 @@ namespace SevenMod.Plugin.BaseVotes
             if (target != null)
             {
                 var message = $"A vote has begun to kick {target.playerName} from the server";
-                var listener = new VoteKickListener(target);
-                VoteManager.Instance.StartVote(message, null, listener);
-            }
-        }
-
-        /// <summary>
-        /// Represents a generic vote results listener.
-        /// </summary>
-        public class VoteListener : IVoteResultListener
-        {
-            /// <inheritdoc/>
-            public void OnVoteEnd(string[] options, int[] votes, float[] percents)
-            {
-                ChatHelper.SendToAll("Voting has ended", "Vote");
-                for (var i = 0; i < options.Length; i++)
+                if (VoteManager.StartVote(message, null, target))
                 {
-                    ChatHelper.SendToAll(string.Format("{0}: {1:P2} ({2} votes)", options[i], percents[i], votes[i]), "Result");
+                    VoteManager.CurrentVote.Ended += this.VoteKickEnded;
                 }
             }
         }
 
         /// <summary>
-        /// Represents a ban vote result listener.
+        /// Called when a kick vote ends.
         /// </summary>
-        public class VoteBanListener : IVoteResultListener
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">A <see cref="VoteEndedEventArgs"/> object containing the event data.</param>
+        private void VoteKickEnded(object sender, VoteEndedEventArgs e)
         {
-            /// <summary>
-            /// The target client for the ban vote.
-            /// </summary>
-            private ClientInfo target;
-
-            /// <summary>
-            /// The value of the VoteBanPercent <see cref="ConVar"/>.
-            /// </summary>
-            private ConVarValue percent;
-
-            /// <summary>
-            /// Initializes a new instance of the <see cref="VoteBanListener"/> class.
-            /// </summary>
-            /// <param name="target">The target client for the ban vote.</param>
-            public VoteBanListener(ClientInfo target)
+            string message;
+            if (e.Percents[0] >= this.voteKickPercent.AsFloat)
             {
-                this.target = target;
-                this.percent = ConVarManager.FindConVar("VoteBanPercent").Value;
+                var target = e.Data as ClientInfo;
+                message = string.Format("Vote succeeded with {0:P2} of the vote. Kicking {1}...", e.Percents[0], target.playerName);
+                SdtdConsole.Instance.ExecuteSync($"kick {target.playerId} \"Vote kicked\"", null);
+            }
+            else
+            {
+                message = string.Format("Vote failed with {0:P2} of the vote.", e.Percents[0]);
             }
 
-            /// <inheritdoc/>
-            public void OnVoteEnd(string[] options, int[] votes, float[] percents)
-            {
-                string message;
-                if (percents[0] >= this.percent.AsFloat)
-                {
-                    message = string.Format("Vote succeeded with {0:P2} of the vote. Banning {1}...", percents[0], this.target.playerName);
-                    SdtdConsole.Instance.ExecuteSync($"ban add {this.target.playerId} 30 minutes \"Vote banned\"", null);
-                }
-                else
-                {
-                    message = string.Format("Vote failed with {0:P2} of the vote.", percents[0]);
-                }
-
-                ChatHelper.SendToAll(message, "Vote");
-            }
-        }
-
-        /// <summary>
-        /// Represents a kick vote result listener.
-        /// </summary>
-        public class VoteKickListener : IVoteResultListener
-        {
-            /// <summary>
-            /// The target client for the kick vote.
-            /// </summary>
-            private ClientInfo target;
-
-            /// <summary>
-            /// The value of the VoteKickPercent <see cref="ConVar"/>.
-            /// </summary>
-            private ConVarValue percent;
-
-            /// <summary>
-            /// Initializes a new instance of the <see cref="VoteKickListener"/> class.
-            /// </summary>
-            /// <param name="target">The target client for the kick vote.</param>
-            public VoteKickListener(ClientInfo target)
-            {
-                this.target = target;
-                this.percent = ConVarManager.FindConVar("VoteKickPercent").Value;
-            }
-
-            /// <inheritdoc/>
-            public void OnVoteEnd(string[] options, int[] votes, float[] percents)
-            {
-                string message;
-                if (percents[0] >= this.percent.AsFloat)
-                {
-                    message = string.Format("Vote succeeded with {0:P2} of the vote. Kicking {1}...", percents[0], this.target.playerName);
-                    SdtdConsole.Instance.ExecuteSync($"kick {this.target.playerId} \"Vote kicked\"", null);
-                }
-                else
-                {
-                    message = string.Format("Vote failed with {0:P2} of the vote.", percents[0]);
-                }
-
-                ChatHelper.SendToAll(message, "Vote");
-            }
+            ChatHelper.SendToAll(message, "Vote");
         }
     }
 }
