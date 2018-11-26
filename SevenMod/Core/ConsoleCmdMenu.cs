@@ -3,10 +3,9 @@
 // Licensed under the MIT license. See LICENSE.txt file in the project root for full license information.
 // </copyright>
 
-namespace SevenMod
+namespace SevenMod.Core
 {
     using System.Collections.Generic;
-    using SevenMod.Core;
 
     /// <summary>
     /// Console command for managing SevenMod features.
