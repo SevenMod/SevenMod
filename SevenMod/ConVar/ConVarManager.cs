@@ -172,7 +172,7 @@ namespace SevenMod.ConVar
                 return;
             }
 
-            var xml = new XmlDataDocument();
+            var xml = new XmlDocument();
             xml.AppendChild(xml.CreateXmlDeclaration("1.0", "utf-8", null));
             var root = xml.CreateElement(config.Name);
             xml.AppendChild(root);
