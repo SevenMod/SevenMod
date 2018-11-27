@@ -89,11 +89,17 @@ namespace SevenMod.Admin
         }
 
         /// <summary>
-        /// Removes all admin users.
+        /// Triggers a reload of the admin list.
         /// </summary>
-        public static void RemoveAllAdmins()
+        public static void ReloadAdmins()
         {
             admins.Clear();
+            foreach (var plugin in PluginManager.Plugins)
+            {
+                plugin.ReloadAdmins();
+            }
+
+            Log.Out("Admin list reloaded");
         }
 
         /// <summary>

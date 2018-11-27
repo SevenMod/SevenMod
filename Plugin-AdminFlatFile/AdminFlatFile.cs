@@ -157,11 +157,7 @@ namespace SevenMod.Plugin.AdminFlatFile
         /// <param name="e">A <see cref="FileSystemEventArgs"/> object containing the event data.</param>
         private void OnAdminFileChanged(object sender, FileSystemEventArgs e)
         {
-            AdminManager.RemoveAllAdmins();
-            foreach (var plugin in PluginManager.Plugins)
-            {
-                plugin.ReloadAdmins();
-            }
+            AdminManager.ReloadAdmins();
         }
 
         /// <summary>

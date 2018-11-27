@@ -61,11 +61,7 @@ namespace SevenMod.Plugin.BaseCommands
         /// <param name="e">An <see cref="AdminCommandEventArgs"/> object containing the event data.</param>
         private void OnReloadadminsCommandExecuted(object sender, AdminCommandEventArgs e)
         {
-            AdminManager.RemoveAllAdmins();
-            foreach (var plugin in PluginManager.Plugins)
-            {
-                plugin.ReloadAdmins();
-            }
+            AdminManager.ReloadAdmins();
         }
 
         /// <summary>

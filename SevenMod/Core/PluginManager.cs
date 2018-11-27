@@ -9,6 +9,7 @@ namespace SevenMod.Core
     using System.Collections.Generic;
     using System.IO;
     using System.Reflection;
+    using SevenMod.Admin;
     using SevenMod.Console;
     using SevenMod.ConVar;
 
@@ -49,48 +50,7 @@ namespace SevenMod.Core
         /// <param name="name">The name of the plugin.</param>
         public static void Load(string name)
         {
-            name = name.ToLower();
-            if (plugins.ContainsKey(name))
-            {
-                return;
-            }
-
-            var parentType = Type.GetType("SevenMod.Core.PluginAbstract");
-            var dll = Assembly.LoadFile($"{SMPath.Plugins}{name}.dll");
-            try
-            {
-                var type = dll.GetType($"SevenMod.Plugin.{name}.{name}", true, true);
-                if (type.IsSubclassOf(parentType))
-                {
-                    var plugin = Activator.CreateInstance(type) as PluginAbstract;
-                    plugin.LoadPlugin();
-                    plugin.ReloadAdmins();
-                    if (API.IsGameAwake)
-                    {
-                        plugin.GameAwake();
-                    }
-
-                    if (API.IsGameStartDone)
-                    {
-                        plugin.GameStartDone();
-                    }
-
-                    if (ConVarManager.ConfigsLoaded)
-                    {
-                        ConVarManager.ExecuteConfigs(plugin);
-                        plugin.ConfigsExecuted();
-                    }
-
-                    plugin.ReloadAdmins();
-
-                    plugins.Add(name, plugin);
-                    Log.Out("Added {0}", type.Name);
-                }
-            }
-            catch (Exception e)
-            {
-                Log.Error(e.Message);
-            }
+            Load(name, false);
         }
 
         /// <summary>
@@ -102,7 +62,7 @@ namespace SevenMod.Core
             foreach (var file in files)
             {
                 var name = Path.GetFileNameWithoutExtension(file);
-                Load(name);
+                Load(name, true);
             }
 
             if (!ConVarManager.ConfigsLoaded)
@@ -113,6 +73,8 @@ namespace SevenMod.Core
                     plugin.ConfigsExecuted();
                 }
             }
+
+            AdminManager.ReloadAdmins();
         }
 
         /// <summary>
@@ -122,7 +84,7 @@ namespace SevenMod.Core
         public static void Reload(string name)
         {
             Unload(name);
-            Load(name);
+            Load(name, false);
         }
 
         /// <summary>
@@ -138,6 +100,7 @@ namespace SevenMod.Core
                 AdminCommandManager.UnloadPlugin(plugins[name]);
                 ConVarManager.UnloadPlugin(plugins[name]);
                 plugins.Remove(name);
+                AdminManager.ReloadAdmins();
             }
         }
 
@@ -154,6 +117,60 @@ namespace SevenMod.Core
             }
 
             plugins.Clear();
+            AdminManager.ReloadAdmins();
+        }
+
+        /// <summary>
+        /// Loads a plugin.
+        /// </summary>
+        /// <param name="name">The name of the plugin.</param>
+        /// <param name="refreshing">A value indicating whether the plugin list is being refreshed.</param>
+        private static void Load(string name, bool refreshing)
+        {
+            name = name.ToLower();
+            if (plugins.ContainsKey(name))
+            {
+                return;
+            }
+
+            var parentType = Type.GetType("SevenMod.Core.PluginAbstract");
+            var dll = Assembly.LoadFile($"{SMPath.Plugins}{name}.dll");
+            try
+            {
+                var type = dll.GetType($"SevenMod.Plugin.{name}.{name}", true, true);
+                if (type.IsSubclassOf(parentType))
+                {
+                    var plugin = Activator.CreateInstance(type) as PluginAbstract;
+                    plugin.LoadPlugin();
+                    if (API.IsGameAwake)
+                    {
+                        plugin.GameAwake();
+                    }
+
+                    if (API.IsGameStartDone)
+                    {
+                        plugin.GameStartDone();
+                    }
+
+                    if (ConVarManager.ConfigsLoaded)
+                    {
+                        ConVarManager.ExecuteConfigs(plugin);
+                        plugin.ConfigsExecuted();
+                    }
+
+                    if (!refreshing)
+                    {
+                        AdminManager.ReloadAdmins();
+                    }
+
+                    plugins.Add(name, plugin);
+                    Log.Out($"[SM] Added plugin {type.Name}");
+                }
+            }
+            catch (Exception e)
+            {
+                Log.Error($"[SM] Failed loading plugin {name}.dll: {e.Message}");
+            }
         }
     }
 }
