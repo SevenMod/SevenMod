@@ -33,6 +33,11 @@ namespace SevenMod.Database
         private static bool configLoaded;
 
         /// <summary>
+        /// The watcher for changes to the database configuration file.
+        /// </summary>
+        private static FileSystemWatcher watcher;
+
+        /// <summary>
         /// Represents a database driver.
         /// </summary>
         protected enum DatabaseDriver
@@ -137,6 +142,8 @@ namespace SevenMod.Database
         /// </summary>
         private static void ParseConfig()
         {
+            connections.Clear();
+
             if (!File.Exists(ConfigPath))
             {
                 CreateConfig();
@@ -240,6 +247,26 @@ namespace SevenMod.Database
                     connections.Add(name, connection);
                 }
             }
+
+            if (watcher == null)
+            {
+                watcher = new FileSystemWatcher(Path.GetDirectoryName(ConfigPath), Path.GetFileName(ConfigPath));
+                watcher.NotifyFilter = NotifyFilters.FileName | NotifyFilters.LastWrite;
+                watcher.Changed += OnConfigFileChanged;
+                watcher.Deleted += OnConfigFileChanged;
+                watcher.Renamed += OnConfigFileChanged;
+                watcher.EnableRaisingEvents = true;
+            }
+        }
+
+        /// <summary>
+        /// Called by the <see cref="watcher"/> when the database configuration file changes.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">A <see cref="FileSystemEventArgs"/> object containing the event data.</param>
+        private static void OnConfigFileChanged(object sender, FileSystemEventArgs e)
+        {
+            ParseConfig();
         }
 
         /// <summary>

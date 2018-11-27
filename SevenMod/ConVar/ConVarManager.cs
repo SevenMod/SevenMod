@@ -27,6 +27,11 @@ namespace SevenMod.ConVar
         private static List<ConfigInfo> configs = new List<ConfigInfo>();
 
         /// <summary>
+        /// The watches for changes in the configuration directory.
+        /// </summary>
+        private static FileSystemWatcher watcher;
+
+        /// <summary>
         /// Gets a value indicating whether the auto executing configurations have been loaded.
         /// </summary>
         public static bool ConfigsLoaded { get; private set; }
@@ -128,12 +133,12 @@ namespace SevenMod.ConVar
             var path = $"{SMPath.Config}{config.Name}.xml";
             if (!File.Exists(path))
             {
-                if (config.AutoCreate)
+                if (!config.AutoCreate)
                 {
-                    GenerateConfig(config);
+                    return;
                 }
 
-                return;
+                GenerateConfig(config);
             }
 
             var xml = new XmlDocument();
@@ -157,6 +162,31 @@ namespace SevenMod.ConVar
                         conVar.Value.Value = element.GetAttribute("value");
                     }
                 }
+            }
+
+            if (watcher == null)
+            {
+                watcher = new FileSystemWatcher(SMPath.Config, "*.xml");
+                watcher.NotifyFilter = NotifyFilters.LastWrite | NotifyFilters.FileName;
+                watcher.Changed += OnConfigFileChanged;
+                watcher.Deleted += OnConfigFileChanged;
+                watcher.Renamed += OnConfigFileChanged;
+                watcher.EnableRaisingEvents = true;
+            }
+        }
+
+        /// <summary>
+        /// Called by the <see cref="watcher"/> when a change is detected in the configuration directory.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">A <see cref="FileSystemEventArgs"/> object containing the event data.</param>
+        private static void OnConfigFileChanged(object sender, FileSystemEventArgs e)
+        {
+            var file = Path.GetFileNameWithoutExtension(e.FullPath);
+            var config = configs.Find((ConfigInfo c) => c.Name.Equals(file));
+            if (config != null)
+            {
+                ExecuteConfig(config);
             }
         }
 
@@ -217,10 +247,10 @@ namespace SevenMod.ConVar
         /// <summary>
         /// Contains the metadata for a config file.
         /// </summary>
-        private struct ConfigInfo
+        private class ConfigInfo
         {
             /// <summary>
-            /// Initializes a new instance of the <see cref="ConfigInfo"/> struct.
+            /// Initializes a new instance of the <see cref="ConfigInfo"/> class.
             /// </summary>
             /// <param name="plugin">The plugin associated with this configuration file.</param>
             /// <param name="autoCreate">A value indicating whether the file should be automatically created if it does not exist.</param>

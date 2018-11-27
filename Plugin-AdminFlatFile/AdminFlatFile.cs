@@ -22,6 +22,11 @@ namespace SevenMod.Plugin.AdminFlatFile
         /// </summary>
         private static readonly string ConfigPath = $"{SMPath.Config}Admins.xml";
 
+        /// <summary>
+        /// The watcher for changes to the admin configuration file.
+        /// </summary>
+        private FileSystemWatcher watcher;
+
         /// <inheritdoc/>
         public override PluginInfo Info => new PluginInfo
         {
@@ -132,6 +137,30 @@ namespace SevenMod.Plugin.AdminFlatFile
 
                     AdminManager.AddAdmin(authId, immunity, flags);
                 }
+            }
+
+            if (this.watcher == null)
+            {
+                this.watcher = new FileSystemWatcher(Path.GetDirectoryName(ConfigPath), Path.GetFileName(ConfigPath));
+                this.watcher.NotifyFilter = NotifyFilters.FileName | NotifyFilters.LastWrite;
+                this.watcher.Changed += this.OnAdminFileChanged;
+                this.watcher.Deleted += this.OnAdminFileChanged;
+                this.watcher.Renamed += this.OnAdminFileChanged;
+                this.watcher.EnableRaisingEvents = true;
+            }
+        }
+
+        /// <summary>
+        /// Called by the <see cref="watcher"/> when the admin configuration file changes.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">A <see cref="FileSystemEventArgs"/> object containing the event data.</param>
+        private void OnAdminFileChanged(object sender, FileSystemEventArgs e)
+        {
+            AdminManager.RemoveAllAdmins();
+            foreach (var plugin in PluginManager.Plugins)
+            {
+                plugin.ReloadAdmins();
             }
         }
 
