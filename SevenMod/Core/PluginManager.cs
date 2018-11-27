@@ -35,7 +35,7 @@ namespace SevenMod.Core
         /// <returns>The <see cref="PluginAbstract.PluginInfo"/> object containing the metadata for the plugin, or <c>null</c> if the plugin is not loaded.</returns>
         public static PluginAbstract.PluginInfo? GetPluginInfo(string name)
         {
-            name = name.ToLower();
+            name = name.Trim().ToLower();
             if (plugins.ContainsKey(name))
             {
                 return plugins[name].Info;
@@ -93,7 +93,7 @@ namespace SevenMod.Core
         /// <param name="name">The name of the plugin.</param>
         public static void Unload(string name)
         {
-            name = name.ToLower();
+            name = name.Trim().ToLower();
             if (plugins.ContainsKey(name))
             {
                 plugins[name].UnloadPlugin();
@@ -127,7 +127,7 @@ namespace SevenMod.Core
         /// <param name="refreshing">A value indicating whether the plugin list is being refreshed.</param>
         private static void Load(string name, bool refreshing)
         {
-            name = name.ToLower();
+            name = name.Trim().ToLower();
             if (plugins.ContainsKey(name))
             {
                 return;
