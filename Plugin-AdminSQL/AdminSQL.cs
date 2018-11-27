@@ -24,7 +24,7 @@ namespace SevenMod.Plugin.AdminSQL
             Author = "SevenMod",
             Description = "Loads admin users from a database.",
             Version = "0.1.0.0",
-            Website = "https://github.com/stevotvr/sevenmod"
+            Website = "https://github.com/SevenMod/SevenMod"
         };
 
         /// <inheritdoc/>

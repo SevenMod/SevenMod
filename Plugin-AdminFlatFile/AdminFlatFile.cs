@@ -29,7 +29,7 @@ namespace SevenMod.Plugin.AdminFlatFile
             Author = "SevenMod",
             Description = "Loads admin users from a local configuration file.",
             Version = "0.1.0.0",
-            Website = "https://github.com/stevotvr/sevenmod"
+            Website = "https://github.com/SevenMod/SevenMod"
         };
 
         /// <inheritdoc/>

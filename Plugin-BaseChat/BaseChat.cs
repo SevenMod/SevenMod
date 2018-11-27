@@ -22,7 +22,7 @@ namespace SevenMod.Plugin.BaseChat
             Author = "SevenMod",
             Description = "Adds basic admin chat commands.",
             Version = "0.1.0.0",
-            Website = "https://github.com/stevotvr/sevenmod"
+            Website = "https://github.com/SevenMod/SevenMod"
         };
 
         /// <inheritdoc/>
