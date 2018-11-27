@@ -81,6 +81,8 @@ namespace SevenMod.Core
                         plugin.ConfigsExecuted();
                     }
 
+                    plugin.ReloadAdmins();
+
                     plugins.Add(name, plugin);
                     Log.Out("Added {0}", type.Name);
                 }
