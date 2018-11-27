@@ -85,7 +85,7 @@
   </PropertyGroup>
   <PropertyGroup>
     <PostBuildEvent>
-copy "$(ProjectDir)$(OutDir)Plugin.ReservedSlots.dll" "$(ProjectDir)..\bin\Mods\SevenMod\Plugins\reservedslots.dll"
+copy "$(ProjectDir)$(OutDir)Plugin.ReservedSlots.dll" "$(ProjectDir)..\bin\Mods\SevenMod\Plugins\ReservedSlots.dll"
 </PostBuildEvent>
   </PropertyGroup>
 </Project>

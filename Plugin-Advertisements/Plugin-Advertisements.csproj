@@ -85,7 +85,7 @@
   </PropertyGroup>
   <PropertyGroup>
     <PostBuildEvent>
-copy "$(ProjectDir)$(OutDir)Plugin.Advertisements.dll" "$(ProjectDir)..\bin\Mods\SevenMod\Plugins\advertisements.dll"
+copy "$(ProjectDir)$(OutDir)Plugin.Advertisements.dll" "$(ProjectDir)..\bin\Mods\SevenMod\Plugins\Advertisements.dll"
 </PostBuildEvent>
   </PropertyGroup>
 </Project>

@@ -84,7 +84,7 @@
   </PropertyGroup>
   <PropertyGroup>
     <PostBuildEvent>
-copy "$(ProjectDir)$(OutDir)Plugin.BaseChat.dll" "$(ProjectDir)..\bin\Mods\SevenMod\Plugins\basechat.dll"
+copy "$(ProjectDir)$(OutDir)Plugin.BaseChat.dll" "$(ProjectDir)..\bin\Mods\SevenMod\Plugins\BaseChat.dll"
 </PostBuildEvent>
   </PropertyGroup>
 </Project>

@@ -85,7 +85,7 @@
   </PropertyGroup>
   <PropertyGroup>
     <PostBuildEvent>
-copy "$(ProjectDir)$(OutDir)Plugin.AdminFlatFile.dll" "$(ProjectDir)..\bin\Mods\SevenMod\Plugins\adminflatfile.dll"
+copy "$(ProjectDir)$(OutDir)Plugin.AdminFlatFile.dll" "$(ProjectDir)..\bin\Mods\SevenMod\Plugins\AdminFlatFile.dll"
 </PostBuildEvent>
   </PropertyGroup>
 </Project>

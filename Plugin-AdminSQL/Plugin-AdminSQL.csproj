@@ -85,7 +85,7 @@
   </PropertyGroup>
   <PropertyGroup>
     <PostBuildEvent>
-copy "$(ProjectDir)$(OutDir)Plugin.AdminSQL.dll" "$(ProjectDir)..\bin\Mods\SevenMod\Plugins\Disabled\adminsql.dll"
+copy "$(ProjectDir)$(OutDir)Plugin.AdminSQL.dll" "$(ProjectDir)..\bin\Mods\SevenMod\Plugins\Disabled\AdminSQL.dll"
 </PostBuildEvent>
   </PropertyGroup>
 </Project>

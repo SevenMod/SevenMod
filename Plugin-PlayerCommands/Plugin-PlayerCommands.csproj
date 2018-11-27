@@ -84,7 +84,7 @@
   </PropertyGroup>
   <PropertyGroup>
     <PostBuildEvent>
-copy "$(ProjectDir)$(OutDir)Plugin.PlayerCommands.dll" "$(ProjectDir)..\bin\Mods\SevenMod\Plugins\playercommands.dll"
+copy "$(ProjectDir)$(OutDir)Plugin.PlayerCommands.dll" "$(ProjectDir)..\bin\Mods\SevenMod\Plugins\PlayerCommands.dll"
 </PostBuildEvent>
   </PropertyGroup>
 </Project>

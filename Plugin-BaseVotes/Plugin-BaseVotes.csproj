@@ -84,7 +84,7 @@
   </PropertyGroup>
   <PropertyGroup>
     <PostBuildEvent>
-copy "$(ProjectDir)$(OutDir)Plugin.BaseVotes.dll" "$(ProjectDir)..\bin\Mods\SevenMod\Plugins\basevotes.dll"
+copy "$(ProjectDir)$(OutDir)Plugin.BaseVotes.dll" "$(ProjectDir)..\bin\Mods\SevenMod\Plugins\BaseVotes.dll"
 </PostBuildEvent>
   </PropertyGroup>
 </Project>
