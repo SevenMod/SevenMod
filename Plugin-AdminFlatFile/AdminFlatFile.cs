@@ -193,9 +193,6 @@ namespace SevenMod.Plugin.AdminFlatFile
                 writer.WriteEndElement();
 
                 writer.WriteEndElement();
-
-                writer.Close();
-                writer.Flush();
             }
         }
     }

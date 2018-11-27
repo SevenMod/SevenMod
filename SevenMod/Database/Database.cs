@@ -300,9 +300,6 @@ namespace SevenMod.Database
                 writer.WriteEndElement();
 
                 writer.WriteEndElement();
-
-                writer.Close();
-                writer.Flush();
             }
         }
 
