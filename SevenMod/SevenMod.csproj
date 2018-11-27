@@ -105,6 +105,7 @@
     <Compile Include="Core\ConsoleCmdMenu.cs" />
     <Compile Include="Core\IPluginAPI.cs" />
     <Compile Include="Core\PluginAbstract.cs" />
+    <Compile Include="Core\PluginInfo.cs" />
     <Compile Include="Core\PluginManager.cs" />
     <Compile Include="Core\SMPath.cs" />
     <Compile Include="Core\SteamUtils.cs" />

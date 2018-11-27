@@ -39,7 +39,7 @@ namespace SevenMod.Console
         /// <param name="accessFlags">The <see cref="AdminFlags"/> value required to execute the admin command.</param>
         /// <param name="description">An optional description for the admin command.</param>
         /// <returns>The <see cref="AdminCommand"/> object representing the admin command.</returns>
-        public static AdminCommand CreateAdminCommand(PluginAbstract plugin, string command, AdminFlags accessFlags, string description = "")
+        public static AdminCommand CreateAdminCommand(IPluginAPI plugin, string command, AdminFlags accessFlags, string description = "")
         {
             command = command.Trim();
 
@@ -92,7 +92,7 @@ namespace SevenMod.Console
         /// Unloads all admin commands associated with a plugin.
         /// </summary>
         /// <param name="plugin">The plugin for which to unload admin commands.</param>
-        public static void UnloadPlugin(PluginAbstract plugin)
+        public static void UnloadPlugin(IPluginAPI plugin)
         {
             commands.RemoveAll((AdminCommand command) => command.Plugin.Equals(plugin));
         }

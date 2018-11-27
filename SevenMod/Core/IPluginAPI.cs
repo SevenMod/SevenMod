@@ -13,6 +13,11 @@ namespace SevenMod.Core
     public interface IPluginAPI
     {
         /// <summary>
+        /// Gets the metadata for the plugin.
+        /// </summary>
+        PluginInfo Info { get; }
+
+        /// <summary>
         /// Called when the configuration files have been loaded.
         /// </summary>
         void ConfigsExecuted();

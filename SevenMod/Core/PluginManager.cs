@@ -19,21 +19,26 @@ namespace SevenMod.Core
     public class PluginManager
     {
         /// <summary>
+        /// The <see cref="Type"/> object representing the <see cref="IPluginAPI"/> interface plugins must implement.
+        /// </summary>
+        private static readonly Type PluginInterface = Type.GetType("SevenMod.Core.IPluginAPI");
+
+        /// <summary>
         /// The currently active plugins.
         /// </summary>
-        private static Dictionary<string, PluginAbstract> plugins = new Dictionary<string, PluginAbstract>();
+        private static Dictionary<string, IPluginAPI> plugins = new Dictionary<string, IPluginAPI>();
 
         /// <summary>
         /// Gets a list of the currently active plugins.
         /// </summary>
-        public static List<PluginAbstract> Plugins { get => new List<PluginAbstract>(plugins.Values); }
+        public static List<IPluginAPI> Plugins { get => new List<IPluginAPI>(plugins.Values); }
 
         /// <summary>
         /// Gets the metadata for a plugin.
         /// </summary>
         /// <param name="name">The name of the plugin.</param>
-        /// <returns>The <see cref="PluginAbstract.PluginInfo"/> object containing the metadata for the plugin, or <c>null</c> if the plugin is not loaded.</returns>
-        public static PluginAbstract.PluginInfo? GetPluginInfo(string name)
+        /// <returns>The <see cref="PluginInfo"/> object containing the metadata for the plugin, or <c>null</c> if the plugin is not loaded.</returns>
+        public static PluginInfo? GetPluginInfo(string name)
         {
             name = name.Trim().ToLower();
             if (plugins.ContainsKey(name))
@@ -133,14 +138,13 @@ namespace SevenMod.Core
                 return;
             }
 
-            var parentType = Type.GetType("SevenMod.Core.PluginAbstract");
             var dll = Assembly.LoadFile($"{SMPath.Plugins}{name}.dll");
             try
             {
                 var type = dll.GetType($"SevenMod.Plugin.{name}.{name}", true, true);
-                if (type.IsSubclassOf(parentType))
+                if (PluginInterface.IsAssignableFrom(type))
                 {
-                    var plugin = Activator.CreateInstance(type) as PluginAbstract;
+                    var plugin = Activator.CreateInstance(type) as IPluginAPI;
                     plugin.LoadPlugin();
                     if (API.IsGameAwake)
                     {

@@ -59,7 +59,7 @@ namespace SevenMod.ConVar
         /// <param name="hasMax">Optional value indicating whether the variable has a maximum value.</param>
         /// <param name="max">The maximum value of the variable if <paramref name="hasMax"/> is <c>true</c>.</param>
         /// <returns>The <see cref="ConVar"/> object representing the console variable.</returns>
-        public static ConVar CreateConVar(PluginAbstract plugin, string name, string defaultValue, string description = "", bool hasMin = false, float min = 0.0f, bool hasMax = false, float max = 1.0f)
+        public static ConVar CreateConVar(IPluginAPI plugin, string name, string defaultValue, string description = "", bool hasMin = false, float min = 0.0f, bool hasMax = false, float max = 1.0f)
         {
             name = name.Trim();
             ConVar conVar;
@@ -83,7 +83,7 @@ namespace SevenMod.ConVar
         /// <param name="plugin">The plugin associated with this configuration file.</param>
         /// <param name="autoCreate">A value indicating whether the file should be automatically created if it does not exist.</param>
         /// <param name="name">The name of the configuration file without extension.</param>
-        public static void AutoExecConfig(PluginAbstract plugin, bool autoCreate, string name)
+        public static void AutoExecConfig(IPluginAPI plugin, bool autoCreate, string name)
         {
             configs.Add(new ConfigInfo(plugin, autoCreate, name.Trim()));
         }
@@ -105,7 +105,7 @@ namespace SevenMod.ConVar
         /// Executes all the automatically executed configuration files for a plugin.
         /// </summary>
         /// <param name="plugin">The plugin for which to load configs.</param>
-        public static void ExecuteConfigs(PluginAbstract plugin)
+        public static void ExecuteConfigs(IPluginAPI plugin)
         {
             foreach (var config in configs.FindAll((ConfigInfo c) => plugin.Equals(c.Plugin)))
             {
@@ -117,7 +117,7 @@ namespace SevenMod.ConVar
         /// Unload all configuration associated with a plugin.
         /// </summary>
         /// <param name="plugin">The plugin for which to unload configuration.</param>
-        public static void UnloadPlugin(PluginAbstract plugin)
+        public static void UnloadPlugin(IPluginAPI plugin)
         {
             conVars.RemoveAll((ConVar conVar) => plugin.Equals(conVar.Plugin));
             configs.RemoveAll((ConfigInfo config) => plugin.Equals(config.Plugin));
@@ -254,7 +254,7 @@ namespace SevenMod.ConVar
             /// <param name="plugin">The plugin associated with this configuration file.</param>
             /// <param name="autoCreate">A value indicating whether the file should be automatically created if it does not exist.</param>
             /// <param name="name">The name of the configuration file without extension.</param>
-            public ConfigInfo(PluginAbstract plugin, bool autoCreate, string name)
+            public ConfigInfo(IPluginAPI plugin, bool autoCreate, string name)
             {
                 this.Plugin = plugin;
                 this.Name = name;
@@ -264,7 +264,7 @@ namespace SevenMod.ConVar
             /// <summary>
             /// Gets the plugin associated with this configuration file.
             /// </summary>
-            public PluginAbstract Plugin { get; }
+            public IPluginAPI Plugin { get; }
 
             /// <summary>
             /// Gets a value indicating whether the file should be automatically created if it does not exist.
