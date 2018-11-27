@@ -183,20 +183,22 @@ namespace SevenMod.ConVar
                     var description = new StringBuilder().AppendLine();
                     if (!string.IsNullOrEmpty(conVar.Description))
                     {
-                        description.Append("    ").AppendLine(conVar.Description).AppendLine();
+                        description.Append("    ").AppendLine(conVar.Description).AppendLine("    -");
                     }
+
+                    description.Append("    Default: ").Append('"').Append(conVar.DefaultValue).Append('"').AppendLine();
 
                     if (conVar.HasMin)
                     {
-                        description.Append("    Min: ").AppendLine(conVar.MinValue.ToString());
+                        description.Append("    Minimum: ").Append('"').Append(conVar.MinValue.ToString("F6")).Append('"').AppendLine();
                     }
 
                     if (conVar.HasMax)
                     {
-                        description.Append("    Max: ").AppendLine(conVar.MaxValue.ToString());
+                        description.Append("    Maximum: ").Append('"').Append(conVar.MaxValue.ToString("F6")).Append('"').AppendLine();
                     }
 
-                    description.Append("    Default: ").AppendLine(conVar.DefaultValue).Append("  ");
+                    description.Append("  ");
 
                     writer.WriteWhitespace("\r\n\r\n  ");
                     writer.WriteComment(description.ToString());
