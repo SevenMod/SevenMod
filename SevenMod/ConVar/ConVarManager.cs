@@ -107,7 +107,7 @@ namespace SevenMod.ConVar
         /// <param name="plugin">The plugin for which to load configs.</param>
         public static void ExecuteConfigs(PluginAbstract plugin)
         {
-            foreach (var config in configs.FindAll((ConfigInfo c) => c.Plugin.Equals(plugin)))
+            foreach (var config in configs.FindAll((ConfigInfo c) => plugin.Equals(c.Plugin)))
             {
                 ExecuteConfig(config);
             }
