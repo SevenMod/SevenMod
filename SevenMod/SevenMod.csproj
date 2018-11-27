@@ -84,6 +84,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Admin\GroupInfo.cs" />
     <Compile Include="Chat\ChatMessageEventArgs.cs" />
     <Compile Include="Chat\Colors.cs" />
     <Compile Include="Console\AdminCommand.cs" />

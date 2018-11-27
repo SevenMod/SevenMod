@@ -3,12 +3,12 @@
 // Licensed under the MIT license. See LICENSE.txt file in the project root for full license information.
 // </copyright>
 
-namespace SevenMod.Plugin.AdminFlatFile
+namespace SevenMod.Admin
 {
     /// <summary>
     /// Represents an admin group.
     /// </summary>
-    internal class GroupInfo
+    public class GroupInfo
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="GroupInfo"/> class.
@@ -16,7 +16,7 @@ namespace SevenMod.Plugin.AdminFlatFile
         /// <param name="name">The name of the group.</param>
         /// <param name="immunity">The immunity level of the group.</param>
         /// <param name="flags">The access flag string for the group.</param>
-        internal GroupInfo(string name, int immunity, string flags)
+        public GroupInfo(string name, int immunity, string flags)
         {
             this.Name = name;
             this.Immunity = immunity;
