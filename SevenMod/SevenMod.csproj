@@ -103,7 +103,7 @@
     <Compile Include="Chat\ChatHook.cs" />
     <Compile Include="Admin\AdminInfo.cs" />
     <Compile Include="Core\ConsoleCmdMenu.cs" />
-    <Compile Include="Core\IPluginAPI.cs" />
+    <Compile Include="Core\IPlugin.cs" />
     <Compile Include="Core\PluginAbstract.cs" />
     <Compile Include="Core\PluginInfo.cs" />
     <Compile Include="Core\PluginManager.cs" />

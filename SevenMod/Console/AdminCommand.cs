@@ -23,7 +23,7 @@ namespace SevenMod.Console
         /// <param name="description">The description for the command.</param>
         /// <param name="accessFlags">The <see cref="AccessFlags"/> value required to execute this
         /// command.</param>
-        internal AdminCommand(IPluginAPI plugin, string command, string description, AdminFlags accessFlags)
+        internal AdminCommand(IPlugin plugin, string command, string description, AdminFlags accessFlags)
         {
             this.Command = command;
             this.Description = description;
@@ -54,7 +54,7 @@ namespace SevenMod.Console
         /// <summary>
         /// Gets the plugin that created this command.
         /// </summary>
-        internal IPluginAPI Plugin { get; }
+        internal IPlugin Plugin { get; }
 
         /// <summary>
         /// Executes the admin command.

@@ -1,4 +1,4 @@
-﻿// <copyright file="IPluginAPI.cs" company="Steve Guidetti">
+﻿// <copyright file="IPlugin.cs" company="Steve Guidetti">
 // Copyright (c) Steve Guidetti. All rights reserved.
 // Licensed under the MIT license. See LICENSE.txt file in the project root for full license information.
 // </copyright>
@@ -10,7 +10,7 @@ namespace SevenMod.Core
     /// <summary>
     /// Represents a plugin.
     /// </summary>
-    public interface IPluginAPI
+    public interface IPlugin
     {
         /// <summary>
         /// Gets the metadata for the plugin.

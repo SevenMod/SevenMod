@@ -19,19 +19,19 @@ namespace SevenMod.Core
     public class PluginManager
     {
         /// <summary>
-        /// The <see cref="Type"/> object representing the <see cref="IPluginAPI"/> interface plugins must implement.
+        /// The <see cref="Type"/> object representing the <see cref="IPlugin"/> interface plugins must implement.
         /// </summary>
-        private static readonly Type PluginInterface = Type.GetType("SevenMod.Core.IPluginAPI");
+        private static readonly Type PluginInterface = Type.GetType("SevenMod.Core.IPlugin");
 
         /// <summary>
         /// The currently active plugins.
         /// </summary>
-        private static Dictionary<string, IPluginAPI> plugins = new Dictionary<string, IPluginAPI>();
+        private static Dictionary<string, IPlugin> plugins = new Dictionary<string, IPlugin>();
 
         /// <summary>
         /// Gets a list of the currently active plugins.
         /// </summary>
-        public static List<IPluginAPI> Plugins { get => new List<IPluginAPI>(plugins.Values); }
+        public static List<IPlugin> Plugins { get => new List<IPlugin>(plugins.Values); }
 
         /// <summary>
         /// Gets the metadata for a plugin.
@@ -144,7 +144,7 @@ namespace SevenMod.Core
                 var type = dll.GetType($"SevenMod.Plugin.{name}.{name}", true, true);
                 if (PluginInterface.IsAssignableFrom(type))
                 {
-                    var plugin = Activator.CreateInstance(type) as IPluginAPI;
+                    var plugin = Activator.CreateInstance(type) as IPlugin;
                     plugin.LoadPlugin();
                     if (API.IsGameAwake)
                     {

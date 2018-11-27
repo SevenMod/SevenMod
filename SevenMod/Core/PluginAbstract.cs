@@ -11,9 +11,9 @@ namespace SevenMod.Core
     using SevenMod.ConVar;
 
     /// <summary>
-    /// Represents the default implementation of the <see cref="IPluginAPI"/> interface.
+    /// Represents the default implementation of the <see cref="IPlugin"/> interface.
     /// </summary>
-    public abstract class PluginAbstract : IPluginAPI
+    public abstract class PluginAbstract : IPlugin
     {
         /// <inheritdoc/>
         public abstract PluginInfo Info { get; }

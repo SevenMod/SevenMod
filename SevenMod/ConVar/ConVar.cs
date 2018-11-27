@@ -24,7 +24,7 @@ namespace SevenMod.ConVar
         /// <param name="min">The minimum value of the variable if <paramref name="hasMin"/> is <c>true</c>.</param>
         /// <param name="hasMax">A value indicating whether the variable has a maximum value.</param>
         /// <param name="max">The maximum value of the variable if <paramref name="hasMax"/> is <c>true</c>.</param>
-        internal ConVar(IPluginAPI plugin, string name, string defaultValue, string description, bool hasMin, float min, bool hasMax, float max)
+        internal ConVar(IPlugin plugin, string name, string defaultValue, string description, bool hasMin, float min, bool hasMax, float max)
         {
             this.Name = name;
             this.DefaultValue = defaultValue;
@@ -85,7 +85,7 @@ namespace SevenMod.ConVar
         /// <summary>
         /// Gets the plugin that created the console variable.
         /// </summary>
-        internal IPluginAPI Plugin { get; }
+        internal IPlugin Plugin { get; }
 
         /// <summary>
         /// Resets the value to the default.
