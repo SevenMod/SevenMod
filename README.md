@@ -24,10 +24,6 @@ Loads admin users from a local configuration file.
 
 Loads admin users from a SQL database.
 
-### Advertisements
-
-Periodically shows messages in chat.
-
 ### BaseBans
 
 Adds the ban, addban, and unban admin commands.
@@ -54,5 +50,5 @@ Adds reserved slots based on admin flags.
 
 ## License
 
-The source code for SevenMod is available under the terms of the [MIT License](https://github.com/stevotvr/sevenmod/blob/master/LICENSE.txt).
+The source code for SevenMod is available under the terms of the [MIT License](https://github.com/SevenMod/SevenMod/blob/master/LICENSE.txt).
 See the LICENSE.txt in the project root for details.
