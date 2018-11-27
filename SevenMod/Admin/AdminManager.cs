@@ -98,8 +98,6 @@ namespace SevenMod.Admin
             {
                 plugin.ReloadAdmins();
             }
-
-            Log.Out("Admin list reloaded");
         }
 
         /// <summary>
