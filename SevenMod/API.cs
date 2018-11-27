@@ -8,6 +8,7 @@ namespace SevenMod
     using System.Collections.Generic;
     using System.Text;
     using SevenMod.Chat;
+    using SevenMod.ConVar;
     using SevenMod.Core;
 
     /// <summary>
@@ -40,6 +41,7 @@ namespace SevenMod
             ModEvents.SavePlayerData.RegisterHandler(this.SavePlayerData);
 
             SMPath.Init();
+            ConVarManager.AutoExecConfig(null, true, "Core");
             ChatHook.Init();
             PluginManager.Refresh();
         }

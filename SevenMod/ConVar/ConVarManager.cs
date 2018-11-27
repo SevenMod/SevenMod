@@ -93,7 +93,6 @@ namespace SevenMod.ConVar
         /// </summary>
         public static void ExecuteConfigs()
         {
-            ExecuteConfig(new ConfigInfo(null, true, "Core"));
             foreach (var config in configs)
             {
                 ExecuteConfig(config);
