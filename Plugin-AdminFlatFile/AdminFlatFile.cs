@@ -8,6 +8,7 @@ namespace SevenMod.Plugin.AdminFlatFile
     using System;
     using System.Collections.Generic;
     using System.IO;
+    using System.Text;
     using System.Xml;
     using SevenMod.Admin;
     using SevenMod.Core;
@@ -165,13 +166,59 @@ namespace SevenMod.Plugin.AdminFlatFile
         /// </summary>
         private void CreateConfig()
         {
+            var flagsComment = new StringBuilder("\r\n")
+                .AppendLine("    Immunity:")
+                .AppendLine("      Can be any positive integer.")
+                .AppendLine("      Admins with a lower immunity cannot target admins with a higher immunity.")
+                .AppendLine()
+                .AppendLine("    Access flags:")
+                .AppendLine("      a - Reserved slots")
+                .AppendLine("      b - Generic admin")
+                .AppendLine("      c - Kick other players")
+                .AppendLine("      d - Ban other players")
+                .AppendLine("      e - Remove bans")
+                .AppendLine("      f - Damage or kill other players")
+                .AppendLine("      g - Map/world related functions")
+                .AppendLine("      h - Change server settings")
+                .AppendLine("      i - Execute configuration files")
+                .AppendLine("      j - Special chat privileges")
+                .AppendLine("      k - Start votes")
+                .AppendLine("      l - Password the server")
+                .AppendLine("      m - Server console access")
+                .AppendLine("      n - \"Cheat\" commands")
+                .AppendLine()
+                .AppendLine("      o - Custom flag")
+                .AppendLine("      p - Custom flag")
+                .AppendLine("      q - Custom flag")
+                .AppendLine("      r - Custom flag")
+                .AppendLine("      s - Custom flag")
+                .AppendLine("      t - Custom flag")
+                .AppendLine()
+                .AppendLine("      z - Root access; grants all flags and overrides immunity")
+                .Append("  ").ToString();
+
+            var groupComment = new StringBuilder("\r\n      Group attributes:\r\n\r\n")
+                .Append("        Name:     ").AppendLine("Unique name for the group")
+                .Append("        Immunity: ").AppendLine("Minimum immunity level for members of the group")
+                .Append("        Flags:    ").AppendLine("Access flags shared among members of the group")
+                .Append("    ").ToString();
+
+            var adminComment = new StringBuilder("\r\n      Admin attributes:\r\n\r\n")
+                .Append("        AuthId:   ").AppendLine("SteamID")
+                .Append("        Immunity: ").AppendLine("Immunity level")
+                .Append("        Flags:    ").AppendLine("Access flags")
+                .Append("        Groups:   ").AppendLine("Comma separated list of group names")
+                .Append("    ").ToString();
+
             var settings = new XmlWriterSettings();
             settings.Indent = true;
             using (var writer = XmlWriter.Create(ConfigPath, settings))
             {
                 writer.WriteStartElement("AdminFlatFile");
+                writer.WriteComment(flagsComment);
 
                 writer.WriteStartElement("Groups");
+                writer.WriteComment(groupComment);
                 writer.WriteStartElement("Group");
                 writer.WriteAttributeString("Name", string.Empty);
                 writer.WriteAttributeString("Immunity", string.Empty);
@@ -180,6 +227,7 @@ namespace SevenMod.Plugin.AdminFlatFile
                 writer.WriteEndElement();
 
                 writer.WriteStartElement("Admins");
+                writer.WriteComment(adminComment);
                 writer.WriteStartElement("Admin");
                 writer.WriteAttributeString("AuthId", string.Empty);
                 writer.WriteAttributeString("Immunity", string.Empty);
