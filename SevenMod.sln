@@ -11,8 +11,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Plugin-BaseCommands", "Plug
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Plugin-BaseBans", "Plugin-BaseBans\Plugin-BaseBans.csproj", "{71C557FD-39B5-413A-8977-30E7EB538AF4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Plugin-Advertisements", "Plugin-Advertisements\Plugin-Advertisements.csproj", "{2195DAB2-2A54-48AD-BE4B-4B75BD44C00D}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Plugin-AdminFlatFile", "Plugin-AdminFlatFile\Plugin-AdminFlatFile.csproj", "{F794B914-E660-4262-8E25-2429DE13ADD8}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Plugin-AdminSQL", "Plugin-AdminSQL\Plugin-AdminSQL.csproj", "{42CDA821-6555-4139-8E62-95F5169286F0}"
@@ -45,10 +43,6 @@ Global
 		{71C557FD-39B5-413A-8977-30E7EB538AF4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{71C557FD-39B5-413A-8977-30E7EB538AF4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{71C557FD-39B5-413A-8977-30E7EB538AF4}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2195DAB2-2A54-48AD-BE4B-4B75BD44C00D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2195DAB2-2A54-48AD-BE4B-4B75BD44C00D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2195DAB2-2A54-48AD-BE4B-4B75BD44C00D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2195DAB2-2A54-48AD-BE4B-4B75BD44C00D}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F794B914-E660-4262-8E25-2429DE13ADD8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F794B914-E660-4262-8E25-2429DE13ADD8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F794B914-E660-4262-8E25-2429DE13ADD8}.Release|Any CPU.ActiveCfg = Release|Any CPU
