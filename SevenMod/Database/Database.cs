@@ -274,30 +274,43 @@ namespace SevenMod.Database
         /// </summary>
         private static void CreateConfig()
         {
-            var settings = new XmlWriterSettings();
-            settings.Indent = true;
-            using (var writer = XmlWriter.Create(ConfigPath, settings))
+            using (var writer = XmlWriter.Create(ConfigPath))
             {
+                writer.WriteWhitespace("\r\n");
                 writer.WriteStartElement("Databases");
+                writer.WriteWhitespace("\r\n  ");
                 writer.WriteElementString("DefaultDriver", "sqlite");
+                writer.WriteWhitespace("\r\n\r\n  ");
 
                 writer.WriteStartElement("Connection");
                 writer.WriteAttributeString("Name", "storage-local");
+                writer.WriteWhitespace("\r\n    ");
                 writer.WriteElementString("Driver", "sqlite");
+                writer.WriteWhitespace("\r\n    ");
                 writer.WriteElementString("Database", "storage-local");
+                writer.WriteWhitespace("\r\n  ");
                 writer.WriteEndElement();
+                writer.WriteWhitespace("\r\n\r\n  ");
 
                 writer.WriteStartElement("Connection");
                 writer.WriteAttributeString("Name", "example");
+                writer.WriteWhitespace("\r\n    ");
                 writer.WriteElementString("Driver", "mysql");
+                writer.WriteWhitespace("\r\n    ");
                 writer.WriteElementString("Host", "127.0.0.1");
+                writer.WriteWhitespace("\r\n    ");
                 writer.WriteElementString("Database", "sevenmod");
+                writer.WriteWhitespace("\r\n    ");
                 writer.WriteElementString("User", "root");
+                writer.WriteWhitespace("\r\n    ");
                 writer.WriteStartElement("Pass");
                 writer.WriteRaw(string.Empty);
                 writer.WriteEndElement();
+                writer.WriteWhitespace("\r\n    ");
                 writer.WriteElementString("Port", "3306");
+                writer.WriteWhitespace("\r\n  ");
                 writer.WriteEndElement();
+                writer.WriteWhitespace("\r\n");
 
                 writer.WriteEndElement();
             }
