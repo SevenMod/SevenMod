@@ -147,7 +147,7 @@ namespace SevenMod.ConVar
             }
             catch (XmlException e)
             {
-                Log.Warning($"[SM] Failed reading configuration from {path}: {e.Message}");
+                SMLog.Error($"Failed reading configuration from {path}: {e.Message}");
                 return;
             }
 

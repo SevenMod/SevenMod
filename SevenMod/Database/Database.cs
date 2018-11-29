@@ -88,7 +88,7 @@ namespace SevenMod.Database
                 }
                 catch (Exception e)
                 {
-                    Log.Error(e.Message);
+                    SMLog.Error(e.Message);
                 }
             }
 
@@ -156,7 +156,7 @@ namespace SevenMod.Database
             }
             catch (XmlException e)
             {
-                Log.Error($"[SM] Failed reading configuration from {ConfigPath}: {e.Message}");
+                SMLog.Error($"Failed reading database configuration from {ConfigPath}: {e.Message}");
                 return;
             }
 

@@ -44,11 +44,6 @@
       <HintPath>..\7dtd-binaries\Assembly-CSharp-firstpass.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="LogLibrary, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\7dtd-binaries\LogLibrary.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="MySql.Data, Version=6.7.9.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
       <HintPath>..\packages\MySql.Data.6.7.9\lib\net20\MySql.Data.dll</HintPath>
     </Reference>
@@ -109,6 +104,7 @@
     <Compile Include="Core\PluginAbstract.cs" />
     <Compile Include="Core\PluginInfo.cs" />
     <Compile Include="Core\PluginManager.cs" />
+    <Compile Include="Core\SMLog.cs" />
     <Compile Include="Core\SMPath.cs" />
     <Compile Include="Core\SteamUtils.cs" />
     <Compile Include="Database\Database.cs" />

@@ -99,6 +99,7 @@ namespace SevenMod
             }
 
             PluginManager.UnloadAll();
+            SMLog.Close();
         }
 
         /// <summary>

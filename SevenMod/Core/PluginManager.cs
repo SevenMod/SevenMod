@@ -168,12 +168,12 @@ namespace SevenMod.Core
                     }
 
                     plugins.Add(name, plugin);
-                    Log.Out($"[SM] Added plugin {type.Name}");
+                    SMLog.Out($"Added plugin {type.Name}");
                 }
             }
             catch (Exception e)
             {
-                Log.Error($"[SM] Failed loading plugin {name}.dll: {e.Message}");
+                SMLog.Error($"Failed loading plugin {name}.dll: {e.Message}");
             }
         }
     }

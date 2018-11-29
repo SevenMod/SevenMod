@@ -61,7 +61,6 @@ namespace SevenMod.Chat
                 var args = new ChatMessageEventArgs(client, message);
                 foreach (var d in ChatMessage.GetInvocationList())
                 {
-                    Log.Out($"{d.Target}.{d.Method}");
                     d.DynamicInvoke(null, args);
                     if (args.Handled)
                     {

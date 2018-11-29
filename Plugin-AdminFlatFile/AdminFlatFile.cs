@@ -62,7 +62,7 @@ namespace SevenMod.Plugin.AdminFlatFile
             }
             catch (XmlException e)
             {
-                Log.Error($"[SM] Failed reading configuration from {ConfigPath}: {e.Message}");
+                this.LogError($"Failed reading admin configuration from {ConfigPath}: {e.Message}");
                 return;
             }
 

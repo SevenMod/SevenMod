@@ -2,6 +2,5 @@ For compiling the source code you will need to put the below files from your ded
 
     * Assembly-CSharp.dll
     * Assembly-CSharp-firstpass.dll
-    * LogLibrary.dll
     * UnityEngine.dll
     * UnityEngine.CoreModule.dll

@@ -34,6 +34,11 @@ namespace SevenMod.Core
         public static readonly string Databases = $"{Data}Databases{Path.DirectorySeparatorChar}";
 
         /// <summary>
+        /// The path to the directory containing the log files.
+        /// </summary>
+        public static readonly string Logs = $"{Base}Logs{Path.DirectorySeparatorChar}";
+
+        /// <summary>
         /// The path to the directory containing the plugin files.
         /// </summary>
         public static readonly string Plugins = $"{Base}Plugins{Path.DirectorySeparatorChar}";
@@ -48,10 +53,10 @@ namespace SevenMod.Core
         /// </summary>
         internal static void Init()
         {
-            Directory.CreateDirectory(Base);
             Directory.CreateDirectory(Config);
             Directory.CreateDirectory(Data);
             Directory.CreateDirectory(Databases);
+            Directory.CreateDirectory(Logs);
             Directory.CreateDirectory(Plugins);
             Directory.CreateDirectory(DisabledPlugins);
         }

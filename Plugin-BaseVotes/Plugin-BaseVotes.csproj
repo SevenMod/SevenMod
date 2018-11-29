@@ -40,10 +40,6 @@
     <Reference Include="Assembly-CSharp-firstpass">
       <HintPath>..\7dtd-binaries\Assembly-CSharp-firstpass.dll</HintPath>
     </Reference>
-    <Reference Include="LogLibrary, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\7dtd-binaries\LogLibrary.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />

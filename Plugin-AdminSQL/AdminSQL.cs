@@ -41,14 +41,14 @@ namespace SevenMod.Plugin.AdminSQL
         {
             if (!Database.ConfigExists("admins"))
             {
-                Log.Error("[SevenMod] The admins database configuration was not found.");
+                this.LogError("The \"admins\" database configuration was not found.");
                 return;
             }
 
             var db = Database.Connect("admins");
             if (db == null)
             {
-                Log.Error("[SevenMod] Failed to connect to the admins database.");
+                this.LogError("Failed to connect to the admins database.");
                 return;
             }
 

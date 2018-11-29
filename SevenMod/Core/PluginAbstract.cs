@@ -131,5 +131,23 @@ namespace SevenMod.Core
         {
             return AdminCommandManager.CreateAdminCommand(this, cmd, accessFlags, description);
         }
+
+        /// <summary>
+        /// Logs a message to the SevenMod logs.
+        /// </summary>
+        /// <param name="message">The message to log.</param>
+        protected void LogMessage(string message)
+        {
+            SMLog.Out(message, this);
+        }
+
+        /// <summary>
+        /// Logs a message to the SevenMod error logs.
+        /// </summary>
+        /// <param name="message">The error message to log.</param>
+        protected void LogError(string message)
+        {
+            SMLog.Error(message, this);
+        }
     }
 }
