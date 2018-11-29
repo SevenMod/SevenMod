@@ -51,8 +51,16 @@ namespace SevenMod.Database
         /// <inheritdoc/>
         protected override void Setup(ConnectionInfo connection)
         {
-            var connString = $"SERVER={connection.Host};PORT={connection.Port};DATABASE={connection.Database};UID={connection.User};PASSWORD={connection.Pass};CHARSET=utf8;";
-            this.connection = new MySqlConnection(connString);
+            var connString = new MySqlConnectionStringBuilder
+            {
+                Server = connection.Host,
+                Port = connection.Port,
+                Database = connection.Database,
+                UserID = connection.User,
+                Password = connection.Pass,
+                CharacterSet = "utf8mb4",
+            };
+            this.connection = new MySqlConnection(connString.ToString());
         }
     }
 }

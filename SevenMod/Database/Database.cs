@@ -231,11 +231,11 @@ namespace SevenMod.Database
                         pass = passElements[0].InnerText;
                     }
 
-                    var port = 3306;
+                    var port = 3306u;
                     var portElements = element.GetElementsByTagName("Port");
                     if (passElements.Count > 0)
                     {
-                        int.TryParse(portElements[0].InnerText, out port);
+                        uint.TryParse(portElements[0].InnerText, out port);
                     }
 
                     var connection = new ConnectionInfo(DatabaseDriver.MySQL, database, host, user, pass, port);
@@ -340,7 +340,7 @@ namespace SevenMod.Database
             /// <param name="user">The name of the database user to use.</param>
             /// <param name="pass">The password for the database user.</param>
             /// <param name="port">The port for the database server.</param>
-            public ConnectionInfo(DatabaseDriver driver, string database, string host, string user, string pass, int port = 3306)
+            public ConnectionInfo(DatabaseDriver driver, string database, string host, string user, string pass, uint port = 3306)
             {
                 this.Driver = driver;
                 this.Database = database;
@@ -378,7 +378,7 @@ namespace SevenMod.Database
             /// <summary>
             /// Gets the port for the database server.
             /// </summary>
-            public int Port { get; }
+            public uint Port { get; }
         }
     }
 }

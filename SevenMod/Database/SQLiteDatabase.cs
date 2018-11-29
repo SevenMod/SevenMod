@@ -54,9 +54,12 @@ namespace SevenMod.Database
         /// <inheritdoc/>
         protected override void Setup(ConnectionInfo connection)
         {
-            var filePath = $"{SMPath.Databases}{connection.Database}";
-            var connString = $"Data Source={filePath};Version=3;New={!File.Exists(filePath)};Compress=True;";
-            this.connection = new SQLiteConnection(connString);
+            var connString = new SQLiteConnectionStringBuilder
+            {
+                DataSource = $"{SMPath.Databases}{connection.Database}.sq3",
+                Version = 3,
+            };
+            this.connection = new SQLiteConnection(connString.ToString());
         }
     }
 }
