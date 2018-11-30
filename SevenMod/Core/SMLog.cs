@@ -35,17 +35,6 @@ namespace SevenMod.Core
         }
 
         /// <summary>
-        /// Writes a message to the main log file.
-        /// </summary>
-        /// <param name="line">The message to write.</param>
-        /// <param name="plugin">The plugin associated with this message.</param>
-        public static void Out(string line, IPlugin plugin)
-        {
-            StartMain();
-            WriteLine(mainLog, $"[{plugin.Info.Name}] {line}");
-        }
-
-        /// <summary>
         /// Writes a message to the error log file.
         /// </summary>
         /// <param name="line">The message to write.</param>
@@ -53,17 +42,6 @@ namespace SevenMod.Core
         {
             StartError();
             WriteLine(errorLog, $"[SM] {line}");
-        }
-
-        /// <summary>
-        /// Writes a message to the error log file.
-        /// </summary>
-        /// <param name="line">The message to write.</param>
-        /// <param name="plugin">The plugin associated with this message.</param>
-        public static void Error(string line, IPlugin plugin)
-        {
-            StartError();
-            WriteLine(errorLog, $"[{plugin.Info.Name}] {line}");
         }
 
         /// <summary>

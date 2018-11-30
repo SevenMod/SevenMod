@@ -139,7 +139,10 @@ namespace SevenMod.Core
         /// <param name="message">The message to log.</param>
         protected void LogMessage(string message)
         {
-            SMLog.Out(message, this);
+            if (PluginManager.Plugins.TryGetValue(this.GetType().Name, out PluginContainer container))
+            {
+                SMLog.Out($"[{container.File}] {message}");
+            }
         }
 
         /// <summary>
@@ -148,7 +151,10 @@ namespace SevenMod.Core
         /// <param name="message">The error message to log.</param>
         protected void LogError(string message)
         {
-            SMLog.Error(message, this);
+            if (PluginManager.Plugins.TryGetValue(this.GetType().Name, out PluginContainer container))
+            {
+                SMLog.Error($"[{container.File}] {message}");
+            }
         }
 
         /// <summary>
