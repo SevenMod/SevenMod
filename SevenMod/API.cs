@@ -5,6 +5,7 @@
 
 namespace SevenMod
 {
+    using System;
     using System.Collections.Generic;
     using System.Text;
     using SevenMod.Chat;
@@ -55,7 +56,17 @@ namespace SevenMod
             {
                 if (plugin.LoadStatus == PluginContainer.Status.Loaded)
                 {
-                    plugin.Plugin.CalcChunkColorsDone(chunk);
+                    try
+                    {
+                        plugin.Plugin.CalcChunkColorsDone(chunk);
+                    }
+                    catch (HaltPluginException)
+                    {
+                    }
+                    catch (Exception e)
+                    {
+                        plugin.SetFailState(e.Message);
+                    }
                 }
             }
         }
@@ -86,7 +97,17 @@ namespace SevenMod
             {
                 if (plugin.LoadStatus == PluginContainer.Status.Loaded)
                 {
-                    plugin.Plugin.GameAwake();
+                    try
+                    {
+                        plugin.Plugin.GameAwake();
+                    }
+                    catch (HaltPluginException)
+                    {
+                    }
+                    catch (Exception e)
+                    {
+                        plugin.SetFailState(e.Message);
+                    }
                 }
             }
 
@@ -102,7 +123,17 @@ namespace SevenMod
             {
                 if (plugin.LoadStatus == PluginContainer.Status.Loaded)
                 {
-                    plugin.Plugin.GameShutdown();
+                    try
+                    {
+                        plugin.Plugin.GameShutdown();
+                    }
+                    catch (HaltPluginException)
+                    {
+                    }
+                    catch (Exception e)
+                    {
+                        plugin.SetFailState(e.Message);
+                    }
                 }
             }
 
@@ -119,7 +150,17 @@ namespace SevenMod
             {
                 if (plugin.LoadStatus == PluginContainer.Status.Loaded)
                 {
-                    plugin.Plugin.GameStartDone();
+                    try
+                    {
+                        plugin.Plugin.GameStartDone();
+                    }
+                    catch (HaltPluginException)
+                    {
+                    }
+                    catch (Exception e)
+                    {
+                        plugin.SetFailState(e.Message);
+                    }
                 }
             }
 
@@ -137,7 +178,17 @@ namespace SevenMod
             {
                 if (plugin.LoadStatus == PluginContainer.Status.Loaded)
                 {
-                    plugin.Plugin.PlayerDisconnected(client, shutdown);
+                    try
+                    {
+                        plugin.Plugin.PlayerDisconnected(client, shutdown);
+                    }
+                    catch (HaltPluginException)
+                    {
+                    }
+                    catch (Exception e)
+                    {
+                        plugin.SetFailState(e.Message);
+                    }
                 }
             }
         }
@@ -152,9 +203,22 @@ namespace SevenMod
         {
             foreach (var plugin in PluginManager.Plugins.Values)
             {
-                if (plugin.LoadStatus == PluginContainer.Status.Loaded && !plugin.Plugin.PlayerLogin(client, rejectReason))
+                if (plugin.LoadStatus == PluginContainer.Status.Loaded)
                 {
-                    return false;
+                    try
+                    {
+                        if (!plugin.Plugin.PlayerLogin(client, rejectReason))
+                        {
+                            return false;
+                        }
+                    }
+                    catch (HaltPluginException)
+                    {
+                    }
+                    catch (Exception e)
+                    {
+                        plugin.SetFailState(e.Message);
+                    }
                 }
             }
 
@@ -173,7 +237,17 @@ namespace SevenMod
             {
                 if (plugin.LoadStatus == PluginContainer.Status.Loaded)
                 {
-                    plugin.Plugin.PlayerSpawnedInWorld(client, respawnReason, pos);
+                    try
+                    {
+                        plugin.Plugin.PlayerSpawnedInWorld(client, respawnReason, pos);
+                    }
+                    catch (HaltPluginException)
+                    {
+                    }
+                    catch (Exception e)
+                    {
+                        plugin.SetFailState(e.Message);
+                    }
                 }
             }
         }
@@ -190,7 +264,17 @@ namespace SevenMod
             {
                 if (plugin.LoadStatus == PluginContainer.Status.Loaded)
                 {
-                    plugin.Plugin.PlayerSpawning(client, chunkViewDim, playerProfile);
+                    try
+                    {
+                        plugin.Plugin.PlayerSpawning(client, chunkViewDim, playerProfile);
+                    }
+                    catch (HaltPluginException)
+                    {
+                    }
+                    catch (Exception e)
+                    {
+                        plugin.SetFailState(e.Message);
+                    }
                 }
             }
         }
@@ -206,7 +290,17 @@ namespace SevenMod
             {
                 if (plugin.LoadStatus == PluginContainer.Status.Loaded)
                 {
-                    plugin.Plugin.SavePlayerData(client, playerDataFile);
+                    try
+                    {
+                        plugin.Plugin.SavePlayerData(client, playerDataFile);
+                    }
+                    catch (HaltPluginException)
+                    {
+                    }
+                    catch (Exception e)
+                    {
+                        plugin.SetFailState(e.Message);
+                    }
                 }
             }
         }

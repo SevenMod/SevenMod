@@ -70,7 +70,17 @@ namespace SevenMod.Core
                 ConVarManager.ExecuteConfigs();
                 foreach (var plugin in Plugins.Values)
                 {
-                    plugin.Plugin.ConfigsExecuted();
+                    try
+                    {
+                        plugin.Plugin.ConfigsExecuted();
+                    }
+                    catch (HaltPluginException)
+                    {
+                    }
+                    catch (Exception e)
+                    {
+                        plugin.SetFailState(e.Message);
+                    }
                 }
             }
 
@@ -96,7 +106,18 @@ namespace SevenMod.Core
             name = name.Trim().ToLower();
             if (Plugins.ContainsKey(name))
             {
-                Plugins[name].Plugin.UnloadPlugin();
+                try
+                {
+                    Plugins[name].Plugin.UnloadPlugin();
+                }
+                catch (HaltPluginException)
+                {
+                }
+                catch (Exception e)
+                {
+                    Plugins[name].SetFailState(e.Message);
+                }
+
                 AdminCommandManager.UnloadPlugin(Plugins[name].Plugin);
                 ConVarManager.UnloadPlugin(Plugins[name].Plugin);
                 Plugins.Remove(name);
@@ -111,7 +132,18 @@ namespace SevenMod.Core
         {
             foreach (var plugin in Plugins.Values)
             {
-                plugin.Plugin.UnloadPlugin();
+                try
+                {
+                    plugin.Plugin.UnloadPlugin();
+                }
+                catch (HaltPluginException)
+                {
+                }
+                catch (Exception e)
+                {
+                    plugin.SetFailState(e.Message);
+                }
+
                 AdminCommandManager.UnloadPlugin(plugin.Plugin);
                 ConVarManager.UnloadPlugin(plugin.Plugin);
             }
@@ -176,6 +208,10 @@ namespace SevenMod.Core
                         container.PluginInfo = plugin.Info;
                         container.LoadStatus = PluginContainer.Status.Loaded;
                         SMLog.Out($"Added plugin {type.Name}");
+                    }
+                    catch (HaltPluginException e)
+                    {
+                        throw e;
                     }
                     catch (Exception e)
                     {

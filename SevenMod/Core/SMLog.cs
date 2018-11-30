@@ -28,20 +28,22 @@ namespace SevenMod.Core
         /// Writes a message to the main log file.
         /// </summary>
         /// <param name="line">The message to write.</param>
-        public static void Out(string line)
+        /// <param name="tag">The tag identifying the source of the message.</param>
+        public static void Out(string line, string tag = "SM")
         {
             StartMain();
-            WriteLine(mainLog, $"[SM] {line}");
+            WriteLine(mainLog, $"[{tag}] {line}");
         }
 
         /// <summary>
         /// Writes a message to the error log file.
         /// </summary>
         /// <param name="line">The message to write.</param>
-        public static void Error(string line)
+        /// <param name="tag">The tag identifying the source of the message.</param>
+        public static void Error(string line, string tag = "SM")
         {
             StartError();
-            WriteLine(errorLog, $"[SM] {line}");
+            WriteLine(errorLog, $"[{tag}] {line}");
         }
 
         /// <summary>

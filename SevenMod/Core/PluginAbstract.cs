@@ -141,7 +141,7 @@ namespace SevenMod.Core
         {
             if (PluginManager.Plugins.TryGetValue(this.GetType().Name, out PluginContainer container))
             {
-                SMLog.Out($"[{container.File}] {message}");
+                SMLog.Out(message, container.File);
             }
         }
 
@@ -153,7 +153,7 @@ namespace SevenMod.Core
         {
             if (PluginManager.Plugins.TryGetValue(this.GetType().Name, out PluginContainer container))
             {
-                SMLog.Error($"[{container.File}] {message}");
+                SMLog.Error(message, container.File);
             }
         }
 
@@ -163,14 +163,12 @@ namespace SevenMod.Core
         /// <param name="error">The error message.</param>
         protected void SetFailState(string error)
         {
-            this.LogError(error);
             if (PluginManager.Plugins.TryGetValue(this.GetType().Name, out PluginContainer container))
             {
-                container.LoadStatus = PluginContainer.Status.Error;
-                container.Error = error;
+                container.SetFailState(error);
             }
 
-            throw new Exception(error);
+            throw new HaltPluginException(error);
         }
     }
 }

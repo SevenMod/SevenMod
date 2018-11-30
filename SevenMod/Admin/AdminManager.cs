@@ -98,7 +98,17 @@ namespace SevenMod.Admin
             {
                 if (plugin.LoadStatus == PluginContainer.Status.Loaded)
                 {
-                    plugin.Plugin.ReloadAdmins();
+                    try
+                    {
+                        plugin.Plugin.ReloadAdmins();
+                    }
+                    catch (HaltPluginException)
+                    {
+                    }
+                    catch (Exception e)
+                    {
+                        plugin.SetFailState(e.Message);
+                    }
                 }
             }
         }

@@ -64,5 +64,16 @@ namespace SevenMod.Core
         /// Gets or sets the <see cref="IPlugin"/> object representing the plugin.
         /// </summary>
         internal IPlugin Plugin { get; set; }
+
+        /// <summary>
+        /// Sets the plugin to an error state.
+        /// </summary>
+        /// <param name="error">The error message.</param>
+        public void SetFailState(string error)
+        {
+            this.LoadStatus = Status.Error;
+            this.Error = error;
+            SMLog.Error(error, this.File);
+        }
     }
 }
