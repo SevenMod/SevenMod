@@ -52,9 +52,12 @@ namespace SevenMod
         /// <param name="chunk">The <see cref="Chunk"/> object representing the chunk.</param>
         private void CalcChunkColorsDone(Chunk chunk)
         {
-            foreach (var plugin in PluginManager.Plugins)
+            foreach (var plugin in PluginManager.Plugins.Values)
             {
-                plugin.CalcChunkColorsDone(chunk);
+                if (plugin.LoadStatus == PluginContainer.Status.Loaded)
+                {
+                    plugin.Plugin.CalcChunkColorsDone(chunk);
+                }
             }
         }
 
@@ -80,9 +83,12 @@ namespace SevenMod
         /// </summary>
         private void GameAwake()
         {
-            foreach (var plugin in PluginManager.Plugins)
+            foreach (var plugin in PluginManager.Plugins.Values)
             {
-                plugin.GameAwake();
+                if (plugin.LoadStatus == PluginContainer.Status.Loaded)
+                {
+                    plugin.Plugin.GameAwake();
+                }
             }
 
             IsGameAwake = true;
@@ -93,9 +99,12 @@ namespace SevenMod
         /// </summary>
         private void GameShutdown()
         {
-            foreach (var plugin in PluginManager.Plugins)
+            foreach (var plugin in PluginManager.Plugins.Values)
             {
-                plugin.GameShutdown();
+                if (plugin.LoadStatus == PluginContainer.Status.Loaded)
+                {
+                    plugin.Plugin.GameShutdown();
+                }
             }
 
             PluginManager.UnloadAll();
@@ -107,9 +116,12 @@ namespace SevenMod
         /// </summary>
         private void GameStartDone()
         {
-            foreach (var plugin in PluginManager.Plugins)
+            foreach (var plugin in PluginManager.Plugins.Values)
             {
-                plugin.GameStartDone();
+                if (plugin.LoadStatus == PluginContainer.Status.Loaded)
+                {
+                    plugin.Plugin.GameStartDone();
+                }
             }
 
             IsGameStartDone = true;
@@ -122,9 +134,12 @@ namespace SevenMod
         /// <param name="shutdown">A value indicating whether the server is shutting down.</param>
         private void PlayerDisconnected(ClientInfo client, bool shutdown)
         {
-            foreach (var plugin in PluginManager.Plugins)
+            foreach (var plugin in PluginManager.Plugins.Values)
             {
-                plugin.PlayerDisconnected(client, shutdown);
+                if (plugin.LoadStatus == PluginContainer.Status.Loaded)
+                {
+                    plugin.Plugin.PlayerDisconnected(client, shutdown);
+                }
             }
         }
 
@@ -136,9 +151,9 @@ namespace SevenMod
         /// <returns><c>true</c> to accept the client; <c>false</c> to reject the client.</returns>
         private bool PlayerLogin(ClientInfo client, StringBuilder rejectReason)
         {
-            foreach (var plugin in PluginManager.Plugins)
+            foreach (var plugin in PluginManager.Plugins.Values)
             {
-                if (!plugin.PlayerLogin(client, rejectReason))
+                if (plugin.LoadStatus == PluginContainer.Status.Loaded && !plugin.Plugin.PlayerLogin(client, rejectReason))
                 {
                     return false;
                 }
@@ -155,9 +170,12 @@ namespace SevenMod
         /// <param name="pos">The <see cref="Vector3i"/> object representing the position of the player in the world.</param>
         private void PlayerSpawnedInWorld(ClientInfo client, RespawnType respawnReason, Vector3i pos)
         {
-            foreach (var plugin in PluginManager.Plugins)
+            foreach (var plugin in PluginManager.Plugins.Values)
             {
-                plugin.PlayerSpawnedInWorld(client, respawnReason, pos);
+                if (plugin.LoadStatus == PluginContainer.Status.Loaded)
+                {
+                    plugin.Plugin.PlayerSpawnedInWorld(client, respawnReason, pos);
+                }
             }
         }
 
@@ -169,9 +187,12 @@ namespace SevenMod
         /// <param name="playerProfile">The <see cref="PlayerProfile"/> object representing the player's persistent profile.</param>
         private void PlayerSpawning(ClientInfo client, int chunkViewDim, PlayerProfile playerProfile)
         {
-            foreach (var plugin in PluginManager.Plugins)
+            foreach (var plugin in PluginManager.Plugins.Values)
             {
-                plugin.PlayerSpawning(client, chunkViewDim, playerProfile);
+                if (plugin.LoadStatus == PluginContainer.Status.Loaded)
+                {
+                    plugin.Plugin.PlayerSpawning(client, chunkViewDim, playerProfile);
+                }
             }
         }
 
@@ -182,9 +203,12 @@ namespace SevenMod
         /// <param name="playerDataFile">The <see cref="PlayerDataFile"/> object representing the player's data file.</param>
         private void SavePlayerData(ClientInfo client, PlayerDataFile playerDataFile)
         {
-            foreach (var plugin in PluginManager.Plugins)
+            foreach (var plugin in PluginManager.Plugins.Values)
             {
-                plugin.SavePlayerData(client, playerDataFile);
+                if (plugin.LoadStatus == PluginContainer.Status.Loaded)
+                {
+                    plugin.Plugin.SavePlayerData(client, playerDataFile);
+                }
             }
         }
     }

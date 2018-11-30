@@ -71,7 +71,7 @@ namespace SevenMod.Core
                         return;
                     }
 
-                    var info = PluginManager.GetPluginInfo(args[2]);
+                    var info = PluginManager.GetPluginInfo(args[2])?.PluginInfo;
                     if (info.HasValue)
                     {
                         SdtdConsole.Instance.Output($"  Title: {info.Value.Name}");
@@ -86,12 +86,24 @@ namespace SevenMod.Core
 
                     break;
                 case "list":
-                    var list = PluginManager.Plugins;
-                    SdtdConsole.Instance.Output($"[SM] Listing {list.Count} plugins:");
+                    var list = new List<PluginContainer>(PluginManager.Plugins.Values);
+
+                    var active = list.FindAll((PluginContainer p) => p.LoadStatus == PluginContainer.Status.Loaded);
+                    SdtdConsole.Instance.Output($"[SM] Listing {active.Count} plugins:");
                     for (var i = 0; i < list.Count; i++)
                     {
-                        var p = list[i].Info;
+                        var p = active[i].PluginInfo;
                         SdtdConsole.Instance.Output($"{i + 1, 4:d2} \"{p.Name}\" ({p.Version}) by {p.Author}");
+                    }
+
+                    var errored = list.FindAll((PluginContainer p) => p.LoadStatus == PluginContainer.Status.Error);
+                    if (errored.Count > 0)
+                    {
+                        SdtdConsole.Instance.Output("Errors:");
+                        foreach (var plugin in errored)
+                        {
+                            SdtdConsole.Instance.Output($"{plugin.File} ({plugin.PluginInfo.Name}): {plugin.Error}");
+                        }
                     }
 
                     break;

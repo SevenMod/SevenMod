@@ -24,26 +24,21 @@ namespace SevenMod.Core
         private static readonly Type PluginInterface = Type.GetType("SevenMod.Core.IPlugin");
 
         /// <summary>
-        /// The currently active plugins.
+        /// Gets the currently active plugins.
         /// </summary>
-        private static Dictionary<string, IPlugin> plugins = new Dictionary<string, IPlugin>();
-
-        /// <summary>
-        /// Gets a list of the currently active plugins.
-        /// </summary>
-        public static List<IPlugin> Plugins { get => new List<IPlugin>(plugins.Values); }
+        internal static Dictionary<string, PluginContainer> Plugins { get; } = new Dictionary<string, PluginContainer>();
 
         /// <summary>
         /// Gets the metadata for a plugin.
         /// </summary>
         /// <param name="name">The name of the plugin.</param>
-        /// <returns>The <see cref="PluginInfo"/> object containing the metadata for the plugin, or <c>null</c> if the plugin is not loaded.</returns>
-        public static PluginInfo? GetPluginInfo(string name)
+        /// <returns>The <see cref="PluginContainer"/> object containing the metadata for the plugin, or <c>null</c> if the plugin is not loaded.</returns>
+        public static PluginContainer GetPluginInfo(string name)
         {
             name = name.Trim().ToLower();
-            if (plugins.ContainsKey(name))
+            if (Plugins.ContainsKey(name))
             {
-                return plugins[name].Info;
+                return Plugins[name];
             }
 
             return null;
@@ -73,9 +68,9 @@ namespace SevenMod.Core
             if (!ConVarManager.ConfigsLoaded)
             {
                 ConVarManager.ExecuteConfigs();
-                foreach (var plugin in plugins.Values)
+                foreach (var plugin in Plugins.Values)
                 {
-                    plugin.ConfigsExecuted();
+                    plugin.Plugin.ConfigsExecuted();
                 }
             }
 
@@ -99,12 +94,12 @@ namespace SevenMod.Core
         public static void Unload(string name)
         {
             name = name.Trim().ToLower();
-            if (plugins.ContainsKey(name))
+            if (Plugins.ContainsKey(name))
             {
-                plugins[name].UnloadPlugin();
-                AdminCommandManager.UnloadPlugin(plugins[name]);
-                ConVarManager.UnloadPlugin(plugins[name]);
-                plugins.Remove(name);
+                Plugins[name].Plugin.UnloadPlugin();
+                AdminCommandManager.UnloadPlugin(Plugins[name].Plugin);
+                ConVarManager.UnloadPlugin(Plugins[name].Plugin);
+                Plugins.Remove(name);
                 AdminManager.ReloadAdmins();
             }
         }
@@ -114,14 +109,14 @@ namespace SevenMod.Core
         /// </summary>
         public static void UnloadAll()
         {
-            foreach (var plugin in plugins.Values)
+            foreach (var plugin in Plugins.Values)
             {
-                plugin.UnloadPlugin();
-                AdminCommandManager.UnloadPlugin(plugin);
-                ConVarManager.UnloadPlugin(plugin);
+                plugin.Plugin.UnloadPlugin();
+                AdminCommandManager.UnloadPlugin(plugin.Plugin);
+                ConVarManager.UnloadPlugin(plugin.Plugin);
             }
 
-            plugins.Clear();
+            Plugins.Clear();
             AdminManager.ReloadAdmins();
         }
 
@@ -133,42 +128,65 @@ namespace SevenMod.Core
         private static void Load(string name, bool refreshing)
         {
             name = name.Trim().ToLower();
-            if (plugins.ContainsKey(name))
+            if (Plugins.ContainsKey(name) && Plugins[name].LoadStatus == PluginContainer.Status.Loaded)
             {
                 return;
             }
 
-            var dll = Assembly.LoadFile($"{SMPath.Plugins}{name}.dll");
+            var file = $"{SMPath.Plugins}{name}.dll";
+            if (!File.Exists(file))
+            {
+                return;
+            }
+
             try
             {
+                var dll = Assembly.LoadFile(file);
                 var type = dll.GetType($"SevenMod.Plugin.{name}.{name}", true, true);
+                var container = new PluginContainer(type.Assembly.GetName().FullName);
+                Plugins[name] = container;
                 if (PluginInterface.IsAssignableFrom(type))
                 {
-                    var plugin = Activator.CreateInstance(type) as IPlugin;
-                    plugin.LoadPlugin();
-                    if (API.IsGameAwake)
+                    try
                     {
-                        plugin.GameAwake();
-                    }
+                        var plugin = Activator.CreateInstance(type) as IPlugin;
+                        plugin.LoadPlugin();
+                        if (API.IsGameAwake)
+                        {
+                            plugin.GameAwake();
+                        }
 
-                    if (API.IsGameStartDone)
+                        if (API.IsGameStartDone)
+                        {
+                            plugin.GameStartDone();
+                        }
+
+                        if (ConVarManager.ConfigsLoaded)
+                        {
+                            ConVarManager.ExecuteConfigs(plugin);
+                            plugin.ConfigsExecuted();
+                        }
+
+                        if (!refreshing)
+                        {
+                            AdminManager.ReloadAdmins();
+                        }
+
+                        container.Plugin = plugin;
+                        container.PluginInfo = plugin.Info;
+                        container.LoadStatus = PluginContainer.Status.Loaded;
+                        SMLog.Out($"Added plugin {type.Name}");
+                    }
+                    catch (Exception e)
                     {
-                        plugin.GameStartDone();
+                        container.LoadStatus = PluginContainer.Status.Error;
+                        container.Error = e.Message;
+                        throw e;
                     }
-
-                    if (ConVarManager.ConfigsLoaded)
-                    {
-                        ConVarManager.ExecuteConfigs(plugin);
-                        plugin.ConfigsExecuted();
-                    }
-
-                    if (!refreshing)
-                    {
-                        AdminManager.ReloadAdmins();
-                    }
-
-                    plugins.Add(name, plugin);
-                    SMLog.Out($"Added plugin {type.Name}");
+                }
+                else
+                {
+                    throw new Exception($"{type.Name} does not implement interface {PluginInterface.Name}");
                 }
             }
             catch (Exception e)

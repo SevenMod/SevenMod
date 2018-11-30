@@ -94,9 +94,12 @@ namespace SevenMod.Admin
         public static void ReloadAdmins()
         {
             admins.Clear();
-            foreach (var plugin in PluginManager.Plugins)
+            foreach (var plugin in PluginManager.Plugins.Values)
             {
-                plugin.ReloadAdmins();
+                if (plugin.LoadStatus == PluginContainer.Status.Loaded)
+                {
+                    plugin.Plugin.ReloadAdmins();
+                }
             }
         }
 

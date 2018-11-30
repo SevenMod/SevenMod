@@ -11,6 +11,18 @@ namespace SevenMod.Core
     public struct PluginInfo
     {
         /// <summary>
+        /// An empty instance of the <see cref="PluginInfo"/> struct.
+        /// </summary>
+        public static readonly PluginInfo Empty = new PluginInfo
+        {
+            Name = string.Empty,
+            Author = string.Empty,
+            Description = string.Empty,
+            Version = "0.0.0.0",
+            Website = string.Empty,
+        };
+
+        /// <summary>
         /// The name of the plugin.
         /// </summary>
         public string Name;

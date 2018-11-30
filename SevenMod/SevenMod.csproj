@@ -102,6 +102,7 @@
     <Compile Include="Core\ConsoleCmdMenu.cs" />
     <Compile Include="Core\IPlugin.cs" />
     <Compile Include="Core\PluginAbstract.cs" />
+    <Compile Include="Core\PluginContainer.cs" />
     <Compile Include="Core\PluginInfo.cs" />
     <Compile Include="Core\PluginManager.cs" />
     <Compile Include="Core\SMLog.cs" />
