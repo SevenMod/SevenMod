@@ -5,6 +5,7 @@
 
 namespace SevenMod.Core
 {
+    using System;
     using System.Text;
     using SevenMod.Admin;
     using SevenMod.Console;
@@ -148,6 +149,22 @@ namespace SevenMod.Core
         protected void LogError(string message)
         {
             SMLog.Error(message, this);
+        }
+
+        /// <summary>
+        /// Sets the plugin to an error state.
+        /// </summary>
+        /// <param name="error">The error message.</param>
+        protected void SetFailState(string error)
+        {
+            this.LogError(error);
+            if (PluginManager.Plugins.TryGetValue(this.GetType().Name, out PluginContainer container))
+            {
+                container.LoadStatus = PluginContainer.Status.Error;
+                container.Error = error;
+            }
+
+            throw new Exception(error);
         }
     }
 }
