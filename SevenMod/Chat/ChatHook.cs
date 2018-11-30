@@ -8,6 +8,7 @@ namespace SevenMod.Chat
     using System;
     using System.Collections.Generic;
     using SevenMod.ConVar;
+    using SevenMod.Core;
 
     /// <summary>
     /// Hooks into the game chat and allows plugins to register their own chat hooks.
@@ -28,11 +29,6 @@ namespace SevenMod.Chat
         /// The value of the SilentChatTrigger <see cref="ConVar"/>.
         /// </summary>
         private static ConVarValue silentChatTrigger;
-
-        /// <summary>
-        /// Occurs when a chat message is received.
-        /// </summary>
-        public static event EventHandler<ChatMessageEventArgs> ChatMessage;
 
         /// <summary>
         /// Initializes the chat hook system.
@@ -56,15 +52,23 @@ namespace SevenMod.Chat
                 return true;
             }
 
-            if (ChatMessage != null)
+            foreach (var plugin in PluginManager.Plugins.Values)
             {
-                var args = new ChatMessageEventArgs(client, message);
-                foreach (var d in ChatMessage.GetInvocationList())
+                if (plugin.LoadStatus == PluginContainer.Status.Loaded)
                 {
-                    d.DynamicInvoke(null, args);
-                    if (args.Handled)
+                    try
                     {
-                        return false;
+                        if (!plugin.Plugin.ChatMessage(client, message))
+                        {
+                            return false;
+                        }
+                    }
+                    catch (HaltPluginException)
+                    {
+                    }
+                    catch (Exception e)
+                    {
+                        plugin.SetFailState(e.Message);
                     }
                 }
             }
