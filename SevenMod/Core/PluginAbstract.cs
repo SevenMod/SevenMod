@@ -5,6 +5,7 @@
 
 namespace SevenMod.Core
 {
+    using System;
     using System.Text;
     using SevenMod.Admin;
     using SevenMod.Console;
@@ -26,12 +27,6 @@ namespace SevenMod.Core
         /// <inheritdoc/>
         public virtual void ConfigsExecuted()
         {
-        }
-
-        /// <inheritdoc/>
-        public virtual bool ChatMessage(ClientInfo client, string msg)
-        {
-            return true;
         }
 
         /// <inheritdoc/>

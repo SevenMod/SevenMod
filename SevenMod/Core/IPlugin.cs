@@ -44,14 +44,6 @@ namespace SevenMod.Core
         void CalcChunkColorsDone(Chunk chunk);
 
         /// <summary>
-        /// Called when a chat message is sent.
-        /// </summary>
-        /// <param name="client">The <see cref="ClientInfo"/> object representing the client that sent the message.</param>
-        /// <param name="msg">The message text.</param>
-        /// <returns><c>true</c> to allow the message to continue propagating; <c>false</c> to consume the message.</returns>
-        bool ChatMessage(ClientInfo client, string msg);
-
-            /// <summary>
         /// Called when the server is ready for interaction.
         /// </summary>
         void GameAwake();
