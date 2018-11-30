@@ -49,9 +49,9 @@ namespace SevenMod.Core
         public static readonly string DisabledPlugins = $"{Plugins}Disabled{Path.DirectorySeparatorChar}";
 
         /// <summary>
-        /// Creates directories.
+        /// Initializes static members of the <see cref="SMPath"/> class.
         /// </summary>
-        internal static void Init()
+        static SMPath()
         {
             Directory.CreateDirectory(Config);
             Directory.CreateDirectory(Data);
