@@ -90,7 +90,7 @@ namespace SevenMod.Core
 
                     var active = list.FindAll((PluginContainer p) => p.LoadStatus == PluginContainer.Status.Loaded);
                     SdtdConsole.Instance.Output($"[SM] Listing {active.Count} plugins:");
-                    for (var i = 0; i < list.Count; i++)
+                    for (var i = 0; i < active.Count; i++)
                     {
                         var p = active[i].PluginInfo;
                         SdtdConsole.Instance.Output($"{i + 1, 4:d2} \"{p.Name}\" ({p.Version}) by {p.Author}");
