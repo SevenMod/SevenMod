@@ -5,6 +5,7 @@
 
 namespace SevenMod.Core
 {
+    using System;
     using System.Text;
     using SevenMod.Admin;
     using SevenMod.Console;
@@ -15,8 +16,28 @@ namespace SevenMod.Core
     /// </summary>
     public abstract class PluginAbstract : IPlugin
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PluginAbstract"/> class.
+        /// </summary>
+        public PluginAbstract()
+        {
+            throw new Exception("Cannot initialize plugin without a container");
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PluginAbstract"/> class.
+        /// </summary>
+        /// <param name="container">The <see cref="PluginContainer"/> object to contain this instance.</param>
+        internal PluginAbstract(PluginContainer container)
+        {
+            this.Container = container;
+        }
+
         /// <inheritdoc/>
         public abstract PluginInfo Info { get; }
+
+        /// <inheritdoc/>
+        public PluginContainer Container { get; }
 
         /// <inheritdoc/>
         public virtual void CalcChunkColorsDone(Chunk chunk)
@@ -138,10 +159,7 @@ namespace SevenMod.Core
         /// <param name="message">The message to log.</param>
         protected void LogMessage(string message)
         {
-            if (PluginManager.Plugins.TryGetValue(this.GetType().Name, out PluginContainer container))
-            {
-                SMLog.Out(message, container.File);
-            }
+            SMLog.Out(message, this.Container.File);
         }
 
         /// <summary>
@@ -150,10 +168,7 @@ namespace SevenMod.Core
         /// <param name="message">The error message to log.</param>
         protected void LogError(string message)
         {
-            if (PluginManager.Plugins.TryGetValue(this.GetType().Name, out PluginContainer container))
-            {
-                SMLog.Error(message, container.File);
-            }
+            SMLog.Error(message, this.Container.File);
         }
 
         /// <summary>
@@ -162,11 +177,7 @@ namespace SevenMod.Core
         /// <param name="error">The error message.</param>
         protected void SetFailState(string error)
         {
-            if (PluginManager.Plugins.TryGetValue(this.GetType().Name, out PluginContainer container))
-            {
-                container.SetFailState(error);
-            }
-
+            this.Container.SetFailState(error);
             throw new HaltPluginException(error);
         }
     }

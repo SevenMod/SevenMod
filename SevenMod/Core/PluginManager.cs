@@ -19,9 +19,9 @@ namespace SevenMod.Core
     public class PluginManager
     {
         /// <summary>
-        /// The <see cref="Type"/> object representing the <see cref="IPlugin"/> interface plugins must implement.
+        /// The <see cref="Type"/> object representing the <see cref="PluginAbstract"/> class plugins must inherit from.
         /// </summary>
-        private static readonly Type PluginInterface = Type.GetType("SevenMod.Core.IPlugin");
+        private static readonly Type PluginParentTYPE = Type.GetType("SevenMod.Core.PluginAbstract");
 
         /// <summary>
         /// Gets the currently active plugins.
@@ -181,11 +181,11 @@ namespace SevenMod.Core
                 var type = dll.GetType($"SevenMod.Plugin.{name}.{name}", true, true);
                 var container = new PluginContainer(type.Assembly.GetName().FullName);
                 Plugins[name] = container;
-                if (PluginInterface.IsAssignableFrom(type))
+                if (type.IsSubclassOf(PluginParentTYPE))
                 {
                     try
                     {
-                        var plugin = Activator.CreateInstance(type) as IPlugin;
+                        var plugin = Activator.CreateInstance(type, container) as PluginAbstract;
                         plugin.LoadPlugin();
                         if (API.IsGameAwake)
                         {
@@ -226,7 +226,7 @@ namespace SevenMod.Core
                 }
                 else
                 {
-                    throw new Exception($"{type.Name} does not implement interface {PluginInterface.Name}");
+                    throw new Exception($"{type.Name} does not inherit from {PluginParentTYPE.Name}");
                 }
             }
             catch (Exception e)

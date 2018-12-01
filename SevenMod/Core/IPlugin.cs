@@ -18,6 +18,11 @@ namespace SevenMod.Core
         PluginInfo Info { get; }
 
         /// <summary>
+        /// Gets the <see cref="PluginContainer"/> object containing this plugin.
+        /// </summary>
+        PluginContainer Container { get; }
+
+        /// <summary>
         /// Called when the configuration files have been loaded.
         /// </summary>
         void ConfigsExecuted();
