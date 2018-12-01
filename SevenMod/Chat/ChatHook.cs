@@ -59,9 +59,9 @@ namespace SevenMod.Chat
             if (ChatMessage != null)
             {
                 var args = new ChatMessageEventArgs(client, message);
-                foreach (var d in ChatMessage.GetInvocationList())
+                foreach (EventHandler<ChatMessageEventArgs> d in ChatMessage.GetInvocationList())
                 {
-                    d.DynamicInvoke(null, args);
+                    d.Invoke(null, args);
                     if (args.Handled)
                     {
                         return false;
