@@ -5,7 +5,6 @@
 
 namespace SevenMod.Core
 {
-    using System;
     using System.Text;
     using SevenMod.Admin;
     using SevenMod.Console;
@@ -16,28 +15,11 @@ namespace SevenMod.Core
     /// </summary>
     public abstract class PluginAbstract : IPlugin
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="PluginAbstract"/> class.
-        /// </summary>
-        public PluginAbstract()
-        {
-            throw new Exception("Cannot initialize plugin without a container");
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="PluginAbstract"/> class.
-        /// </summary>
-        /// <param name="container">The <see cref="PluginContainer"/> object to contain this instance.</param>
-        internal PluginAbstract(PluginContainer container)
-        {
-            this.Container = container;
-        }
-
         /// <inheritdoc/>
         public abstract PluginInfo Info { get; }
 
         /// <inheritdoc/>
-        public PluginContainer Container { get; }
+        public PluginContainer Container { get; internal set; }
 
         /// <inheritdoc/>
         public virtual void CalcChunkColorsDone(Chunk chunk)

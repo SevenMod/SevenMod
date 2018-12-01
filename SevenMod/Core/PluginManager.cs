@@ -185,7 +185,8 @@ namespace SevenMod.Core
                 {
                     try
                     {
-                        var plugin = Activator.CreateInstance(type, container) as PluginAbstract;
+                        var plugin = Activator.CreateInstance(type) as PluginAbstract;
+                        plugin.Container = container;
                         plugin.LoadPlugin();
                         if (API.IsGameAwake)
                         {
