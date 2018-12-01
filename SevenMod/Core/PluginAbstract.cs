@@ -5,7 +5,6 @@
 
 namespace SevenMod.Core
 {
-    using System;
     using System.Text;
     using SevenMod.Admin;
     using SevenMod.Console;
