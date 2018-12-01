@@ -36,12 +36,8 @@ namespace SevenMod.Core
         public static PluginContainer GetPluginInfo(string name)
         {
             name = name.Trim().ToLower();
-            if (Plugins.ContainsKey(name))
-            {
-                return Plugins[name];
-            }
-
-            return null;
+            Plugins.TryGetValue(name, out PluginContainer plugin);
+            return plugin;
         }
 
         /// <summary>
@@ -104,34 +100,9 @@ namespace SevenMod.Core
         public static void Unload(string name)
         {
             name = name.Trim().ToLower();
-            if (Plugins.ContainsKey(name))
+            if (Plugins.TryGetValue(name, out PluginContainer plugin))
             {
-                try
-                {
-                    Plugins[name].Plugin.UnloadPlugin();
-                }
-                catch (HaltPluginException)
-                {
-                }
-                catch (Exception e)
-                {
-                    Plugins[name].SetFailState(e.Message);
-                }
-
-                AdminCommandManager.UnloadPlugin(Plugins[name].Plugin);
-                ConVarManager.UnloadPlugin(Plugins[name].Plugin);
-                Plugins.Remove(name);
-                AdminManager.ReloadAdmins();
-            }
-        }
-
-        /// <summary>
-        /// Unloads all plugins.
-        /// </summary>
-        public static void UnloadAll()
-        {
-            foreach (var plugin in Plugins.Values)
-            {
+                plugin.LoadStatus = PluginContainer.Status.Unloaded;
                 try
                 {
                     plugin.Plugin.UnloadPlugin();
@@ -146,9 +117,39 @@ namespace SevenMod.Core
 
                 AdminCommandManager.UnloadPlugin(plugin.Plugin);
                 ConVarManager.UnloadPlugin(plugin.Plugin);
+                plugin.Plugin = null;
+                AdminManager.ReloadAdmins();
+            }
+        }
+
+        /// <summary>
+        /// Unloads all plugins.
+        /// </summary>
+        public static void UnloadAll()
+        {
+            foreach (var plugin in Plugins.Values)
+            {
+                if (plugin.LoadStatus == PluginContainer.Status.Loaded)
+                {
+                    plugin.LoadStatus = PluginContainer.Status.Unloaded;
+                    try
+                    {
+                        plugin.Plugin.UnloadPlugin();
+                    }
+                    catch (HaltPluginException)
+                    {
+                    }
+                    catch (Exception e)
+                    {
+                        plugin.SetFailState(e.Message);
+                    }
+
+                    AdminCommandManager.UnloadPlugin(plugin.Plugin);
+                    ConVarManager.UnloadPlugin(plugin.Plugin);
+                    plugin.Plugin = null;
+                }
             }
 
-            Plugins.Clear();
             AdminManager.ReloadAdmins();
         }
 

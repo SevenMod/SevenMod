@@ -61,7 +61,7 @@ namespace SevenMod.Core
         public PluginInfo PluginInfo { get; internal set; } = PluginInfo.Empty;
 
         /// <summary>
-        /// Gets or sets the <see cref="IPlugin"/> object representing the plugin.
+        /// Gets or sets the <see cref="IPlugin"/> object representing the plugin. May be <c>null</c> if <see cref="LoadStatus"/> is not <see cref="Status.Loaded"/>.
         /// </summary>
         internal IPlugin Plugin { get; set; }
 
@@ -73,6 +73,7 @@ namespace SevenMod.Core
         {
             this.LoadStatus = Status.Error;
             this.Error = error;
+            this.Plugin = null;
             SMLog.Error(error, this.File);
         }
     }
