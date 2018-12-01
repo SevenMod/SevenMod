@@ -21,7 +21,7 @@ namespace SevenMod.Core
         /// <summary>
         /// The <see cref="Type"/> object representing the <see cref="PluginAbstract"/> class plugins must inherit from.
         /// </summary>
-        private static readonly Type PluginParentTYPE = Type.GetType("SevenMod.Core.PluginAbstract");
+        private static readonly Type PluginParentType = Type.GetType("SevenMod.Core.PluginAbstract");
 
         /// <summary>
         /// Gets the currently active plugins.
@@ -181,7 +181,7 @@ namespace SevenMod.Core
                 var type = dll.GetType($"SevenMod.Plugin.{name}.{name}", true, true);
                 var container = new PluginContainer(Path.GetFileName(type.Assembly.Location));
                 Plugins[name] = container;
-                if (type.IsSubclassOf(PluginParentTYPE))
+                if (type.IsSubclassOf(PluginParentType))
                 {
                     try
                     {
@@ -227,7 +227,7 @@ namespace SevenMod.Core
                 }
                 else
                 {
-                    throw new Exception($"{type.Name} does not inherit from {PluginParentTYPE.Name}");
+                    throw new Exception($"{type.Name} does not inherit from {PluginParentType.Name}");
                 }
             }
             catch (Exception e)
