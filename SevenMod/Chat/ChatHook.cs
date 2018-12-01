@@ -77,9 +77,9 @@ namespace SevenMod.Chat
                     catch (Exception e)
                     {
                         args.Handled = false;
-                        if (d.Target is IPlugin)
+                        if (d.Target is IPlugin p)
                         {
-                            (d.Target as IPlugin).Container.SetFailState(e.Message);
+                            p.Container.SetFailState(e.Message);
                         }
                         else
                         {

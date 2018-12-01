@@ -214,15 +214,15 @@ namespace SevenMod.Core
                         container.LoadStatus = PluginContainer.Status.Loaded;
                         SMLog.Out($"Added plugin {type.Name}");
                     }
-                    catch (HaltPluginException e)
+                    catch (HaltPluginException)
                     {
-                        throw e;
+                        throw;
                     }
                     catch (Exception e)
                     {
                         container.LoadStatus = PluginContainer.Status.Error;
                         container.Error = e.Message;
-                        throw e;
+                        throw;
                     }
                 }
                 else
