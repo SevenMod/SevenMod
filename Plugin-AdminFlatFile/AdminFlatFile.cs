@@ -41,7 +41,6 @@ namespace SevenMod.Plugin.AdminFlatFile
         /// <inheritdoc/>
         public override void OnReloadAdmins()
         {
-            base.OnReloadAdmins();
             this.LoadAdmins();
         }
 

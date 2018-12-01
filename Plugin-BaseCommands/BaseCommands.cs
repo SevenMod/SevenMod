@@ -28,8 +28,6 @@ namespace SevenMod.Plugin.BaseCommands
         /// <inheritdoc/>
         public override void OnLoadPlugin()
         {
-            base.OnLoadPlugin();
-
             this.RegAdminCmd("kick", AdminFlags.Kick, "Kicks a player from the server").Executed += this.OnKickCommandExecuted;
             this.RegAdminCmd("reloadadmins", AdminFlags.Ban, "Reloads the admin list").Executed += this.OnReloadadminsCommandExecuted;
             this.RegAdminCmd("who", AdminFlags.Generic, "Lists connected clients and their access flags").Executed += this.OnWhoCommandExecuted;

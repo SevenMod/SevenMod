@@ -28,8 +28,6 @@ namespace SevenMod.Plugin.PlayerCommands
         /// <inheritdoc/>
         public override void OnLoadPlugin()
         {
-            base.OnLoadPlugin();
-
             this.RegAdminCmd("slay", AdminFlags.Slay, "Kills a player").Executed += this.OnSlayCommandExecuted;
         }
 

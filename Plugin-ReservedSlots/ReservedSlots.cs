@@ -38,8 +38,6 @@ namespace SevenMod.Plugin.ReservedSlots
         /// <inheritdoc/>
         public override void OnLoadPlugin()
         {
-            base.OnLoadPlugin();
-
             this.reservedSlots = this.CreateConVar("ReservedSlots", "0", "The number of reserved slots.", true, 0).Value;
 
             this.AutoExecConfig(true, "ReservedSlots");

@@ -28,8 +28,6 @@ namespace SevenMod.Plugin.BaseChat
         /// <inheritdoc/>
         public override void OnLoadPlugin()
         {
-            base.OnLoadPlugin();
-
             this.RegAdminCmd("say", AdminFlags.Chat, "Sends a message to all players").Executed += this.OnSayCommandExecuted;
             this.RegAdminCmd("psay", AdminFlags.Chat, "Sends a message privately to one player").Executed += this.OnPsayCommandExecuted;
             this.RegAdminCmd("chat", AdminFlags.Chat, "Sends a message to all admins").Executed += this.OnChatCommandExecuted;

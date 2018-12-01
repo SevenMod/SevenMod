@@ -30,7 +30,6 @@ namespace SevenMod.Plugin.AdminSQL
         /// <inheritdoc/>
         public override void OnReloadAdmins()
         {
-            base.OnReloadAdmins();
             this.LoadAdmins();
         }
 
