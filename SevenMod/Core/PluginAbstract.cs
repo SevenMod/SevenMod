@@ -22,68 +22,68 @@ namespace SevenMod.Core
         public PluginContainer Container { get; internal set; }
 
         /// <inheritdoc/>
-        public virtual void CalcChunkColorsDone(Chunk chunk)
+        public virtual void OnCalcChunkColorsDone(Chunk chunk)
         {
         }
 
         /// <inheritdoc/>
-        public virtual void ConfigsExecuted()
+        public virtual void OnConfigsExecuted()
         {
         }
 
         /// <inheritdoc/>
-        public virtual void GameAwake()
+        public virtual void OnGameAwake()
         {
         }
 
         /// <inheritdoc/>
-        public virtual void GameShutdown()
+        public virtual void OnGameShutdown()
         {
         }
 
         /// <inheritdoc/>
-        public virtual void GameStartDone()
+        public virtual void OnGameStartDone()
         {
         }
 
         /// <inheritdoc/>
-        public virtual void LoadPlugin()
+        public virtual void OnLoadPlugin()
         {
         }
 
         /// <inheritdoc/>
-        public virtual void PlayerDisconnected(ClientInfo client, bool shutdown)
+        public virtual void OnPlayerDisconnected(ClientInfo client, bool shutdown)
         {
         }
 
         /// <inheritdoc/>
-        public virtual bool PlayerLogin(ClientInfo client, StringBuilder rejectReason)
+        public virtual bool OnPlayerLogin(ClientInfo client, StringBuilder rejectReason)
         {
             return true;
         }
 
         /// <inheritdoc/>
-        public virtual void PlayerSpawnedInWorld(ClientInfo client, RespawnType respawnReason, Vector3i pos)
+        public virtual void OnPlayerSpawnedInWorld(ClientInfo client, RespawnType respawnReason, Vector3i pos)
         {
         }
 
         /// <inheritdoc/>
-        public virtual void PlayerSpawning(ClientInfo client, int chunkViewDim, PlayerProfile playerProfile)
+        public virtual void OnPlayerSpawning(ClientInfo client, int chunkViewDim, PlayerProfile playerProfile)
         {
         }
 
         /// <inheritdoc/>
-        public virtual void ReloadAdmins()
+        public virtual void OnReloadAdmins()
         {
         }
 
         /// <inheritdoc/>
-        public virtual void SavePlayerData(ClientInfo client, PlayerDataFile playerDataFile)
+        public virtual void OnSavePlayerData(ClientInfo client, PlayerDataFile playerDataFile)
         {
         }
 
         /// <inheritdoc/>
-        public virtual void UnloadPlugin()
+        public virtual void OnUnloadPlugin()
         {
         }
 

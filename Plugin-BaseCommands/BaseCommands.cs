@@ -26,9 +26,9 @@ namespace SevenMod.Plugin.BaseCommands
         };
 
         /// <inheritdoc/>
-        public override void LoadPlugin()
+        public override void OnLoadPlugin()
         {
-            base.LoadPlugin();
+            base.OnLoadPlugin();
 
             this.RegAdminCmd("kick", AdminFlags.Kick, "Kicks a player from the server").Executed += this.OnKickCommandExecuted;
             this.RegAdminCmd("reloadadmins", AdminFlags.Ban, "Reloads the admin list").Executed += this.OnReloadadminsCommandExecuted;

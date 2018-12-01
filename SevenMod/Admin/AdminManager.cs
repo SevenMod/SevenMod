@@ -100,7 +100,7 @@ namespace SevenMod.Admin
                 {
                     try
                     {
-                        plugin.Plugin.ReloadAdmins();
+                        plugin.Plugin.OnReloadAdmins();
                     }
                     catch (HaltPluginException)
                     {

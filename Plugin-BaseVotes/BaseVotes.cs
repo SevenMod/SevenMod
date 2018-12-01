@@ -38,9 +38,9 @@ namespace SevenMod.Plugin.BaseVotes
         };
 
         /// <inheritdoc/>
-        public override void LoadPlugin()
+        public override void OnLoadPlugin()
         {
-            base.LoadPlugin();
+            base.OnLoadPlugin();
 
             this.voteBanPercent = this.CreateConVar("VoteBanPercent", "0.60", "The percentage of players that must vote yes for a successful ban vote.", true, 0, true, 1).Value;
             this.voteKickPercent = this.CreateConVar("VoteKickPercent", "0.60", "The percentage of players that must vote yes for a successful kick vote.", true, 0, true, 1).Value;

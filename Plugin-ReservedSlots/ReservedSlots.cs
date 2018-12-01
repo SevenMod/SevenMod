@@ -36,9 +36,9 @@ namespace SevenMod.Plugin.ReservedSlots
         };
 
         /// <inheritdoc/>
-        public override void LoadPlugin()
+        public override void OnLoadPlugin()
         {
-            base.LoadPlugin();
+            base.OnLoadPlugin();
 
             this.reservedSlots = this.CreateConVar("ReservedSlots", "0", "The number of reserved slots.", true, 0).Value;
 
@@ -48,7 +48,7 @@ namespace SevenMod.Plugin.ReservedSlots
         }
 
         /// <inheritdoc/>
-        public override bool PlayerLogin(ClientInfo client, StringBuilder rejectReason)
+        public override bool OnPlayerLogin(ClientInfo client, StringBuilder rejectReason)
         {
             if ((this.maxPlayers - (ConnectionManager.Instance.ClientCount() - 1)) <= this.reservedSlots.AsInt)
             {
@@ -59,7 +59,7 @@ namespace SevenMod.Plugin.ReservedSlots
                 }
             }
 
-            return base.PlayerLogin(client, rejectReason);
+            return base.OnPlayerLogin(client, rejectReason);
         }
     }
 }

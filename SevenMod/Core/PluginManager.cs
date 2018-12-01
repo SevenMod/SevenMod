@@ -70,7 +70,7 @@ namespace SevenMod.Core
                     {
                         try
                         {
-                            plugin.Plugin.ConfigsExecuted();
+                            plugin.Plugin.OnConfigsExecuted();
                         }
                         catch (HaltPluginException)
                         {
@@ -108,7 +108,7 @@ namespace SevenMod.Core
                 plugin.LoadStatus = PluginContainer.Status.Unloaded;
                 try
                 {
-                    plugin.Plugin.UnloadPlugin();
+                    plugin.Plugin.OnUnloadPlugin();
                 }
                 catch (HaltPluginException)
                 {
@@ -137,7 +137,7 @@ namespace SevenMod.Core
                     plugin.LoadStatus = PluginContainer.Status.Unloaded;
                     try
                     {
-                        plugin.Plugin.UnloadPlugin();
+                        plugin.Plugin.OnUnloadPlugin();
                     }
                     catch (HaltPluginException)
                     {
@@ -187,21 +187,21 @@ namespace SevenMod.Core
                     {
                         var plugin = Activator.CreateInstance(type) as PluginAbstract;
                         plugin.Container = container;
-                        plugin.LoadPlugin();
+                        plugin.OnLoadPlugin();
                         if (API.IsGameAwake)
                         {
-                            plugin.GameAwake();
+                            plugin.OnGameAwake();
                         }
 
                         if (API.IsGameStartDone)
                         {
-                            plugin.GameStartDone();
+                            plugin.OnGameStartDone();
                         }
 
                         if (ConVarManager.ConfigsLoaded)
                         {
                             ConVarManager.ExecuteConfigs(plugin);
-                            plugin.ConfigsExecuted();
+                            plugin.OnConfigsExecuted();
                         }
 
                         if (!refreshing)

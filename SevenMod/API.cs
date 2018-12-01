@@ -18,28 +18,28 @@ namespace SevenMod
     public class API : IModApi
     {
         /// <summary>
-        /// Gets a value indicating whether <see cref="GameAwake"/> has been called.
+        /// Gets a value indicating whether <see cref="OnGameAwake"/> has been called.
         /// </summary>
         public static bool IsGameAwake { get; private set; }
 
         /// <summary>
-        /// Gets a value indicating whether <see cref="GameStartDone"/> has been called.
+        /// Gets a value indicating whether <see cref="OnGameStartDone"/> has been called.
         /// </summary>
         public static bool IsGameStartDone { get; private set; }
 
         /// <inheritdoc/>
         public void InitMod()
         {
-            ModEvents.CalcChunkColorsDone.RegisterHandler(this.CalcChunkColorsDone);
-            ModEvents.ChatMessage.RegisterHandler((ClientInfo cInfo, EChatType chatType, int senderEntityId, string msg, string mainName, bool localizeMain, List<int> recipientEntityIds) => this.ChatMessage(cInfo, chatType, msg));
-            ModEvents.GameAwake.RegisterHandler(this.GameAwake);
-            ModEvents.GameShutdown.RegisterHandler(this.GameShutdown);
-            ModEvents.GameStartDone.RegisterHandler(this.GameStartDone);
-            ModEvents.PlayerDisconnected.RegisterHandler(this.PlayerDisconnected);
-            ModEvents.PlayerLogin.RegisterHandler((ClientInfo cInfo, string compatibilityVersion, StringBuilder rejectReason) => this.PlayerLogin(cInfo, rejectReason));
-            ModEvents.PlayerSpawnedInWorld.RegisterHandler(this.PlayerSpawnedInWorld);
-            ModEvents.PlayerSpawning.RegisterHandler(this.PlayerSpawning);
-            ModEvents.SavePlayerData.RegisterHandler(this.SavePlayerData);
+            ModEvents.CalcChunkColorsDone.RegisterHandler(this.OnCalcChunkColorsDone);
+            ModEvents.ChatMessage.RegisterHandler((ClientInfo cInfo, EChatType chatType, int senderEntityId, string msg, string mainName, bool localizeMain, List<int> recipientEntityIds) => this.OnChatMessage(cInfo, chatType, msg));
+            ModEvents.GameAwake.RegisterHandler(this.OnGameAwake);
+            ModEvents.GameShutdown.RegisterHandler(this.OnGameShutdown);
+            ModEvents.GameStartDone.RegisterHandler(this.OnGameStartDone);
+            ModEvents.PlayerDisconnected.RegisterHandler(this.OnPlayerDisconnected);
+            ModEvents.PlayerLogin.RegisterHandler((ClientInfo cInfo, string compatibilityVersion, StringBuilder rejectReason) => this.OnPlayerLogin(cInfo, rejectReason));
+            ModEvents.PlayerSpawnedInWorld.RegisterHandler(this.OnPlayerSpawnedInWorld);
+            ModEvents.PlayerSpawning.RegisterHandler(this.OnPlayerSpawning);
+            ModEvents.SavePlayerData.RegisterHandler(this.OnSavePlayerData);
 
             ConVarManager.AutoExecConfig(null, true, "Core");
             ChatHook.Init();
@@ -50,7 +50,7 @@ namespace SevenMod
         /// Called when a chunk has its colors calculated.
         /// </summary>
         /// <param name="chunk">The <see cref="Chunk"/> object representing the chunk.</param>
-        private void CalcChunkColorsDone(Chunk chunk)
+        private void OnCalcChunkColorsDone(Chunk chunk)
         {
             foreach (var k in PluginManager.Plugins.Keys)
             {
@@ -58,7 +58,7 @@ namespace SevenMod
                 {
                     try
                     {
-                        plugin.Plugin.CalcChunkColorsDone(chunk);
+                        plugin.Plugin.OnCalcChunkColorsDone(chunk);
                     }
                     catch (HaltPluginException)
                     {
@@ -78,7 +78,7 @@ namespace SevenMod
         /// <param name="type">The type of chat message.</param>
         /// <param name="msg">The message text.</param>
         /// <returns><c>true</c> to allow the message to continue propagating; <c>false</c> to consume the message.</returns>
-        private bool ChatMessage(ClientInfo client, EChatType type, string msg)
+        private bool OnChatMessage(ClientInfo client, EChatType type, string msg)
         {
             if (type == EChatType.Global)
             {
@@ -91,7 +91,7 @@ namespace SevenMod
         /// <summary>
         /// Called when the server is ready for interaction.
         /// </summary>
-        private void GameAwake()
+        private void OnGameAwake()
         {
             foreach (var k in PluginManager.Plugins.Keys)
             {
@@ -99,7 +99,7 @@ namespace SevenMod
                 {
                     try
                     {
-                        plugin.Plugin.GameAwake();
+                        plugin.Plugin.OnGameAwake();
                     }
                     catch (HaltPluginException)
                     {
@@ -117,7 +117,7 @@ namespace SevenMod
         /// <summary>
         /// Called when the server is about to shut down.
         /// </summary>
-        private void GameShutdown()
+        private void OnGameShutdown()
         {
             foreach (var k in PluginManager.Plugins.Keys)
             {
@@ -125,7 +125,7 @@ namespace SevenMod
                 {
                     try
                     {
-                        plugin.Plugin.GameShutdown();
+                        plugin.Plugin.OnGameShutdown();
                     }
                     catch (HaltPluginException)
                     {
@@ -144,7 +144,7 @@ namespace SevenMod
         /// <summary>
         /// Called once the server is ready for players to join.
         /// </summary>
-        private void GameStartDone()
+        private void OnGameStartDone()
         {
             foreach (var k in PluginManager.Plugins.Keys)
             {
@@ -152,7 +152,7 @@ namespace SevenMod
                 {
                     try
                     {
-                        plugin.Plugin.GameStartDone();
+                        plugin.Plugin.OnGameStartDone();
                     }
                     catch (HaltPluginException)
                     {
@@ -172,7 +172,7 @@ namespace SevenMod
         /// </summary>
         /// <param name="client">The <see cref="ClientInfo"/> object representing the player.</param>
         /// <param name="shutdown">A value indicating whether the server is shutting down.</param>
-        private void PlayerDisconnected(ClientInfo client, bool shutdown)
+        private void OnPlayerDisconnected(ClientInfo client, bool shutdown)
         {
             foreach (var k in PluginManager.Plugins.Keys)
             {
@@ -180,7 +180,7 @@ namespace SevenMod
                 {
                     try
                     {
-                        plugin.Plugin.PlayerDisconnected(client, shutdown);
+                        plugin.Plugin.OnPlayerDisconnected(client, shutdown);
                     }
                     catch (HaltPluginException)
                     {
@@ -199,7 +199,7 @@ namespace SevenMod
         /// <param name="client">The <see cref="ClientInfo"/> object representing the player. May be <c>null</c>.</param>
         /// <param name="rejectReason">A <see cref="StringBuilder"/> object to contain the reason for rejecting the client.</param>
         /// <returns><c>true</c> to accept the client; <c>false</c> to reject the client.</returns>
-        private bool PlayerLogin(ClientInfo client, StringBuilder rejectReason)
+        private bool OnPlayerLogin(ClientInfo client, StringBuilder rejectReason)
         {
             foreach (var k in PluginManager.Plugins.Keys)
             {
@@ -207,7 +207,7 @@ namespace SevenMod
                 {
                     try
                     {
-                        if (!plugin.Plugin.PlayerLogin(client, rejectReason))
+                        if (!plugin.Plugin.OnPlayerLogin(client, rejectReason))
                         {
                             return false;
                         }
@@ -231,7 +231,7 @@ namespace SevenMod
         /// <param name="client">The <see cref="ClientInfo"/> object representing the player.</param>
         /// <param name="respawnReason">The <see cref="RespawnType"/> value indicating the reason for the player spawning.</param>
         /// <param name="pos">The <see cref="Vector3i"/> object representing the position of the player in the world.</param>
-        private void PlayerSpawnedInWorld(ClientInfo client, RespawnType respawnReason, Vector3i pos)
+        private void OnPlayerSpawnedInWorld(ClientInfo client, RespawnType respawnReason, Vector3i pos)
         {
             foreach (var k in PluginManager.Plugins.Keys)
             {
@@ -239,7 +239,7 @@ namespace SevenMod
                 {
                     try
                     {
-                        plugin.Plugin.PlayerSpawnedInWorld(client, respawnReason, pos);
+                        plugin.Plugin.OnPlayerSpawnedInWorld(client, respawnReason, pos);
                     }
                     catch (HaltPluginException)
                     {
@@ -258,7 +258,7 @@ namespace SevenMod
         /// <param name="client">The <see cref="ClientInfo"/> object representing the player.</param>
         /// <param name="chunkViewDim">TODO: Find out what this is.</param>
         /// <param name="playerProfile">The <see cref="PlayerProfile"/> object representing the player's persistent profile.</param>
-        private void PlayerSpawning(ClientInfo client, int chunkViewDim, PlayerProfile playerProfile)
+        private void OnPlayerSpawning(ClientInfo client, int chunkViewDim, PlayerProfile playerProfile)
         {
             foreach (var k in PluginManager.Plugins.Keys)
             {
@@ -266,7 +266,7 @@ namespace SevenMod
                 {
                     try
                     {
-                        plugin.Plugin.PlayerSpawning(client, chunkViewDim, playerProfile);
+                        plugin.Plugin.OnPlayerSpawning(client, chunkViewDim, playerProfile);
                     }
                     catch (HaltPluginException)
                     {
@@ -284,7 +284,7 @@ namespace SevenMod
         /// </summary>
         /// <param name="client">The <see cref="ClientInfo"/> object representing the player.</param>
         /// <param name="playerDataFile">The <see cref="PlayerDataFile"/> object representing the player's data file.</param>
-        private void SavePlayerData(ClientInfo client, PlayerDataFile playerDataFile)
+        private void OnSavePlayerData(ClientInfo client, PlayerDataFile playerDataFile)
         {
             foreach (var k in PluginManager.Plugins.Keys)
             {
@@ -292,7 +292,7 @@ namespace SevenMod
                 {
                     try
                     {
-                        plugin.Plugin.SavePlayerData(client, playerDataFile);
+                        plugin.Plugin.OnSavePlayerData(client, playerDataFile);
                     }
                     catch (HaltPluginException)
                     {
