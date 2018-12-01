@@ -40,7 +40,7 @@ namespace SevenMod.ConVar
         /// <summary>
         /// Occurs when the value of the variable is changed.
         /// </summary>
-        public event EventHandler<ConVarChangedEventArgs> ConVarChanged;
+        public event EventHandler<ConVarChangedEventArgs> ValueChanged;
 
         /// <summary>
         /// Gets the name of the variable.
@@ -96,16 +96,16 @@ namespace SevenMod.ConVar
         }
 
         /// <summary>
-        /// Raises the <see cref="ConVarChanged"/> event.
+        /// Raises the <see cref="ValueChanged"/> event.
         /// </summary>
         /// <param name="oldVal">The old value as a string.</param>
         /// <param name="newVal">The new value as a string.</param>
         internal void OnConVarChanged(string oldVal, string newVal)
         {
-            if (this.ConVarChanged != null)
+            if (this.ValueChanged != null)
             {
                 var args = new ConVarChangedEventArgs(this, oldVal, newVal);
-                foreach (EventHandler<ConVarChangedEventArgs> d in this.ConVarChanged.GetInvocationList())
+                foreach (EventHandler<ConVarChangedEventArgs> d in this.ValueChanged.GetInvocationList())
                 {
                     try
                     {

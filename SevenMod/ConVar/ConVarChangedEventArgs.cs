@@ -8,7 +8,7 @@ namespace SevenMod.ConVar
     using System;
 
     /// <summary>
-    /// Contains the arguments for a <see cref="ConVar.ConVarChanged"/> event.
+    /// Contains the arguments for a <see cref="ConVar.ValueChanged"/> event.
     /// </summary>
     public class ConVarChangedEventArgs : EventArgs
     {
