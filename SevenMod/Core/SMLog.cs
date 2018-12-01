@@ -88,7 +88,7 @@ namespace SevenMod.Core
             {
                 var fileName = $"error_{DateTime.Now.ToString("yyyyMMdd")}.log";
                 errorLog = new StreamWriter($"{SMPath.Logs}{fileName}", true);
-                WriteLine(mainLog, $"SevenMod error log file session started (file \"{fileName}\") (Version \"{Assembly.GetExecutingAssembly().GetName().Version}\")");
+                WriteLine(errorLog, $"SevenMod error log file session started (file \"{fileName}\") (Version \"{Assembly.GetExecutingAssembly().GetName().Version}\")");
             }
         }
 
