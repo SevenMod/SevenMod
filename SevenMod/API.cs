@@ -52,9 +52,9 @@ namespace SevenMod
         /// <param name="chunk">The <see cref="Chunk"/> object representing the chunk.</param>
         private void CalcChunkColorsDone(Chunk chunk)
         {
-            foreach (var plugin in PluginManager.Plugins.Values)
+            foreach (var k in PluginManager.Plugins.Keys)
             {
-                if (plugin.LoadStatus == PluginContainer.Status.Loaded)
+                if (PluginManager.Plugins.TryGetValue(k, out PluginContainer plugin) && plugin.LoadStatus == PluginContainer.Status.Loaded)
                 {
                     try
                     {
@@ -93,9 +93,9 @@ namespace SevenMod
         /// </summary>
         private void GameAwake()
         {
-            foreach (var plugin in PluginManager.Plugins.Values)
+            foreach (var k in PluginManager.Plugins.Keys)
             {
-                if (plugin.LoadStatus == PluginContainer.Status.Loaded)
+                if (PluginManager.Plugins.TryGetValue(k, out PluginContainer plugin) && plugin.LoadStatus == PluginContainer.Status.Loaded)
                 {
                     try
                     {
@@ -119,9 +119,9 @@ namespace SevenMod
         /// </summary>
         private void GameShutdown()
         {
-            foreach (var plugin in PluginManager.Plugins.Values)
+            foreach (var k in PluginManager.Plugins.Keys)
             {
-                if (plugin.LoadStatus == PluginContainer.Status.Loaded)
+                if (PluginManager.Plugins.TryGetValue(k, out PluginContainer plugin) && plugin.LoadStatus == PluginContainer.Status.Loaded)
                 {
                     try
                     {
@@ -146,9 +146,9 @@ namespace SevenMod
         /// </summary>
         private void GameStartDone()
         {
-            foreach (var plugin in PluginManager.Plugins.Values)
+            foreach (var k in PluginManager.Plugins.Keys)
             {
-                if (plugin.LoadStatus == PluginContainer.Status.Loaded)
+                if (PluginManager.Plugins.TryGetValue(k, out PluginContainer plugin) && plugin.LoadStatus == PluginContainer.Status.Loaded)
                 {
                     try
                     {
@@ -174,9 +174,9 @@ namespace SevenMod
         /// <param name="shutdown">A value indicating whether the server is shutting down.</param>
         private void PlayerDisconnected(ClientInfo client, bool shutdown)
         {
-            foreach (var plugin in PluginManager.Plugins.Values)
+            foreach (var k in PluginManager.Plugins.Keys)
             {
-                if (plugin.LoadStatus == PluginContainer.Status.Loaded)
+                if (PluginManager.Plugins.TryGetValue(k, out PluginContainer plugin) && plugin.LoadStatus == PluginContainer.Status.Loaded)
                 {
                     try
                     {
@@ -201,9 +201,9 @@ namespace SevenMod
         /// <returns><c>true</c> to accept the client; <c>false</c> to reject the client.</returns>
         private bool PlayerLogin(ClientInfo client, StringBuilder rejectReason)
         {
-            foreach (var plugin in PluginManager.Plugins.Values)
+            foreach (var k in PluginManager.Plugins.Keys)
             {
-                if (plugin.LoadStatus == PluginContainer.Status.Loaded)
+                if (PluginManager.Plugins.TryGetValue(k, out PluginContainer plugin) && plugin.LoadStatus == PluginContainer.Status.Loaded)
                 {
                     try
                     {
@@ -233,9 +233,9 @@ namespace SevenMod
         /// <param name="pos">The <see cref="Vector3i"/> object representing the position of the player in the world.</param>
         private void PlayerSpawnedInWorld(ClientInfo client, RespawnType respawnReason, Vector3i pos)
         {
-            foreach (var plugin in PluginManager.Plugins.Values)
+            foreach (var k in PluginManager.Plugins.Keys)
             {
-                if (plugin.LoadStatus == PluginContainer.Status.Loaded)
+                if (PluginManager.Plugins.TryGetValue(k, out PluginContainer plugin) && plugin.LoadStatus == PluginContainer.Status.Loaded)
                 {
                     try
                     {
@@ -260,9 +260,9 @@ namespace SevenMod
         /// <param name="playerProfile">The <see cref="PlayerProfile"/> object representing the player's persistent profile.</param>
         private void PlayerSpawning(ClientInfo client, int chunkViewDim, PlayerProfile playerProfile)
         {
-            foreach (var plugin in PluginManager.Plugins.Values)
+            foreach (var k in PluginManager.Plugins.Keys)
             {
-                if (plugin.LoadStatus == PluginContainer.Status.Loaded)
+                if (PluginManager.Plugins.TryGetValue(k, out PluginContainer plugin) && plugin.LoadStatus == PluginContainer.Status.Loaded)
                 {
                     try
                     {
@@ -286,9 +286,9 @@ namespace SevenMod
         /// <param name="playerDataFile">The <see cref="PlayerDataFile"/> object representing the player's data file.</param>
         private void SavePlayerData(ClientInfo client, PlayerDataFile playerDataFile)
         {
-            foreach (var plugin in PluginManager.Plugins.Values)
+            foreach (var k in PluginManager.Plugins.Keys)
             {
-                if (plugin.LoadStatus == PluginContainer.Status.Loaded)
+                if (PluginManager.Plugins.TryGetValue(k, out PluginContainer plugin) && plugin.LoadStatus == PluginContainer.Status.Loaded)
                 {
                     try
                     {

@@ -64,18 +64,21 @@ namespace SevenMod.Core
             if (!ConVarManager.ConfigsLoaded)
             {
                 ConVarManager.ExecuteConfigs();
-                foreach (var plugin in Plugins.Values)
+                foreach (var k in Plugins.Keys)
                 {
-                    try
+                    if (Plugins.TryGetValue(k, out PluginContainer plugin))
                     {
-                        plugin.Plugin.ConfigsExecuted();
-                    }
-                    catch (HaltPluginException)
-                    {
-                    }
-                    catch (Exception e)
-                    {
-                        plugin.SetFailState(e.Message);
+                        try
+                        {
+                            plugin.Plugin.ConfigsExecuted();
+                        }
+                        catch (HaltPluginException)
+                        {
+                        }
+                        catch (Exception e)
+                        {
+                            plugin.SetFailState(e.Message);
+                        }
                     }
                 }
             }
@@ -127,9 +130,9 @@ namespace SevenMod.Core
         /// </summary>
         public static void UnloadAll()
         {
-            foreach (var plugin in Plugins.Values)
+            foreach (var k in Plugins.Keys)
             {
-                if (plugin.LoadStatus == PluginContainer.Status.Loaded)
+                if (Plugins.TryGetValue(k, out PluginContainer plugin) && plugin.LoadStatus == PluginContainer.Status.Loaded)
                 {
                     plugin.LoadStatus = PluginContainer.Status.Unloaded;
                     try
