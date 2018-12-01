@@ -9,6 +9,7 @@ namespace SevenMod.Voting
     using System.Collections.Generic;
     using System.Timers;
     using SevenMod.Chat;
+    using SevenMod.Core;
 
     /// <summary>
     /// Represents a vote.
@@ -64,7 +65,7 @@ namespace SevenMod.Voting
             ChatHook.ChatMessage += this.OnChatMessage;
 
             this.timer = new Timer(20000);
-            this.timer.Elapsed += this.OnVoteEnded;
+            this.timer.Elapsed += this.OnTimerElapsed;
             this.timer.Enabled = true;
 
             string msg;
@@ -157,7 +158,7 @@ namespace SevenMod.Voting
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">An <see cref="ElapsedEventArgs"/> object that contains the event data.</param>
-        private void OnVoteEnded(object sender, ElapsedEventArgs e)
+        private void OnTimerElapsed(object sender, ElapsedEventArgs e)
         {
             var counts = new int[this.voteOptions.Length];
             foreach (var vote in this.votingPool.Values)
@@ -177,8 +178,42 @@ namespace SevenMod.Voting
                 percents[i] = counts[i] / total;
             }
 
-            this.Ended?.Invoke(this, new VoteEndedEventArgs(this, this.voteOptions, counts, percents, this.data));
+            this.OnVoteEnded(counts, percents);
             this.EndVote();
+        }
+
+        /// <summary>
+        /// Raises the <see cref="Ended"/> event.
+        /// </summary>
+        /// <param name="counts">The count of votes for each answer option.</param>
+        /// <param name="percents">The percentage of eligible voters that voted for each answer option.</param>
+        private void OnVoteEnded(int[] counts, float[] percents)
+        {
+            if (this.Ended != null)
+            {
+                var args = new VoteEndedEventArgs(this, this.voteOptions, counts, percents, this.data);
+                foreach (EventHandler<VoteEndedEventArgs> d in this.Ended.GetInvocationList())
+                {
+                    try
+                    {
+                        d.Invoke(this, args);
+                    }
+                    catch (HaltPluginException)
+                    {
+                    }
+                    catch (Exception e)
+                    {
+                        if (d.Target is IPlugin)
+                        {
+                            (d.Target as IPlugin).Container.SetFailState(e.Message);
+                        }
+                        else
+                        {
+                            SMLog.Error(e.Message);
+                        }
+                    }
+                }
+            }
         }
 
         /// <summary>

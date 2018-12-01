@@ -102,7 +102,31 @@ namespace SevenMod.ConVar
         /// <param name="newVal">The new value as a string.</param>
         internal void OnConVarChanged(string oldVal, string newVal)
         {
-            this.ConVarChanged?.Invoke(this, new ConVarChangedEventArgs(this, oldVal, newVal));
+            if (this.ConVarChanged != null)
+            {
+                var args = new ConVarChangedEventArgs(this, oldVal, newVal);
+                foreach (EventHandler<ConVarChangedEventArgs> d in this.ConVarChanged.GetInvocationList())
+                {
+                    try
+                    {
+                        d.Invoke(this, args);
+                    }
+                    catch (HaltPluginException)
+                    {
+                    }
+                    catch (Exception e)
+                    {
+                        if (d.Target is IPlugin)
+                        {
+                            (d.Target as IPlugin).Container.SetFailState(e.Message);
+                        }
+                        else
+                        {
+                            SMLog.Error(e.Message);
+                        }
+                    }
+                }
+            }
         }
     }
 }

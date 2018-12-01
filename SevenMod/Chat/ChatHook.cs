@@ -8,6 +8,7 @@ namespace SevenMod.Chat
     using System;
     using System.Collections.Generic;
     using SevenMod.ConVar;
+    using SevenMod.Core;
 
     /// <summary>
     /// Hooks into the game chat and allows plugins to register their own chat hooks.
@@ -61,10 +62,29 @@ namespace SevenMod.Chat
                 var args = new ChatMessageEventArgs(client, message);
                 foreach (EventHandler<ChatMessageEventArgs> d in ChatMessage.GetInvocationList())
                 {
-                    d.Invoke(null, args);
-                    if (args.Handled)
+                    try
                     {
-                        return false;
+                        d.Invoke(null, args);
+                        if (args.Handled)
+                        {
+                            return false;
+                        }
+                    }
+                    catch (HaltPluginException)
+                    {
+                        args.Handled = false;
+                    }
+                    catch (Exception e)
+                    {
+                        args.Handled = false;
+                        if (d.Target is IPlugin)
+                        {
+                            (d.Target as IPlugin).Container.SetFailState(e.Message);
+                        }
+                        else
+                        {
+                            SMLog.Error(e.Message);
+                        }
                     }
                 }
             }

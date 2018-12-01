@@ -63,7 +63,31 @@ namespace SevenMod.Console
         /// <param name="senderInfo">The <see cref="CommandSenderInfo"/> object representing the client that is executing the command.</param>
         internal void OnExecute(List<string> arguments, CommandSenderInfo senderInfo)
         {
-            this.Executed?.Invoke(this, new AdminCommandEventArgs(this, arguments, senderInfo));
+            if (this.Executed != null)
+            {
+                var args = new AdminCommandEventArgs(this, arguments, senderInfo);
+                foreach (EventHandler<AdminCommandEventArgs> d in this.Executed.GetInvocationList())
+                {
+                    try
+                    {
+                        d.Invoke(this, args);
+                    }
+                    catch (HaltPluginException)
+                    {
+                    }
+                    catch (Exception e)
+                    {
+                        if (d.Target is IPlugin)
+                        {
+                            (d.Target as IPlugin).Container.SetFailState(e.Message);
+                        }
+                        else
+                        {
+                            SMLog.Error(e.Message);
+                        }
+                    }
+                }
+            }
         }
     }
 }
