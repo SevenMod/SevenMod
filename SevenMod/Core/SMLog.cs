@@ -47,6 +47,20 @@ namespace SevenMod.Core
         }
 
         /// <summary>
+        /// Writes exception details to the error log file.
+        /// </summary>
+        /// <param name="e">The exception to record.</param>
+        /// <param name="tag">The tag identifying the source of the message.</param>
+        public static void Error(Exception e, string tag = "SM")
+        {
+            Error(e.Message, tag);
+            foreach (var l in e.StackTrace.Split('\n'))
+            {
+                WriteLine(errorLog, l.TrimEnd());
+            }
+        }
+
+        /// <summary>
         /// Closes any open streams.
         /// </summary>
         public static void Close()

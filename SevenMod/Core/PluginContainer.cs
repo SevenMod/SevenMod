@@ -5,6 +5,8 @@
 
 namespace SevenMod.Core
 {
+    using System;
+
     /// <summary>
     /// Contains a plugin with its metadata
     /// </summary>
@@ -75,6 +77,18 @@ namespace SevenMod.Core
             this.Error = error;
             this.Plugin = null;
             SMLog.Error(error, this.File);
+        }
+
+        /// <summary>
+        /// Sets the plugin to an error state.
+        /// </summary>
+        /// <param name="e">The exception causing the error state.</param>
+        internal void SetFailState(Exception e)
+        {
+            this.LoadStatus = Status.Error;
+            this.Error = e.Message;
+            this.Plugin = null;
+            SMLog.Error(e, this.File);
         }
     }
 }

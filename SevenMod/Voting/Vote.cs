@@ -205,11 +205,11 @@ namespace SevenMod.Voting
                     {
                         if (d.Target is IPlugin p)
                         {
-                            p.Container.SetFailState(e.Message);
+                            p.Container.SetFailState(e);
                         }
                         else
                         {
-                            SMLog.Error(e.Message);
+                            SMLog.Error(e);
                         }
                     }
                 }

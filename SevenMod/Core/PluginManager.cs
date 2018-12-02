@@ -77,7 +77,7 @@ namespace SevenMod.Core
                         }
                         catch (Exception e)
                         {
-                            plugin.SetFailState(e.Message);
+                            plugin.SetFailState(e);
                         }
                     }
                 }
@@ -115,7 +115,7 @@ namespace SevenMod.Core
                 }
                 catch (Exception e)
                 {
-                    plugin.SetFailState(e.Message);
+                    plugin.SetFailState(e);
                 }
 
                 AdminCommandManager.UnloadPlugin(plugin.Plugin);
@@ -144,7 +144,7 @@ namespace SevenMod.Core
                     }
                     catch (Exception e)
                     {
-                        plugin.SetFailState(e.Message);
+                        plugin.SetFailState(e);
                     }
 
                     AdminCommandManager.UnloadPlugin(plugin.Plugin);

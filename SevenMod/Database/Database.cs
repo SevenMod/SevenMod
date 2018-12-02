@@ -88,7 +88,7 @@ namespace SevenMod.Database
                 }
                 catch (Exception e)
                 {
-                    SMLog.Error(e.Message);
+                    SMLog.Error(e);
                 }
             }
 

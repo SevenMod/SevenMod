@@ -107,7 +107,7 @@ namespace SevenMod.Admin
                     }
                     catch (Exception e)
                     {
-                        plugin.SetFailState(e.Message);
+                        plugin.SetFailState(e);
                     }
                 }
             }
