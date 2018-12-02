@@ -68,16 +68,19 @@ namespace SevenMod.Core
                 {
                     if (Plugins.TryGetValue(k, out PluginContainer plugin))
                     {
-                        try
+                        if (plugin.LoadStatus == PluginContainer.Status.Loaded)
                         {
-                            plugin.Plugin.OnConfigsExecuted();
-                        }
-                        catch (HaltPluginException)
-                        {
-                        }
-                        catch (Exception e)
-                        {
-                            plugin.SetFailState(e);
+                            try
+                            {
+                                plugin.Plugin.OnConfigsExecuted();
+                            }
+                            catch (HaltPluginException)
+                            {
+                            }
+                            catch (Exception e)
+                            {
+                                plugin.SetFailState(e);
+                            }
                         }
                     }
                 }
