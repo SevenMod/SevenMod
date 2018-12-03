@@ -43,7 +43,7 @@ namespace SevenMod.ConVar
         /// <returns>The <see cref="ConVar"/> object representing the console variable if found; otherwise <c>null</c>.</returns>
         public static ConVar FindConVar(string name)
         {
-            conVars.TryGetValue(name.ToLower().Trim(), out ConVar value);
+            conVars.TryGetValue(name.ToLower().Trim(), out var value);
             return value;
         }
 

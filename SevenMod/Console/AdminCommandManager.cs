@@ -27,7 +27,7 @@ namespace SevenMod.Console
         /// <returns>The <see cref="AdminCommand"/> object representing the admin command if found; otherwise <c>null</c>.</returns>
         public static AdminCommand FindCommand(string command)
         {
-            commands.TryGetValue(command.Trim().ToLower(), out AdminCommand adminCommand);
+            commands.TryGetValue(command.Trim().ToLower(), out var adminCommand);
             return adminCommand;
         }
 

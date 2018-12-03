@@ -55,7 +55,7 @@ namespace SevenMod.Plugin.AdminSQL
             var results = db.TQuery("SELECT id, name, flags, immunity_level FROM sm_groups");
             foreach (DataRow row in results.Rows)
             {
-                if (!int.TryParse(row.ItemArray.GetValue(0).ToString(), out int id))
+                if (!int.TryParse(row.ItemArray.GetValue(0).ToString(), out var id))
                 {
                     continue;
                 }
@@ -78,7 +78,7 @@ namespace SevenMod.Plugin.AdminSQL
             results = db.TQuery("SELECT admin_id, group_id FROM sm_admins_groups");
             foreach (DataRow row in results.Rows)
             {
-                if (int.TryParse(row.ItemArray.GetValue(0).ToString(), out int adminId) && int.TryParse(row.ItemArray.GetValue(1).ToString(), out int groupId))
+                if (int.TryParse(row.ItemArray.GetValue(0).ToString(), out var adminId) && int.TryParse(row.ItemArray.GetValue(1).ToString(), out var groupId))
                 {
                     if (!groups.ContainsKey(groupId))
                     {
@@ -97,7 +97,7 @@ namespace SevenMod.Plugin.AdminSQL
             results = db.TQuery("SELECT id, identity, flags, immunity FROM sm_admins");
             foreach (DataRow row in results.Rows)
             {
-                if (!int.TryParse(row.ItemArray.GetValue(0).ToString(), out int id))
+                if (!int.TryParse(row.ItemArray.GetValue(0).ToString(), out var id))
                 {
                     continue;
                 }

@@ -63,7 +63,7 @@ namespace SevenMod.Admin
         /// <param name="flags">The user's access flag string.</param>
         public static void AddAdmin(string authId, int immunity, string flags)
         {
-            if (!SteamUtils.NormalizeSteamId(authId, out string steamId64))
+            if (!SteamUtils.NormalizeSteamId(authId, out var steamId64))
             {
                 return;
             }
@@ -96,7 +96,7 @@ namespace SevenMod.Admin
             admins.Clear();
             foreach (var k in PluginManager.Plugins.Keys)
             {
-                if (PluginManager.Plugins.TryGetValue(k, out PluginContainer plugin) && plugin.LoadStatus == PluginContainer.Status.Loaded)
+                if (PluginManager.Plugins.TryGetValue(k, out var plugin) && plugin.LoadStatus == PluginContainer.Status.Loaded)
                 {
                     try
                     {

@@ -68,9 +68,9 @@ namespace SevenMod.Plugin.BaseBans
                 return;
             }
 
-            if (!int.TryParse(e.Arguments[1], out int duration) || duration < 0)
+            if (!uint.TryParse(e.Arguments[1], out var duration))
             {
-                ChatHelper.ReplyToCommand(e.SenderInfo, "Invaid ban duration");
+                ChatHelper.ReplyToCommand(e.SenderInfo, "Invalid ban duration");
                 return;
             }
 

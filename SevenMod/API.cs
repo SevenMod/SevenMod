@@ -54,7 +54,7 @@ namespace SevenMod
         {
             foreach (var k in PluginManager.Plugins.Keys)
             {
-                if (PluginManager.Plugins.TryGetValue(k, out PluginContainer plugin) && plugin.LoadStatus == PluginContainer.Status.Loaded)
+                if (PluginManager.Plugins.TryGetValue(k, out var plugin) && plugin.LoadStatus == PluginContainer.Status.Loaded)
                 {
                     try
                     {
@@ -95,7 +95,7 @@ namespace SevenMod
         {
             foreach (var k in PluginManager.Plugins.Keys)
             {
-                if (PluginManager.Plugins.TryGetValue(k, out PluginContainer plugin) && plugin.LoadStatus == PluginContainer.Status.Loaded)
+                if (PluginManager.Plugins.TryGetValue(k, out var plugin) && plugin.LoadStatus == PluginContainer.Status.Loaded)
                 {
                     try
                     {
@@ -121,7 +121,7 @@ namespace SevenMod
         {
             foreach (var k in PluginManager.Plugins.Keys)
             {
-                if (PluginManager.Plugins.TryGetValue(k, out PluginContainer plugin) && plugin.LoadStatus == PluginContainer.Status.Loaded)
+                if (PluginManager.Plugins.TryGetValue(k, out var plugin) && plugin.LoadStatus == PluginContainer.Status.Loaded)
                 {
                     try
                     {
@@ -148,7 +148,7 @@ namespace SevenMod
         {
             foreach (var k in PluginManager.Plugins.Keys)
             {
-                if (PluginManager.Plugins.TryGetValue(k, out PluginContainer plugin) && plugin.LoadStatus == PluginContainer.Status.Loaded)
+                if (PluginManager.Plugins.TryGetValue(k, out var plugin) && plugin.LoadStatus == PluginContainer.Status.Loaded)
                 {
                     try
                     {
@@ -176,7 +176,7 @@ namespace SevenMod
         {
             foreach (var k in PluginManager.Plugins.Keys)
             {
-                if (PluginManager.Plugins.TryGetValue(k, out PluginContainer plugin) && plugin.LoadStatus == PluginContainer.Status.Loaded)
+                if (PluginManager.Plugins.TryGetValue(k, out var plugin) && plugin.LoadStatus == PluginContainer.Status.Loaded)
                 {
                     try
                     {
@@ -203,7 +203,7 @@ namespace SevenMod
         {
             foreach (var k in PluginManager.Plugins.Keys)
             {
-                if (PluginManager.Plugins.TryGetValue(k, out PluginContainer plugin) && plugin.LoadStatus == PluginContainer.Status.Loaded)
+                if (PluginManager.Plugins.TryGetValue(k, out var plugin) && plugin.LoadStatus == PluginContainer.Status.Loaded)
                 {
                     try
                     {
@@ -235,7 +235,7 @@ namespace SevenMod
         {
             foreach (var k in PluginManager.Plugins.Keys)
             {
-                if (PluginManager.Plugins.TryGetValue(k, out PluginContainer plugin) && plugin.LoadStatus == PluginContainer.Status.Loaded)
+                if (PluginManager.Plugins.TryGetValue(k, out var plugin) && plugin.LoadStatus == PluginContainer.Status.Loaded)
                 {
                     try
                     {
@@ -262,7 +262,7 @@ namespace SevenMod
         {
             foreach (var k in PluginManager.Plugins.Keys)
             {
-                if (PluginManager.Plugins.TryGetValue(k, out PluginContainer plugin) && plugin.LoadStatus == PluginContainer.Status.Loaded)
+                if (PluginManager.Plugins.TryGetValue(k, out var plugin) && plugin.LoadStatus == PluginContainer.Status.Loaded)
                 {
                     try
                     {
@@ -288,7 +288,7 @@ namespace SevenMod
         {
             foreach (var k in PluginManager.Plugins.Keys)
             {
-                if (PluginManager.Plugins.TryGetValue(k, out PluginContainer plugin) && plugin.LoadStatus == PluginContainer.Status.Loaded)
+                if (PluginManager.Plugins.TryGetValue(k, out var plugin) && plugin.LoadStatus == PluginContainer.Status.Loaded)
                 {
                     try
                     {

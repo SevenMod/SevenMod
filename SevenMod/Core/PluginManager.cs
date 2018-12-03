@@ -36,7 +36,7 @@ namespace SevenMod.Core
         public static PluginContainer GetPluginInfo(string name)
         {
             name = name.Trim().ToLower();
-            Plugins.TryGetValue(name, out PluginContainer plugin);
+            Plugins.TryGetValue(name, out var plugin);
             return plugin;
         }
 
@@ -66,21 +66,18 @@ namespace SevenMod.Core
                 ConVarManager.ExecuteConfigs();
                 foreach (var k in Plugins.Keys)
                 {
-                    if (Plugins.TryGetValue(k, out PluginContainer plugin))
+                    if (Plugins.TryGetValue(k, out var plugin) && plugin.LoadStatus == PluginContainer.Status.Loaded)
                     {
-                        if (plugin.LoadStatus == PluginContainer.Status.Loaded)
+                        try
                         {
-                            try
-                            {
-                                plugin.Plugin.OnConfigsExecuted();
-                            }
-                            catch (HaltPluginException)
-                            {
-                            }
-                            catch (Exception e)
-                            {
-                                plugin.SetFailState(e);
-                            }
+                            plugin.Plugin.OnConfigsExecuted();
+                        }
+                        catch (HaltPluginException)
+                        {
+                        }
+                        catch (Exception e)
+                        {
+                            plugin.SetFailState(e);
                         }
                     }
                 }
@@ -106,7 +103,7 @@ namespace SevenMod.Core
         public static void Unload(string name)
         {
             name = name.Trim().ToLower();
-            if (Plugins.TryGetValue(name, out PluginContainer plugin))
+            if (Plugins.TryGetValue(name, out var plugin))
             {
                 plugin.LoadStatus = PluginContainer.Status.Unloaded;
                 try
@@ -135,7 +132,7 @@ namespace SevenMod.Core
         {
             foreach (var k in Plugins.Keys)
             {
-                if (Plugins.TryGetValue(k, out PluginContainer plugin) && plugin.LoadStatus == PluginContainer.Status.Loaded)
+                if (Plugins.TryGetValue(k, out var plugin) && plugin.LoadStatus == PluginContainer.Status.Loaded)
                 {
                     plugin.LoadStatus = PluginContainer.Status.Unloaded;
                     try

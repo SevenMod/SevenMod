@@ -55,11 +55,11 @@ namespace SevenMod.Console
                     exactMatch = $"STEAM_{exactMatch.Substring(6).Replace('_', ':')}";
                 }
 
-                if (SteamUtils.NormalizeSteamId(exactMatch, out string steamId))
+                if (SteamUtils.NormalizeSteamId(exactMatch, out var steamId))
                 {
                     list.Add(ConnectionManager.Instance.Clients.ForPlayerId(steamId));
                 }
-                else if (int.TryParse(exactMatch, out int entId))
+                else if (int.TryParse(exactMatch, out var entId))
                 {
                     list.Add(ConnectionManager.Instance.Clients.ForEntityId(entId));
                 }
@@ -106,7 +106,7 @@ namespace SevenMod.Console
         /// <returns>The <see cref="ClientInfo"/> object representing a matching client if one is found; otherwise <c>null</c>.</returns>
         public static ClientInfo ParseSingleTargetString(CommandSenderInfo senderInfo, string targetString)
         {
-            var count = global::ConsoleHelper.ParseParamPartialNameOrId(targetString, out string _, out ClientInfo target, false);
+            var count = ConsoleHelper.ParseParamPartialNameOrId(targetString, out var id, out var target, false);
             if (count < 1 || (target == null))
             {
                 ChatHelper.ReplyToCommand(senderInfo, "No valid targets found");
