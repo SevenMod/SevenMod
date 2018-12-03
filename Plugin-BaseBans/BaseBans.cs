@@ -74,8 +74,7 @@ namespace SevenMod.Plugin.BaseBans
                 return;
             }
 
-            var target = SMConsoleHelper.ParseSingleTargetString(e.SenderInfo, e.Arguments[0]);
-            if (target != null)
+            if (SMConsoleHelper.ParseSingleTargetString(e.SenderInfo, e.Arguments[0], out var target))
             {
                 var unit = "minutes";
                 if (duration == 0)

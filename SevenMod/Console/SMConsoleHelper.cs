@@ -79,8 +79,7 @@ namespace SevenMod.Console
             }
             else
             {
-                var target = ParseSingleTargetString(senderInfo, targetString);
-                if (target != null)
+                if (ParseSingleTargetString(senderInfo, targetString, out var target))
                 {
                     list.Add(target);
                 }
@@ -103,20 +102,23 @@ namespace SevenMod.Console
         /// </summary>
         /// <param name="senderInfo">The calling client information.</param>
         /// <param name="targetString">The player target string.</param>
-        /// <returns>The <see cref="ClientInfo"/> object representing a matching client if one is found; otherwise <c>null</c>.</returns>
-        public static ClientInfo ParseSingleTargetString(CommandSenderInfo senderInfo, string targetString)
+        /// <param name="client">Variable to be set to the <see cref="ClientInfo"/> object representing the matching client.</param>
+        /// <returns><c>true</c> if a match is found; otherwise <c>false</c>.</returns>
+        public static bool ParseSingleTargetString(CommandSenderInfo senderInfo, string targetString, out ClientInfo client)
         {
-            var count = ConsoleHelper.ParseParamPartialNameOrId(targetString, out var id, out var target, false);
-            if (count < 1 || (target == null))
+            var count = ConsoleHelper.ParseParamPartialNameOrId(targetString, out var id, out client, false);
+            if (count < 1)
             {
                 ChatHelper.ReplyToCommand(senderInfo, "No valid targets found");
+                return false;
             }
             else if (count > 1)
             {
                 ChatHelper.ReplyToCommand(senderInfo, "Multiple valid targets found");
+                return false;
             }
 
-            return target;
+            return true;
         }
     }
 }

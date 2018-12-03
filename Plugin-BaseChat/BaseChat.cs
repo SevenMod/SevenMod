@@ -79,8 +79,7 @@ namespace SevenMod.Plugin.BaseChat
                 return;
             }
 
-            var target = SMConsoleHelper.ParseSingleTargetString(e.SenderInfo, e.Arguments[0]);
-            if (target == null)
+            if (SMConsoleHelper.ParseSingleTargetString(e.SenderInfo, e.Arguments[0], out var target))
             {
                 ChatHelper.ReplyToCommand(e.SenderInfo, "Player not found");
                 return;

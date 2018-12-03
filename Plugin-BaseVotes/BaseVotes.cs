@@ -102,8 +102,7 @@ namespace SevenMod.Plugin.BaseVotes
                 return;
             }
 
-            var target = SMConsoleHelper.ParseSingleTargetString(e.SenderInfo, e.Arguments[0]);
-            if (target != null)
+            if (SMConsoleHelper.ParseSingleTargetString(e.SenderInfo, e.Arguments[0], out var target))
             {
                 var message = $"A vote has begun to ban {target.playerName} from the server";
                 if (VoteManager.StartVote(message, null, target))
@@ -148,8 +147,7 @@ namespace SevenMod.Plugin.BaseVotes
                 return;
             }
 
-            var target = SMConsoleHelper.ParseSingleTargetString(e.SenderInfo, e.Arguments[0]);
-            if (target != null)
+            if (SMConsoleHelper.ParseSingleTargetString(e.SenderInfo, e.Arguments[0], out var target))
             {
                 var message = $"A vote has begun to kick {target.playerName} from the server";
                 if (VoteManager.StartVote(message, null, target))
