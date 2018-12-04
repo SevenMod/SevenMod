@@ -132,14 +132,26 @@ namespace SevenMod.Database
         /// </summary>
         /// <param name="sql">The SQL string to execute.</param>
         /// <returns>A <see cref="DataTable"/> object containing the result of the query.</returns>
-        public abstract DataTable Query(string sql);
+        public DataTable Query(string sql)
+        {
+            lock (this)
+            {
+                return this.RunQuery(sql);
+            }
+        }
 
         /// <summary>
         /// Executes a query on the database without returning a result.
         /// </summary>
         /// <param name="sql">The SQL string to execute.</param>
         /// <returns>The number of affected rows.</returns>
-        public abstract int FastQuery(string sql);
+        public int FastQuery(string sql)
+        {
+            lock (this)
+            {
+                return this.RunFastQuery(sql);
+            }
+        }
 
         /// <summary>
         /// Executes a threaded query on the database and returns the result to a callback function.
@@ -175,6 +187,20 @@ namespace SevenMod.Database
         /// <param name="str">The original unescaped string.</param>
         /// <returns>The escaped string.</returns>
         public abstract string Escape(string str);
+
+        /// <summary>
+        /// Executes a query on the database and returns the result.
+        /// </summary>
+        /// <param name="sql">The SQL string to execute.</param>
+        /// <returns>A <see cref="DataTable"/> object containing the result of the query.</returns>
+        protected internal abstract DataTable RunQuery(string sql);
+
+        /// <summary>
+        /// Executes a query on the database without returning a result.
+        /// </summary>
+        /// <param name="sql">The SQL string to execute.</param>
+        /// <returns>The number of affected rows.</returns>
+        protected internal abstract int RunFastQuery(string sql);
 
         /// <summary>
         /// Sets up the connection to the backing database.

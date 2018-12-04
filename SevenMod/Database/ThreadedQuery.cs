@@ -93,9 +93,12 @@ namespace SevenMod.Database
             var query = new ThreadedQuery(database, data);
             new Thread(() =>
             {
-                query.status = Status.Running;
-                query.results = database.Query(sql);
-                query.status = Status.Completed;
+                lock (database)
+                {
+                    query.status = Status.Running;
+                    query.results = database.RunQuery(sql);
+                    query.status = Status.Completed;
+                }
             }).Start();
 
             return query;
@@ -113,9 +116,12 @@ namespace SevenMod.Database
             var query = new ThreadedQuery(database, data);
             new Thread(() =>
             {
-                query.status = Status.Running;
-                query.affectedRows = database.FastQuery(sql);
-                query.status = Status.Completed;
+                lock (database)
+                {
+                    query.status = Status.Running;
+                    query.affectedRows = database.RunFastQuery(sql);
+                    query.status = Status.Completed;
+                }
             }).Start();
 
             return query;

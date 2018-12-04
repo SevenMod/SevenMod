@@ -21,7 +21,13 @@ namespace SevenMod.Database
         private SQLiteConnection connection;
 
         /// <inheritdoc/>
-        public override DataTable Query(string sql)
+        public override string Escape(string str)
+        {
+            return MySqlHelper.EscapeString(str);
+        }
+
+        /// <inheritdoc/>
+        protected internal override DataTable RunQuery(string sql)
         {
             var dataTable = new DataTable();
 
@@ -36,7 +42,7 @@ namespace SevenMod.Database
         }
 
         /// <inheritdoc/>
-        public override int FastQuery(string sql)
+        protected internal override int RunFastQuery(string sql)
         {
             this.connection.Open();
             var cmd = new SQLiteCommand(sql, this.connection);
@@ -44,12 +50,6 @@ namespace SevenMod.Database
             this.connection.Close();
 
             return affectedRows;
-        }
-
-        /// <inheritdoc/>
-        public override string Escape(string str)
-        {
-            return MySqlHelper.EscapeString(str);
         }
 
         /// <inheritdoc/>
