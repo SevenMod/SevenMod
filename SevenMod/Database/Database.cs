@@ -38,6 +38,22 @@ namespace SevenMod.Database
         private static FileSystemWatcher watcher;
 
         /// <summary>
+        /// The <see cref="ThreadedQuery"/> objects representing the currently active threaded queries.
+        /// </summary>
+        private static List<ThreadedQuery> queries = new List<ThreadedQuery>();
+
+        /// <summary>
+        /// Initializes static members of the <see cref="Database"/> class.
+        /// </summary>
+        static Database()
+        {
+            ModEvents.GameUpdate.RegisterHandler(() =>
+            {
+                queries.RemoveAll((ThreadedQuery query) => query.CheckStatus());
+            });
+        }
+
+        /// <summary>
         /// Represents a database driver.
         /// </summary>
         protected enum DatabaseDriver
@@ -112,17 +128,46 @@ namespace SevenMod.Database
         }
 
         /// <summary>
-        /// Executes a query on the database without returning a result.
-        /// </summary>
-        /// <param name="sql">The SQL string to execute.</param>
-        public abstract void FastQuery(string sql);
-
-        /// <summary>
         /// Executes a query on the database and returns the result.
         /// </summary>
         /// <param name="sql">The SQL string to execute.</param>
         /// <returns>A <see cref="DataTable"/> object containing the result of the query.</returns>
-        public abstract DataTable TQuery(string sql);
+        public abstract DataTable Query(string sql);
+
+        /// <summary>
+        /// Executes a query on the database without returning a result.
+        /// </summary>
+        /// <param name="sql">The SQL string to execute.</param>
+        /// <returns>The number of affected rows.</returns>
+        public abstract int FastQuery(string sql);
+
+        /// <summary>
+        /// Executes a threaded query on the database and returns the result to a callback function.
+        /// </summary>
+        /// <param name="sql">The SQL string to execute.</param>
+        /// <param name="data">Data associated with this query.</param>
+        /// <returns>A <see cref="ThreadedQuery"/> object representing the query running in the background.</returns>
+        public ThreadedQuery TQuery(string sql, object data = null)
+        {
+            var query = ThreadedQuery.Query(sql, this, data);
+            queries.Add(query);
+
+            return query;
+        }
+
+        /// <summary>
+        /// Executes a query on the database without returning a result.
+        /// </summary>
+        /// <param name="sql">The SQL string to execute.</param>
+        /// <param name="data">Data associated with this query.</param>
+        /// <returns>A <see cref="ThreadedQuery"/> object representing the query running in the background.</returns>
+        public ThreadedQuery TFastQuery(string sql, object data = null)
+        {
+            var query = ThreadedQuery.FastQuery(sql, this, data);
+            queries.Add(query);
+
+            return query;
+        }
 
         /// <summary>
         /// Escapes a string to be safely used in a query.

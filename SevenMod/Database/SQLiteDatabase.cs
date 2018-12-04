@@ -7,7 +7,6 @@ namespace SevenMod.Database
 {
     using System.Data;
     using System.Data.SQLite;
-    using System.IO;
     using MySql.Data.MySqlClient;
     using SevenMod.Core;
 
@@ -22,16 +21,7 @@ namespace SevenMod.Database
         private SQLiteConnection connection;
 
         /// <inheritdoc/>
-        public override void FastQuery(string sql)
-        {
-            this.connection.Open();
-            var cmd = new SQLiteCommand(sql, this.connection);
-            cmd.ExecuteNonQuery();
-            this.connection.Close();
-        }
-
-        /// <inheritdoc/>
-        public override DataTable TQuery(string sql)
+        public override DataTable Query(string sql)
         {
             var dataTable = new DataTable();
 
@@ -43,6 +33,17 @@ namespace SevenMod.Database
             this.connection.Close();
 
             return dataTable;
+        }
+
+        /// <inheritdoc/>
+        public override int FastQuery(string sql)
+        {
+            this.connection.Open();
+            var cmd = new SQLiteCommand(sql, this.connection);
+            var affectedRows = cmd.ExecuteNonQuery();
+            this.connection.Close();
+
+            return affectedRows;
         }
 
         /// <inheritdoc/>

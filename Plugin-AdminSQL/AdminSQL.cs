@@ -51,9 +51,18 @@ namespace SevenMod.Plugin.AdminSQL
                 return;
             }
 
+            db.TQuery("SELECT id, name, flags, immunity_level FROM sm_groups").QueryCompleted += this.OnGroupsQuery;
+        }
+
+        /// <summary>
+        /// Called when the query for the list of groups is completed.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">A <see cref="QueryCompletedEventArgs"/> object containing the event data.</param>
+        private void OnGroupsQuery(object sender, QueryCompletedEventArgs e)
+        {
             var groups = new Dictionary<int, GroupInfo>();
-            var results = db.TQuery("SELECT id, name, flags, immunity_level FROM sm_groups");
-            foreach (DataRow row in results.Rows)
+            foreach (DataRow row in e.Results.Rows)
             {
                 if (!int.TryParse(row.ItemArray.GetValue(0).ToString(), out var id))
                 {
@@ -74,9 +83,23 @@ namespace SevenMod.Plugin.AdminSQL
                 groups.Add(id, new GroupInfo(name, immunity, flags));
             }
 
+            var bundle = new Dictionary<string, object>();
+            bundle["groups"] = groups;
+            e.Database.TQuery("SELECT admin_id, group_id FROM sm_admins_groups", bundle).QueryCompleted += this.OnAdminGroupsQuery;
+        }
+
+        /// <summary>
+        /// Called when the query for the admin users-to-groups relationships is completed.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">A <see cref="QueryCompletedEventArgs"/> object containing the event data.</param>
+        private void OnAdminGroupsQuery(object sender, QueryCompletedEventArgs e)
+        {
+            var bundle = (Dictionary<string, object>)e.Data;
+            var groups = (Dictionary<int, GroupInfo>)bundle["groups"];
+
             var adminGroups = new Dictionary<int, List<GroupInfo>>();
-            results = db.TQuery("SELECT admin_id, group_id FROM sm_admins_groups");
-            foreach (DataRow row in results.Rows)
+            foreach (DataRow row in e.Results.Rows)
             {
                 if (int.TryParse(row.ItemArray.GetValue(0).ToString(), out var adminId) && int.TryParse(row.ItemArray.GetValue(1).ToString(), out var groupId))
                 {
@@ -94,8 +117,22 @@ namespace SevenMod.Plugin.AdminSQL
                 }
             }
 
-            results = db.TQuery("SELECT id, identity, flags, immunity FROM sm_admins");
-            foreach (DataRow row in results.Rows)
+            bundle["adminGroups"] = adminGroups;
+            e.Database.TQuery("SELECT id, identity, flags, immunity FROM sm_admins", bundle).QueryCompleted += this.OnAdminsQuery;
+        }
+
+        /// <summary>
+        /// Called when the query for the list of admin users is completed.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">A <see cref="QueryCompletedEventArgs"/> object containing the event data.</param>
+        private void OnAdminsQuery(object sender, QueryCompletedEventArgs e)
+        {
+            var bundle = (Dictionary<string, object>)e.Data;
+            var groups = (Dictionary<int, GroupInfo>)bundle["groups"];
+            var adminGroups = (Dictionary<int, List<GroupInfo>>)bundle["adminGroups"];
+
+            foreach (DataRow row in e.Results.Rows)
             {
                 if (!int.TryParse(row.ItemArray.GetValue(0).ToString(), out var id))
                 {
