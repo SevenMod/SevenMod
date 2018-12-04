@@ -8,6 +8,7 @@ namespace SevenMod.Database
     using System;
     using System.Data;
     using System.Threading;
+    using SevenMod.Core;
 
     /// <summary>
     /// Represents a threaded database query.
@@ -135,7 +136,32 @@ namespace SevenMod.Database
         {
             if (this.status == Status.Completed)
             {
-                this.QueryCompleted?.Invoke(this, new QueryCompletedEventArgs(this.database, this.affectedRows, this.results, this.data));
+                if (this.QueryCompleted != null)
+                {
+                    var args = new QueryCompletedEventArgs(this.database, this.affectedRows, this.results, this.data);
+                    foreach (EventHandler<QueryCompletedEventArgs> d in this.QueryCompleted.GetInvocationList())
+                    {
+                        try
+                        {
+                            d.Invoke(this, args);
+                        }
+                        catch (HaltPluginException)
+                        {
+                        }
+                        catch (Exception e)
+                        {
+                            if (d.Target is IPlugin p)
+                            {
+                                p.Container.SetFailState(e);
+                            }
+                            else
+                            {
+                                SMLog.Error(e);
+                            }
+                        }
+                    }
+                }
+
                 this.status = Status.Published;
             }
 
