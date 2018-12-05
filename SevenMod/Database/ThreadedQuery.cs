@@ -36,6 +36,11 @@ namespace SevenMod.Database
         private DataTable results;
 
         /// <summary>
+        /// The exception thrown by the query.
+        /// </summary>
+        private Exception exception;
+
+        /// <summary>
         /// The current status of this query.
         /// </summary>
         private Status status = Status.Pending;
@@ -97,7 +102,15 @@ namespace SevenMod.Database
                 lock (database)
                 {
                     query.status = Status.Running;
-                    query.results = database.RunQuery(sql);
+                    try
+                    {
+                        query.results = database.RunQuery(sql);
+                    }
+                    catch (Exception e)
+                    {
+                        query.exception = e;
+                    }
+
                     query.status = Status.Completed;
                 }
             }).Start();
@@ -120,7 +133,15 @@ namespace SevenMod.Database
                 lock (database)
                 {
                     query.status = Status.Running;
-                    query.affectedRows = database.RunFastQuery(sql);
+                    try
+                    {
+                        query.affectedRows = database.RunFastQuery(sql);
+                    }
+                    catch (Exception e)
+                    {
+                        query.exception = e;
+                    }
+
                     query.status = Status.Completed;
                 }
             }).Start();
@@ -138,7 +159,7 @@ namespace SevenMod.Database
             {
                 if (this.QueryCompleted != null)
                 {
-                    var args = new QueryCompletedEventArgs(this.database, this.affectedRows, this.results, this.data);
+                    var args = new QueryCompletedEventArgs(this.database, this.affectedRows, this.results, this.data, this.exception);
                     foreach (EventHandler<QueryCompletedEventArgs> d in this.QueryCompleted.GetInvocationList())
                     {
                         try

@@ -20,13 +20,21 @@ namespace SevenMod.Database
         /// <param name="affectedRows">The number of rows affected by the query.</param>
         /// <param name="results">The <see cref="DataTable"/> object containing the results returned by the query.</param>
         /// <param name="data">The data associated with the query.</param>
-        internal QueryCompletedEventArgs(Database database, int affectedRows, DataTable results, object data)
+        /// <param name="exception">The exception that occurred.</param>
+        internal QueryCompletedEventArgs(Database database, int affectedRows, DataTable results, object data, Exception exception)
         {
+            this.Success = exception == null;
             this.Database = database;
             this.AffectedRows = affectedRows;
             this.Results = results;
             this.Data = data;
+            this.Exception = exception;
         }
+
+        /// <summary>
+        /// Gets a value indicating whether the query completed successfully.
+        /// </summary>
+        public bool Success { get; }
 
         /// <summary>
         /// Gets the <see cref="Database.Database"/> object used to make the query.
@@ -47,5 +55,10 @@ namespace SevenMod.Database
         /// Gets the data associated with the query.
         /// </summary>
         public object Data { get; }
+
+        /// <summary>
+        /// Gets the exception describing the error that occurred if the query failed.
+        /// </summary>
+        public Exception Exception { get; }
     }
 }
