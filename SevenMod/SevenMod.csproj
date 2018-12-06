@@ -110,6 +110,7 @@
     <Compile Include="Core\SMPath.cs" />
     <Compile Include="Core\SteamUtils.cs" />
     <Compile Include="Database\Database.cs" />
+    <Compile Include="Database\DatabaseConfigException.cs" />
     <Compile Include="Database\QueryCompletedEventArgs.cs" />
     <Compile Include="Database\SQLiteDatabase.cs" />
     <Compile Include="Database\MySqlDatabase.cs" />

@@ -91,24 +91,16 @@ namespace SevenMod.Database
                         conn = new MySqlDatabase();
                         break;
                     case DatabaseDriver.SQLite:
+                    default:
                         conn = new SQLiteDatabase();
                         break;
-                    default:
-                        return null;
                 }
 
-                try
-                {
-                    conn.Setup(connections[connectionName]);
-                    return conn;
-                }
-                catch (Exception e)
-                {
-                    SMLog.Error(e);
-                }
+                conn.Setup(connections[connectionName]);
+                return conn;
             }
 
-            return null;
+            throw new DatabaseConfigException(connectionName);
         }
 
         /// <summary>
@@ -119,17 +111,8 @@ namespace SevenMod.Database
         public static SQLiteDatabase OpenSQLiteDatabase(string name)
         {
             var conn = new SQLiteDatabase();
-            try
-            {
-                conn.Setup(new ConnectionInfo(DatabaseDriver.SQLite, name));
-                return conn;
-            }
-            catch (Exception e)
-            {
-                SMLog.Error(e);
-            }
-
-            return null;
+            conn.Setup(new ConnectionInfo(DatabaseDriver.SQLite, name));
+            return conn;
         }
 
         /// <summary>
