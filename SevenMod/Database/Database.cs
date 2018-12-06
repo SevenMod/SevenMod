@@ -112,6 +112,27 @@ namespace SevenMod.Database
         }
 
         /// <summary>
+        /// Opens a SQLite database.
+        /// </summary>
+        /// <param name="name">The name of the database file without extension.</param>
+        /// <returns>An instance of a <see cref="SQLiteDatabase"/> class representing the database.</returns>
+        public static SQLiteDatabase OpenSQLiteDatabase(string name)
+        {
+            var conn = new SQLiteDatabase();
+            try
+            {
+                conn.Setup(new ConnectionInfo(DatabaseDriver.SQLite, name));
+                return conn;
+            }
+            catch (Exception e)
+            {
+                SMLog.Error(e);
+            }
+
+            return null;
+        }
+
+        /// <summary>
         /// Check if a database connection configuration exists.
         /// </summary>
         /// <param name="name">The name of the database connection configuration.</param>
