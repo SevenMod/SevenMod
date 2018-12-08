@@ -58,8 +58,9 @@ namespace SevenMod.ConVar
 
                 if (!this.AsString.Equals(value.ToString()))
                 {
-                    this.ConVar.OnConVarChanged(this.AsString, value.ToString());
+                    var oldValue = this.AsString;
                     this.AsString = value.ToString();
+                    this.ConVar.OnConVarChanged(oldValue, value.ToString());
                 }
             }
         }
