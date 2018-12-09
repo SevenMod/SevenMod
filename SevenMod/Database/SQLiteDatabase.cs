@@ -30,7 +30,7 @@ namespace SevenMod.Database
         /// <inheritdoc/>
         public void Dispose()
         {
-            ((IDisposable)this.connection).Dispose();
+            this.connection?.Dispose();
         }
 
         /// <inheritdoc/>
