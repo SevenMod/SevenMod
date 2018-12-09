@@ -117,7 +117,7 @@ namespace SevenMod.Console
             if (senderInfo.RemoteClientInfo != null)
             {
                 var flags = overrides.ContainsKey(key) ? overrides[key] : info.AccessFlags;
-                if ((flags == 0) || !AdminManager.CheckAccess(senderInfo.RemoteClientInfo, flags))
+                if ((flags != 0) && !AdminManager.CheckAccess(senderInfo.RemoteClientInfo, flags))
                 {
                     ChatHelper.ReplyToCommand(senderInfo, "You do not have access to that command");
                     return;
