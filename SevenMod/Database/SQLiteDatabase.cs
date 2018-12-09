@@ -5,6 +5,7 @@
 
 namespace SevenMod.Database
 {
+    using System;
     using System.Data;
     using System.Data.SQLite;
     using MySql.Data.MySqlClient;
@@ -13,7 +14,7 @@ namespace SevenMod.Database
     /// <summary>
     /// Represents a connection to a SQLite database.
     /// </summary>
-    public class SQLiteDatabase : Database
+    public sealed class SQLiteDatabase : Database, IDisposable
     {
         /// <summary>
         /// The backing SQLite database connection.
@@ -24,6 +25,12 @@ namespace SevenMod.Database
         public override string Escape(string str)
         {
             return MySqlHelper.EscapeString(str);
+        }
+
+        /// <inheritdoc/>
+        public void Dispose()
+        {
+            ((IDisposable)this.connection).Dispose();
         }
 
         /// <inheritdoc/>

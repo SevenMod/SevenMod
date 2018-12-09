@@ -14,7 +14,7 @@ namespace SevenMod.Voting
     /// <summary>
     /// Represents a vote.
     /// </summary>
-    public class Vote : IDisposable
+    public sealed class Vote : IDisposable
     {
         /// <summary>
         /// The answer options for this vote.

@@ -16,7 +16,7 @@ namespace SevenMod.Plugin.AdminFlatFile
     /// <summary>
     /// Plugin that loads admin users from a local configuration file.
     /// </summary>
-    public class AdminFlatFile : PluginAbstract
+    public sealed class AdminFlatFile : PluginAbstract, IDisposable
     {
         /// <summary>
         /// The path to the plugin configuration file.
@@ -42,6 +42,12 @@ namespace SevenMod.Plugin.AdminFlatFile
         public override void OnReloadAdmins()
         {
             this.LoadAdmins();
+        }
+
+        /// <inheritdoc/>
+        public void Dispose()
+        {
+            ((IDisposable)this.watcher).Dispose();
         }
 
         /// <summary>

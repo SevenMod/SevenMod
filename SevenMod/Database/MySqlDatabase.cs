@@ -5,13 +5,14 @@
 
 namespace SevenMod.Database
 {
+    using System;
     using System.Data;
     using MySql.Data.MySqlClient;
 
     /// <summary>
     /// Represents a connection to a MySQL database.
     /// </summary>
-    public class MySqlDatabase : Database
+    public sealed class MySqlDatabase : Database, IDisposable
     {
         /// <summary>
         /// The backing MySQL database connection.
@@ -22,6 +23,12 @@ namespace SevenMod.Database
         public override string Escape(string str)
         {
             return MySqlHelper.EscapeString(str);
+        }
+
+        /// <inheritdoc/>
+        public void Dispose()
+        {
+            ((IDisposable)this.connection).Dispose();
         }
 
         /// <inheritdoc/>
