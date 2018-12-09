@@ -148,6 +148,7 @@ namespace SevenMod.Voting
 
             if ((index > -1) && (index < this.voteOptions.Length))
             {
+                ChatHelper.SendTo(e.Client, $"You voted [{Colors.Yellow}]{this.voteOptions[index]}[-]", "Vote");
                 this.votingPool[e.Client.playerId] = index;
                 e.Handled = true;
             }
