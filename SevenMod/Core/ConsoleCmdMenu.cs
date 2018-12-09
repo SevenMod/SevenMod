@@ -31,7 +31,7 @@ namespace SevenMod.Core
             {
                 SdtdConsole.Instance.Output("SevenMod Menu:");
                 SdtdConsole.Instance.Output("Usage: sm <command> [arguments]");
-                SdtdConsole.Instance.Output($"    plugins           - Manage plugins");
+                SdtdConsole.Instance.Output("    plugins           - Manage plugins");
                 return;
             }
 
