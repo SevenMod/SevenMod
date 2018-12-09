@@ -227,7 +227,7 @@ namespace SevenMod.Database
             var xml = new XmlDocument();
             try
             {
-                xml.Load($"{SMPath.Config}Databases.xml");
+                xml.Load(ConfigPath);
             }
             catch (XmlException e)
             {
