@@ -10,6 +10,7 @@ namespace SevenMod.Core
     /// <summary>
     /// Thrown by plugins entering a fail state.
     /// </summary>
+    [Serializable]
     internal class HaltPluginException : Exception
     {
         /// <summary>

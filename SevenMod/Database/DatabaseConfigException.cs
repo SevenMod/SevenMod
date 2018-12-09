@@ -10,6 +10,7 @@ namespace SevenMod.Database
     /// <summary>
     /// Represents an exception relating to a named database configuration.
     /// </summary>
+    [Serializable]
     public class DatabaseConfigException : Exception
     {
         /// <summary>
