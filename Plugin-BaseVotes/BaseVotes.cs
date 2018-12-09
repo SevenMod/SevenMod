@@ -84,7 +84,7 @@ namespace SevenMod.Plugin.BaseVotes
             this.PrintToChatAll("Voting has ended", "Vote");
             for (var i = 0; i < e.Options.Length; i++)
             {
-                this.PrintToChatAll(string.Format("{0}: {1:P2} ({2} votes)", e.Options[i], e.Percents[i], e.Votes[i]), "Result");
+                this.PrintToChatAll($"{e.Options[i]}: {e.Percents[i] :P2} ({e.Votes[i]} votes)", "Result");
             }
         }
 
@@ -118,19 +118,16 @@ namespace SevenMod.Plugin.BaseVotes
         /// <param name="e">A <see cref="VoteEndedEventArgs"/> object containing the event data.</param>
         private void OnBanVoteEnded(object sender, VoteEndedEventArgs e)
         {
-            string message;
             if (e.Percents[0] >= this.voteBanPercent.AsFloat)
             {
                 var target = e.Data as ClientInfo;
-                message = string.Format("Vote succeeded with {0:P2} of the vote. Banning {1}...", e.Percents[0], target.playerName);
+                this.PrintToChatAll($"Vote succeeded with {e.Percents[0] :P2} of the vote. Banning {target.playerName}...");
                 SdtdConsole.Instance.ExecuteSync($"ban add {target.playerId} 30 minutes \"Vote banned\"", null);
             }
             else
             {
-                message = string.Format("Vote failed with {0:P2} of the vote.", e.Percents[0]);
+                this.PrintToChatAll($"Vote failed with {e.Percents[0] :P2} of the vote.");
             }
-
-            this.PrintToChatAll(message, "Vote");
         }
 
         /// <summary>
@@ -163,19 +160,16 @@ namespace SevenMod.Plugin.BaseVotes
         /// <param name="e">A <see cref="VoteEndedEventArgs"/> object containing the event data.</param>
         private void OnKickVoteEnded(object sender, VoteEndedEventArgs e)
         {
-            string message;
             if (e.Percents[0] >= this.voteKickPercent.AsFloat)
             {
                 var target = e.Data as ClientInfo;
-                message = string.Format("Vote succeeded with {0:P2} of the vote. Kicking {1}...", e.Percents[0], target.playerName);
+                this.PrintToChatAll($"Vote succeeded with {e.Percents[0] :P2} of the vote. Kicking {target.playerName}...");
                 SdtdConsole.Instance.ExecuteSync($"kick {target.playerId} \"Vote kicked\"", null);
             }
             else
             {
-                message = string.Format("Vote failed with {0:P2} of the vote.", e.Percents[0]);
+                this.PrintToChatAll($"Vote failed with {e.Percents[0] :P2} of the vote.");
             }
-
-            this.PrintToChatAll(message, "Vote");
         }
     }
 }

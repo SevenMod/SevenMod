@@ -68,7 +68,7 @@ namespace SevenMod.Plugin.BaseCommands
         /// <param name="e">An <see cref="AdminCommandEventArgs"/> object containing the event data.</param>
         private void OnWhoCommandExecuted(object sender, AdminCommandEventArgs e)
         {
-            this.ReplyToCommand(e.SenderInfo, string.Format("  {0,-24} {1,-18} {2}", "Name", "Username", "Admin access"));
+            this.ReplyToCommand(e.SenderInfo, $"  {"Name", -24} {"Username", -18} {"Admin access"}");
             foreach (var client in GameManager.Instance.World.Players.dict.Values)
             {
                 var player = ConnectionManager.Instance.Clients.ForEntityId(client.entityId);
@@ -84,7 +84,7 @@ namespace SevenMod.Plugin.BaseCommands
                         }
                     }
 
-                    this.ReplyToCommand(e.SenderInfo, string.Format("  {0,-24} {1,-18} {2}", player.playerName, player.playerId, flags));
+                    this.ReplyToCommand(e.SenderInfo, $"  {player.playerName, -24} {player.playerId, -18} {flags}");
                 }
             }
         }
