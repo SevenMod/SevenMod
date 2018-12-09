@@ -6,7 +6,6 @@
 namespace SevenMod.Plugin.BaseBans
 {
     using SevenMod.Admin;
-    using SevenMod.Chat;
     using SevenMod.Console;
     using SevenMod.Core;
 
@@ -42,13 +41,13 @@ namespace SevenMod.Plugin.BaseBans
         {
             if (e.Arguments.Count < 1)
             {
-                ChatHelper.ReplyToCommand(e.SenderInfo, "Not enough parameters");
+                this.ReplyToCommand(e.SenderInfo, "Not enough parameters");
                 return;
             }
 
             if (!ConsoleHelper.ParseParamSteamIdValid(e.Arguments[0]))
             {
-                ChatHelper.ReplyToCommand(e.SenderInfo, "Invalid player ID");
+                this.ReplyToCommand(e.SenderInfo, "Invalid player ID");
                 return;
             }
 
@@ -64,17 +63,17 @@ namespace SevenMod.Plugin.BaseBans
         {
             if (e.Arguments.Count < 2)
             {
-                ChatHelper.ReplyToCommand(e.SenderInfo, "Not enough parameters");
+                this.ReplyToCommand(e.SenderInfo, "Not enough parameters");
                 return;
             }
 
             if (!uint.TryParse(e.Arguments[1], out var duration))
             {
-                ChatHelper.ReplyToCommand(e.SenderInfo, "Invalid ban duration");
+                this.ReplyToCommand(e.SenderInfo, "Invalid ban duration");
                 return;
             }
 
-            if (SMConsoleHelper.ParseSingleTargetString(e.SenderInfo, e.Arguments[0], out var target))
+            if (this.ParseSingleTargetString(e.SenderInfo, e.Arguments[0], out var target))
             {
                 var unit = "minutes";
                 if (duration == 0)
@@ -96,13 +95,13 @@ namespace SevenMod.Plugin.BaseBans
         {
             if (e.Arguments.Count < 1)
             {
-                ChatHelper.ReplyToCommand(e.SenderInfo, "Not enough parameters");
+                this.ReplyToCommand(e.SenderInfo, "Not enough parameters");
                 return;
             }
 
             if (!ConsoleHelper.ParseParamSteamIdValid(e.Arguments[0]))
             {
-                ChatHelper.ReplyToCommand(e.SenderInfo, "Invalid player ID");
+                this.ReplyToCommand(e.SenderInfo, "Invalid player ID");
                 return;
             }
 

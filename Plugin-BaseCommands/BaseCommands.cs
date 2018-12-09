@@ -6,7 +6,6 @@
 namespace SevenMod.Plugin.BaseCommands
 {
     using SevenMod.Admin;
-    using SevenMod.Chat;
     using SevenMod.Console;
     using SevenMod.Core;
 
@@ -42,11 +41,11 @@ namespace SevenMod.Plugin.BaseCommands
         {
             if (e.Arguments.Count < 1)
             {
-                ChatHelper.ReplyToCommand(e.SenderInfo, "Not enough parameters");
+                this.ReplyToCommand(e.SenderInfo, "Not enough parameters");
                 return;
             }
 
-            foreach (var target in SMConsoleHelper.ParseTargetString(e.SenderInfo, e.Arguments[0]))
+            foreach (var target in this.ParseTargetString(e.SenderInfo, e.Arguments[0]))
             {
                 SdtdConsole.Instance.ExecuteSync($"kick {target.playerId}", null);
             }
@@ -69,7 +68,7 @@ namespace SevenMod.Plugin.BaseCommands
         /// <param name="e">An <see cref="AdminCommandEventArgs"/> object containing the event data.</param>
         private void OnWhoCommandExecuted(object sender, AdminCommandEventArgs e)
         {
-            ChatHelper.ReplyToCommand(e.SenderInfo, string.Format("  {0,-24} {1,-18} {2}", "Name", "Username", "Admin access"));
+            this.ReplyToCommand(e.SenderInfo, string.Format("  {0,-24} {1,-18} {2}", "Name", "Username", "Admin access"));
             foreach (var client in GameManager.Instance.World.Players.dict.Values)
             {
                 var player = ConnectionManager.Instance.Clients.ForEntityId(client.entityId);
@@ -85,7 +84,7 @@ namespace SevenMod.Plugin.BaseCommands
                         }
                     }
 
-                    ChatHelper.ReplyToCommand(e.SenderInfo, string.Format("  {0,-24} {1,-18} {2}", player.playerName, player.playerId, flags));
+                    this.ReplyToCommand(e.SenderInfo, string.Format("  {0,-24} {1,-18} {2}", player.playerName, player.playerId, flags));
                 }
             }
         }

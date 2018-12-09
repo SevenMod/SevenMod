@@ -6,7 +6,6 @@
 namespace SevenMod.Plugin.BaseVotes
 {
     using SevenMod.Admin;
-    using SevenMod.Chat;
     using SevenMod.Console;
     using SevenMod.ConVar;
     using SevenMod.Core;
@@ -59,13 +58,13 @@ namespace SevenMod.Plugin.BaseVotes
         {
             if (e.Arguments.Count < 1)
             {
-                ChatHelper.ReplyToCommand(e.SenderInfo, "Not enough parameters");
+                this.ReplyToCommand(e.SenderInfo, "Not enough parameters");
                 return;
             }
 
             if (e.Arguments.Count > 5)
             {
-                ChatHelper.ReplyToCommand(e.SenderInfo, "Too many options");
+                this.ReplyToCommand(e.SenderInfo, "Too many options");
                 return;
             }
 
@@ -82,10 +81,10 @@ namespace SevenMod.Plugin.BaseVotes
         /// <param name="e">A <see cref="VoteEndedEventArgs"/> object containing the event data.</param>
         private void OnVoteEnded(object sender, VoteEndedEventArgs e)
         {
-            ChatHelper.SendToAll("Voting has ended", "Vote");
+            this.PrintToChatAll("Voting has ended", "Vote");
             for (var i = 0; i < e.Options.Length; i++)
             {
-                ChatHelper.SendToAll(string.Format("{0}: {1:P2} ({2} votes)", e.Options[i], e.Percents[i], e.Votes[i]), "Result");
+                this.PrintToChatAll(string.Format("{0}: {1:P2} ({2} votes)", e.Options[i], e.Percents[i], e.Votes[i]), "Result");
             }
         }
 
@@ -98,11 +97,11 @@ namespace SevenMod.Plugin.BaseVotes
         {
             if (e.Arguments.Count < 1)
             {
-                ChatHelper.ReplyToCommand(e.SenderInfo, "Not enough parameters");
+                this.ReplyToCommand(e.SenderInfo, "Not enough parameters");
                 return;
             }
 
-            if (SMConsoleHelper.ParseSingleTargetString(e.SenderInfo, e.Arguments[0], out var target))
+            if (this.ParseSingleTargetString(e.SenderInfo, e.Arguments[0], out var target))
             {
                 var message = $"A vote has begun to ban {target.playerName} from the server";
                 if (VoteManager.StartVote(message, null, target))
@@ -131,7 +130,7 @@ namespace SevenMod.Plugin.BaseVotes
                 message = string.Format("Vote failed with {0:P2} of the vote.", e.Percents[0]);
             }
 
-            ChatHelper.SendToAll(message, "Vote");
+            this.PrintToChatAll(message, "Vote");
         }
 
         /// <summary>
@@ -143,11 +142,11 @@ namespace SevenMod.Plugin.BaseVotes
         {
             if (e.Arguments.Count < 1)
             {
-                ChatHelper.ReplyToCommand(e.SenderInfo, "Not enough parameters");
+                this.ReplyToCommand(e.SenderInfo, "Not enough parameters");
                 return;
             }
 
-            if (SMConsoleHelper.ParseSingleTargetString(e.SenderInfo, e.Arguments[0], out var target))
+            if (this.ParseSingleTargetString(e.SenderInfo, e.Arguments[0], out var target))
             {
                 var message = $"A vote has begun to kick {target.playerName} from the server";
                 if (VoteManager.StartVote(message, null, target))
@@ -176,7 +175,7 @@ namespace SevenMod.Plugin.BaseVotes
                 message = string.Format("Vote failed with {0:P2} of the vote.", e.Percents[0]);
             }
 
-            ChatHelper.SendToAll(message, "Vote");
+            this.PrintToChatAll(message, "Vote");
         }
     }
 }

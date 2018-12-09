@@ -8,7 +8,7 @@ namespace SevenMod.Chat
     /// <summary>
     /// Chat related utilities.
     /// </summary>
-    public class ChatHelper
+    internal class ChatHelper
     {
         /// <summary>
         /// Sends a response to a client in the console or chat depending on which input method the client used to call the currently executing command.

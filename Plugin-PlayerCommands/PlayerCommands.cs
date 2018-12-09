@@ -6,7 +6,6 @@
 namespace SevenMod.Plugin.PlayerCommands
 {
     using SevenMod.Admin;
-    using SevenMod.Chat;
     using SevenMod.Console;
     using SevenMod.Core;
 
@@ -40,11 +39,11 @@ namespace SevenMod.Plugin.PlayerCommands
         {
             if (e.Arguments.Count < 1)
             {
-                ChatHelper.ReplyToCommand(e.SenderInfo, "Not enough parameters");
+                this.ReplyToCommand(e.SenderInfo, "Not enough parameters");
                 return;
             }
 
-            foreach (var target in SMConsoleHelper.ParseTargetString(e.SenderInfo, e.Arguments[0]))
+            foreach (var target in this.ParseTargetString(e.SenderInfo, e.Arguments[0]))
             {
                 SdtdConsole.Instance.ExecuteSync($"kill {target.playerId}", null);
             }

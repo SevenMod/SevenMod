@@ -42,7 +42,7 @@ namespace SevenMod.Plugin.BaseChat
         {
             if (e.Arguments.Count < 1)
             {
-                ChatHelper.ReplyToCommand(e.SenderInfo, "Not enough parameters");
+                this.ReplyToCommand(e.SenderInfo, "Not enough parameters");
                 return;
             }
 
@@ -63,7 +63,7 @@ namespace SevenMod.Plugin.BaseChat
             }
 
             var message = string.Join(" ", e.Arguments.GetRange(startIdx, e.Arguments.Count - startIdx).ToArray());
-            ChatHelper.SendToAll($"[{color}]{message}[-]", "Admin");
+            this.PrintToChatAll($"[{color}]{message}[-]", "Admin");
         }
 
         /// <summary>
@@ -75,13 +75,13 @@ namespace SevenMod.Plugin.BaseChat
         {
             if (e.Arguments.Count < 2)
             {
-                ChatHelper.ReplyToCommand(e.SenderInfo, "Not enough parameters");
+                this.ReplyToCommand(e.SenderInfo, "Not enough parameters");
                 return;
             }
 
-            if (SMConsoleHelper.ParseSingleTargetString(e.SenderInfo, e.Arguments[0], out var target))
+            if (this.ParseSingleTargetString(e.SenderInfo, e.Arguments[0], out var target))
             {
-                ChatHelper.ReplyToCommand(e.SenderInfo, "Player not found");
+                this.ReplyToCommand(e.SenderInfo, "Player not found");
                 return;
             }
 
@@ -96,7 +96,7 @@ namespace SevenMod.Plugin.BaseChat
             }
 
             var message = string.Join(" ", e.Arguments.GetRange(1, e.Arguments.Count - 1).ToArray());
-            ChatHelper.SendToAll($"{message}[/i]", null, from);
+            this.PrintToChat(target, $"{message}[/i]", null, from);
         }
 
         /// <summary>
@@ -108,7 +108,7 @@ namespace SevenMod.Plugin.BaseChat
         {
             if (e.Arguments.Count < 1)
             {
-                ChatHelper.ReplyToCommand(e.SenderInfo, "Not enough parameters");
+                this.ReplyToCommand(e.SenderInfo, "Not enough parameters");
                 return;
             }
 
@@ -128,7 +128,7 @@ namespace SevenMod.Plugin.BaseChat
             {
                 if (AdminManager.IsAdmin(client.playerId))
                 {
-                    ChatHelper.SendTo(client, message, null, from);
+                    this.PrintToChat(client, message, null, from);
                 }
             }
         }

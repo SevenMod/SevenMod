@@ -11,9 +11,9 @@ namespace SevenMod.Console
     using SevenMod.Core;
 
     /// <summary>
-    /// Represents an admin command, a special console command that is managed by the mod, with built in permission checking.
+    /// Utility methods for interacting with console commands.
     /// </summary>
-    public class SMConsoleHelper
+    internal class SMConsoleHelper
     {
         /// <summary>
         /// Parse a player target string into a list of currently connected clients.
