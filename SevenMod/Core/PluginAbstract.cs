@@ -136,6 +136,15 @@ namespace SevenMod.Core
         }
 
         /// <summary>
+        /// Removes an <see cref="AdminCommand"/>.
+        /// </summary>
+        /// <param name="cmd">The name of the admin command.</param>
+        protected void UnregAdminCommand(string cmd)
+        {
+            AdminCommandManager.RemoveAdminCommand(this, cmd);
+        }
+
+        /// <summary>
         /// Logs a message to the SevenMod logs.
         /// </summary>
         /// <param name="message">The message to log.</param>
