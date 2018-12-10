@@ -8,6 +8,7 @@ namespace SevenMod.Plugin.AdminFlatFile
     using System;
     using System.Collections.Generic;
     using System.IO;
+    using System.Security.Permissions;
     using System.Text;
     using System.Xml;
     using SevenMod.Admin;
@@ -16,6 +17,7 @@ namespace SevenMod.Plugin.AdminFlatFile
     /// <summary>
     /// Plugin that loads admin users from a local configuration file.
     /// </summary>
+    [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
     public sealed class AdminFlatFile : PluginAbstract, IDisposable
     {
         /// <summary>

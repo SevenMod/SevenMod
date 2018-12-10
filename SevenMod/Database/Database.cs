@@ -9,12 +9,14 @@ namespace SevenMod.Database
     using System.Collections.Generic;
     using System.Data;
     using System.IO;
+    using System.Security.Permissions;
     using System.Xml;
     using SevenMod.Core;
 
     /// <summary>
     /// Represents a connection to a database.
     /// </summary>
+    [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
     public abstract class Database : IDisposable
     {
         /// <summary>

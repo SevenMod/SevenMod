@@ -7,6 +7,7 @@ namespace SevenMod.ConVar
 {
     using System.Collections.Generic;
     using System.IO;
+    using System.Security.Permissions;
     using System.Text;
     using System.Xml;
     using SevenMod.Core;
@@ -14,6 +15,7 @@ namespace SevenMod.ConVar
     /// <summary>
     /// Manages console variables.
     /// </summary>
+    [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
     internal class ConVarManager
     {
         /// <summary>
