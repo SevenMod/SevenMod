@@ -18,44 +18,38 @@ namespace SevenMod.Core
         /// <param name="client">The <see cref="ClientInfo"/> representing the client.</param>
         internal SMClient(ClientInfo client)
         {
-            this.Ping = client.ping;
-            this.LoginDone = client.loginDone;
-            this.PlayerId = client.playerId;
-            this.EntityId = client.entityId;
-            this.PlayerName = client.playerName;
-            this.Ip = client.ip;
             this.ClientInfo = client;
         }
 
         /// <summary>
         /// Gets the ping of the client.
         /// </summary>
-        public int Ping { get; }
+        public int Ping { get => this.ClientInfo.ping; }
 
         /// <summary>
         /// Gets a value indicating whether the client has logged in.
         /// </summary>
-        public bool LoginDone { get; }
+        public bool LoginDone { get => this.ClientInfo.loginDone; }
 
         /// <summary>
         /// Gets the player ID (SteamID64) of the client.
         /// </summary>
-        public string PlayerId { get; }
+        public string PlayerId { get => this.ClientInfo.playerId; }
 
         /// <summary>
         /// Gets the entity ID of the client.
         /// </summary>
-        public int EntityId { get; }
+        public int EntityId { get => this.ClientInfo.entityId; }
 
         /// <summary>
         /// Gets the player name of the client.
         /// </summary>
-        public string PlayerName { get; }
+        public string PlayerName { get => this.ClientInfo.playerName; }
 
         /// <summary>
         /// Gets the IP address of the client.
         /// </summary>
-        public string Ip { get; }
+        public string Ip { get => this.ClientInfo.ip; }
 
         /// <summary>
         /// Gets the original <see cref="ClientInfo"/> object containing more detailed information.
