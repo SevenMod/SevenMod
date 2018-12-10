@@ -14,7 +14,7 @@ namespace SevenMod.Database
     /// <summary>
     /// Represents a connection to a SQLite database.
     /// </summary>
-    public sealed class SQLiteDatabase : Database, IDisposable
+    public sealed class SQLiteDatabase : Database
     {
         /// <summary>
         /// The backing SQLite database connection.
@@ -28,9 +28,9 @@ namespace SevenMod.Database
         }
 
         /// <inheritdoc/>
-        public void Dispose()
+        public sealed override void Dispose()
         {
-            this.connection?.Dispose();
+            ((IDisposable)this.connection).Dispose();
         }
 
         /// <inheritdoc/>

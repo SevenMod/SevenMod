@@ -12,7 +12,7 @@ namespace SevenMod.Database
     /// <summary>
     /// Represents a connection to a MySQL database.
     /// </summary>
-    public sealed class MySqlDatabase : Database, IDisposable
+    public sealed class MySqlDatabase : Database
     {
         /// <summary>
         /// The backing MySQL database connection.
@@ -26,9 +26,9 @@ namespace SevenMod.Database
         }
 
         /// <inheritdoc/>
-        public void Dispose()
+        public sealed override void Dispose()
         {
-            this.connection?.Dispose();
+            ((IDisposable)this.connection).Dispose();
         }
 
         /// <inheritdoc/>

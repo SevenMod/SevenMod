@@ -15,7 +15,7 @@ namespace SevenMod.Database
     /// <summary>
     /// Represents a connection to a database.
     /// </summary>
-    public abstract class Database
+    public abstract class Database : IDisposable
     {
         /// <summary>
         /// The path to the database configuration file.
@@ -191,6 +191,11 @@ namespace SevenMod.Database
         /// <param name="str">The original unescaped string.</param>
         /// <returns>The escaped string.</returns>
         public abstract string Escape(string str);
+
+        /// <inheritdoc/>
+        public virtual void Dispose()
+        {
+        }
 
         /// <summary>
         /// Executes a query on the database and returns the result.
