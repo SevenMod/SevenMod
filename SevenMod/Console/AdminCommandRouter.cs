@@ -35,7 +35,7 @@ namespace SevenMod.Console
                 return;
             }
 
-            AdminCommandManager.ExecuteCommand(_params[0], _params.GetRange(1, _params.Count - 1), _senderInfo);
+            AdminCommandManager.ExecuteCommand(_params[0], _params.GetRange(1, _params.Count - 1), _senderInfo.RemoteClientInfo);
         }
     }
 }

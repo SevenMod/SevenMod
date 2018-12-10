@@ -102,29 +102,29 @@ namespace SevenMod.Console
         /// </summary>
         /// <param name="command">The name of the admin command to execute.</param>
         /// <param name="arguments">The arguments for the admin command.</param>
-        /// <param name="senderInfo">The <see cref="CommandSenderInfo"/> object representing the client executing the command.</param>
-        public static void ExecuteCommand(string command, List<string> arguments, CommandSenderInfo senderInfo)
+        /// <param name="client">The <see cref="ClientInfo"/> object representing the client executing the command.</param>
+        public static void ExecuteCommand(string command, List<string> arguments, ClientInfo client)
         {
             var key = command.Trim().ToLower();
             if (!commands.ContainsKey(key))
             {
-                ChatHelper.ReplyToCommand(senderInfo, "Unknown command");
+                ChatHelper.ReplyToCommand(client, "Unknown command");
                 return;
             }
 
             var info = commands[key];
 
-            if (senderInfo.RemoteClientInfo != null)
+            if (client != null)
             {
                 var flags = overrides.ContainsKey(key) ? overrides[key] : info.AccessFlags;
-                if ((flags != 0) && !AdminManager.CheckAccess(senderInfo.RemoteClientInfo, flags))
+                if ((flags != 0) && !AdminManager.CheckAccess(client, flags))
                 {
-                    ChatHelper.ReplyToCommand(senderInfo, "You do not have access to that command");
+                    ChatHelper.ReplyToCommand(client, "You do not have access to that command");
                     return;
                 }
             }
 
-            info.OnExecute(arguments, senderInfo);
+            info.OnExecute(arguments, client);
         }
 
         /// <summary>

@@ -24,11 +24,6 @@ namespace SevenMod.Core
         public PluginContainer Container { get; internal set; }
 
         /// <inheritdoc/>
-        public virtual void OnCalcChunkColorsDone(Chunk chunk)
-        {
-        }
-
-        /// <inheritdoc/>
         public virtual void OnConfigsExecuted()
         {
         }
@@ -54,23 +49,23 @@ namespace SevenMod.Core
         }
 
         /// <inheritdoc/>
-        public virtual void OnPlayerDisconnected(ClientInfo client, bool shutdown)
+        public virtual void OnPlayerDisconnected(SMClient client, bool shutdown)
         {
         }
 
         /// <inheritdoc/>
-        public virtual bool OnPlayerLogin(ClientInfo client, StringBuilder rejectReason)
+        public virtual bool OnPlayerLogin(SMClient client, StringBuilder rejectReason)
         {
             return true;
         }
 
         /// <inheritdoc/>
-        public virtual void OnPlayerSpawnedInWorld(ClientInfo client, RespawnType respawnReason, Vector3i pos)
+        public virtual void OnPlayerSpawnedInWorld(SMClient client, RespawnType respawnReason, Vector3i pos)
         {
         }
 
         /// <inheritdoc/>
-        public virtual void OnPlayerSpawning(ClientInfo client, int chunkViewDim, PlayerProfile playerProfile)
+        public virtual void OnPlayerSpawning(SMClient client)
         {
         }
 
@@ -80,7 +75,7 @@ namespace SevenMod.Core
         }
 
         /// <inheritdoc/>
-        public virtual void OnSavePlayerData(ClientInfo client, PlayerDataFile playerDataFile)
+        public virtual void OnSavePlayerData(SMClient client)
         {
         }
 
@@ -158,13 +153,13 @@ namespace SevenMod.Core
         /// <summary>
         /// Sends a chat message to an individual client.
         /// </summary>
-        /// <param name="client">The <see cref="ClientInfo"/> object representing the client.</param>
+        /// <param name="client">The <see cref="SMClient"/> object representing the client.</param>
         /// <param name="message">The message text.</param>
         /// <param name="prefix">Optional prefix for the message.</param>
         /// <param name="name">Optional name to attach to the message.</param>
-        protected void PrintToChat(ClientInfo client, string message, string prefix = "SM", string name = null)
+        protected void PrintToChat(SMClient client, string message, string prefix = "SM", string name = null)
         {
-            ChatHelper.SendTo(client, message, prefix, name);
+            ChatHelper.SendTo(client.ClientInfo, message, prefix, name);
         }
 
         /// <summary>
@@ -181,45 +176,45 @@ namespace SevenMod.Core
         /// <summary>
         /// Sends a response to a client in the console or chat depending on which input method the client used to call the currently executing command.
         /// </summary>
-        /// <param name="senderInfo">The <see cref="CommandSenderInfo"/> object representing calling client information.</param>
+        /// <param name="client">The <see cref="SMClient"/> object representing calling client information.</param>
         /// <param name="message">The message to send.</param>
         /// <param name="prefix">Optional prefix for the message.</param>
-        protected void ReplyToCommand(CommandSenderInfo senderInfo, string message, string prefix = "SM")
+        protected void ReplyToCommand(SMClient client, string message, string prefix = "SM")
         {
-            ChatHelper.ReplyToCommand(senderInfo, message, prefix);
+            ChatHelper.ReplyToCommand(client?.ClientInfo, message, prefix);
         }
 
         /// <summary>
         /// Checks whether commands should reply to a user via chat.
         /// </summary>
-        /// <param name="client">The <see cref="ClientInfo"/> object representing the client for which to reply.</param>
+        /// <param name="client">The <see cref="SMClient"/> object representing the client for which to reply.</param>
         /// <returns><c>true</c> to reply via chat; <c>false</c> to reply via console.</returns>
-        protected bool ShouldReplyToChat(ClientInfo client)
+        protected bool ShouldReplyToChat(SMClient client)
         {
-            return ChatHook.ShouldReplyToChat(client);
+            return ChatHook.ShouldReplyToChat(client?.ClientInfo);
         }
 
         /// <summary>
         /// Parse a player target string into a list of currently connected clients.
         /// </summary>
-        /// <param name="senderInfo">The <see cref="CommandSenderInfo"/> object representing the source client.</param>
+        /// <param name="client">The <see cref="SMClient"/> object representing the source client.</param>
         /// <param name="targetString">The player target string.</param>
-        /// <returns>A list of <see cref="ClientInfo"/> objects representing the matching clients.</returns>
-        protected List<ClientInfo> ParseTargetString(CommandSenderInfo senderInfo, string targetString)
+        /// <returns>A list of <see cref="SMClient"/> objects representing the matching clients.</returns>
+        protected List<SMClient> ParseTargetString(SMClient client, string targetString)
         {
-            return SMConsoleHelper.ParseTargetString(senderInfo, targetString);
+            return SMConsoleHelper.ParseTargetString(client?.ClientInfo, targetString);
         }
 
         /// <summary>
         /// Parse a single player target string into a connected client.
         /// </summary>
-        /// <param name="senderInfo">The calling client information.</param>
+        /// <param name="client">The calling client information.</param>
         /// <param name="targetString">The player target string.</param>
-        /// <param name="client">Variable to be set to the <see cref="ClientInfo"/> object representing the matching client.</param>
+        /// <param name="target">Variable to be set to the <see cref="SMClient"/> object representing the matching client.</param>
         /// <returns><c>true</c> if a match is found; otherwise <c>false</c>.</returns>
-        protected bool ParseSingleTargetString(CommandSenderInfo senderInfo, string targetString, out ClientInfo client)
+        protected bool ParseSingleTargetString(SMClient client, string targetString, out SMClient target)
         {
-            return SMConsoleHelper.ParseSingleTargetString(senderInfo, targetString, out client);
+            return SMConsoleHelper.ParseSingleTargetString(client?.ClientInfo, targetString, out target);
         }
 
         /// <summary>

@@ -7,6 +7,7 @@ namespace SevenMod.Console
 {
     using System;
     using System.Collections.Generic;
+    using SevenMod.Core;
 
     /// <summary>
     /// Contains arguments for the <see cref="AdminCommand.Executed"/> event.
@@ -18,12 +19,12 @@ namespace SevenMod.Console
         /// </summary>
         /// <param name="command">The <see cref="AdminCommand"/> object that raised the event.</param>
         /// <param name="arguments">The list of arguments supplied to the admin command.</param>
-        /// <param name="senderInfo">The <see cref="CommandSenderInfo"/> object representing the client that executed the admin command.</param>
-        internal AdminCommandEventArgs(AdminCommand command, List<string> arguments, CommandSenderInfo senderInfo)
+        /// <param name="client">The <see cref="ClientInfo"/> object representing the client that executed the admin command.</param>
+        internal AdminCommandEventArgs(AdminCommand command, List<string> arguments, ClientInfo client)
         {
             this.Command = command;
             this.Arguments = arguments;
-            this.SenderInfo = senderInfo;
+            this.Client = (client == null) ? null : new SMClient(client);
         }
 
         /// <summary>
@@ -37,8 +38,8 @@ namespace SevenMod.Console
         public List<string> Arguments { get; }
 
         /// <summary>
-        /// Gets the <see cref="CommandSenderInfo"/> object representing the client that executed the admin command.
+        /// Gets the <see cref="SMClient"/> object representing the client that executed the admin command.
         /// </summary>
-        public CommandSenderInfo SenderInfo { get; }
+        public SMClient Client { get; }
     }
 }

@@ -41,13 +41,13 @@ namespace SevenMod.Plugin.BaseBans
         {
             if (e.Arguments.Count < 1)
             {
-                this.ReplyToCommand(e.SenderInfo, "Not enough parameters");
+                this.ReplyToCommand(e.Client, "Not enough parameters");
                 return;
             }
 
             if (!ConsoleHelper.ParseParamSteamIdValid(e.Arguments[0]))
             {
-                this.ReplyToCommand(e.SenderInfo, "Invalid player ID");
+                this.ReplyToCommand(e.Client, "Invalid player ID");
                 return;
             }
 
@@ -63,17 +63,17 @@ namespace SevenMod.Plugin.BaseBans
         {
             if (e.Arguments.Count < 2)
             {
-                this.ReplyToCommand(e.SenderInfo, "Not enough parameters");
+                this.ReplyToCommand(e.Client, "Not enough parameters");
                 return;
             }
 
             if (!uint.TryParse(e.Arguments[1], out var duration))
             {
-                this.ReplyToCommand(e.SenderInfo, "Invalid ban duration");
+                this.ReplyToCommand(e.Client, "Invalid ban duration");
                 return;
             }
 
-            if (this.ParseSingleTargetString(e.SenderInfo, e.Arguments[0], out var target))
+            if (this.ParseSingleTargetString(e.Client, e.Arguments[0], out var target))
             {
                 var unit = "minutes";
                 if (duration == 0)
@@ -82,7 +82,7 @@ namespace SevenMod.Plugin.BaseBans
                     duration = 999999;
                 }
 
-                SdtdConsole.Instance.ExecuteSync($"ban add {target.playerId} {duration} {unit}", null);
+                SdtdConsole.Instance.ExecuteSync($"ban add {target.PlayerId} {duration} {unit}", null);
             }
         }
 
@@ -95,13 +95,13 @@ namespace SevenMod.Plugin.BaseBans
         {
             if (e.Arguments.Count < 1)
             {
-                this.ReplyToCommand(e.SenderInfo, "Not enough parameters");
+                this.ReplyToCommand(e.Client, "Not enough parameters");
                 return;
             }
 
             if (!ConsoleHelper.ParseParamSteamIdValid(e.Arguments[0]))
             {
-                this.ReplyToCommand(e.SenderInfo, "Invalid player ID");
+                this.ReplyToCommand(e.Client, "Invalid player ID");
                 return;
             }
 

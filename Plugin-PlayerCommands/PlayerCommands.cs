@@ -39,13 +39,13 @@ namespace SevenMod.Plugin.PlayerCommands
         {
             if (e.Arguments.Count < 1)
             {
-                this.ReplyToCommand(e.SenderInfo, "Not enough parameters");
+                this.ReplyToCommand(e.Client, "Not enough parameters");
                 return;
             }
 
-            foreach (var target in this.ParseTargetString(e.SenderInfo, e.Arguments[0]))
+            foreach (var target in this.ParseTargetString(e.Client, e.Arguments[0]))
             {
-                SdtdConsole.Instance.ExecuteSync($"kill {target.playerId}", null);
+                SdtdConsole.Instance.ExecuteSync($"kill {target.PlayerId}", null);
             }
         }
     }

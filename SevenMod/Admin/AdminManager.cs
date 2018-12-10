@@ -141,10 +141,32 @@ namespace SevenMod.Admin
         /// <summary>
         /// Checks whether a client has a specific set of admin access flags.
         /// </summary>
+        /// <param name="client">The <see cref="SMClient"/> object representing the client.</param>
+        /// <param name="adminFlag">The <see cref="AdminFlags"/> value against which to match the client.</param>
+        /// <returns><c>true</c> if the user has access to the specified flags; otherwise <c>false</c>.</returns>
+        public static bool CheckAccess(SMClient client, AdminFlags adminFlag)
+        {
+            return CheckAccess(client?.ClientInfo, adminFlag);
+        }
+
+        /// <summary>
+        /// Checks whether a client is allowed to target a another specific client.
+        /// </summary>
+        /// <param name="client">The <see cref="SMClient"/> object representing the source client.</param>
+        /// <param name="target">The <see cref="SMClient"/> object representing the target client.</param>
+        /// <returns><c>true</c> if <paramref name="client"/> can target <paramref name="target"/>; otherwise <c>false</c>.</returns>
+        public static bool CanTarget(SMClient client, SMClient target)
+        {
+            return CanTarget(client?.ClientInfo, target.ClientInfo);
+        }
+
+        /// <summary>
+        /// Checks whether a client has a specific set of admin access flags.
+        /// </summary>
         /// <param name="client">The <see cref="ClientInfo"/> object representing the client.</param>
         /// <param name="adminFlag">The <see cref="AdminFlags"/> value against which to match the client.</param>
         /// <returns><c>true</c> if the user has access to the specified flags; otherwise <c>false</c>.</returns>
-        public static bool CheckAccess(ClientInfo client, AdminFlags adminFlag)
+        internal static bool CheckAccess(ClientInfo client, AdminFlags adminFlag)
         {
             if (client == null)
             {
@@ -171,7 +193,7 @@ namespace SevenMod.Admin
         /// <param name="client">The <see cref="ClientInfo"/> object representing the source client.</param>
         /// <param name="target">The <see cref="ClientInfo"/> object representing the target client.</param>
         /// <returns><c>true</c> if <paramref name="client"/> can target <paramref name="target"/>; otherwise <c>false</c>.</returns>
-        public static bool CanTarget(ClientInfo client, ClientInfo target)
+        internal static bool CanTarget(ClientInfo client, ClientInfo target)
         {
             if (client == null)
             {

@@ -30,7 +30,6 @@ namespace SevenMod
         /// <inheritdoc/>
         public void InitMod()
         {
-            ModEvents.CalcChunkColorsDone.RegisterHandler(this.OnCalcChunkColorsDone);
             ModEvents.ChatMessage.RegisterHandler((ClientInfo cInfo, EChatType chatType, int senderEntityId, string msg, string mainName, bool localizeMain, List<int> recipientEntityIds) => this.OnChatMessage(cInfo, chatType, msg));
             ModEvents.GameAwake.RegisterHandler(this.OnGameAwake);
             ModEvents.GameShutdown.RegisterHandler(this.OnGameShutdown);
@@ -38,37 +37,12 @@ namespace SevenMod
             ModEvents.PlayerDisconnected.RegisterHandler(this.OnPlayerDisconnected);
             ModEvents.PlayerLogin.RegisterHandler((ClientInfo cInfo, string compatibilityVersion, StringBuilder rejectReason) => this.OnPlayerLogin(cInfo, rejectReason));
             ModEvents.PlayerSpawnedInWorld.RegisterHandler(this.OnPlayerSpawnedInWorld);
-            ModEvents.PlayerSpawning.RegisterHandler(this.OnPlayerSpawning);
-            ModEvents.SavePlayerData.RegisterHandler(this.OnSavePlayerData);
+            ModEvents.PlayerSpawning.RegisterHandler((ClientInfo cInfo, int chunkViewDim, PlayerProfile playerProfile) => this.OnPlayerSpawning(cInfo));
+            ModEvents.SavePlayerData.RegisterHandler((ClientInfo cInfo, PlayerDataFile playerDataFile) => this.OnSavePlayerData(cInfo));
 
             ConVarManager.AutoExecConfig(null, true, "Core");
             ChatHook.Init();
             PluginManager.Refresh();
-        }
-
-        /// <summary>
-        /// Called when a chunk has its colors calculated.
-        /// </summary>
-        /// <param name="chunk">The <see cref="Chunk"/> object representing the chunk.</param>
-        private void OnCalcChunkColorsDone(Chunk chunk)
-        {
-            foreach (var k in PluginManager.Plugins.Keys)
-            {
-                if (PluginManager.Plugins.TryGetValue(k, out var plugin) && plugin.LoadStatus == PluginContainer.Status.Loaded)
-                {
-                    try
-                    {
-                        plugin.Plugin.OnCalcChunkColorsDone(chunk);
-                    }
-                    catch (HaltPluginException)
-                    {
-                    }
-                    catch (Exception e)
-                    {
-                        plugin.SetFailState(e);
-                    }
-                }
-            }
         }
 
         /// <summary>
@@ -180,7 +154,7 @@ namespace SevenMod
                 {
                     try
                     {
-                        plugin.Plugin.OnPlayerDisconnected(client, shutdown);
+                        plugin.Plugin.OnPlayerDisconnected(new SMClient(client), shutdown);
                     }
                     catch (HaltPluginException)
                     {
@@ -207,7 +181,7 @@ namespace SevenMod
                 {
                     try
                     {
-                        if (!plugin.Plugin.OnPlayerLogin(client, rejectReason))
+                        if (!plugin.Plugin.OnPlayerLogin(new SMClient(client), rejectReason))
                         {
                             return false;
                         }
@@ -239,7 +213,7 @@ namespace SevenMod
                 {
                     try
                     {
-                        plugin.Plugin.OnPlayerSpawnedInWorld(client, respawnReason, pos);
+                        plugin.Plugin.OnPlayerSpawnedInWorld(new SMClient(client), respawnReason, pos);
                     }
                     catch (HaltPluginException)
                     {
@@ -256,9 +230,7 @@ namespace SevenMod
         /// Called immediately before a player spawns into the world.
         /// </summary>
         /// <param name="client">The <see cref="ClientInfo"/> object representing the player.</param>
-        /// <param name="chunkViewDim">TODO: Find out what this is.</param>
-        /// <param name="playerProfile">The <see cref="PlayerProfile"/> object representing the player's persistent profile.</param>
-        private void OnPlayerSpawning(ClientInfo client, int chunkViewDim, PlayerProfile playerProfile)
+        private void OnPlayerSpawning(ClientInfo client)
         {
             foreach (var k in PluginManager.Plugins.Keys)
             {
@@ -266,7 +238,7 @@ namespace SevenMod
                 {
                     try
                     {
-                        plugin.Plugin.OnPlayerSpawning(client, chunkViewDim, playerProfile);
+                        plugin.Plugin.OnPlayerSpawning(new SMClient(client));
                     }
                     catch (HaltPluginException)
                     {
@@ -283,8 +255,7 @@ namespace SevenMod
         /// Called when a player data file is saved to the server.
         /// </summary>
         /// <param name="client">The <see cref="ClientInfo"/> object representing the player.</param>
-        /// <param name="playerDataFile">The <see cref="PlayerDataFile"/> object representing the player's data file.</param>
-        private void OnSavePlayerData(ClientInfo client, PlayerDataFile playerDataFile)
+        private void OnSavePlayerData(ClientInfo client)
         {
             foreach (var k in PluginManager.Plugins.Keys)
             {
@@ -292,7 +263,7 @@ namespace SevenMod
                 {
                     try
                     {
-                        plugin.Plugin.OnSavePlayerData(client, playerDataFile);
+                        plugin.Plugin.OnSavePlayerData(new SMClient(client));
                     }
                     catch (HaltPluginException)
                     {

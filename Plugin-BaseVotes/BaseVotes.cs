@@ -58,13 +58,13 @@ namespace SevenMod.Plugin.BaseVotes
         {
             if (e.Arguments.Count < 1)
             {
-                this.ReplyToCommand(e.SenderInfo, "Not enough parameters");
+                this.ReplyToCommand(e.Client, "Not enough parameters");
                 return;
             }
 
             if (e.Arguments.Count > 5)
             {
-                this.ReplyToCommand(e.SenderInfo, "Too many options");
+                this.ReplyToCommand(e.Client, "Too many options");
                 return;
             }
 
@@ -97,13 +97,13 @@ namespace SevenMod.Plugin.BaseVotes
         {
             if (e.Arguments.Count < 1)
             {
-                this.ReplyToCommand(e.SenderInfo, "Not enough parameters");
+                this.ReplyToCommand(e.Client, "Not enough parameters");
                 return;
             }
 
-            if (this.ParseSingleTargetString(e.SenderInfo, e.Arguments[0], out var target))
+            if (this.ParseSingleTargetString(e.Client, e.Arguments[0], out var target))
             {
-                var message = $"A vote has begun to ban {target.playerName} from the server";
+                var message = $"A vote has begun to ban {target.PlayerName} from the server";
                 if (VoteManager.StartVote(message, null, target))
                 {
                     VoteManager.CurrentVote.Ended += this.OnBanVoteEnded;
@@ -139,13 +139,13 @@ namespace SevenMod.Plugin.BaseVotes
         {
             if (e.Arguments.Count < 1)
             {
-                this.ReplyToCommand(e.SenderInfo, "Not enough parameters");
+                this.ReplyToCommand(e.Client, "Not enough parameters");
                 return;
             }
 
-            if (this.ParseSingleTargetString(e.SenderInfo, e.Arguments[0], out var target))
+            if (this.ParseSingleTargetString(e.Client, e.Arguments[0], out var target))
             {
-                var message = $"A vote has begun to kick {target.playerName} from the server";
+                var message = $"A vote has begun to kick {target.PlayerName} from the server";
                 if (VoteManager.StartVote(message, null, target))
                 {
                     VoteManager.CurrentVote.Ended += this.OnKickVoteEnded;

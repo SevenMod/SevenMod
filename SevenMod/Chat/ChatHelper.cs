@@ -13,14 +13,14 @@ namespace SevenMod.Chat
         /// <summary>
         /// Sends a response to a client in the console or chat depending on which input method the client used to call the currently executing command.
         /// </summary>
-        /// <param name="senderInfo">The <see cref="CommandSenderInfo"/> object representing calling client information.</param>
+        /// <param name="client">The <see cref="ClientInfo"/> object representing calling client information.</param>
         /// <param name="message">The message to send.</param>
         /// <param name="prefix">Optional prefix for the message.</param>
-        public static void ReplyToCommand(CommandSenderInfo senderInfo, string message, string prefix = "SM")
+        public static void ReplyToCommand(ClientInfo client, string message, string prefix = "SM")
         {
-            if ((senderInfo.RemoteClientInfo != null) && ChatHook.ShouldReplyToChat(senderInfo.RemoteClientInfo))
+            if ((client != null) && ChatHook.ShouldReplyToChat(client))
             {
-                SendTo(senderInfo.RemoteClientInfo, message, prefix);
+                SendTo(client, message, prefix);
             }
             else
             {

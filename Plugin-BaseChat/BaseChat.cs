@@ -42,7 +42,7 @@ namespace SevenMod.Plugin.BaseChat
         {
             if (e.Arguments.Count < 1)
             {
-                this.ReplyToCommand(e.SenderInfo, "Not enough parameters");
+                this.ReplyToCommand(e.Client, "Not enough parameters");
                 return;
             }
 
@@ -75,24 +75,24 @@ namespace SevenMod.Plugin.BaseChat
         {
             if (e.Arguments.Count < 2)
             {
-                this.ReplyToCommand(e.SenderInfo, "Not enough parameters");
+                this.ReplyToCommand(e.Client, "Not enough parameters");
                 return;
             }
 
-            if (this.ParseSingleTargetString(e.SenderInfo, e.Arguments[0], out var target))
+            if (this.ParseSingleTargetString(e.Client, e.Arguments[0], out var target))
             {
-                this.ReplyToCommand(e.SenderInfo, "Player not found");
+                this.ReplyToCommand(e.Client, "Player not found");
                 return;
             }
 
             string from;
-            if (e.SenderInfo.RemoteClientInfo == null)
+            if (e.Client == null)
             {
                 from = "[i](Private) [Server]";
             }
             else
             {
-                from = $"[i](Private) {e.SenderInfo.RemoteClientInfo.playerName}";
+                from = $"[i](Private) {e.Client.PlayerName}";
             }
 
             var message = string.Join(" ", e.Arguments.GetRange(1, e.Arguments.Count - 1).ToArray());
@@ -108,25 +108,25 @@ namespace SevenMod.Plugin.BaseChat
         {
             if (e.Arguments.Count < 1)
             {
-                this.ReplyToCommand(e.SenderInfo, "Not enough parameters");
+                this.ReplyToCommand(e.Client, "Not enough parameters");
                 return;
             }
 
             string from;
-            if (e.SenderInfo.RemoteClientInfo == null)
+            if (e.Client == null)
             {
                 from = $"[{Colors.Cyan}](Admins) [Server]";
             }
             else
             {
-                from = $"[{Colors.Cyan}](Admins) {e.SenderInfo.RemoteClientInfo.playerName}";
+                from = $"[{Colors.Cyan}](Admins) {e.Client.PlayerName}";
             }
 
             var message = string.Join(" ", e.Arguments.ToArray());
             message = $"{message}[-]";
-            foreach (var client in ConnectionManager.Instance.Clients.List)
+            foreach (var client in ClientHelper.List)
             {
-                if (AdminManager.IsAdmin(client.playerId))
+                if (AdminManager.IsAdmin(client.PlayerId))
                 {
                     this.PrintToChat(client, message, null, from);
                 }

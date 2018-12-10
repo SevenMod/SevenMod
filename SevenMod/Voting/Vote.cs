@@ -109,7 +109,7 @@ namespace SevenMod.Voting
         /// <param name="e">A <see cref="ChatMessageEventArgs"/> object containing the event data.</param>
         private void OnChatMessage(object sender, ChatMessageEventArgs e)
         {
-            if (!this.votingPool.ContainsKey(e.Client.playerId))
+            if (!this.votingPool.ContainsKey(e.Client.PlayerId))
             {
                 return;
             }
@@ -148,8 +148,8 @@ namespace SevenMod.Voting
 
             if ((index > -1) && (index < this.voteOptions.Length))
             {
-                ChatHelper.SendTo(e.Client, $"You voted [{Colors.Yellow}]{this.voteOptions[index]}[-]", "Vote");
-                this.votingPool[e.Client.playerId] = index;
+                ChatHelper.SendTo(e.Client.ClientInfo, $"You voted [{Colors.Yellow}]{this.voteOptions[index]}[-]", "Vote");
+                this.votingPool[e.Client.PlayerId] = index;
                 e.Handled = true;
             }
         }

@@ -60,12 +60,12 @@ namespace SevenMod.Console
         /// Executes the admin command.
         /// </summary>
         /// <param name="arguments">The list of arguments for the command.</param>
-        /// <param name="senderInfo">The <see cref="CommandSenderInfo"/> object representing the client that is executing the command.</param>
-        internal void OnExecute(List<string> arguments, CommandSenderInfo senderInfo)
+        /// <param name="client">The <see cref="ClientInfo"/> object representing the client that is executing the command.</param>
+        internal void OnExecute(List<string> arguments, ClientInfo client)
         {
             if (this.Executed != null)
             {
-                var args = new AdminCommandEventArgs(this, arguments, senderInfo);
+                var args = new AdminCommandEventArgs(this, arguments, client);
                 foreach (EventHandler<AdminCommandEventArgs> d in this.Executed.GetInvocationList())
                 {
                     try

@@ -18,10 +18,10 @@ namespace SevenMod.Console
         /// <summary>
         /// Parse a player target string into a list of currently connected clients.
         /// </summary>
-        /// <param name="senderInfo">The <see cref="CommandSenderInfo"/> object representing the source client.</param>
+        /// <param name="client">The <see cref="ClientInfo"/> object representing the source client.</param>
         /// <param name="targetString">The player target string.</param>
-        /// <returns>A list of <see cref="ClientInfo"/> objects representing the matching clients.</returns>
-        public static List<ClientInfo> ParseTargetString(CommandSenderInfo senderInfo, string targetString)
+        /// <returns>A list of <see cref="SMClient"/> objects representing the matching clients.</returns>
+        public static List<SMClient> ParseTargetString(ClientInfo client, string targetString)
         {
             var list = new List<ClientInfo>();
 
@@ -33,17 +33,17 @@ namespace SevenMod.Console
                         list.AddRange(ConnectionManager.Instance.Clients.List);
                         break;
                     case "me":
-                        if (senderInfo.RemoteClientInfo == null)
+                        if (client == null)
                         {
-                            ChatHelper.ReplyToCommand(senderInfo, "Server cannot target self");
+                            ChatHelper.ReplyToCommand(client, "Server cannot target self");
                             break;
                         }
 
-                        list.Add(senderInfo.RemoteClientInfo);
+                        list.Add(client);
                         break;
                     case "!me":
                         list.AddRange(ConnectionManager.Instance.Clients.List);
-                        list.Remove(senderInfo.RemoteClientInfo);
+                        list.Remove(client);
                         break;
                 }
             }
@@ -74,50 +74,53 @@ namespace SevenMod.Console
 
                 if (list.Count == 0)
                 {
-                    ChatHelper.ReplyToCommand(senderInfo, "No valid targets found");
+                    ChatHelper.ReplyToCommand(client, "No valid targets found");
                 }
             }
             else
             {
-                if (ParseSingleTargetString(senderInfo, targetString, out var target))
+                if (ParseSingleTargetString(client, targetString, out var target))
                 {
-                    list.Add(target);
+                    list.Add(target.ClientInfo);
                 }
             }
 
-            foreach (var client in list)
+            foreach (var target in list)
             {
-                if (!AdminManager.CanTarget(senderInfo.RemoteClientInfo, client))
+                if (!AdminManager.CanTarget(client, target))
                 {
-                    ChatHelper.ReplyToCommand(senderInfo, $"Cannot target {client.playerName}");
-                    list.Remove(client);
+                    ChatHelper.ReplyToCommand(client, $"Cannot target {target.playerName}");
+                    list.Remove(target);
                 }
             }
 
-            return list;
+            return list.ConvertAll(e => new SMClient(e));
         }
 
         /// <summary>
         /// Parse a single player target string into a connected client.
         /// </summary>
-        /// <param name="senderInfo">The calling client information.</param>
+        /// <param name="client">The calling client information.</param>
         /// <param name="targetString">The player target string.</param>
-        /// <param name="client">Variable to be set to the <see cref="ClientInfo"/> object representing the matching client.</param>
+        /// <param name="target">Variable to be set to the <see cref="SMClient"/> object representing the matching client.</param>
         /// <returns><c>true</c> if a match is found; otherwise <c>false</c>.</returns>
-        public static bool ParseSingleTargetString(CommandSenderInfo senderInfo, string targetString, out ClientInfo client)
+        public static bool ParseSingleTargetString(ClientInfo client, string targetString, out SMClient target)
         {
-            var count = ConsoleHelper.ParseParamPartialNameOrId(targetString, out var id, out client, false);
+            var count = ConsoleHelper.ParseParamPartialNameOrId(targetString, out var id, out var clientInfo, false);
             if (count < 1)
             {
-                ChatHelper.ReplyToCommand(senderInfo, "No valid targets found");
+                ChatHelper.ReplyToCommand(client, "No valid targets found");
+                target = null;
                 return false;
             }
             else if (count > 1)
             {
-                ChatHelper.ReplyToCommand(senderInfo, "Multiple valid targets found");
+                ChatHelper.ReplyToCommand(client, "Multiple valid targets found");
+                target = null;
                 return false;
             }
 
+            target = new SMClient(clientInfo);
             return true;
         }
     }

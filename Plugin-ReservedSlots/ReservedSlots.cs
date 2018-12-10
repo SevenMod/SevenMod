@@ -46,9 +46,9 @@ namespace SevenMod.Plugin.ReservedSlots
         }
 
         /// <inheritdoc/>
-        public override bool OnPlayerLogin(ClientInfo client, StringBuilder rejectReason)
+        public override bool OnPlayerLogin(SMClient client, StringBuilder rejectReason)
         {
-            if ((this.maxPlayers - (ConnectionManager.Instance.ClientCount() - 1)) <= this.reservedSlots.AsInt)
+            if ((this.maxPlayers - (ClientHelper.ClientCount - 1)) <= this.reservedSlots.AsInt)
             {
                 if (!AdminManager.CheckAccess(client, AdminFlags.Reservation))
                 {

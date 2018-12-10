@@ -6,6 +6,7 @@
 namespace SevenMod.Chat
 {
     using System;
+    using SevenMod.Core;
 
     /// <summary>
     /// Contains the arguments for the <see cref="ChatHook.ChatMessage"/> event.
@@ -19,14 +20,14 @@ namespace SevenMod.Chat
         /// <param name="message">The message text.</param>
         internal ChatMessageEventArgs(ClientInfo client, string message)
         {
-            this.Client = client;
+            this.Client = new SMClient(client);
             this.Message = message;
         }
 
         /// <summary>
         /// Gets the <see cref="ClientInfo"/> object representing the client that sent the message.
         /// </summary>
-        public ClientInfo Client { get; }
+        public SMClient Client { get; }
 
         /// <summary>
         /// Gets the message text.
