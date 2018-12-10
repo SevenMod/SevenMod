@@ -193,6 +193,7 @@ namespace SevenMod.Database
         public abstract string Escape(string str);
 
         /// <inheritdoc/>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1063:ImplementIDisposableCorrectly", Justification = "Implemented as needed")]
         public virtual void Dispose()
         {
         }

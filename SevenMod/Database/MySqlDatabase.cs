@@ -32,6 +32,7 @@ namespace SevenMod.Database
         }
 
         /// <inheritdoc/>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2100:Review SQL queries for security vulnerabilities", Justification = "Sanitized by client")]
         protected internal override DataTable RunQuery(string sql)
         {
             var dataTable = new DataTable();
@@ -47,6 +48,7 @@ namespace SevenMod.Database
         }
 
         /// <inheritdoc/>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2100:Review SQL queries for security vulnerabilities", Justification = "Sanitized by client")]
         protected internal override int RunFastQuery(string sql)
         {
             this.connection.Open();
