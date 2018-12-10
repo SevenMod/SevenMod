@@ -16,17 +16,22 @@ namespace SevenMod.Core
         /// <summary>
         /// The path to the directory containing the main mod dll.
         /// </summary>
-        public static readonly string Base = $"{Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)}{Path.DirectorySeparatorChar}";
+        public static readonly string ModPath = $"{Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)}{Path.DirectorySeparatorChar}";
+
+        /// <summary>
+        /// The path to the directory containing data and configuration files.
+        /// </summary>
+        public static readonly string SavePath = $"{GamePrefs.GetString(EnumGamePrefs.SaveGameFolder)}{Path.DirectorySeparatorChar}SevenMod{Path.DirectorySeparatorChar}";
 
         /// <summary>
         /// The path to the directory containing the configuration files.
         /// </summary>
-        public static readonly string Config = $"{Base}Config{Path.DirectorySeparatorChar}";
+        public static readonly string Config = $"{SavePath}Config{Path.DirectorySeparatorChar}";
 
         /// <summary>
         /// The path to the directory containing the data files.
         /// </summary>
-        public static readonly string Data = $"{Base}Data{Path.DirectorySeparatorChar}";
+        public static readonly string Data = $"{SavePath}Data{Path.DirectorySeparatorChar}";
 
         /// <summary>
         /// The path to the directory containing the database files.
@@ -36,12 +41,12 @@ namespace SevenMod.Core
         /// <summary>
         /// The path to the directory containing the log files.
         /// </summary>
-        public static readonly string Logs = $"{Base}Logs{Path.DirectorySeparatorChar}";
+        public static readonly string Logs = $"{SavePath}Logs{Path.DirectorySeparatorChar}";
 
         /// <summary>
         /// The path to the directory containing the plugin files.
         /// </summary>
-        public static readonly string Plugins = $"{Base}Plugins{Path.DirectorySeparatorChar}";
+        public static readonly string Plugins = $"{ModPath}Plugins{Path.DirectorySeparatorChar}";
 
         /// <summary>
         /// The path to the directory containing the disabled plugin files.
