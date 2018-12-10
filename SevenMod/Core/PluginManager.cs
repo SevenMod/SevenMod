@@ -109,6 +109,7 @@ namespace SevenMod.Core
                 try
                 {
                     plugin.Plugin.OnUnloadPlugin();
+                    (plugin as IDisposable)?.Dispose();
                 }
                 catch (HaltPluginException)
                 {
