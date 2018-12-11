@@ -76,9 +76,9 @@ namespace SevenMod.Core
         /// Called every time a player spawns into the world.
         /// </summary>
         /// <param name="client">The <see cref="SMClient"/> object representing the player.</param>
-        /// <param name="respawnReason">The <see cref="RespawnType"/> value indicating the reason for the player spawning.</param>
-        /// <param name="pos">The <see cref="Vector3i"/> object representing the position of the player in the world.</param>
-        void OnPlayerSpawnedInWorld(SMClient client, RespawnType respawnReason, Vector3i pos);
+        /// <param name="respawnReason">The <see cref="SMRespawnType"/> value indicating the reason for the player spawning.</param>
+        /// <param name="pos">The <see cref="Pos"/> object representing the position of the player in the world.</param>
+        void OnPlayerSpawnedInWorld(SMClient client, SMRespawnType respawnReason, Pos pos);
 
         /// <summary>
         /// Called immediately before a player spawns into the world.

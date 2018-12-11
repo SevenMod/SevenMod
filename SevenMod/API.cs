@@ -213,7 +213,7 @@ namespace SevenMod
                 {
                     try
                     {
-                        plugin.Plugin.OnPlayerSpawnedInWorld(new SMClient(client), respawnReason, pos);
+                        plugin.Plugin.OnPlayerSpawnedInWorld(new SMClient(client), (SMRespawnType)respawnReason, new Pos(pos));
                     }
                     catch (HaltPluginException)
                     {

@@ -107,9 +107,11 @@
     <Compile Include="Core\PluginContainer.cs" />
     <Compile Include="Core\PluginInfo.cs" />
     <Compile Include="Core\PluginManager.cs" />
+    <Compile Include="Core\Pos.cs" />
     <Compile Include="Core\SMClient.cs" />
     <Compile Include="Core\SMLog.cs" />
     <Compile Include="Core\SMPath.cs" />
+    <Compile Include="Core\SMRespawnType.cs" />
     <Compile Include="Core\SteamUtils.cs" />
     <Compile Include="Database\Database.cs" />
     <Compile Include="Database\DatabaseConfigException.cs" />

@@ -60,7 +60,7 @@ namespace SevenMod.Core
         }
 
         /// <inheritdoc/>
-        public virtual void OnPlayerSpawnedInWorld(SMClient client, RespawnType respawnReason, Vector3i pos)
+        public virtual void OnPlayerSpawnedInWorld(SMClient client, SMRespawnType respawnReason, Pos pos)
         {
         }
 
