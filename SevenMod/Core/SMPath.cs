@@ -21,7 +21,7 @@ namespace SevenMod.Core
         /// <summary>
         /// The path to the directory containing data and configuration files.
         /// </summary>
-        public static readonly string SavePath = $"{GamePrefs.GetString(EnumGamePrefs.SaveGameFolder)}{Path.DirectorySeparatorChar}SevenMod{Path.DirectorySeparatorChar}";
+        public static readonly string SavePath = $"{Path.GetFullPath($"{GameUtils.GetSaveGameDir()}{Path.DirectorySeparatorChar}..{Path.DirectorySeparatorChar}..")}{Path.DirectorySeparatorChar}SevenMod{Path.DirectorySeparatorChar}";
 
         /// <summary>
         /// The path to the directory containing the configuration files.
