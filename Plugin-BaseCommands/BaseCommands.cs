@@ -28,6 +28,7 @@ namespace SevenMod.Plugin.BaseCommands
         public override void OnLoadPlugin()
         {
             this.RegAdminCmd("kick", AdminFlags.Kick, "Kicks a player from the server").Executed += this.OnKickCommandExecuted;
+            this.RegAdminCmd("rcon", AdminFlags.RCON, "Executes a command on the server console").Executed += this.OnRconCommandExecuted;
             this.RegAdminCmd("reloadadmins", AdminFlags.Ban, "Reloads the admin list").Executed += this.OnReloadadminsCommandExecuted;
             this.RegAdminCmd("who", AdminFlags.Generic, "Lists connected clients and their access flags").Executed += this.OnWhoCommandExecuted;
         }
@@ -49,6 +50,22 @@ namespace SevenMod.Plugin.BaseCommands
             {
                 SdtdConsole.Instance.ExecuteSync($"kick {target.PlayerId}", null);
             }
+        }
+
+        /// <summary>
+        /// Called when the rcon admin command is executed.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">An <see cref="AdminCommandEventArgs"/> object containing the event data.</param>
+        private void OnRconCommandExecuted(object sender, AdminCommandEventArgs e)
+        {
+            if (e.Arguments.Count < 1)
+            {
+                this.ReplyToCommand(e.Client, "Not enough parameters");
+                return;
+            }
+
+            this.ServerCommand(string.Join(" ", e.Arguments.ToArray()), e.Client);
         }
 
         /// <summary>

@@ -145,9 +145,10 @@ namespace SevenMod.Core
         /// Executes a command on the server's console.
         /// </summary>
         /// <param name="cmd">The command to execute.</param>
-        protected void ServerCommand(string cmd)
+        /// <param name="client">The <see cref="SMClient"/> object representing the client executing the command.</param>
+        protected void ServerCommand(string cmd, SMClient client = null)
         {
-            SdtdConsole.Instance.ExecuteSync(cmd, null);
+            SdtdConsole.Instance.ExecuteSync(cmd, client?.ClientInfo);
         }
 
         /// <summary>
