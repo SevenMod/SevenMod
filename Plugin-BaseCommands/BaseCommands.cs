@@ -11,7 +11,7 @@ namespace SevenMod.Plugin.BaseCommands
     using SevenMod.Voting;
 
     /// <summary>
-    /// Plugin that adds the kick and who admin commands.
+    /// Plugin that adds basic admin commands.
     /// </summary>
     public class BaseCommands : PluginAbstract
     {
