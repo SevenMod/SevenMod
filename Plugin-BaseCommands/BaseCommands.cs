@@ -27,10 +27,43 @@ namespace SevenMod.Plugin.BaseCommands
         /// <inheritdoc/>
         public override void OnLoadPlugin()
         {
+            this.RegAdminCmd("cvar", AdminFlags.Convars, "Chages a SevenMod console variable.").Executed += this.OnCvarCommandExecuted;
             this.RegAdminCmd("kick", AdminFlags.Kick, "Kicks a player from the server").Executed += this.OnKickCommandExecuted;
             this.RegAdminCmd("rcon", AdminFlags.RCON, "Executes a command on the server console").Executed += this.OnRconCommandExecuted;
             this.RegAdminCmd("reloadadmins", AdminFlags.Ban, "Reloads the admin list").Executed += this.OnReloadadminsCommandExecuted;
+            this.RegAdminCmd("resetcvar", AdminFlags.Convars, "Resets a SevenMod console variable to its default value").Executed += this.OnResetcvarCommandExecuted;
             this.RegAdminCmd("who", AdminFlags.Generic, "Lists connected clients and their access flags").Executed += this.OnWhoCommandExecuted;
+        }
+
+        /// <summary>
+        /// Called when the kick admin command is executed.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">An <see cref="AdminCommandEventArgs"/> object containing the event data.</param>
+        private void OnCvarCommandExecuted(object sender, AdminCommandEventArgs e)
+        {
+            if (e.Arguments.Count < 1)
+            {
+                this.ReplyToCommand(e.Client, "Not enough parameters");
+                return;
+            }
+
+            var cvar = this.FindConVar(e.Arguments[0]);
+            if (cvar == null)
+            {
+                this.ReplyToCommand(e.Client, $"Unable to find ConVar \"{e.Arguments[0]}\"");
+                return;
+            }
+
+            if (e.Arguments.Count == 2)
+            {
+                this.ReplyToCommand(e.Client, $"Value of \"{cvar.Name}\": {cvar.Value.AsString}");
+            }
+            else
+            {
+                cvar.Value.Value = string.Join(" ", e.Arguments.GetRange(1, e.Arguments.Count - 1).ToArray());
+                this.ReplyToCommand(e.Client, $"Changed ConVar \"{cvar.Name}\" to \"{cvar.Value.AsString}\"");
+            }
         }
 
         /// <summary>
@@ -76,6 +109,31 @@ namespace SevenMod.Plugin.BaseCommands
         private void OnReloadadminsCommandExecuted(object sender, AdminCommandEventArgs e)
         {
             AdminManager.ReloadAdmins();
+        }
+
+        /// <summary>
+        /// Called when the kick admin command is executed.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">An <see cref="AdminCommandEventArgs"/> object containing the event data.</param>
+        private void OnResetcvarCommandExecuted(object sender, AdminCommandEventArgs e)
+        {
+            if (e.Arguments.Count < 1)
+            {
+                this.ReplyToCommand(e.Client, "Not enough parameters");
+                return;
+            }
+
+            var name = string.Join(" ", e.Arguments.ToArray());
+            var cvar = this.FindConVar(name);
+            if (cvar == null)
+            {
+                this.ReplyToCommand(e.Client, $"Unable to find ConVar \"{name}\"");
+                return;
+            }
+
+            cvar.Reset();
+            this.ReplyToCommand(e.Client, $"Changed ConVar \"{cvar.Name}\" to \"{cvar.Value.AsString}\"");
         }
 
         /// <summary>
