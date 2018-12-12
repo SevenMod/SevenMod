@@ -79,7 +79,7 @@ namespace SevenMod.Plugin.BaseCommands
                 return;
             }
 
-            if (e.Arguments.Count == 2)
+            if (e.Arguments.Count == 1)
             {
                 this.ReplyToCommand(e.Client, $"Value of \"{cvar.Name}\": {cvar.Value.AsString}");
             }
