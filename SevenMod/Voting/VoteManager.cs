@@ -5,6 +5,7 @@
 
 namespace SevenMod.Voting
 {
+    using System;
     using System.Collections.Generic;
 
     /// <summary>
@@ -39,6 +40,7 @@ namespace SevenMod.Voting
             VoteInProgress = true;
             CurrentVote = new Vote(message, options, data);
             CurrentVote.Ended += VoteEnded;
+            CurrentVote.Cancelled += VoteEnded;
 
             return true;
         }
@@ -47,8 +49,8 @@ namespace SevenMod.Voting
         /// Called by <see cref="Vote"/> objects when voting ends.
         /// </summary>
         /// <param name="sender">The source of the event.</param>
-        /// <param name="e">A <see cref="VoteEndedEventArgs"/> object containing the event data.</param>
-        private static void VoteEnded(object sender, VoteEndedEventArgs e)
+        /// <param name="e">An <see cref="EventArgs"/> object containing the event data.</param>
+        private static void VoteEnded(object sender, EventArgs e)
         {
             CurrentVote.Dispose();
             CurrentVote = null;

@@ -96,6 +96,20 @@ namespace SevenMod.Voting
         /// </summary>
         public event EventHandler<VoteEndedEventArgs> Ended;
 
+        /// <summary>
+        /// Occurs when the vote is cancelled.
+        /// </summary>
+        public event EventHandler Cancelled;
+
+        /// <summary>
+        /// Cancels the vote.
+        /// </summary>
+        public void Cancel()
+        {
+            this.OnVoteCancelled();
+            this.EndVote();
+        }
+
         /// <inheritdoc/>
         public void Dispose()
         {
@@ -198,6 +212,37 @@ namespace SevenMod.Voting
                     try
                     {
                         d.Invoke(this, args);
+                    }
+                    catch (HaltPluginException)
+                    {
+                    }
+                    catch (Exception e)
+                    {
+                        if (d.Target is IPlugin p)
+                        {
+                            p.Container.SetFailState(e);
+                        }
+                        else
+                        {
+                            SMLog.Error(e);
+                        }
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Raises the <see cref="Cancelled"/> event.
+        /// </summary>
+        private void OnVoteCancelled()
+        {
+            if (this.Cancelled != null)
+            {
+                foreach (EventHandler d in this.Cancelled.GetInvocationList())
+                {
+                    try
+                    {
+                        d.Invoke(this, EventArgs.Empty);
                     }
                     catch (HaltPluginException)
                     {
