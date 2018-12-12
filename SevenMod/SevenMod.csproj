@@ -100,7 +100,8 @@
     <Compile Include="Chat\ChatHook.cs" />
     <Compile Include="Admin\AdminInfo.cs" />
     <Compile Include="Core\ClientHelper.cs" />
-    <Compile Include="Core\ConsoleCmdMenu.cs" />
+    <Compile Include="Core\ConsoleCmdPlugins.cs" />
+    <Compile Include="Core\ConsoleCmdVersion.cs" />
     <Compile Include="Core\HaltPluginException.cs" />
     <Compile Include="Core\IPlugin.cs" />
     <Compile Include="Core\PluginAbstract.cs" />

@@ -1,4 +1,4 @@
-﻿// <copyright file="ConsoleCmdMenu.cs" company="Steve Guidetti">
+﻿// <copyright file="ConsoleCmdPlugins.cs" company="Steve Guidetti">
 // Copyright (c) Steve Guidetti. All rights reserved.
 // Licensed under the MIT license. See LICENSE.txt file in the project root for full license information.
 // </copyright>
@@ -8,48 +8,26 @@ namespace SevenMod.Core
     using System.Collections.Generic;
 
     /// <summary>
-    /// Console command for managing SevenMod features.
+    /// Console command for managing SevenMod plugins.
     /// </summary>
-    public class ConsoleCmdMenu : ConsoleCmdAbstract
+    public class ConsoleCmdPlugins : ConsoleCmdAbstract
     {
         /// <inheritdoc/>
         public override string[] GetCommands()
         {
-            return new string[] { "sm_menu" };
+            return new string[] { "sm_plugins" };
         }
 
         /// <inheritdoc/>
         public override string GetDescription()
         {
-            return "manages SevenMod";
+            return "manages SevenMod plugins";
         }
 
         /// <inheritdoc/>
         public override void Execute(List<string> _params, CommandSenderInfo _senderInfo)
         {
             if (_params.Count < 1)
-            {
-                SdtdConsole.Instance.Output("SevenMod Menu:");
-                SdtdConsole.Instance.Output("Usage: sm <command> [arguments]");
-                SdtdConsole.Instance.Output("    plugins           - Manage plugins");
-                return;
-            }
-
-            switch (_params[0])
-            {
-                case "plugins":
-                    this.HandlePluginsCommand(_params);
-                    break;
-            }
-        }
-
-        /// <summary>
-        /// Handle the plugin management commands.
-        /// </summary>
-        /// <param name="args">The list of command arguments.</param>
-        private void HandlePluginsCommand(List<string> args)
-        {
-            if (args.Count < 2)
             {
                 SdtdConsole.Instance.Output("SevenMod Plugins Menu:");
                 SdtdConsole.Instance.Output("    info              - Information about a plugin");
@@ -62,16 +40,16 @@ namespace SevenMod.Core
                 return;
             }
 
-            switch (args[1])
+            switch (_params[0])
             {
                 case "info":
-                    if (args.Count < 3)
+                    if (_params.Count < 2)
                     {
                         SdtdConsole.Instance.Output("[SM] Usage: sm plugins info <name>");
                         return;
                     }
 
-                    var info = PluginManager.GetPluginInfo(args[2])?.PluginInfo;
+                    var info = PluginManager.GetPluginInfo(_params[1])?.PluginInfo;
                     if (info.HasValue)
                     {
                         SdtdConsole.Instance.Output($"  Title: {info.Value.Name}");
@@ -81,7 +59,7 @@ namespace SevenMod.Core
                     }
                     else
                     {
-                        SdtdConsole.Instance.Output($"[SM] Plugin {args[2]} is not loaded.");
+                        SdtdConsole.Instance.Output($"[SM] Plugin {_params[1]} is not loaded.");
                     }
 
                     break;
@@ -108,34 +86,34 @@ namespace SevenMod.Core
 
                     break;
                 case "load":
-                    if (args.Count < 3)
+                    if (_params.Count < 2)
                     {
                         SdtdConsole.Instance.Output("[SM] Usage: sm plugins load <name>");
                         return;
                     }
 
-                    PluginManager.Load(args[2]);
+                    PluginManager.Load(_params[1]);
                     break;
                 case "refresh":
                     PluginManager.Refresh();
                     break;
                 case "reload":
-                    if (args.Count < 3)
+                    if (_params.Count < 2)
                     {
                         SdtdConsole.Instance.Output("[SM] Usage: sm plugins reload <name>");
                         return;
                     }
 
-                    PluginManager.Reload(args[2]);
+                    PluginManager.Reload(_params[1]);
                     break;
                 case "unload":
-                    if (args.Count < 3)
+                    if (_params.Count < 2)
                     {
                         SdtdConsole.Instance.Output("[SM] Usage: sm plugins unload <name>");
                         return;
                     }
 
-                    PluginManager.Unload(args[2]);
+                    PluginManager.Unload(_params[1]);
                     break;
                 case "unload_all":
                     PluginManager.UnloadAll();
