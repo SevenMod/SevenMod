@@ -26,18 +26,36 @@ namespace SevenMod.Core
         /// <summary>
         /// Gets the currently active plugins.
         /// </summary>
-        internal static Dictionary<string, PluginContainer> Plugins { get; } = new Dictionary<string, PluginContainer>();
+        internal static SortedDictionary<string, PluginContainer> Plugins { get; } = new SortedDictionary<string, PluginContainer>();
 
         /// <summary>
         /// Gets the metadata for a plugin.
         /// </summary>
         /// <param name="name">The name of the plugin.</param>
-        /// <returns>The <see cref="PluginContainer"/> object containing the metadata for the plugin, or <c>null</c> if the plugin is not loaded.</returns>
-        public static PluginContainer GetPluginInfo(string name)
+        /// <param name="plugin">Will be set to the <see cref="PluginContainer"/> object containing the metadata for the plugin, or <c>null</c> if the plugin is not loaded.</param>
+        /// <returns><c>true</c> if the plugin was found; otherwise <c>false</c>.</returns>
+        public static bool GetPlugin(string name, out PluginContainer plugin)
         {
-            name = name.Trim().ToLower();
-            Plugins.TryGetValue(name, out var plugin);
-            return plugin;
+            var key = NameToKey(name);
+            return Plugins.TryGetValue(key, out plugin);
+        }
+
+        /// <summary>
+        /// Gets the metadata for a plugin.
+        /// </summary>
+        /// <param name="index">The index of the plugin.</param>
+        /// <param name="plugin">Will be set to the <see cref="PluginContainer"/> object containing the metadata for the plugin, or <c>null</c> if the plugin is not loaded.</param>
+        /// <returns><c>true</c> if the plugin was found; otherwise <c>false</c>.</returns>
+        public static bool GetPlugin(int index, out PluginContainer plugin)
+        {
+            if (!IndexToKey(index, out var key))
+            {
+                plugin = null;
+                return false;
+            }
+
+            plugin = Plugins[key];
+            return true;
         }
 
         /// <summary>
@@ -97,13 +115,26 @@ namespace SevenMod.Core
         }
 
         /// <summary>
+        /// Reloads a plugin.
+        /// </summary>
+        /// <param name="index">The index of the plugin.</param>
+        public static void Reload(int index)
+        {
+            if (IndexToKey(index, out var key))
+            {
+                Unload(key);
+                Load(key, false);
+            }
+        }
+
+        /// <summary>
         /// Unloads a plugin.
         /// </summary>
         /// <param name="name">The name of the plugin.</param>
         public static void Unload(string name)
         {
-            name = name.Trim().ToLower();
-            if (Plugins.TryGetValue(name, out var plugin))
+            var key = NameToKey(name);
+            if (Plugins.TryGetValue(key, out var plugin))
             {
                 plugin.LoadStatus = PluginContainer.Status.Unloaded;
                 try
@@ -123,6 +154,20 @@ namespace SevenMod.Core
                 ConVarManager.UnloadPlugin(plugin.Plugin);
                 plugin.Plugin = null;
                 AdminManager.ReloadAdmins();
+
+                Plugins.Remove(key);
+            }
+        }
+
+        /// <summary>
+        /// Unloads a plugin.
+        /// </summary>
+        /// <param name="index">The index of the plugin.</param>
+        public static void Unload(int index)
+        {
+            if (IndexToKey(index, out var key))
+            {
+                Unload(key);
             }
         }
 
@@ -131,14 +176,15 @@ namespace SevenMod.Core
         /// </summary>
         public static void UnloadAll()
         {
-            foreach (var k in Plugins.Keys)
+            foreach (var key in Plugins.Keys)
             {
-                if (Plugins.TryGetValue(k, out var plugin) && plugin.LoadStatus == PluginContainer.Status.Loaded)
+                if (Plugins.TryGetValue(key, out var plugin) && plugin.LoadStatus == PluginContainer.Status.Loaded)
                 {
                     plugin.LoadStatus = PluginContainer.Status.Unloaded;
                     try
                     {
                         plugin.Plugin.OnUnloadPlugin();
+                        (plugin as IDisposable)?.Dispose();
                     }
                     catch (HaltPluginException)
                     {
@@ -151,6 +197,8 @@ namespace SevenMod.Core
                     AdminCommandManager.UnloadPlugin(plugin.Plugin);
                     ConVarManager.UnloadPlugin(plugin.Plugin);
                     plugin.Plugin = null;
+
+                    Plugins.Remove(key);
                 }
             }
 
@@ -164,13 +212,13 @@ namespace SevenMod.Core
         /// <param name="refreshing">A value indicating whether the plugin list is being refreshed.</param>
         private static void Load(string name, bool refreshing)
         {
-            name = name.Trim().ToLower();
-            if (Plugins.ContainsKey(name) && Plugins[name].LoadStatus == PluginContainer.Status.Loaded)
+            var key = NameToKey(name);
+            if (Plugins.ContainsKey(key) && Plugins[key].LoadStatus == PluginContainer.Status.Loaded)
             {
                 return;
             }
 
-            var file = $"{SMPath.Plugins}{name}.dll";
+            var file = $"{SMPath.Plugins}{key}.dll";
             if (!File.Exists(file))
             {
                 return;
@@ -179,9 +227,8 @@ namespace SevenMod.Core
             try
             {
                 var dll = Assembly.LoadFile(file);
-                var type = dll.GetType($"SevenMod.Plugin.{name}.{name}", true, true);
+                var type = dll.GetType($"SevenMod.Plugin.{key}.{key}", true, true);
                 var container = new PluginContainer(Path.GetFileName(type.Assembly.Location));
-                Plugins[name] = container;
                 if (type.IsSubclassOf(PluginParentType))
                 {
                     try
@@ -224,6 +271,8 @@ namespace SevenMod.Core
                         container.Error = e.Message;
                         throw;
                     }
+
+                    Plugins[key] = container;
                 }
                 else
                 {
@@ -232,8 +281,42 @@ namespace SevenMod.Core
             }
             catch (Exception e)
             {
-                SMLog.Error($"Failed loading plugin {name}.dll: {e.Message}");
+                SMLog.Error($"Failed loading plugin {key}.dll: {e.Message}");
             }
+        }
+
+        /// <summary>
+        /// Converts a plugin index to its dictionary key.
+        /// </summary>
+        /// <param name="index">The plugin index.</param>
+        /// <param name="key">Variable to be populated by the dictionary key, or <c>null</c> if <paramref name="index"/> is out of range.</param>
+        /// <returns><c>true</c> on success; <c>false</c> if <paramref name="index"/> is out of range.</returns>
+        private static bool IndexToKey(int index, out string key)
+        {
+            if (index < 0 || index >= Plugins.Count)
+            {
+                key = null;
+                return false;
+            }
+
+            key = new List<string>(Plugins.Keys)[index];
+            return true;
+        }
+
+        /// <summary>
+        /// Converts a name to the format of a plugin dictionary key.
+        /// </summary>
+        /// <param name="name">The input name.</param>
+        /// <returns>The dictionary key.</returns>
+        private static string NameToKey(string name)
+        {
+            name = name.Trim().ToLower();
+            if (name.EndsWith(".dll"))
+            {
+                name = name.Substring(0, name.LastIndexOf('.'));
+            }
+
+            return name;
         }
     }
 }

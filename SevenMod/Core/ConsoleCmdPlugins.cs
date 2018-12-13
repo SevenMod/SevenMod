@@ -43,82 +43,155 @@ namespace SevenMod.Core
             switch (_params[0])
             {
                 case "info":
-                    if (_params.Count < 2)
-                    {
-                        SdtdConsole.Instance.Output("[SM] Usage: sm plugins info <name>");
-                        return;
-                    }
-
-                    var info = PluginManager.GetPluginInfo(_params[1])?.PluginInfo;
-                    if (info.HasValue)
-                    {
-                        SdtdConsole.Instance.Output($"  Title: {info.Value.Name}");
-                        SdtdConsole.Instance.Output($"  Author: {info.Value.Author}");
-                        SdtdConsole.Instance.Output($"  Version: {info.Value.Version}");
-                        SdtdConsole.Instance.Output($"  URL: {info.Value.Website}");
-                    }
-                    else
-                    {
-                        SdtdConsole.Instance.Output($"[SM] Plugin {_params[1]} is not loaded.");
-                    }
-
+                    this.Info(_params.Count > 1 ? _params[1] : null);
                     break;
                 case "list":
-                    var list = new List<PluginContainer>(PluginManager.Plugins.Values);
-
-                    var active = list.FindAll((PluginContainer p) => p.LoadStatus == PluginContainer.Status.Loaded);
-                    SdtdConsole.Instance.Output($"[SM] Listing {active.Count} plugins:");
-                    for (var i = 0; i < active.Count; i++)
-                    {
-                        var p = active[i].PluginInfo;
-                        SdtdConsole.Instance.Output($"{i + 1, 4:d2} \"{p.Name}\" ({p.Version}) by {p.Author}");
-                    }
-
-                    var errored = list.FindAll((PluginContainer p) => p.LoadStatus == PluginContainer.Status.Error);
-                    if (errored.Count > 0)
-                    {
-                        SdtdConsole.Instance.Output("Errors:");
-                        foreach (var plugin in errored)
-                        {
-                            SdtdConsole.Instance.Output($"{plugin.File} ({plugin.PluginInfo.Name}): {plugin.Error}");
-                        }
-                    }
-
+                    this.List();
                     break;
                 case "load":
-                    if (_params.Count < 2)
-                    {
-                        SdtdConsole.Instance.Output("[SM] Usage: sm plugins load <name>");
-                        return;
-                    }
-
-                    PluginManager.Load(_params[1]);
+                    this.Load(_params.Count > 1 ? _params[1] : null);
                     break;
                 case "refresh":
-                    PluginManager.Refresh();
+                    this.Refresh();
                     break;
                 case "reload":
-                    if (_params.Count < 2)
-                    {
-                        SdtdConsole.Instance.Output("[SM] Usage: sm plugins reload <name>");
-                        return;
-                    }
-
-                    PluginManager.Reload(_params[1]);
+                    this.Reload(_params.Count > 1 ? _params[1] : null);
                     break;
                 case "unload":
-                    if (_params.Count < 2)
-                    {
-                        SdtdConsole.Instance.Output("[SM] Usage: sm plugins unload <name>");
-                        return;
-                    }
-
-                    PluginManager.Unload(_params[1]);
+                    this.Unload(_params.Count > 1 ? _params[1] : null);
                     break;
                 case "unload_all":
-                    PluginManager.UnloadAll();
+                    this.UnloadAll();
                     break;
             }
+        }
+
+        /// <summary>
+        /// Handles the info sub-command.
+        /// </summary>
+        /// <param name="name">The name parameter.</param>
+        private void Info(string name)
+        {
+            if (name == null)
+            {
+                SdtdConsole.Instance.Output("[SM] Usage: sm_plugins info <#|name>");
+                return;
+            }
+
+            var isIndex = int.TryParse(name, out var index);
+            PluginContainer plugin;
+            if (isIndex ? PluginManager.GetPlugin(index - 1, out plugin) : PluginManager.GetPlugin(name, out plugin))
+            {
+                SdtdConsole.Instance.Output($"  Title: {plugin.PluginInfo.Name}");
+                SdtdConsole.Instance.Output($"  Author: {plugin.PluginInfo.Author}");
+                SdtdConsole.Instance.Output($"  Version: {plugin.PluginInfo.Version}");
+                SdtdConsole.Instance.Output($"  URL: {plugin.PluginInfo.Website}");
+            }
+            else
+            {
+                SdtdConsole.Instance.Output($"[SM] Plugin {name} is not loaded.");
+            }
+        }
+
+        /// <summary>
+        /// Handles the list sub-command.
+        /// </summary>
+        private void List()
+        {
+            var list = new List<PluginContainer>(PluginManager.Plugins.Values);
+
+            SdtdConsole.Instance.Output($"[SM] Listing {list.Count} plugins:");
+            for (var i = 0; i < list.Count; i++)
+            {
+                var p = list[i];
+                var error = p.LoadStatus == PluginContainer.Status.Error ? " <Failed>" : string.Empty;
+                SdtdConsole.Instance.Output($"{i + 1, 4:d2}{error} \"{p.PluginInfo.Name}\" ({p.PluginInfo.Version}) by {p.PluginInfo.Author}");
+            }
+
+            var errored = list.FindAll((PluginContainer p) => p.LoadStatus == PluginContainer.Status.Error);
+            if (errored.Count > 0)
+            {
+                SdtdConsole.Instance.Output("Errors:");
+                foreach (var plugin in errored)
+                {
+                    SdtdConsole.Instance.Output($"{plugin.File} ({plugin.PluginInfo.Name}): {plugin.Error}");
+                }
+            }
+        }
+
+        /// <summary>
+        /// Handles the load sub-command.
+        /// </summary>
+        /// <param name="name">The name parameter.</param>
+        private void Load(string name)
+        {
+            if (name == null)
+            {
+                SdtdConsole.Instance.Output("[SM] Usage: sm_plugins load <name>");
+                return;
+            }
+
+            PluginManager.Load(name);
+        }
+
+        /// <summary>
+        /// Handles the refresh sub-command.
+        /// </summary>
+        private void Refresh()
+        {
+            PluginManager.Refresh();
+        }
+
+        /// <summary>
+        /// Handles the reload sub-command.
+        /// </summary>
+        /// <param name="name">The name parameter.</param>
+        private void Reload(string name)
+        {
+            if (name == null)
+            {
+                SdtdConsole.Instance.Output("[SM] Usage: sm_plugins reload <#|name>");
+                return;
+            }
+
+            if (int.TryParse(name, out var index))
+            {
+                PluginManager.Reload(index - 1);
+            }
+            else
+            {
+                PluginManager.Reload(name);
+            }
+        }
+
+        /// <summary>
+        /// Handles the unload sub-command.
+        /// </summary>
+        /// <param name="name">The name parameter.</param>
+        private void Unload(string name)
+        {
+            if (name == null)
+            {
+                SdtdConsole.Instance.Output("[SM] Usage: sm_plugins unload <#|name>");
+                return;
+            }
+
+            if (int.TryParse(name, out var index))
+            {
+                PluginManager.Unload(index - 1);
+            }
+            else
+            {
+                PluginManager.Unload(name);
+            }
+        }
+
+        /// <summary>
+        /// Handles the unload_all sub-command.
+        /// </summary>
+        private void UnloadAll()
+        {
+            PluginManager.UnloadAll();
         }
     }
 }
