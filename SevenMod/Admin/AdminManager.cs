@@ -7,6 +7,7 @@ namespace SevenMod.Admin
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using SevenMod.Core;
 
     /// <summary>
@@ -94,7 +95,7 @@ namespace SevenMod.Admin
         public static void ReloadAdmins()
         {
             admins.Clear();
-            foreach (var k in PluginManager.Plugins.Keys)
+            foreach (var k in PluginManager.Plugins.Keys.ToArray())
             {
                 if (PluginManager.Plugins.TryGetValue(k, out var plugin) && plugin.LoadStatus == PluginContainer.Status.Loaded)
                 {

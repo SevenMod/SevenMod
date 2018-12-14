@@ -6,6 +6,7 @@
 namespace SevenMod.Core
 {
     using System.Collections.Generic;
+    using System.Linq;
 
     /// <summary>
     /// Console command for managing SevenMod plugins.
@@ -98,18 +99,18 @@ namespace SevenMod.Core
         /// </summary>
         private void List()
         {
-            var list = new List<PluginContainer>(PluginManager.Plugins.Values);
+            var list = PluginManager.Plugins.Values.ToArray();
 
-            SdtdConsole.Instance.Output($"[SM] Listing {list.Count} plugins:");
-            for (var i = 0; i < list.Count; i++)
+            SdtdConsole.Instance.Output($"[SM] Listing {list.Length} plugins:");
+            for (var i = 0; i < list.Length; i++)
             {
                 var p = list[i];
                 var error = p.LoadStatus == PluginContainer.Status.Error ? " <Failed>" : string.Empty;
                 SdtdConsole.Instance.Output($"{i + 1, 4:d2}{error} \"{p.PluginInfo.Name}\" ({p.PluginInfo.Version}) by {p.PluginInfo.Author}");
             }
 
-            var errored = list.FindAll((PluginContainer p) => p.LoadStatus == PluginContainer.Status.Error);
-            if (errored.Count > 0)
+            var errored = list.Where((PluginContainer p) => p.LoadStatus == PluginContainer.Status.Error);
+            if (errored.Count() > 0)
             {
                 SdtdConsole.Instance.Output("Errors:");
                 foreach (var plugin in errored)

@@ -8,6 +8,7 @@ namespace SevenMod.Core
     using System;
     using System.Collections.Generic;
     using System.IO;
+    using System.Linq;
     using System.Reflection;
     using SevenMod.Admin;
     using SevenMod.Console;
@@ -22,6 +23,16 @@ namespace SevenMod.Core
         /// The <see cref="Type"/> object representing the <see cref="PluginAbstract"/> class plugins must inherit from.
         /// </summary>
         private static readonly Type PluginParentType = Type.GetType("SevenMod.Core.PluginAbstract");
+
+        /// <summary>
+        /// The queue of plugin names to be loaded.
+        /// </summary>
+        private static Queue<string> loadQueue = new Queue<string>();
+
+        /// <summary>
+        /// Gets a value indicating whether loading and unloading plugins is permitted.
+        /// </summary>
+        public static bool IsLocked { get; internal set; }
 
         /// <summary>
         /// Gets the currently active plugins.
@@ -64,7 +75,11 @@ namespace SevenMod.Core
         /// <param name="name">The name of the plugin.</param>
         public static void Load(string name)
         {
-            Load(name, false);
+            loadQueue.Enqueue(NameToKey(name));
+            while (loadQueue.Count > 0)
+            {
+                Load(loadQueue.Dequeue(), false);
+            }
         }
 
         /// <summary>
@@ -72,17 +87,27 @@ namespace SevenMod.Core
         /// </summary>
         public static void Refresh()
         {
+            if (IsLocked)
+            {
+                throw new NotSupportedException();
+            }
+
             var files = Directory.GetFiles(SMPath.Plugins, "*.dll");
             foreach (var file in files)
             {
                 var name = Path.GetFileNameWithoutExtension(file);
-                Load(name, true);
+                loadQueue.Enqueue(NameToKey(name));
+            }
+
+            while (loadQueue.Count > 0)
+            {
+                Load(loadQueue.Dequeue(), true);
             }
 
             if (!ConVarManager.ConfigsLoaded)
             {
                 ConVarManager.ExecuteConfigs();
-                foreach (var k in Plugins.Keys)
+                foreach (var k in Plugins.Keys.ToArray())
                 {
                     if (Plugins.TryGetValue(k, out var plugin) && plugin.LoadStatus == PluginContainer.Status.Loaded)
                     {
@@ -111,7 +136,7 @@ namespace SevenMod.Core
         public static void Reload(string name)
         {
             Unload(name);
-            Load(name, false);
+            Load(name);
         }
 
         /// <summary>
@@ -123,7 +148,7 @@ namespace SevenMod.Core
             if (IndexToKey(index, out var key))
             {
                 Unload(key);
-                Load(key, false);
+                Load(key);
             }
         }
 
@@ -133,14 +158,21 @@ namespace SevenMod.Core
         /// <param name="name">The name of the plugin.</param>
         public static void Unload(string name)
         {
+            if (IsLocked)
+            {
+                throw new NotSupportedException();
+            }
+
             var key = NameToKey(name);
             if (Plugins.TryGetValue(key, out var plugin))
             {
                 plugin.LoadStatus = PluginContainer.Status.Unloaded;
                 try
                 {
+                    IsLocked = true;
                     plugin.Plugin.OnUnloadPlugin();
                     (plugin as IDisposable)?.Dispose();
+                    IsLocked = false;
                 }
                 catch (HaltPluginException)
                 {
@@ -176,6 +208,12 @@ namespace SevenMod.Core
         /// </summary>
         public static void UnloadAll()
         {
+            if (IsLocked)
+            {
+                throw new NotSupportedException();
+            }
+
+            IsLocked = true;
             foreach (var key in Plugins.Keys)
             {
                 if (Plugins.TryGetValue(key, out var plugin) && plugin.LoadStatus == PluginContainer.Status.Loaded)
@@ -197,22 +235,26 @@ namespace SevenMod.Core
                     AdminCommandManager.UnloadPlugin(plugin.Plugin);
                     ConVarManager.UnloadPlugin(plugin.Plugin);
                     plugin.Plugin = null;
-
-                    Plugins.Remove(key);
                 }
             }
 
+            Plugins.Clear();
+            IsLocked = false;
             AdminManager.ReloadAdmins();
         }
 
         /// <summary>
         /// Loads a plugin.
         /// </summary>
-        /// <param name="name">The name of the plugin.</param>
+        /// <param name="key">The dictionary key of the plugin.</param>
         /// <param name="refreshing">A value indicating whether the plugin list is being refreshed.</param>
-        private static void Load(string name, bool refreshing)
+        private static void Load(string key, bool refreshing)
         {
-            var key = NameToKey(name);
+            if (IsLocked)
+            {
+                throw new NotSupportedException();
+            }
+
             if (Plugins.ContainsKey(key) && Plugins[key].LoadStatus == PluginContainer.Status.Loaded)
             {
                 return;

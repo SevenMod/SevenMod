@@ -7,6 +7,7 @@ namespace SevenMod
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Text;
     using SevenMod.Chat;
     using SevenMod.ConVar;
@@ -67,7 +68,7 @@ namespace SevenMod
         /// </summary>
         private void OnGameAwake()
         {
-            foreach (var k in PluginManager.Plugins.Keys)
+            foreach (var k in PluginManager.Plugins.Keys.ToArray())
             {
                 if (PluginManager.Plugins.TryGetValue(k, out var plugin) && plugin.LoadStatus == PluginContainer.Status.Loaded)
                 {
@@ -93,7 +94,8 @@ namespace SevenMod
         /// </summary>
         private void OnGameShutdown()
         {
-            foreach (var k in PluginManager.Plugins.Keys)
+            PluginManager.IsLocked = true;
+            foreach (var k in PluginManager.Plugins.Keys.ToArray())
             {
                 if (PluginManager.Plugins.TryGetValue(k, out var plugin) && plugin.LoadStatus == PluginContainer.Status.Loaded)
                 {
@@ -120,7 +122,7 @@ namespace SevenMod
         /// </summary>
         private void OnGameStartDone()
         {
-            foreach (var k in PluginManager.Plugins.Keys)
+            foreach (var k in PluginManager.Plugins.Keys.ToArray())
             {
                 if (PluginManager.Plugins.TryGetValue(k, out var plugin) && plugin.LoadStatus == PluginContainer.Status.Loaded)
                 {
@@ -148,7 +150,7 @@ namespace SevenMod
         /// <param name="shutdown">A value indicating whether the server is shutting down.</param>
         private void OnPlayerDisconnected(ClientInfo client, bool shutdown)
         {
-            foreach (var k in PluginManager.Plugins.Keys)
+            foreach (var k in PluginManager.Plugins.Keys.ToArray())
             {
                 if (PluginManager.Plugins.TryGetValue(k, out var plugin) && plugin.LoadStatus == PluginContainer.Status.Loaded)
                 {
@@ -175,7 +177,7 @@ namespace SevenMod
         /// <returns><c>true</c> to accept the client; <c>false</c> to reject the client.</returns>
         private bool OnPlayerLogin(ClientInfo client, StringBuilder rejectReason)
         {
-            foreach (var k in PluginManager.Plugins.Keys)
+            foreach (var k in PluginManager.Plugins.Keys.ToArray())
             {
                 if (PluginManager.Plugins.TryGetValue(k, out var plugin) && plugin.LoadStatus == PluginContainer.Status.Loaded)
                 {
@@ -207,7 +209,7 @@ namespace SevenMod
         /// <param name="pos">The <see cref="Vector3i"/> object representing the position of the player in the world.</param>
         private void OnPlayerSpawnedInWorld(ClientInfo client, RespawnType respawnReason, Vector3i pos)
         {
-            foreach (var k in PluginManager.Plugins.Keys)
+            foreach (var k in PluginManager.Plugins.Keys.ToArray())
             {
                 if (PluginManager.Plugins.TryGetValue(k, out var plugin) && plugin.LoadStatus == PluginContainer.Status.Loaded)
                 {
@@ -232,7 +234,7 @@ namespace SevenMod
         /// <param name="client">The <see cref="ClientInfo"/> object representing the player.</param>
         private void OnPlayerSpawning(ClientInfo client)
         {
-            foreach (var k in PluginManager.Plugins.Keys)
+            foreach (var k in PluginManager.Plugins.Keys.ToArray())
             {
                 if (PluginManager.Plugins.TryGetValue(k, out var plugin) && plugin.LoadStatus == PluginContainer.Status.Loaded)
                 {
@@ -257,7 +259,7 @@ namespace SevenMod
         /// <param name="client">The <see cref="ClientInfo"/> object representing the player.</param>
         private void OnSavePlayerData(ClientInfo client)
         {
-            foreach (var k in PluginManager.Plugins.Keys)
+            foreach (var k in PluginManager.Plugins.Keys.ToArray())
             {
                 if (PluginManager.Plugins.TryGetValue(k, out var plugin) && plugin.LoadStatus == PluginContainer.Status.Loaded)
                 {
