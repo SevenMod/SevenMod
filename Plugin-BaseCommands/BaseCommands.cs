@@ -167,7 +167,12 @@ namespace SevenMod.Plugin.BaseCommands
         /// <param name="e">An <see cref="AdminCommandEventArgs"/> object containing the event data.</param>
         private void OnWhoCommandExecuted(object sender, AdminCommandEventArgs e)
         {
-            this.ReplyToCommand(e.Client, $"  {"Name", -24} {"Username", -18} {"Admin access"}");
+            if (this.ShouldReplyToChat(e.Client))
+            {
+                this.ReplyToCommand(e.Client, "See console for output");
+            }
+
+            SdtdConsole.Instance.Output($"  {"Name", -24} {"Username", -18} {"Admin access"}");
             foreach (var client in GameManager.Instance.World.Players.dict.Values)
             {
                 var player = ConnectionManager.Instance.Clients.ForEntityId(client.entityId);
@@ -183,7 +188,7 @@ namespace SevenMod.Plugin.BaseCommands
                         }
                     }
 
-                    this.ReplyToCommand(e.Client, $"  {player.playerName, -24} {player.playerId, -18} {flags}");
+                    SdtdConsole.Instance.Output($"  {player.playerName, -24} {player.playerId, -18} {flags}");
                 }
             }
         }
