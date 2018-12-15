@@ -6,6 +6,7 @@
 namespace SevenMod.Console
 {
     using System.Collections.Generic;
+    using System.Collections.ObjectModel;
     using System.IO;
     using System.Text;
     using System.Xml;
@@ -16,7 +17,7 @@ namespace SevenMod.Console
     /// <summary>
     /// Manages admin commands.
     /// </summary>
-    internal class AdminCommandManager
+    public class AdminCommandManager
     {
         /// <summary>
         /// The path to the command overrides configuration file.
@@ -47,6 +48,11 @@ namespace SevenMod.Console
         }
 
         /// <summary>
+        /// Gets the list of currently registered admin commands.
+        /// </summary>
+        public static ReadOnlyCollection<AdminCommand> Commands { get => new List<AdminCommand>(commands.Values).AsReadOnly(); }
+
+        /// <summary>
         /// Find an existing admin command with the specified name.
         /// </summary>
         /// <param name="command">The name of the admin command to locate.</param>
@@ -65,7 +71,7 @@ namespace SevenMod.Console
         /// <param name="accessFlags">The <see cref="AdminFlags"/> value required to execute the admin command.</param>
         /// <param name="description">An optional description for the admin command.</param>
         /// <returns>The <see cref="AdminCommand"/> object representing the admin command.</returns>
-        public static AdminCommand CreateAdminCommand(IPlugin plugin, string command, AdminFlags accessFlags, string description = "")
+        internal static AdminCommand CreateAdminCommand(IPlugin plugin, string command, AdminFlags accessFlags, string description = "")
         {
             command = command.Trim();
 
@@ -89,7 +95,7 @@ namespace SevenMod.Console
         /// </summary>
         /// <param name="plugin">The plugin that created the admin command.</param>
         /// <param name="command">The name of the admin command.</param>
-        public static void RemoveAdminCommand(IPlugin plugin, string command)
+        internal static void RemoveAdminCommand(IPlugin plugin, string command)
         {
             if (commands.ContainsKey(command) && (commands[command].Plugin == plugin))
             {
@@ -103,7 +109,7 @@ namespace SevenMod.Console
         /// <param name="command">The name of the admin command to execute.</param>
         /// <param name="arguments">The arguments for the admin command.</param>
         /// <param name="client">The <see cref="ClientInfo"/> object representing the client executing the command.</param>
-        public static void ExecuteCommand(string command, List<string> arguments, ClientInfo client)
+        internal static void ExecuteCommand(string command, List<string> arguments, ClientInfo client)
         {
             var key = command.Trim().ToLower();
             if (!commands.ContainsKey(key))
@@ -112,26 +118,40 @@ namespace SevenMod.Console
                 return;
             }
 
-            var info = commands[key];
+            if (!HasAccess(client, commands[key]))
+            {
+                ChatHelper.ReplyToCommand(client, "You do not have access to that command");
+                return;
+            }
 
+            commands[key].OnExecute(arguments, client);
+        }
+
+        /// <summary>
+        /// Checks whether a specified client has access to a command.
+        /// </summary>
+        /// <param name="client">The <see cref="ClientInfo"/> object representing the client to check.</param>
+        /// <param name="command">The <see cref="AdminCommand"/> representing the command.</param>
+        /// <returns><c>true</c> if <paramref name="client"/> has access to <paramref name="command"/>; otherwise <c>false</c>.</returns>
+        internal static bool HasAccess(ClientInfo client, AdminCommand command)
+        {
             if (client != null)
             {
-                var flags = overrides.ContainsKey(key) ? overrides[key] : info.AccessFlags;
+                var flags = overrides.ContainsKey(command.Command) ? overrides[command.Command] : command.AccessFlags;
                 if ((flags != 0) && !AdminManager.CheckAccess(client, flags))
                 {
-                    ChatHelper.ReplyToCommand(client, "You do not have access to that command");
-                    return;
+                    return false;
                 }
             }
 
-            info.OnExecute(arguments, client);
+            return true;
         }
 
         /// <summary>
         /// Unloads all admin commands associated with a plugin.
         /// </summary>
         /// <param name="plugin">The plugin for which to unload admin commands.</param>
-        public static void UnloadPlugin(IPlugin plugin)
+        internal static void UnloadPlugin(IPlugin plugin)
         {
             commands.RemoveAll((AdminCommand command) => command.Plugin.Equals(plugin));
         }

@@ -23,6 +23,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Plugin-ReservedSlots", "Plu
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Plugin-AntiFlood", "Plugin-AntiFlood\Plugin-AntiFlood.csproj", "{71BEFA3B-6D59-4CC6-B759-3C974A327E09}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Plugin-AdminHelp", "Plugin-AdminHelp\Plugin-AdminHelp.csproj", "{9EE207FC-AFAC-479C-9B8F-344E484EC35D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -69,6 +71,10 @@ Global
 		{71BEFA3B-6D59-4CC6-B759-3C974A327E09}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{71BEFA3B-6D59-4CC6-B759-3C974A327E09}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{71BEFA3B-6D59-4CC6-B759-3C974A327E09}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9EE207FC-AFAC-479C-9B8F-344E484EC35D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9EE207FC-AFAC-479C-9B8F-344E484EC35D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9EE207FC-AFAC-479C-9B8F-344E484EC35D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9EE207FC-AFAC-479C-9B8F-344E484EC35D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

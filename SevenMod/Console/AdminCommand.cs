@@ -57,6 +57,16 @@ namespace SevenMod.Console
         internal IPlugin Plugin { get; }
 
         /// <summary>
+        /// Checks whether a specified client has access to this command.
+        /// </summary>
+        /// <param name="client">The <see cref="SMClient"/> object representing the client to check.</param>
+        /// <returns><c>true</c> if <paramref name="client"/> has access to this command; otherwise <c>false</c>.</returns>
+        public bool HasAccess(SMClient client)
+        {
+            return AdminCommandManager.HasAccess(client?.ClientInfo, this);
+        }
+
+        /// <summary>
         /// Executes the admin command.
         /// </summary>
         /// <param name="arguments">The list of arguments for the command.</param>
