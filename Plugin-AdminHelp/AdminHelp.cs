@@ -68,7 +68,7 @@ namespace SevenMod.Plugin.AdminHelp
             for (var i = start; i <= end; i++)
             {
                 var desc = string.IsNullOrEmpty(list[i].Description) ? "No description available" : list[i].Description;
-                SdtdConsole.Instance.Output($"[{i + 1:d3}] sm {list[i].Command} - {desc}");
+                SdtdConsole.Instance.Output($"[{i + 1:D3}] sm {list[i].Command} - {desc}");
             }
 
             SdtdConsole.Instance.Output($"Entries {start + 1} - {end + 1} in page {page}");
@@ -101,7 +101,7 @@ namespace SevenMod.Plugin.AdminHelp
             for (var i = 0; i < list.Length; i++)
             {
                 var desc = string.IsNullOrEmpty(list[i].Description) ? "No description available" : list[i].Description;
-                SdtdConsole.Instance.Output($"[{i + 1:d3}] sm {list[i].Command} - {desc}");
+                SdtdConsole.Instance.Output($"[{i + 1:D3}] sm {list[i].Command} - {desc}");
             }
         }
     }
