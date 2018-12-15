@@ -177,9 +177,17 @@ namespace SevenMod.Plugin.BaseCommands
             {
                 var player = ConnectionManager.Instance.Clients.ForEntityId(client.entityId);
                 var admin = AdminManager.GetAdmin(player.playerId);
-                if (admin != null)
+                var flags = string.Empty;
+                if (admin.Flags == 0)
                 {
-                    var flags = string.Empty;
+                    flags = "none";
+                }
+                else if ((admin.Flags & AdminFlags.Root) == AdminFlags.Root)
+                {
+                    flags = "root";
+                }
+                else
+                {
                     foreach (var keyValue in AdminManager.AdminFlagKeys)
                     {
                         if ((admin.Flags & keyValue.Value) == keyValue.Value)
@@ -187,10 +195,9 @@ namespace SevenMod.Plugin.BaseCommands
                             flags += keyValue.Key;
                         }
                     }
-
-                    flags = string.IsNullOrEmpty(flags) ? "none" : flags;
-                    SdtdConsole.Instance.Output($"  {player.playerName, -24} {player.playerId, -18} {flags}");
                 }
+
+                SdtdConsole.Instance.Output($"  {player.playerName, -24} {player.playerId, -18} {flags}");
             }
         }
     }
