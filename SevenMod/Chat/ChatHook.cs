@@ -108,7 +108,7 @@ namespace SevenMod.Chat
         /// <returns><c>true</c> to reply via chat; <c>false</c> to reply via console.</returns>
         internal static bool ShouldReplyToChat(ClientInfo client)
         {
-            return replyToChat.Contains(client.entityId);
+            return client != null && replyToChat.Contains(client.entityId);
         }
     }
 }
