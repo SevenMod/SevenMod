@@ -188,6 +188,7 @@ namespace SevenMod.Plugin.BaseCommands
                         }
                     }
 
+                    flags = string.IsNullOrEmpty(flags) ? "none" : flags;
                     SdtdConsole.Instance.Output($"  {player.playerName, -24} {player.playerId, -18} {flags}");
                 }
             }
