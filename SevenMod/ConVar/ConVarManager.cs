@@ -211,13 +211,37 @@ namespace SevenMod.ConVar
                         continue;
                     }
 
-                    var description = new StringBuilder().AppendLine();
+                    var description = new StringBuilder();
                     if (!string.IsNullOrEmpty(conVar.Description))
                     {
-                        description.Append("    ").AppendLine(conVar.Description).AppendLine("    -");
+                        foreach (var line in conVar.Description.Trim().Split('\n'))
+                        {
+                            description.AppendLine().Append("    ");
+                            var words = new Queue<string>(line.Trim().Split(' '));
+                            var index = 0;
+                            while (words.Count > 0)
+                            {
+                                var word = words.Dequeue();
+                                if (index + word.Length > 96)
+                                {
+                                    description.AppendLine().Append("    ");
+                                    index = 0;
+                                }
+
+                                if (index > 0)
+                                {
+                                    description.Append(' ');
+                                }
+
+                                description.Append(word);
+                                index += word.Length + 1;
+                            }
+                        }
+
+                        description.AppendLine().Append("    -");
                     }
 
-                    description.Append("    Default: ").Append('"').Append(conVar.DefaultValue).Append('"').AppendLine();
+                    description.AppendLine().Append("    Default: ").Append('"').Append(conVar.DefaultValue).Append('"').AppendLine();
 
                     if (conVar.HasMin)
                     {
