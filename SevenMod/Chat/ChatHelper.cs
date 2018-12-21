@@ -101,26 +101,34 @@ namespace SevenMod.Chat
         public static void ShowActivity(ClientInfo client, string message, string prefix = "SM")
         {
             var show = showActivity.AsInt;
+            var tag = AdminManager.CheckAccess(client, AdminFlags.Generic) ? "ADMIN" : "PLAYER";
+            var name = client == null ? "Console" : client.playerName;
             foreach (var c in ConnectionManager.Instance.Clients.List)
             {
-                var name = "Admin";
+                if (c == client)
+                {
+                    SendTo(c, message, prefix);
+                    continue;
+                }
+
+                var actualTag = tag;
                 if ((show & 1) == 1)
                 {
                     if ((show & 2) == 2 || ((show & 8) == 8 && AdminManager.CheckAccess(c, AdminFlags.Generic)) || ((show & 16) == 16 && AdminManager.CheckAccess(c, AdminFlags.Root)))
                     {
-                        name = client.playerName;
+                        actualTag = name;
                     }
 
-                    SendTo(c, $"{name} {message}", prefix);
+                    SendTo(c, $"{actualTag}: {message}", prefix);
                 }
                 else if ((show & 4) == 4 && AdminManager.CheckAccess(c, AdminFlags.Generic))
                 {
                     if ((show & 8) == 8 || ((show & 16) == 16 && AdminManager.CheckAccess(c, AdminFlags.Root)))
                     {
-                        name = client.playerName;
+                        actualTag = name;
                     }
 
-                    SendTo(c, $"{name} {message}", prefix);
+                    SendTo(c, $"{actualTag}: {message}", prefix);
                 }
             }
         }
