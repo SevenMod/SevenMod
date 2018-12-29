@@ -169,7 +169,7 @@ namespace SevenMod.Lang
                     var key = phraseElement.GetAttribute("Name");
                     if (phrases.ContainsKey(key))
                     {
-                        SMLog.Error($"Phrase {key} in file {file}.xml conflicts with file {phrases[key].File}.xml");
+                        SMLog.Error($"Phrase \"{key}\" in file {file}.xml conflicts with file {phrases[key].File}.xml");
                         continue;
                     }
 
