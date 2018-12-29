@@ -35,6 +35,7 @@ namespace SevenMod.Lang
         private static string[] coreFiles = new string[]
         {
             "Core.Phrases",
+            "Vote.Phrases",
         };
 
         /// <summary>

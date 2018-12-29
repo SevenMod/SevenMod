@@ -33,30 +33,4 @@
   <Phrase Name="See console for output">
     <en>See console for output</en>
   </Phrase>
-  <Phrase Name="Yes">
-    <en>Yes</en>
-  </Phrase>
-  <Phrase Name="No">
-    <en>No</en>
-  </Phrase>
-  <Phrase Name="Vote">
-    <en>Vote</en>
-  </Phrase>
-  <Phrase Name="Option">
-    <en>Option</en>
-  </Phrase>
-  <Phrase Name="Vote Yes Or No">
-    <en>Enter /yes or /no into chat to cast your vote</en>
-  </Phrase>
-  <Phrase Name="Vote Number">
-    <en>Enter /# into chat to cast your vote</en>
-  </Phrase>
-  <Phrase Name="Voted For">
-    <Format>{1:s},{2:s}</Format>
-    <en>{1} voted for {2}</en>
-  </Phrase>
-  <Phrase Name="You Voted">
-    <Format>{1:s}</Format>
-    <en>You voted for {1}</en>
-  </Phrase>
 </Phrases>
