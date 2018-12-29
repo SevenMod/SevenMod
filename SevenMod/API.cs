@@ -118,6 +118,7 @@ namespace SevenMod
                 }
             }
 
+            PluginManager.IsLocked = false;
             PluginManager.UnloadAll();
             SMLog.Close();
         }
