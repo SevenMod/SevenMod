@@ -28,9 +28,11 @@ namespace SevenMod.Plugin.BaseChat
         /// <inheritdoc/>
         public override void OnLoadPlugin()
         {
-            this.RegAdminCmd("say", AdminFlags.Chat, "Sends a message to all players").Executed += this.OnSayCommandExecuted;
-            this.RegAdminCmd("psay", AdminFlags.Chat, "Sends a message privately to one player").Executed += this.OnPsayCommandExecuted;
-            this.RegAdminCmd("chat", AdminFlags.Chat, "Sends a message to all admins").Executed += this.OnChatCommandExecuted;
+            this.LoadTranslations("BaseChat.Plugin");
+
+            this.RegAdminCmd("say", AdminFlags.Chat, "Say Description").Executed += this.OnSayCommandExecuted;
+            this.RegAdminCmd("psay", AdminFlags.Chat, "Psay Description").Executed += this.OnPsayCommandExecuted;
+            this.RegAdminCmd("chat", AdminFlags.Chat, "Chat Description").Executed += this.OnChatCommandExecuted;
         }
 
         /// <summary>
@@ -63,7 +65,7 @@ namespace SevenMod.Plugin.BaseChat
             }
 
             var message = string.Join(" ", e.Arguments.GetRange(startIdx, e.Arguments.Count - startIdx).ToArray());
-            this.PrintToChatAll($"[{color}]{message}[-]", "Admin");
+            this.PrintToChatAll($"[{color}]{message}[-]");
         }
 
         /// <summary>
@@ -88,15 +90,15 @@ namespace SevenMod.Plugin.BaseChat
             string from;
             if (e.Client == null)
             {
-                from = "[i](Private) [Server]";
+                from = $"[i]({this.GetString("Private")}) [Console]";
             }
             else
             {
-                from = $"[i](Private) {e.Client.PlayerName}";
+                from = $"[i]({this.GetString("Private")}) {e.Client.PlayerName}";
             }
 
             var message = string.Join(" ", e.Arguments.GetRange(1, e.Arguments.Count - 1).ToArray());
-            this.PrintToChat(target, $"{message}[/i]", null, from);
+            this.PrintToChatFrom(target, from, $"{message}[/i]");
         }
 
         /// <summary>
@@ -115,11 +117,11 @@ namespace SevenMod.Plugin.BaseChat
             string from;
             if (e.Client == null)
             {
-                from = $"[{Colors.Cyan}](Admins) [Server]";
+                from = $"[{Colors.Cyan}]({this.GetString("Admins")}) [Console]";
             }
             else
             {
-                from = $"[{Colors.Cyan}](Admins) {e.Client.PlayerName}";
+                from = $"[{Colors.Cyan}]({this.GetString("Admins")}) {e.Client.PlayerName}";
             }
 
             var message = string.Join(" ", e.Arguments.ToArray());
@@ -128,7 +130,7 @@ namespace SevenMod.Plugin.BaseChat
             {
                 if (AdminManager.IsAdmin(client.PlayerId))
                 {
-                    this.PrintToChat(client, message, null, from);
+                    this.PrintToChatFrom(client, from, message);
                 }
             }
         }

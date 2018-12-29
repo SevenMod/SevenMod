@@ -11,6 +11,7 @@ namespace SevenMod.Core
     using SevenMod.Chat;
     using SevenMod.Console;
     using SevenMod.ConVar;
+    using SevenMod.Lang;
 
     /// <summary>
     /// Represents the default implementation of the <see cref="IPlugin"/> interface.
@@ -121,6 +122,53 @@ namespace SevenMod.Core
         }
 
         /// <summary>
+        /// Loads a set of translations.
+        /// </summary>
+        /// <param name="name">The name of the set.</param>
+        protected void LoadTranslations(string name)
+        {
+            Language.LoadPhrases(this, name);
+        }
+
+        /// <summary>
+        /// Checks if a translation phrase exists.
+        /// </summary>
+        /// <param name="phrase">The translation phrase.</param>
+        /// <returns><c>true</c> if the translation phrase exists; otherwise <c>false</c>.</returns>
+        protected bool TranslationPhraseExists(string phrase)
+        {
+            return Language.PhraseExists(phrase);
+        }
+
+        /// <summary>
+        /// Gets a string translated into a client's language.
+        /// </summary>
+        /// <param name="phrase">The translation phrase.</param>
+        /// <param name="client">The <see cref="SMClient"/> object representing the client.</param>
+        /// <param name="args">The values for the phrase arguments.</param>
+        /// <returns>The translated phrase.</returns>
+        protected string GetString(string phrase, SMClient client, params object[] args)
+        {
+            if (!Language.PhraseExists(phrase))
+            {
+                return phrase;
+            }
+
+            return Language.GetString(phrase, client?.ClientInfo, args);
+        }
+
+        /// <summary>
+        /// Gets a string translated into a server's default language.
+        /// </summary>
+        /// <param name="phrase">The translation phrase.</param>
+        /// <param name="args">The values for the phrase arguments.</param>
+        /// <returns>The translated phrase.</returns>
+        protected string GetString(string phrase, params object[] args)
+        {
+            return Language.GetString(phrase, null, args);
+        }
+
+        /// <summary>
         /// Creates a new <see cref="AdminCommand"/> or returns the existing one if one with the same name already exists.
         /// </summary>
         /// <param name="cmd">The name of the admin command.</param>
@@ -156,22 +204,43 @@ namespace SevenMod.Core
         /// </summary>
         /// <param name="client">The <see cref="SMClient"/> object representing the client.</param>
         /// <param name="message">The message text.</param>
-        /// <param name="prefix">Optional prefix for the message.</param>
-        /// <param name="name">Optional name to attach to the message.</param>
-        protected void PrintToChat(SMClient client, string message, string prefix = "SM", string name = null)
+        /// <param name="args">The arguments for the message.</param>
+        protected void PrintToChat(SMClient client, string message, params object[] args)
         {
-            ChatHelper.SendTo(client.ClientInfo, message, prefix, name);
+            ChatHelper.SendTo(client.ClientInfo, null, message, args);
+        }
+
+        /// <summary>
+        /// Sends a chat message to an individual client with a name attached.
+        /// </summary>
+        /// <param name="client">The <see cref="SMClient"/> object representing the client.</param>
+        /// <param name="sender">The name to display as the sender of the message.</param>
+        /// <param name="message">The message text.</param>
+        /// <param name="args">The arguments for the message.</param>
+        protected void PrintToChatFrom(SMClient client, string sender, string message, params object[] args)
+        {
+            ChatHelper.SendTo(client.ClientInfo, sender, message, args);
         }
 
         /// <summary>
         /// Sends a chat message to all connected clients.
         /// </summary>
         /// <param name="message">The message text.</param>
-        /// <param name="prefix">Optional prefix for the message.</param>
-        /// <param name="name">Optional name to attach to the message.</param>
-        protected void PrintToChatAll(string message, string prefix = "SM", string name = null)
+        /// <param name="args">The arguments for the message.</param>
+        protected void PrintToChatAll(string message, params object[] args)
         {
-            ChatHelper.SendToAll(message, prefix, name);
+            ChatHelper.SendToAll(null, message, args);
+        }
+
+        /// <summary>
+        /// Sends a chat message to all connected clients with a name attached.
+        /// </summary>
+        /// <param name="sender">The name to display as the sender of the message.</param>
+        /// <param name="message">The message text.</param>
+        /// <param name="args">The arguments for the message.</param>
+        protected void PrintToChatAllFrom(string sender, string message, params object[] args)
+        {
+            ChatHelper.SendToAll(sender, message, args);
         }
 
         /// <summary>
@@ -179,10 +248,10 @@ namespace SevenMod.Core
         /// </summary>
         /// <param name="client">The <see cref="SMClient"/> object representing calling client information.</param>
         /// <param name="message">The message to send.</param>
-        /// <param name="prefix">Optional prefix for the message.</param>
-        protected void ReplyToCommand(SMClient client, string message, string prefix = "SM")
+        /// <param name="args">The arguments for the message.</param>
+        protected void ReplyToCommand(SMClient client, string message, params object[] args)
         {
-            ChatHelper.ReplyToCommand(client?.ClientInfo, message, prefix);
+            ChatHelper.ReplyToCommand(client?.ClientInfo, message, args);
         }
 
         /// <summary>

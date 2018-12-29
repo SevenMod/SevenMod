@@ -74,6 +74,11 @@
       <Private>True</Private>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="Translations\AdminHelp.Plugin.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PreBuildEvent>
@@ -82,6 +87,7 @@
   <PropertyGroup>
     <PostBuildEvent>
 copy "$(ProjectDir)$(OutDir)Plugin.AdminHelp.dll" "$(ProjectDir)..\bin\Mods\SevenMod\Plugins\AdminHelp.dll"
+xcopy "$(ProjectDir)$(OutDir)Translations" "$(ProjectDir)..\bin\Mods\SevenMod\Translations" /e /y /i /c
 </PostBuildEvent>
   </PropertyGroup>
 </Project>

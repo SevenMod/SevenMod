@@ -39,6 +39,11 @@ namespace SevenMod.Core
         public static readonly string Databases = $"{Data}Databases{Path.DirectorySeparatorChar}";
 
         /// <summary>
+        /// The path to the directory containing the translation files.
+        /// </summary>
+        public static readonly string Translations = $"{ModPath}Translations{Path.DirectorySeparatorChar}";
+
+        /// <summary>
         /// The path to the directory containing the log files.
         /// </summary>
         public static readonly string Logs = $"{SavePath}Logs{Path.DirectorySeparatorChar}";

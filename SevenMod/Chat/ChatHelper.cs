@@ -8,6 +8,7 @@ namespace SevenMod.Chat
     using System.Text;
     using SevenMod.Admin;
     using SevenMod.ConVar;
+    using SevenMod.Lang;
 
     /// <summary>
     /// Chat related utilities.
@@ -42,22 +43,17 @@ namespace SevenMod.Chat
         /// Sends a response to a client in the console or chat depending on which input method the client used to call the currently executing command.
         /// </summary>
         /// <param name="client">The <see cref="ClientInfo"/> object representing calling client information.</param>
-        /// <param name="message">The message to send.</param>
-        /// <param name="prefix">Optional prefix for the message.</param>
-        public static void ReplyToCommand(ClientInfo client, string message, string prefix = "SM")
+        /// <param name="message">The language key or message to send.</param>
+        /// <param name="args">The parameters for the language format string.</param>
+        public static void ReplyToCommand(ClientInfo client, string message, params object[] args)
         {
             if ((client != null) && ChatHook.ShouldReplyToChat(client))
             {
-                SendTo(client, message, prefix);
+                SendTo(client, null, message, args);
             }
             else
             {
-                if (!string.IsNullOrEmpty(prefix))
-                {
-                    message = $"[{prefix}] {message}";
-                }
-
-                SdtdConsole.Instance.Output(message);
+                SdtdConsole.Instance.Output("[SM] " + Language.GetString(message, client, args));
             }
         }
 
@@ -65,30 +61,31 @@ namespace SevenMod.Chat
         /// Sends a chat message to an individual client.
         /// </summary>
         /// <param name="client">The <see cref="ClientInfo"/> object representing the client.</param>
-        /// <param name="message">The message text.</param>
-        /// <param name="prefix">Optional prefix for the message.</param>
-        /// <param name="name">Optional name to attach to the message.</param>
-        public static void SendTo(ClientInfo client, string message, string prefix = "SM", string name = null)
+        /// <param name="sender">The name to display as the sender of the message, or <c>null</c> to send without a name attached.</param>
+        /// <param name="message">The language key or message to send.</param>
+        /// <param name="args">The parameters for the language format string.</param>
+        public static void SendTo(ClientInfo client, string sender, string message, params object[] args)
         {
-            if (!string.IsNullOrEmpty(prefix))
+            message = Language.GetString(message, client, args);
+            if (string.IsNullOrEmpty(sender))
             {
-                message = $"[{Colors.Green}][\u200B{prefix}][-] {message}";
+                message = $"[{Colors.Green}][\u200BSM][-] {message}";
             }
 
-            client.SendPackage(new NetPackageChat(EChatType.Global, 0, message, name, false, null));
+            client.SendPackage(new NetPackageChat(EChatType.Global, 0, message, sender, false, null));
         }
 
         /// <summary>
         /// Sends a chat message to all connected clients.
         /// </summary>
-        /// <param name="message">The message text.</param>
-        /// <param name="prefix">Optional prefix for the message.</param>
-        /// <param name="name">Optional name to attach to the message.</param>
-        public static void SendToAll(string message, string prefix = "SM", string name = null)
+        /// <param name="sender">The name to display as the sender of the message, or <c>null</c> to send without a name attached.</param>
+        /// <param name="message">The language key or message to send.</param>
+        /// <param name="args">The parameters for the language format string.</param>
+        public static void SendToAll(string sender, string message, params object[] args)
         {
             foreach (var client in ConnectionManager.Instance.Clients.List)
             {
-                SendTo(client, message, prefix, name);
+                SendTo(client, sender, message, args);
             }
         }
 
@@ -96,9 +93,9 @@ namespace SevenMod.Chat
         /// Show admin activity based on the rules set by the ShowActivity <see cref="ConVar"/>.
         /// </summary>
         /// <param name="client">The <see cref="ClientInfo"/> object representing the client performing the action.</param>
-        /// <param name="message">The message text.</param>
-        /// <param name="prefix">Optional prefix for the message.</param>
-        public static void ShowActivity(ClientInfo client, string message, string prefix = "SM")
+        /// <param name="message">The language key or message to send.</param>
+        /// <param name="args">The parameters for the language format string.</param>
+        public static void ShowActivity(ClientInfo client, string message, params object[] args)
         {
             var show = showActivity.AsInt;
             var tag = AdminManager.CheckAccess(client, AdminFlags.Generic) ? "ADMIN" : "PLAYER";
@@ -107,28 +104,37 @@ namespace SevenMod.Chat
             {
                 if (c == client)
                 {
-                    SendTo(c, message, prefix);
+                    SendTo(c, null, message, args);
                     continue;
                 }
 
-                var actualTag = tag;
                 if ((show & 1) == 1)
                 {
+                    string actualTag;
                     if ((show & 2) == 2 || ((show & 8) == 8 && AdminManager.CheckAccess(c, AdminFlags.Generic)) || ((show & 16) == 16 && AdminManager.CheckAccess(c, AdminFlags.Root)))
                     {
                         actualTag = name;
                     }
+                    else
+                    {
+                        actualTag = Language.GetString(tag, c);
+                    }
 
-                    SendTo(c, $"{actualTag}: {message}", prefix);
+                    SendTo(c, null, $"{actualTag}: {message}", args);
                 }
                 else if ((show & 4) == 4 && AdminManager.CheckAccess(c, AdminFlags.Generic))
                 {
+                    string actualTag;
                     if ((show & 8) == 8 || ((show & 16) == 16 && AdminManager.CheckAccess(c, AdminFlags.Root)))
                     {
                         actualTag = name;
                     }
+                    else
+                    {
+                        actualTag = Language.GetString(tag, c);
+                    }
 
-                    SendTo(c, $"{actualTag}: {message}", prefix);
+                    SendTo(c, null, $"{actualTag}: {message}", args);
                 }
             }
         }

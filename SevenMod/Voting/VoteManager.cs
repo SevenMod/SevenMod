@@ -6,7 +6,7 @@
 namespace SevenMod.Voting
 {
     using System;
-    using System.Collections.Generic;
+    using SevenMod.Chat;
 
     /// <summary>
     /// Manages the voting system.
@@ -24,13 +24,22 @@ namespace SevenMod.Voting
         public static Vote CurrentVote { get; private set; }
 
         /// <summary>
-        /// Starts a vote if one is not already in progress.
+        /// Creates a new instance of the <see cref="VoteBuilder"/> class for starting a vote.
         /// </summary>
         /// <param name="message">The vote prompt.</param>
-        /// <param name="options">The list of answer options; <c>null</c> for a boolean yes/no vote.</param>
-        /// <param name="data">Optional data to associate with the vote.</param>
+        /// <param name="args">The arguments for the message.</param>
+        /// <returns>The <see cref="VoteBuilder"/> object.</returns>
+        public static VoteBuilder CreateVote(string message, params object[] args)
+        {
+            return new VoteBuilder(message, args);
+        }
+
+        /// <summary>
+        /// Starts a vote if one is not already in progress.
+        /// </summary>
+        /// <param name="builder">The <see cref="VoteBuilder"/> object with the vote information.</param>
         /// <returns><c>true</c> if the vote started; <c>false</c> if another vote is already started.</returns>
-        public static bool StartVote(string message, List<string> options = null, object data = null)
+        internal static bool StartVote(VoteBuilder builder)
         {
             if (VoteInProgress)
             {
@@ -38,7 +47,8 @@ namespace SevenMod.Voting
             }
 
             VoteInProgress = true;
-            CurrentVote = new Vote(message, options, data);
+            ChatHelper.SendToAll(null, builder.Message, builder.MessageArgs);
+            CurrentVote = new Vote(builder.Options, builder.Data);
             CurrentVote.Ended += VoteEnded;
             CurrentVote.Cancelled += VoteEnded;
 

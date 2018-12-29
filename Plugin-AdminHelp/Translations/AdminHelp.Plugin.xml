@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Phrases>
+  <Phrase Name="Help Description">
+    <en>Displays SevenMod commands and descriptions</en>
+  </Phrase>
+  <Phrase Name="Searchcmd Description">
+    <en>Searches SevenMod commands</en>
+  </Phrase>
+  <Phrase Name="Command Information">
+    <en>SevenMod Help: Command Information</en>
+  </Phrase>
+  <Phrase Name="No commands available">
+    <en>No commands available</en>
+  </Phrase>
+  <Phrase Name="No matching results found">
+    <en>No matching results found</en>
+  </Phrase>
+  <Phrase Name="No description available">
+    <en>No description available</en>
+  </Phrase>
+  <Phrase Name="Entries">
+    <Format>{1:d},{2:d},{3:d}</Format>
+    <en>Entries {1} - {2} in page {3}</en>
+  </Phrase>
+  <Phrase Name="See More Commands">
+    <Format>{1:d}</Format>
+    <en>Type sm help {1} to see more commands.</en>
+  </Phrase>
+</Phrases>

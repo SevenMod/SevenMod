@@ -1,0 +1,62 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Phrases>
+  <Phrase Name="Admin">
+    <en>ADMIN</en>
+  </Phrase>
+  <Phrase Name="Player">
+    <en>PLAYER</en>
+  </Phrase>
+  <Phrase Name="Unknown command">
+    <en>Unknown command</en>
+  </Phrase>
+  <Phrase Name="No Access">
+    <en>You do not have access to that command</en>
+  </Phrase>
+  <Phrase Name="Not enough parameters">
+    <en>Not enough parameters</en>
+  </Phrase>
+  <Phrase Name="Server cannot target self">
+    <en>Server cannot target self</en>
+  </Phrase>
+  <Phrase Name="No Targets">
+    <en>No valid targets found</en>
+  </Phrase>
+  <Phrase Name="Player not found">
+    <en>Player not found</en>
+  </Phrase>
+  <Phrase Name="Cannot Target">
+    <en>Cannot target {1}</en>
+  </Phrase>
+  <Phrase Name="Multiple valid targets found">
+    <en>Multiple valid targets found</en>
+  </Phrase>
+  <Phrase Name="See console for output">
+    <en>See console for output</en>
+  </Phrase>
+  <Phrase Name="Yes">
+    <en>Yes</en>
+  </Phrase>
+  <Phrase Name="No">
+    <en>No</en>
+  </Phrase>
+  <Phrase Name="Vote">
+    <en>Vote</en>
+  </Phrase>
+  <Phrase Name="Option">
+    <en>Option</en>
+  </Phrase>
+  <Phrase Name="Vote Yes Or No">
+    <en>Enter /yes or /no into chat to cast your vote</en>
+  </Phrase>
+  <Phrase Name="Vote Number">
+    <en>Enter /# into chat to cast your vote</en>
+  </Phrase>
+  <Phrase Name="Voted For">
+    <Format>{1:s},{2:s}</Format>
+    <en>{1} voted for {2}</en>
+  </Phrase>
+  <Phrase Name="You Voted">
+    <Format>{1:s}</Format>
+    <en>You voted for {1}</en>
+  </Phrase>
+</Phrases>

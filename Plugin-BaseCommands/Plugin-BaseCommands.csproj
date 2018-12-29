@@ -73,6 +73,12 @@
       <Private>True</Private>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="Translations\BaseCommands.Plugin.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
+    </Content>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PreBuildEvent>
@@ -81,6 +87,7 @@
   <PropertyGroup>
     <PostBuildEvent>
 copy "$(ProjectDir)$(OutDir)Plugin.BaseCommands.dll" "$(ProjectDir)..\bin\Mods\SevenMod\Plugins\BaseCommands.dll"
+xcopy "$(ProjectDir)$(OutDir)Translations" "$(ProjectDir)..\bin\Mods\SevenMod\Translations" /e /y /i /c
 </PostBuildEvent>
   </PropertyGroup>
 </Project>

@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Phrases>
+  <Phrase Name="Say Description">
+    <en>Sends a message to all players</en>
+  </Phrase>
+  <Phrase Name="Psay Description">
+    <en>Sends a message privately to one player</en>
+  </Phrase>
+  <Phrase Name="Chat Description">
+    <en>Sends a message to all admins</en>
+  </Phrase>
+  <Phrase Name="Private">
+    <en>Private</en>
+  </Phrase>
+  <Phrase Name="Admins">
+    <en>Admins</en>
+  </Phrase>
+</Phrases>

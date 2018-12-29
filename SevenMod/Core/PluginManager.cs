@@ -13,6 +13,7 @@ namespace SevenMod.Core
     using SevenMod.Admin;
     using SevenMod.Console;
     using SevenMod.ConVar;
+    using SevenMod.Lang;
 
     /// <summary>
     /// Manages plugins.
@@ -182,6 +183,7 @@ namespace SevenMod.Core
                     plugin.SetFailState(e);
                 }
 
+                Language.UnloadPlugin(plugin.Plugin);
                 AdminCommandManager.UnloadPlugin(plugin.Plugin);
                 ConVarManager.UnloadPlugin(plugin.Plugin);
                 plugin.Plugin = null;

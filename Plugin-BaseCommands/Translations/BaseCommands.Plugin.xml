@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Phrases>
+  <Phrase Name="Cancelvote Description">
+    <en>Cancels a vote in progress</en>
+  </Phrase>
+  <Phrase Name="Cvar Description">
+    <en>Changes a SevenMod console variable</en>
+  </Phrase>
+  <Phrase Name="Kick Description">
+    <en>Kicks a player from the server</en>
+  </Phrase>
+  <Phrase Name="Rcon Description">
+    <en>Executes a command on the server console</en>
+  </Phrase>
+  <Phrase Name="Reloadadmins Description">
+    <en>Reloads the admin list</en>
+  </Phrase>
+  <Phrase Name="Resetcvar Description">
+    <en>Resets a SevenMod console variable to its default value</en>
+  </Phrase>
+  <Phrase Name="Who Description">
+    <en>Lists connected clients and their access flags</en>
+  </Phrase>
+  <Phrase Name="Vote not in progress">
+    <en>A vote is not currently in progress</en>
+  </Phrase>
+  <Phrase Name="Vote cancelled">
+    <en>The vote was cancelled</en>
+  </Phrase>
+  <Phrase Name="Unable to find ConVar">
+    <Format>{1:s}</Format>
+    <en>Unable to find ConVar "{1}"</en>
+  </Phrase>
+  <Phrase Name="Value of ConVar">
+    <Format>{1:s},{2:s}</Format>
+    <en>Value of "{1}": {2}</en>
+  </Phrase>
+  <Phrase Name="Changed ConVar">
+    <Format>{1:s},{2:s}</Format>
+    <en>Changed ConVar "{1}" to "{2}"</en>
+  </Phrase>
+  <Phrase Name="Who Columns">
+    <en>  Name                     Username           Admin access</en>
+  </Phrase>
+  <Phrase Name="none">
+    <en>none</en>
+  </Phrase>
+  <Phrase Name="root">
+    <en>root</en>
+  </Phrase>
+</Phrases>

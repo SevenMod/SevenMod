@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Phrases>
+  <Phrase Name="Vote Description">
+    <en>Starts a vote</en>
+  </Phrase>
+  <Phrase Name="Voteban Description">
+    <en>Starts a vote to temporarily ban a player from the server</en>
+  </Phrase>
+  <Phrase Name="Votekick Description">
+    <en>Starts a vote to kick a player from the server</en>
+  </Phrase>
+  <Phrase Name="Too many options">
+    <en>Too many options</en>
+  </Phrase>
+  <Phrase Name="Voting has ended">
+    <en>Voting has ended</en>
+  </Phrase>
+  <Phrase Name="Result">
+    <en>Result</en>
+  </Phrase>
+  <Phrase Name="Vote Results">
+    <Format>{1:s},{2:p2},{3:d}</Format>
+    <en>{1}: {2} ({3} votes)</en>
+  </Phrase>
+  <Phrase Name="Voteban Started">
+    <Format>{1:s}</Format>
+    <en>A vote has begun to ban {1} from the server</en>
+  </Phrase>
+  <Phrase Name="Voteban Succeeded">
+    <Format>{1:p2},{2:s}</Format>
+    <en>Vote succeeded with {1} of the vote. Banning {2}...</en>
+  </Phrase>
+  <Phrase Name="Votekick Started">
+    <Format>{1:s}</Format>
+    <en>A vote has begun to kick {1} from the server</en>
+  </Phrase>
+  <Phrase Name="Votekick Succeeded">
+    <Format>{1:p2},{2:s}</Format>
+    <en>Vote succeeded with {1} of the vote. Kicking {2}...</en>
+  </Phrase>
+  <Phrase Name="Vote Failed">
+    <Format>{1:p2}</Format>
+    <en>Vote failed with {1} of the vote.</en>
+  </Phrase>
+  <Phrase Name="Vote banned">
+    <Format>{1:s}</Format>
+    <en>ban add {1} 30 minutes "Vote banned"</en>
+  </Phrase>
+  <Phrase Name="Vote kicked">
+    <Format>{1:s}</Format>
+    <en>kick {1} "Vote kicked"</en>
+  </Phrase>
+</Phrases>

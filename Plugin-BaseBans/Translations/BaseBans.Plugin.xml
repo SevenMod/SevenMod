@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Phrases>
+  <Phrase Name="Addban Description">
+    <en>Adds a player to the server ban list</en>
+  </Phrase>
+  <Phrase Name="Ban Description">
+    <en>Bans a player from the server</en>
+  </Phrase>
+  <Phrase Name="Unban Description">
+    <en>Unbans a player from the server</en>
+  </Phrase>
+  <Phrase Name="Invalid ban duration">
+    <en>Invalid ban duration</en>
+  </Phrase>
+  <Phrase Name="Invalid player ID">
+    <en>Invalid player ID</en>
+  </Phrase>
+</Phrases>

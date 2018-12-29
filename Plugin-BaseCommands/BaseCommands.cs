@@ -28,13 +28,15 @@ namespace SevenMod.Plugin.BaseCommands
         /// <inheritdoc/>
         public override void OnLoadPlugin()
         {
-            this.RegAdminCmd("cancelvote", AdminFlags.Vote, "Cancels a vote in progress").Executed += this.OnCancelvoteCommandExecuted;
-            this.RegAdminCmd("cvar", AdminFlags.Convars, "Chages a SevenMod console variable.").Executed += this.OnCvarCommandExecuted;
-            this.RegAdminCmd("kick", AdminFlags.Kick, "Kicks a player from the server").Executed += this.OnKickCommandExecuted;
-            this.RegAdminCmd("rcon", AdminFlags.RCON, "Executes a command on the server console").Executed += this.OnRconCommandExecuted;
-            this.RegAdminCmd("reloadadmins", AdminFlags.Ban, "Reloads the admin list").Executed += this.OnReloadadminsCommandExecuted;
-            this.RegAdminCmd("resetcvar", AdminFlags.Convars, "Resets a SevenMod console variable to its default value").Executed += this.OnResetcvarCommandExecuted;
-            this.RegAdminCmd("who", AdminFlags.Generic, "Lists connected clients and their access flags").Executed += this.OnWhoCommandExecuted;
+            this.LoadTranslations("BaseCommands.Plugin");
+
+            this.RegAdminCmd("cancelvote", AdminFlags.Vote, "Cancelvote Description").Executed += this.OnCancelvoteCommandExecuted;
+            this.RegAdminCmd("cvar", AdminFlags.Convars, "Cvar Description").Executed += this.OnCvarCommandExecuted;
+            this.RegAdminCmd("kick", AdminFlags.Kick, "Kick Description").Executed += this.OnKickCommandExecuted;
+            this.RegAdminCmd("rcon", AdminFlags.RCON, "Rcon Description").Executed += this.OnRconCommandExecuted;
+            this.RegAdminCmd("reloadadmins", AdminFlags.Ban, "Reloadadmins Description").Executed += this.OnReloadadminsCommandExecuted;
+            this.RegAdminCmd("resetcvar", AdminFlags.Convars, "Resetcvar Description").Executed += this.OnResetcvarCommandExecuted;
+            this.RegAdminCmd("who", AdminFlags.Generic, "Who Description").Executed += this.OnWhoCommandExecuted;
         }
 
         /// <summary>
@@ -46,16 +48,16 @@ namespace SevenMod.Plugin.BaseCommands
         {
             if (!VoteManager.VoteInProgress)
             {
-                this.ReplyToCommand(e.Client, "A vote is not currently in progress");
+                this.ReplyToCommand(e.Client, "Vote not in progress");
                 return;
             }
 
             VoteManager.CurrentVote.Cancel();
-            this.PrintToChatAll("The vote was cancelled");
+            this.PrintToChatAll("Vote cancelled");
 
             if (!this.ShouldReplyToChat(e.Client))
             {
-                this.ReplyToCommand(e.Client, "The vote was cancelled");
+                this.ReplyToCommand(e.Client, "Vote cancelled");
             }
         }
 
@@ -75,18 +77,18 @@ namespace SevenMod.Plugin.BaseCommands
             var cvar = this.FindConVar(e.Arguments[0]);
             if (cvar == null)
             {
-                this.ReplyToCommand(e.Client, $"Unable to find ConVar \"{e.Arguments[0]}\"");
+                this.ReplyToCommand(e.Client, "Unable to find ConVar", e.Arguments[0]);
                 return;
             }
 
             if (e.Arguments.Count == 1)
             {
-                this.ReplyToCommand(e.Client, $"Value of \"{cvar.Name}\": {cvar.Value.AsString}");
+                this.ReplyToCommand(e.Client, "Value of ConVar", cvar.Name, cvar.Value.AsString);
             }
             else
             {
                 cvar.Value.Value = string.Join(" ", e.Arguments.GetRange(1, e.Arguments.Count - 1).ToArray());
-                this.ReplyToCommand(e.Client, $"Changed ConVar \"{cvar.Name}\" to \"{cvar.Value.AsString}\"");
+                this.ReplyToCommand(e.Client, "Changed ConVar", cvar.Name, cvar.Value.AsString);
             }
         }
 
@@ -152,12 +154,12 @@ namespace SevenMod.Plugin.BaseCommands
             var cvar = this.FindConVar(name);
             if (cvar == null)
             {
-                this.ReplyToCommand(e.Client, $"Unable to find ConVar \"{name}\"");
+                this.ReplyToCommand(e.Client, "Unable to find ConVar", name);
                 return;
             }
 
             cvar.Reset();
-            this.ReplyToCommand(e.Client, $"Changed ConVar \"{cvar.Name}\" to \"{cvar.Value.AsString}\"");
+            this.ReplyToCommand(e.Client, "Changed ConVar", cvar.Name, cvar.Value.AsString);
         }
 
         /// <summary>
@@ -172,7 +174,7 @@ namespace SevenMod.Plugin.BaseCommands
                 this.ReplyToCommand(e.Client, "See console for output");
             }
 
-            SdtdConsole.Instance.Output($"  {"Name", -24} {"Username", -18} {"Admin access"}");
+            SdtdConsole.Instance.Output(this.GetString("Who Columns", e.Client));
             foreach (var client in GameManager.Instance.World.Players.dict.Values)
             {
                 var player = ConnectionManager.Instance.Clients.ForEntityId(client.entityId);
@@ -180,11 +182,11 @@ namespace SevenMod.Plugin.BaseCommands
                 var flags = string.Empty;
                 if (admin.Flags == 0)
                 {
-                    flags = "none";
+                    flags = this.GetString("none", e.Client);
                 }
                 else if ((admin.Flags & AdminFlags.Root) == AdminFlags.Root)
                 {
-                    flags = "root";
+                    flags = this.GetString("root", e.Client);
                 }
                 else
                 {

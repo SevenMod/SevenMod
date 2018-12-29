@@ -12,6 +12,7 @@ namespace SevenMod
     using SevenMod.Chat;
     using SevenMod.ConVar;
     using SevenMod.Core;
+    using SevenMod.Lang;
 
     /// <summary>
     /// Represents the entry point of the mod.
@@ -41,6 +42,7 @@ namespace SevenMod
             ModEvents.PlayerSpawning.RegisterHandler((ClientInfo cInfo, int chunkViewDim, PlayerProfile playerProfile) => this.OnPlayerSpawning(cInfo));
             ModEvents.SavePlayerData.RegisterHandler((ClientInfo cInfo, PlayerDataFile playerDataFile) => this.OnSavePlayerData(cInfo));
 
+            Language.Init();
             ChatHelper.Init();
             ChatHook.Init();
 

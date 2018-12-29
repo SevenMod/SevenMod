@@ -44,10 +44,9 @@ namespace SevenMod.Voting
         /// <summary>
         /// Initializes a new instance of the <see cref="Vote"/> class.
         /// </summary>
-        /// <param name="message">The vote prompt.</param>
         /// <param name="options">The list of answer options; <c>null</c> for a boolean yes/no vote.</param>
         /// <param name="data">Data to associate with this vote.</param>
-        internal Vote(string message, List<string> options, object data)
+        internal Vote(List<string> options, object data)
         {
             if (options == null || options.Count == 0)
             {
@@ -68,24 +67,19 @@ namespace SevenMod.Voting
             this.timer.Elapsed += this.OnTimerElapsed;
             this.timer.Enabled = true;
 
-            string msg;
             foreach (var client in ConnectionManager.Instance.Clients.List)
             {
                 this.votingPool.Add(client.playerId, -1);
-                ChatHelper.SendTo(client, message, "Vote");
                 if (this.boolVote)
                 {
-                    msg = "Enter /yes or /no into chat to cast your vote";
-                    ChatHelper.SendTo(client, msg, "Vote");
+                    ChatHelper.SendTo(client, null, "Vote Yes Or No");
                 }
                 else
                 {
-                    msg = "Enter /# to cast your vote";
-                    ChatHelper.SendTo(client, msg, "Vote");
+                    ChatHelper.SendTo(client, null, "Vote Number");
                     for (var i = 0; i < this.voteOptions.Length; i++)
                     {
-                        msg = $"/{i + 1}: {this.voteOptions[i]}";
-                        ChatHelper.SendTo(client, msg, "Option");
+                        ChatHelper.SendTo(client, null, $"/{i + 1}: {this.voteOptions[i]}");
                     }
                 }
             }
@@ -162,7 +156,7 @@ namespace SevenMod.Voting
 
             if ((index > -1) && (index < this.voteOptions.Length))
             {
-                ChatHelper.SendTo(e.Client.ClientInfo, $"You voted [{Colors.Yellow}]{this.voteOptions[index]}[-]", "Vote");
+                ChatHelper.SendTo(e.Client.ClientInfo, null, "You Voted", this.voteOptions[index]);
                 this.votingPool[e.Client.PlayerId] = index;
                 e.Handled = true;
             }

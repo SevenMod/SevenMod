@@ -38,6 +38,8 @@ namespace SevenMod.Plugin.ReservedSlots
         /// <inheritdoc/>
         public override void OnLoadPlugin()
         {
+            this.LoadTranslations("ReservedSlots.Plugin");
+
             this.reservedSlots = this.CreateConVar("ReservedSlots", "0", "The number of reserved slots.", true, 0).Value;
 
             this.AutoExecConfig(true, "ReservedSlots");
@@ -52,7 +54,7 @@ namespace SevenMod.Plugin.ReservedSlots
             {
                 if (!AdminManager.CheckAccess(client, AdminFlags.Reservation))
                 {
-                    rejectReason.Append("Slot reserved");
+                    rejectReason.Append(this.GetString("Slot reserved", client));
                     return false;
                 }
             }

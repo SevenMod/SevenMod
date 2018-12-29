@@ -27,9 +27,11 @@ namespace SevenMod.Plugin.BaseBans
         /// <inheritdoc/>
         public override void OnLoadPlugin()
         {
-            this.RegAdminCmd("addban", AdminFlags.Ban, "Adds a player to the server ban list").Executed += this.OnAddbanCommandExecuted;
-            this.RegAdminCmd("ban", AdminFlags.Ban, "Bans a player from the server").Executed += this.OnBanCommandExecuted;
-            this.RegAdminCmd("unban", AdminFlags.Unban, "Unbans a player from the server").Executed += this.OnUnbanCommandExecuted;
+            this.LoadTranslations("BaseBans.Plugin");
+
+            this.RegAdminCmd("addban", AdminFlags.Ban, "Addban Description").Executed += this.OnAddbanCommandExecuted;
+            this.RegAdminCmd("ban", AdminFlags.Ban, "Ban Description").Executed += this.OnBanCommandExecuted;
+            this.RegAdminCmd("unban", AdminFlags.Unban, "Unban Description").Executed += this.OnUnbanCommandExecuted;
         }
 
         /// <summary>

@@ -33,8 +33,10 @@ namespace SevenMod.Plugin.AdminHelp
         /// <inheritdoc/>
         public override void OnLoadPlugin()
         {
-            this.RegAdminCmd("help", 0, "Displays SevenMod commands and descriptions").Executed += this.OnHelpCommandExecuted;
-            this.RegAdminCmd("searchcmd", 0, "Searches SevenMod commands").Executed += this.OnSearchcmdCommandExecuted;
+            this.LoadTranslations("AdminHelp.Plugin");
+
+            this.RegAdminCmd("help", 0, "Help Description").Executed += this.OnHelpCommandExecuted;
+            this.RegAdminCmd("searchcmd", 0, "Searchcmd Description").Executed += this.OnSearchcmdCommandExecuted;
         }
 
         /// <summary>
@@ -55,26 +57,27 @@ namespace SevenMod.Plugin.AdminHelp
                 int.TryParse(e.Arguments[0], out page);
             }
 
-            SdtdConsole.Instance.Output("SevenMod Help: Command Information");
+            SdtdConsole.Instance.Output(this.GetString("Command Information", e.Client));
             var start = Math.Max(0, page - 1) * CommandsPerPage;
             var list = AdminCommandManager.Commands.Where((AdminCommand c) => c.HasAccess(e.Client)).OrderBy((AdminCommand c) => c.Command).ToArray();
             if (start >= list.Length)
             {
-                SdtdConsole.Instance.Output("No commands available");
+                SdtdConsole.Instance.Output(this.GetString("No commands available", e.Client));
                 return;
             }
 
+            var noDescription = this.GetString("No description available", e.Client);
             var end = Math.Min(start + CommandsPerPage - 1, list.Length - 1);
             for (var i = start; i <= end; i++)
             {
-                var desc = string.IsNullOrEmpty(list[i].Description) ? "No description available" : list[i].Description;
+                var desc = string.IsNullOrEmpty(list[i].Description) ? noDescription : this.GetString(list[i].Description, e.Client);
                 SdtdConsole.Instance.Output($"[{i + 1:D3}] sm {list[i].Command} - {desc}");
             }
 
-            SdtdConsole.Instance.Output($"Entries {start + 1} - {end + 1} in page {page}");
+            SdtdConsole.Instance.Output(this.GetString("Entries", e.Client, start + 1, end + 1, page));
             if (end < list.Length - 2)
             {
-                SdtdConsole.Instance.Output($"Type sm_help {page + 1} to see more commands");
+                SdtdConsole.Instance.Output(this.GetString("See More Commands", e.Client, page + 1));
             }
         }
 
@@ -94,13 +97,14 @@ namespace SevenMod.Plugin.AdminHelp
             var list = AdminCommandManager.Commands.Where((AdminCommand c) => c.HasAccess(e.Client) && c.Command.Contains(search)).OrderBy((AdminCommand c) => c.Command).ToArray();
             if (list.Length < 1)
             {
-                SdtdConsole.Instance.Output("No matching results found");
+                SdtdConsole.Instance.Output(this.GetString("No matching results found", e.Client));
                 return;
             }
 
+            var noDescription = this.GetString("No description available", e.Client);
             for (var i = 0; i < list.Length; i++)
             {
-                var desc = string.IsNullOrEmpty(list[i].Description) ? "No description available" : list[i].Description;
+                var desc = string.IsNullOrEmpty(list[i].Description) ? noDescription : this.GetString(list[i].Description, e.Client);
                 SdtdConsole.Instance.Output($"[{i + 1:D3}] sm {list[i].Command} - {desc}");
             }
         }

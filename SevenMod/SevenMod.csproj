@@ -104,6 +104,7 @@
     <Compile Include="Core\ConsoleCmdVersion.cs" />
     <Compile Include="Core\HaltPluginException.cs" />
     <Compile Include="Core\IPlugin.cs" />
+    <Compile Include="Lang\Language.cs" />
     <Compile Include="Core\PluginAbstract.cs" />
     <Compile Include="Core\PluginContainer.cs" />
     <Compile Include="Core\PluginInfo.cs" />
@@ -120,7 +121,10 @@
     <Compile Include="Database\SQLiteDatabase.cs" />
     <Compile Include="Database\MySqlDatabase.cs" />
     <Compile Include="Database\ThreadedQuery.cs" />
+    <Compile Include="Lang\PhraseDictionary.cs" />
+    <Compile Include="Lang\SMFormatProvider.cs" />
     <Compile Include="Voting\Vote.cs" />
+    <Compile Include="Voting\VoteBuilder.cs" />
     <Compile Include="Voting\VoteEndedEventArgs.cs" />
     <Compile Include="Voting\VoteManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -137,7 +141,12 @@
     <Analyzer Include="..\packages\StyleCop.Analyzers.1.0.2\analyzers\dotnet\cs\StyleCop.Analyzers.CodeFixes.dll" />
     <Analyzer Include="..\packages\StyleCop.Analyzers.1.0.2\analyzers\dotnet\cs\StyleCop.Analyzers.dll" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="Translations\Core.Phrases.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
+    </Content>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PreBuildEvent>
@@ -152,6 +161,7 @@ mkdir "$(ProjectDir)..\bin\Mods\SevenMod\x86"
 
 copy "$(ProjectDir)$(OutDir)SevenMod.dll" "$(ProjectDir)..\bin\Mods\SevenMod\API.dll"
 copy "$(ProjectDir)$(OutDir)ModInfo.xml" "$(ProjectDir)..\bin\Mods\SevenMod\ModInfo.xml"
+xcopy "$(ProjectDir)$(OutDir)Translations" "$(ProjectDir)..\bin\Mods\SevenMod\Translations" /e /y /i /c
 
 copy "$(ProjectDir)$(OutDir)System.Management.dll" "$(ProjectDir)..\bin\Mods\SevenMod\System.Management.dll"
 copy "$(ProjectDir)$(OutDir)MySql.Data.dll" "$(ProjectDir)..\bin\Mods\SevenMod\MySql.Data.dll"

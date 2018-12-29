@@ -39,14 +39,16 @@ namespace SevenMod.Plugin.BaseVotes
         /// <inheritdoc/>
         public override void OnLoadPlugin()
         {
+            this.LoadTranslations("BaseVotes.Plugin");
+
             this.voteBanPercent = this.CreateConVar("VoteBanPercent", "0.60", "The percentage of players that must vote yes for a successful ban vote.", true, 0, true, 1).Value;
             this.voteKickPercent = this.CreateConVar("VoteKickPercent", "0.60", "The percentage of players that must vote yes for a successful kick vote.", true, 0, true, 1).Value;
 
             this.AutoExecConfig(true, "BaseVotes");
 
-            this.RegAdminCmd("vote", AdminFlags.Vote, "Starts a vote").Executed += this.OnVoteCommandExecuted;
-            this.RegAdminCmd("voteban", AdminFlags.Vote, "Starts a vote to temporarily ban a player from the server").Executed += this.OnVotebanCommandExecuted;
-            this.RegAdminCmd("votekick", AdminFlags.Vote, "Starts a vote to kick a player from the server").Executed += this.OnVotekickCommandExecuted;
+            this.RegAdminCmd("vote", AdminFlags.Vote, "Vote Description").Executed += this.OnVoteCommandExecuted;
+            this.RegAdminCmd("voteban", AdminFlags.Vote, "Voteban Description").Executed += this.OnVotebanCommandExecuted;
+            this.RegAdminCmd("votekick", AdminFlags.Vote, "Votekick Description").Executed += this.OnVotekickCommandExecuted;
         }
 
         /// <summary>
@@ -68,7 +70,7 @@ namespace SevenMod.Plugin.BaseVotes
                 return;
             }
 
-            if (VoteManager.StartVote(e.Arguments[0], e.Arguments.GetRange(1, e.Arguments.Count - 1)))
+            if (VoteManager.CreateVote(e.Arguments[0]).SetOptions(e.Arguments.GetRange(1, e.Arguments.Count - 1)).Start())
             {
                 VoteManager.CurrentVote.Ended += this.OnVoteEnded;
             }
@@ -81,10 +83,10 @@ namespace SevenMod.Plugin.BaseVotes
         /// <param name="e">A <see cref="VoteEndedEventArgs"/> object containing the event data.</param>
         private void OnVoteEnded(object sender, VoteEndedEventArgs e)
         {
-            this.PrintToChatAll("Voting has ended", "Vote");
+            this.PrintToChatAll("Voting has ended");
             for (var i = 0; i < e.Options.Length; i++)
             {
-                this.PrintToChatAll($"{e.Options[i]}: {e.Percents[i] :P2} ({e.Votes[i]} votes)", "Result");
+                this.PrintToChatAll("Vote Results", e.Options[i], e.Percents[i], e.Votes[i]);
             }
         }
 
@@ -103,8 +105,7 @@ namespace SevenMod.Plugin.BaseVotes
 
             if (this.ParseSingleTargetString(e.Client, e.Arguments[0], out var target))
             {
-                var message = $"A vote has begun to ban {target.PlayerName} from the server";
-                if (VoteManager.StartVote(message, null, target))
+                if (VoteManager.CreateVote("Voteban Started", target.PlayerName).SetData(target).Start())
                 {
                     VoteManager.CurrentVote.Ended += this.OnBanVoteEnded;
                 }
@@ -121,12 +122,12 @@ namespace SevenMod.Plugin.BaseVotes
             if (e.Percents[0] >= this.voteBanPercent.AsFloat)
             {
                 var target = e.Data as ClientInfo;
-                this.PrintToChatAll($"Vote succeeded with {e.Percents[0] :P2} of the vote. Banning {target.playerName}...");
-                SdtdConsole.Instance.ExecuteSync($"ban add {target.playerId} 30 minutes \"Vote banned\"", null);
+                this.PrintToChatAll("Voteban Succeeded", e.Percents[0], target.playerName);
+                SdtdConsole.Instance.ExecuteSync(this.GetString("Vote banned", target, target.playerId), null);
             }
             else
             {
-                this.PrintToChatAll($"Vote failed with {e.Percents[0] :P2} of the vote.");
+                this.PrintToChatAll("Vote Failed", e.Percents[0]);
             }
         }
 
@@ -145,8 +146,7 @@ namespace SevenMod.Plugin.BaseVotes
 
             if (this.ParseSingleTargetString(e.Client, e.Arguments[0], out var target))
             {
-                var message = $"A vote has begun to kick {target.PlayerName} from the server";
-                if (VoteManager.StartVote(message, null, target))
+                if (VoteManager.CreateVote("Votekick Started", target.PlayerName).SetData(target).Start())
                 {
                     VoteManager.CurrentVote.Ended += this.OnKickVoteEnded;
                 }
@@ -163,12 +163,12 @@ namespace SevenMod.Plugin.BaseVotes
             if (e.Percents[0] >= this.voteKickPercent.AsFloat)
             {
                 var target = e.Data as ClientInfo;
-                this.PrintToChatAll($"Vote succeeded with {e.Percents[0] :P2} of the vote. Kicking {target.playerName}...");
-                SdtdConsole.Instance.ExecuteSync($"kick {target.playerId} \"Vote kicked\"", null);
+                this.PrintToChatAll("Votekick Succeeded", e.Percents[0], target.playerName);
+                SdtdConsole.Instance.ExecuteSync(this.GetString("Vote kicked", target, target.playerId), null);
             }
             else
             {
-                this.PrintToChatAll($"Vote failed with {e.Percents[0] :P2} of the vote.");
+                this.PrintToChatAll("Vote Failed", e.Percents[0]);
             }
         }
     }
