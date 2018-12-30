@@ -53,11 +53,11 @@ namespace SevenMod.Plugin.BaseCommands
             }
 
             VoteManager.CurrentVote.Cancel();
-            this.PrintToChatAll("Vote cancelled");
+            this.ShowActivity(e.Client, "Cancelled vote");
 
             if (!this.ShouldReplyToChat(e.Client))
             {
-                this.ReplyToCommand(e.Client, "Vote cancelled");
+                this.ReplyToCommand(e.Client, "Cancelled vote");
             }
         }
 
@@ -108,6 +108,7 @@ namespace SevenMod.Plugin.BaseCommands
             foreach (var target in this.ParseTargetString(e.Client, e.Arguments[0]))
             {
                 SdtdConsole.Instance.ExecuteSync($"kick {target.PlayerId}", null);
+                this.ShowActivity(e.Client, "Kicked target", target.PlayerName);
             }
         }
 

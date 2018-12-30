@@ -3,4 +3,8 @@
   <Phrase Name="Slay Description">
     <en>Kills a player</en>
   </Phrase>
+  <Phrase Name="Slapped target">
+    <Format>{1:s}</Format>
+    <en>Slapped {1}.</en>
+  </Phrase>
 </Phrases>

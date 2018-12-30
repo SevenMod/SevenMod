@@ -26,6 +26,18 @@
     <Format>{1:s}</Format>
     <en>A vote has begun to ban {1} from the server</en>
   </Phrase>
+  <Phrase Name="Initiated Vote">
+    <Format>{1:s}</Format>
+    <en>Initiated a vote: {1}</en>
+  </Phrase>
+  <Phrase Name="Initiated Vote Kick">
+    <Format>{1:s}</Format>
+    <en>Initiated a kick vote against {1}.</en>
+  </Phrase>
+  <Phrase Name="Initiated Vote Ban">
+    <Format>{1:s}</Format>
+    <en>Initiated a ban vote against {1}.</en>
+  </Phrase>
   <Phrase Name="Voteban Succeeded">
     <Format>{1:p2},{2:s}</Format>
     <en>Vote succeeded with {1} of the vote. Banning {2}...</en>

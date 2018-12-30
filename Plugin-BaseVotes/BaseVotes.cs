@@ -72,6 +72,7 @@ namespace SevenMod.Plugin.BaseVotes
 
             if (VoteManager.CreateVote(e.Arguments[0]).SetOptions(e.Arguments.GetRange(1, e.Arguments.Count - 1)).Start())
             {
+                this.ShowActivity(e.Client, "Initiated Vote", e.Arguments[0]);
                 VoteManager.CurrentVote.Ended += this.OnVoteEnded;
             }
         }
@@ -107,6 +108,7 @@ namespace SevenMod.Plugin.BaseVotes
             {
                 if (VoteManager.CreateVote("Voteban Started", target.PlayerName).SetData(target).Start())
                 {
+                    this.ShowActivity(e.Client, "Initiated Vote Ban", target.PlayerName);
                     VoteManager.CurrentVote.Ended += this.OnBanVoteEnded;
                 }
             }
@@ -148,6 +150,7 @@ namespace SevenMod.Plugin.BaseVotes
             {
                 if (VoteManager.CreateVote("Votekick Started", target.PlayerName).SetData(target).Start())
                 {
+                    this.ShowActivity(e.Client, "Initiated Vote Kick", target.PlayerName);
                     VoteManager.CurrentVote.Ended += this.OnKickVoteEnded;
                 }
             }

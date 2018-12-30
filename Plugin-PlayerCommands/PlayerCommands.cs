@@ -48,6 +48,7 @@ namespace SevenMod.Plugin.PlayerCommands
             foreach (var target in this.ParseTargetString(e.Client, e.Arguments[0]))
             {
                 SdtdConsole.Instance.ExecuteSync($"kill {target.PlayerId}", null);
+                this.ShowActivity(e.Client, "Slapped target", target.PlayerName);
             }
         }
     }

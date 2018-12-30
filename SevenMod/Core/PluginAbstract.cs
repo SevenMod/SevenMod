@@ -275,6 +275,17 @@ namespace SevenMod.Core
         }
 
         /// <summary>
+        /// Show admin activity based on the rules set by the ShowActivity <see cref="ConVar"/>.
+        /// </summary>
+        /// <param name="client">The <see cref="SMClient"/> object representing the client performing the action.</param>
+        /// <param name="message">The language key or message to send.</param>
+        /// <param name="args">The parameters for the language format string.</param>
+        protected void ShowActivity(SMClient client, string message, params object[] args)
+        {
+            ChatHelper.ShowActivity(client?.ClientInfo, message, args);
+        }
+
+        /// <summary>
         /// Parse a player target string into a list of currently connected clients.
         /// </summary>
         /// <param name="client">The <see cref="SMClient"/> object representing the source client.</param>

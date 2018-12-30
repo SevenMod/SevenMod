@@ -15,4 +15,12 @@
   <Phrase Name="Invalid player ID">
     <en>Invalid player ID</en>
   </Phrase>
+  <Phrase Name="Permabanned player">
+    <Format>{1:s}</Format>
+    <en>Permanently banned player "{1}".</en>
+  </Phrase>
+  <Phrase Name="Banned player">
+    <Format>{1:s},{2:d}</Format>
+    <en>Banned player "{1}" for {2} minutes.</en>
+  </Phrase>
 </Phrases>

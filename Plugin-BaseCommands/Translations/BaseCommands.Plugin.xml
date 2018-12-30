@@ -24,8 +24,8 @@
   <Phrase Name="Vote not in progress">
     <en>A vote is not currently in progress</en>
   </Phrase>
-  <Phrase Name="Vote cancelled">
-    <en>The vote was cancelled</en>
+  <Phrase Name="Cancelled vote">
+    <en>Cancelled the vote.</en>
   </Phrase>
   <Phrase Name="Unable to find ConVar">
     <Format>{1:s}</Format>
@@ -38,6 +38,10 @@
   <Phrase Name="Changed ConVar">
     <Format>{1:s},{2:s}</Format>
     <en>Changed ConVar "{1}" to "{2}"</en>
+  </Phrase>
+  <Phrase Name="Kicked target">
+    <Format>{1:s}</Format>
+    <en>Kicked {1}</en>
   </Phrase>
   <Phrase Name="Who Columns">
     <en>  Name                     Username           Admin access</en>
