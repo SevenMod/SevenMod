@@ -7,6 +7,7 @@ namespace SevenMod.Lang
 {
     using System;
     using System.Collections.Generic;
+    using SevenMod.Chat;
 
     /// <summary>
     /// Represents a dictionary of translations for a phrase.
@@ -95,6 +96,8 @@ namespace SevenMod.Lang
             {
                 str = str.Replace($"{{{f.Key}}}", $"{{{f.Key - 1}:{f.Value}}}");
             }
+
+            str = Colors.ParseColors(str);
 
             this.phrases[lang] = str;
         }

@@ -133,5 +133,15 @@ namespace SevenMod.Chat
 
             return defaultHex;
         }
+
+        /// <summary>
+        /// Parses the color names from a string and replaces them with the hex value.
+        /// </summary>
+        /// <param name="input">The input string.</param>
+        /// <returns>The <paramref name="input"/> string with all color names replaced by hex values.</returns>
+        public static string ParseColors(string input)
+        {
+            return Regex.Replace(input, @"\[([a-z]{3,9})\]", (Match m) => $"[{GetHexFromColorName(m.Groups[1].Value, m.Groups[1].Value)}]");
+        }
     }
 }
