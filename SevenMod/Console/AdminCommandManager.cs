@@ -63,7 +63,7 @@ namespace SevenMod.Console
         /// <param name="plugin">The plugin requesting the command.</param>
         /// <param name="command">The name of the admin command to locate.</param>
         /// <returns>The <see cref="AdminCommand"/> object representing the admin command if found; otherwise <c>null</c>.</returns>
-        public static AdminCommand FindCommand(IPlugin plugin, string command)
+        internal static AdminCommand FindCommand(IPlugin plugin, string command)
         {
             var key = command.Trim().ToLower();
             if (!commands.ContainsKey(key))
@@ -87,7 +87,7 @@ namespace SevenMod.Console
         /// <param name="accessFlags">The <see cref="AdminFlags"/> value required to execute the admin command.</param>
         /// <param name="description">An optional description for the admin command.</param>
         /// <returns>The <see cref="AdminCommand"/> object representing the admin command.</returns>
-        internal static AdminCommand CreateAdminCommand(IPlugin plugin, string command, AdminFlags accessFlags, string description = "")
+        internal static AdminCommand CreateCommand(IPlugin plugin, string command, AdminFlags accessFlags, string description = "")
         {
             command = command.Trim();
             var key = command.ToLower();

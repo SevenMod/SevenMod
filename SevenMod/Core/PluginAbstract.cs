@@ -177,7 +177,17 @@ namespace SevenMod.Core
         /// <returns>The <see cref="AdminCommand"/> object representing the admin command.</returns>
         protected AdminCommand RegAdminCmd(string cmd, AdminFlags accessFlags, string description = "")
         {
-            return AdminCommandManager.CreateAdminCommand(this, cmd, accessFlags, description);
+            return AdminCommandManager.CreateCommand(this, cmd, accessFlags, description);
+        }
+
+        /// <summary>
+        /// Find an existing admin command with the specified name.
+        /// </summary>
+        /// <param name="command">The name of the admin command to locate.</param>
+        /// <returns>The <see cref="AdminCommand"/> object representing the admin command if found; otherwise <c>null</c>.</returns>
+        protected AdminCommand FindAdminCommand(string command)
+        {
+            return AdminCommandManager.FindCommand(this, command);
         }
 
         /// <summary>
