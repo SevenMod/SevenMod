@@ -126,7 +126,8 @@ namespace SevenMod.Chat
         /// <returns>The hexadecimal color string; <paramref name="defaultHex"/> if <paramref name="colorName"/> is not a valid color name.</returns>
         public static string GetHexFromColorName(string colorName, string defaultHex = "000000")
         {
-            if (IsValidColorName(colorName))
+            colorName = colorName.ToLower();
+            if (ColorNames.ContainsKey(colorName))
             {
                 return ColorNames[colorName];
             }
