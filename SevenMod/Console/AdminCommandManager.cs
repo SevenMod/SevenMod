@@ -30,6 +30,11 @@ namespace SevenMod.Console
         private static Dictionary<string, AdminCommand> commands = new Dictionary<string, AdminCommand>();
 
         /// <summary>
+        /// Lists of plugins referencing each command.
+        /// </summary>
+        private static Dictionary<string, HashSet<IPlugin>> pluginReferences = new Dictionary<string, HashSet<IPlugin>>();
+
+        /// <summary>
         /// The map of command access overrides.
         /// </summary>
         private static Dictionary<string, AdminFlags> overrides = new Dictionary<string, AdminFlags>();
@@ -55,12 +60,23 @@ namespace SevenMod.Console
         /// <summary>
         /// Find an existing admin command with the specified name.
         /// </summary>
+        /// <param name="plugin">The plugin requesting the command.</param>
         /// <param name="command">The name of the admin command to locate.</param>
         /// <returns>The <see cref="AdminCommand"/> object representing the admin command if found; otherwise <c>null</c>.</returns>
-        public static AdminCommand FindCommand(string command)
+        public static AdminCommand FindCommand(IPlugin plugin, string command)
         {
-            commands.TryGetValue(command.Trim().ToLower(), out var adminCommand);
-            return adminCommand;
+            var key = command.Trim().ToLower();
+            if (!commands.ContainsKey(key))
+            {
+                return null;
+            }
+
+            if (plugin != null)
+            {
+                pluginReferences[key].Add(plugin);
+            }
+
+            return commands[key];
         }
 
         /// <summary>
@@ -74,33 +90,19 @@ namespace SevenMod.Console
         internal static AdminCommand CreateAdminCommand(IPlugin plugin, string command, AdminFlags accessFlags, string description = "")
         {
             command = command.Trim();
-
-            AdminCommand adminCommand;
             var key = command.ToLower();
-            if (commands.ContainsKey(key))
+            if (!commands.ContainsKey(key))
             {
-                adminCommand = commands[key];
-            }
-            else
-            {
-                adminCommand = new AdminCommand(plugin, command, description, accessFlags);
-                commands[key] = adminCommand;
+                commands[key] = new AdminCommand(command, description, accessFlags);
+                pluginReferences[key] = new HashSet<IPlugin>();
             }
 
-            return adminCommand;
-        }
-
-        /// <summary>
-        /// Removes an <see cref="AdminCommand"/>.
-        /// </summary>
-        /// <param name="plugin">The plugin that created the admin command.</param>
-        /// <param name="command">The name of the admin command.</param>
-        internal static void RemoveAdminCommand(IPlugin plugin, string command)
-        {
-            if (commands.ContainsKey(command) && (commands[command].Plugin == plugin))
+            if (plugin != null)
             {
-                commands.Remove(command);
+                pluginReferences[key].Add(plugin);
             }
+
+            return commands[key];
         }
 
         /// <summary>
@@ -153,7 +155,15 @@ namespace SevenMod.Console
         /// <param name="plugin">The plugin for which to unload admin commands.</param>
         internal static void UnloadPlugin(IPlugin plugin)
         {
-            commands.RemoveAll((AdminCommand command) => command.Plugin.Equals(plugin));
+            foreach (var plugins in pluginReferences)
+            {
+                if (plugins.Value.Remove(plugin) && plugins.Value.Count == 0)
+                {
+                    commands.Remove(plugins.Key);
+                }
+            }
+
+            pluginReferences.RemoveAll((HashSet<IPlugin> hs) => hs.Count == 0);
         }
 
         /// <summary>

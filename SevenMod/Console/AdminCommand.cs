@@ -18,17 +18,15 @@ namespace SevenMod.Console
         /// <summary>
         /// Initializes a new instance of the <see cref="AdminCommand"/> class.
         /// </summary>
-        /// <param name="plugin">The plugin that created this command.</param>
         /// <param name="command">The name of the command.</param>
         /// <param name="description">The description for the command.</param>
         /// <param name="accessFlags">The <see cref="AccessFlags"/> value required to execute this
         /// command.</param>
-        internal AdminCommand(IPlugin plugin, string command, string description, AdminFlags accessFlags)
+        internal AdminCommand(string command, string description, AdminFlags accessFlags)
         {
             this.Command = command;
             this.Description = description;
             this.AccessFlags = accessFlags;
-            this.Plugin = plugin;
         }
 
         /// <summary>
@@ -50,11 +48,6 @@ namespace SevenMod.Console
         /// Gets the <see cref="AdminFlags"/> value required to execute this command.
         /// </summary>
         public AdminFlags AccessFlags { get; }
-
-        /// <summary>
-        /// Gets the plugin that created this command.
-        /// </summary>
-        internal IPlugin Plugin { get; }
 
         /// <summary>
         /// Checks whether a specified client has access to this command.

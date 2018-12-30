@@ -181,15 +181,6 @@ namespace SevenMod.Core
         }
 
         /// <summary>
-        /// Removes an <see cref="AdminCommand"/>.
-        /// </summary>
-        /// <param name="cmd">The name of the admin command.</param>
-        protected void UnregAdminCommand(string cmd)
-        {
-            AdminCommandManager.RemoveAdminCommand(this, cmd);
-        }
-
-        /// <summary>
         /// Executes a command on the server's console.
         /// </summary>
         /// <param name="cmd">The command to execute.</param>
