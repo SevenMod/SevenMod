@@ -92,7 +92,7 @@ namespace SevenMod.Core
         /// <returns>The <see cref="ConVar"/> object representing the console variable if found; otherwise <c>null</c>.</returns>
         protected ConVar FindConVar(string name)
         {
-            return ConVarManager.FindConVar(name);
+            return ConVarManager.FindConVar(this, name);
         }
 
         /// <summary>

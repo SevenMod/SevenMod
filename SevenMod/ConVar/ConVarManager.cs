@@ -24,6 +24,11 @@ namespace SevenMod.ConVar
         private static Dictionary<string, ConVar> conVars = new Dictionary<string, ConVar>();
 
         /// <summary>
+        /// Lists of plugins referencing each console variable.
+        /// </summary>
+        private static Dictionary<string, HashSet<IPlugin>> pluginReferences = new Dictionary<string, HashSet<IPlugin>>();
+
+        /// <summary>
         /// The list of config files to be automatically executed.
         /// </summary>
         private static List<ConfigInfo> configs = new List<ConfigInfo>();
@@ -41,12 +46,23 @@ namespace SevenMod.ConVar
         /// <summary>
         /// Find an existing console variable with the specified name.
         /// </summary>
+        /// <param name="plugin">The plugin requesting the variable.</param>
         /// <param name="name">The name of the console variable to locate.</param>
         /// <returns>The <see cref="ConVar"/> object representing the console variable if found; otherwise <c>null</c>.</returns>
-        public static ConVar FindConVar(string name)
+        public static ConVar FindConVar(IPlugin plugin, string name)
         {
-            conVars.TryGetValue(name.ToLower().Trim(), out var value);
-            return value;
+            var key = name.Trim().ToLower();
+            if (!conVars.ContainsKey(key))
+            {
+                return null;
+            }
+
+            if (plugin != null)
+            {
+                pluginReferences[key].Add(plugin);
+            }
+
+            return conVars[key];
         }
 
         /// <summary>
@@ -64,19 +80,19 @@ namespace SevenMod.ConVar
         public static ConVar CreateConVar(IPlugin plugin, string name, string defaultValue, string description = "", bool hasMin = false, float min = 0.0f, bool hasMax = false, float max = 1.0f)
         {
             name = name.Trim();
-            ConVar conVar;
             var key = name.ToLower();
-            if (conVars.ContainsKey(key))
+            if (!conVars.ContainsKey(key))
             {
-                conVar = conVars[key];
-            }
-            else
-            {
-                conVar = new ConVar(plugin, name, defaultValue, description, hasMin, min, hasMax, max);
+                conVars[key] = new ConVar(plugin, name, defaultValue, description, hasMin, min, hasMax, max);
+                pluginReferences[key] = new HashSet<IPlugin>();
             }
 
-            conVars[key] = conVar;
-            return conVar;
+            if (plugin != null)
+            {
+                pluginReferences[key].Add(plugin);
+            }
+
+            return conVars[key];
         }
 
         /// <summary>
@@ -121,8 +137,16 @@ namespace SevenMod.ConVar
         /// <param name="plugin">The plugin for which to unload configuration.</param>
         public static void UnloadPlugin(IPlugin plugin)
         {
-            conVars.RemoveAll((ConVar conVar) => plugin.Equals(conVar.Plugin));
-            configs.RemoveAll((ConfigInfo config) => plugin.Equals(config.Plugin));
+            foreach (var plugins in pluginReferences)
+            {
+                if (plugins.Value.Remove(plugin) && plugins.Value.Count == 0)
+                {
+                    conVars.Remove(plugins.Key);
+                }
+            }
+
+            pluginReferences.RemoveAll((HashSet<IPlugin> hs) => hs.Count == 0);
+            configs.RemoveAll((ConfigInfo config) => plugin == config.Plugin);
         }
 
         /// <summary>
@@ -157,8 +181,7 @@ namespace SevenMod.ConVar
             {
                 if (element.HasAttribute("name") && element.HasAttribute("value"))
                 {
-                    var conVar = FindConVar(element.GetAttribute("name"));
-                    if (conVar != null)
+                    if (conVars.TryGetValue(element.GetAttribute("name"), out var conVar))
                     {
                         conVar.Value.Value = element.GetAttribute("value");
                     }
