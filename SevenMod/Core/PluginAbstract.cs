@@ -169,6 +169,16 @@ namespace SevenMod.Core
         }
 
         /// <summary>
+        /// Find an existing admin command with the specified name.
+        /// </summary>
+        /// <param name="command">The name of the admin command to locate.</param>
+        /// <returns>The <see cref="AdminCommand"/> object representing the admin command if found; otherwise <c>null</c>.</returns>
+        protected AdminCommand FindAdminCommand(string command)
+        {
+            return AdminCommandManager.FindCommand(this, command);
+        }
+
+        /// <summary>
         /// Creates a new <see cref="AdminCommand"/> or returns the existing one if one with the same name already exists.
         /// </summary>
         /// <param name="cmd">The name of the admin command.</param>
@@ -181,13 +191,12 @@ namespace SevenMod.Core
         }
 
         /// <summary>
-        /// Find an existing admin command with the specified name.
+        /// Removes an <see cref="AdminCommand"/>.
         /// </summary>
-        /// <param name="command">The name of the admin command to locate.</param>
-        /// <returns>The <see cref="AdminCommand"/> object representing the admin command if found; otherwise <c>null</c>.</returns>
-        protected AdminCommand FindAdminCommand(string command)
+        /// <param name="cmd">The name of the admin command.</param>
+        protected void UnregAdminCommand(string cmd)
         {
-            return AdminCommandManager.FindCommand(this, command);
+            AdminCommandManager.RemoveCommand(this, cmd);
         }
 
         /// <summary>

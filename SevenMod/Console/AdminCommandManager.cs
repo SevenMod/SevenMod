@@ -106,6 +106,25 @@ namespace SevenMod.Console
         }
 
         /// <summary>
+        /// Removes an <see cref="AdminCommand"/>.
+        /// </summary>
+        /// <param name="plugin">The plugin that created the admin command.</param>
+        /// <param name="command">The name of the admin command.</param>
+        internal static void RemoveCommand(IPlugin plugin, string command)
+        {
+            var key = command.Trim().ToLower();
+            if (!pluginReferences.ContainsKey(key))
+            {
+                return;
+            }
+
+            if (pluginReferences[key].Remove(plugin) && pluginReferences[key].Count == 0)
+            {
+                commands.Remove(key);
+            }
+        }
+
+        /// <summary>
         /// Executes an admin command.
         /// </summary>
         /// <param name="command">The name of the admin command to execute.</param>
