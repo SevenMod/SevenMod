@@ -326,6 +326,7 @@ namespace SevenMod.Core
             catch (Exception e)
             {
                 SMLog.Error($"Failed loading plugin {key}.dll: {e.Message}");
+                SMLog.Error(e);
             }
         }
 
