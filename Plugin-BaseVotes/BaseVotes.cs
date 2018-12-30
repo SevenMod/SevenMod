@@ -121,9 +121,9 @@ namespace SevenMod.Plugin.BaseVotes
         {
             if (e.Percents[0] >= this.voteBanPercent.AsFloat)
             {
-                var target = e.Data as ClientInfo;
-                this.PrintToChatAll("Voteban Succeeded", e.Percents[0], target.playerName);
-                SdtdConsole.Instance.ExecuteSync(this.GetString("Vote banned", target, target.playerId), null);
+                var target = e.Data as SMClient;
+                this.PrintToChatAll("Voteban Succeeded", e.Percents[0], target.PlayerName);
+                SdtdConsole.Instance.ExecuteSync(this.GetString("Vote banned", target, target.PlayerId), null);
             }
             else
             {
@@ -162,9 +162,9 @@ namespace SevenMod.Plugin.BaseVotes
         {
             if (e.Percents[0] >= this.voteKickPercent.AsFloat)
             {
-                var target = e.Data as ClientInfo;
-                this.PrintToChatAll("Votekick Succeeded", e.Percents[0], target.playerName);
-                SdtdConsole.Instance.ExecuteSync(this.GetString("Vote kicked", target, target.playerId), null);
+                var target = e.Data as SMClient;
+                this.PrintToChatAll("Votekick Succeeded", e.Percents[0], target.PlayerName);
+                SdtdConsole.Instance.ExecuteSync(this.GetString("Vote kicked", target, target.PlayerId), null);
             }
             else
             {
