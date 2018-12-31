@@ -12,10 +12,19 @@ namespace SevenMod.Lang
     /// </summary>
     internal class SMFormatProvider : IFormatProvider, ICustomFormatter
     {
+        /// <summary>
+        /// Gets or sets the current language code.
+        /// </summary>
+        public string Lang { get; set; } = Language.DefaultLang;
+
         /// <inheritdoc/>
         public string Format(string format, object arg, IFormatProvider formatProvider)
         {
-            if (format == "L")
+            if (format == "t")
+            {
+                return Language.GetRawPhrase(arg.ToString(), this.Lang);
+            }
+            else if (format == "L")
             {
                 var client = arg as ClientInfo;
                 if (client == null)

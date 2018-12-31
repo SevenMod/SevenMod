@@ -39,6 +39,10 @@
     <Format>{1:s},{2:s}</Format>
     <en>Changed ConVar "{1}" to "{2}"</en>
   </Phrase>
+  <Phrase Name="Kicked player">
+    <Format>{1:t}</Format>
+    <en>Kicked {1}</en>
+  </Phrase>
   <Phrase Name="Kicked target">
     <Format>{1:s}</Format>
     <en>Kicked {1}</en>

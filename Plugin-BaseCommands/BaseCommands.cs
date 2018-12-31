@@ -105,10 +105,44 @@ namespace SevenMod.Plugin.BaseCommands
                 return;
             }
 
-            foreach (var target in this.ParseTargetString(e.Client, e.Arguments[0]))
+            if (this.ParseTargetString(e.Client, e.Arguments[0], out var targets, out var targetName, out var nameIsPhrase) > 0)
             {
-                SdtdConsole.Instance.ExecuteSync($"kick {target.PlayerId}", null);
-                this.ShowActivity(e.Client, "Kicked target", target.PlayerName);
+                if (nameIsPhrase)
+                {
+                    this.ShowActivity(e.Client, "Kicked target", targetName);
+                }
+                else if (targetName != null)
+                {
+                    this.ShowActivity(e.Client, "Kicked player", targetName);
+                }
+
+                SMClient self = null;
+                foreach (var target in targets)
+                {
+                    if (target == e.Client)
+                    {
+                        self = target;
+                    }
+                    else
+                    {
+                        if (targetName == null)
+                        {
+                            this.ShowActivity(e.Client, "Kicked player", target.PlayerName);
+                        }
+
+                        SdtdConsole.Instance.ExecuteSync($"kick {target.PlayerId}", null);
+                    }
+                }
+
+                if (self != null)
+                {
+                    if (targetName == null)
+                    {
+                        this.ShowActivity(e.Client, "Kicked player", self.PlayerName);
+                    }
+
+                    SdtdConsole.Instance.ExecuteSync($"kick {self.PlayerId}", null);
+                }
             }
         }
 

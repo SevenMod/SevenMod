@@ -114,13 +114,30 @@ namespace SevenMod.Lang
         /// <returns>The translated phrase.</returns>
         public static string GetString(string phrase, ClientInfo client, params object[] args)
         {
+            var lang = GetLanguageKey(client);
+            FormatProvider.Lang = lang;
             if (!phrases.ContainsKey(phrase))
             {
-                return string.Format(phrase, args);
+                return string.Format(FormatProvider, phrase, args);
             }
 
-            var lang = GetLanguageKey(client);
             return string.Format(FormatProvider, phrases[phrase][lang], args);
+        }
+
+        /// <summary>
+        /// Gets the raw format string for a specified language.
+        /// </summary>
+        /// <param name="phrase">The phrase.</param>
+        /// <param name="lang">The language.</param>
+        /// <returns>The <paramref name="phrase"/> format string for the <paramref name="lang"/> language.</returns>
+        public static string GetRawPhrase(string phrase, string lang)
+        {
+            if (!phrases.ContainsKey(phrase))
+            {
+                return phrase;
+            }
+
+            return phrases[phrase][lang];
         }
 
         /// <summary>

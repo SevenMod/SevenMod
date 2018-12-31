@@ -6,6 +6,9 @@
   <Phrase Name="Player">
     <en>PLAYER</en>
   </Phrase>
+  <Phrase Name="All players">
+    <en>all players</en>
+  </Phrase>
   <Phrase Name="Unknown command">
     <en>Unknown command</en>
   </Phrase>

@@ -45,10 +45,26 @@ namespace SevenMod.Plugin.PlayerCommands
                 return;
             }
 
-            foreach (var target in this.ParseTargetString(e.Client, e.Arguments[0]))
+            if (this.ParseTargetString(e.Client, e.Arguments[0], out var targets, out var targetName, out var nameIsPhrase) > 0)
             {
-                SdtdConsole.Instance.ExecuteSync($"kill {target.PlayerId}", null);
-                this.ShowActivity(e.Client, "Slapped target", target.PlayerName);
+                if (nameIsPhrase)
+                {
+                    this.ShowActivity(e.Client, "Slayed target", targetName);
+                }
+                else if (targetName != null)
+                {
+                    this.ShowActivity(e.Client, "Slayed player", targetName);
+                }
+
+                foreach (var target in targets)
+                {
+                    if (targetName == null)
+                    {
+                        this.ShowActivity(e.Client, "Slayed player", target.PlayerName);
+                    }
+
+                    SdtdConsole.Instance.ExecuteSync($"kill {target.PlayerId}", null);
+                }
             }
         }
     }

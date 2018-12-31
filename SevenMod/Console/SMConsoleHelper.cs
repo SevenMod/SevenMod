@@ -20,10 +20,15 @@ namespace SevenMod.Console
         /// </summary>
         /// <param name="client">The <see cref="ClientInfo"/> object representing the source client.</param>
         /// <param name="targetString">The player target string.</param>
-        /// <returns>A list of <see cref="SMClient"/> objects representing the matching clients.</returns>
-        public static List<SMClient> ParseTargetString(ClientInfo client, string targetString)
+        /// <param name="targets">Will be set to a list of <see cref="SMClient"/> objects representing the matching clients.</param>
+        /// <param name="targetName">Will be set to the name of the target, if applicable.</param>
+        /// <param name="nameIsPhrase">Will be set to a value indicating whether <paramref name="targetName"/> is a translation phrase.</param>
+        /// <returns>The number of matching clients.</returns>
+        public static int ParseTargetString(ClientInfo client, string targetString, out List<SMClient> targets, out string targetName, out bool nameIsPhrase)
         {
             var list = new List<ClientInfo>();
+            targetName = null;
+            nameIsPhrase = false;
 
             if (targetString.StartsWith("@"))
             {
@@ -31,6 +36,8 @@ namespace SevenMod.Console
                 {
                     case "all":
                         list.AddRange(ConnectionManager.Instance.Clients.List);
+                        targetName = "All players";
+                        nameIsPhrase = true;
                         break;
                     case "me":
                         if (client == null)
@@ -44,6 +51,8 @@ namespace SevenMod.Console
                     case "!me":
                         list.AddRange(ConnectionManager.Instance.Clients.List);
                         list.Remove(client);
+                        targetName = "All players";
+                        nameIsPhrase = true;
                         break;
                 }
             }
@@ -94,7 +103,13 @@ namespace SevenMod.Console
                 }
             }
 
-            return list.ConvertAll(e => new SMClient(e));
+            if (!nameIsPhrase && list.Count == 1)
+            {
+                targetName = list[0].playerName;
+            }
+
+            targets = list.ConvertAll(e => new SMClient(e));
+            return targets.Count;
         }
 
         /// <summary>
