@@ -12,6 +12,7 @@ namespace SevenMod.Database
     using System.Security.Permissions;
     using System.Xml;
     using SevenMod.Core;
+    using SevenMod.Logging;
 
     /// <summary>
     /// Represents a connection to a database.
