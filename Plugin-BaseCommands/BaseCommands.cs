@@ -88,7 +88,7 @@ namespace SevenMod.Plugin.BaseCommands
             else
             {
                 cvar.Value.Value = string.Join(" ", e.Arguments.GetRange(1, e.Arguments.Count - 1).ToArray());
-                this.LogAction(e.Client, null, "\"{1:L}\" changed cvar (cvar \"{2:s}\") (value \"{3:s}\")", e.Client, cvar.Name, cvar.Value.AsString);
+                this.LogAction(e.Client, null, "\"{0:L}\" changed cvar (cvar \"{1:s}\") (value \"{2:s}\")", e.Client, cvar.Name, cvar.Value.AsString);
                 this.ReplyToCommand(e.Client, "Changed ConVar", cvar.Name, cvar.Value.AsString);
             }
         }
@@ -120,7 +120,7 @@ namespace SevenMod.Plugin.BaseCommands
                 SMClient self = null;
                 foreach (var target in targets)
                 {
-                    this.LogAction(e.Client, target, "\"{1:L}\" kicked \"{2:L}\"", e.Client, target);
+                    this.LogAction(e.Client, target, "\"{0:L}\" kicked \"{1:L}\"", e.Client, target);
                     if (target == e.Client)
                     {
                         self = target;
@@ -162,7 +162,7 @@ namespace SevenMod.Plugin.BaseCommands
             }
 
             var command = string.Join(" ", e.Arguments.ToArray());
-            this.LogAction(e.Client, null, "\"{1:L}\" console command (cmdline \"{2:s}\")", e.Client, command);
+            this.LogAction(e.Client, null, "\"{0:L}\" console command (cmdline \"{1:s}\")", e.Client, command);
             this.ServerCommand(command, e.Client);
         }
 
@@ -173,7 +173,7 @@ namespace SevenMod.Plugin.BaseCommands
         /// <param name="e">An <see cref="AdminCommandEventArgs"/> object containing the event data.</param>
         private void OnReloadadminsCommandExecuted(object sender, AdminCommandEventArgs e)
         {
-            this.LogAction(e.Client, null, "\"{1:L}\" refreshed the admin cache.", e.Client);
+            this.LogAction(e.Client, null, "\"{0:L}\" refreshed the admin cache.", e.Client);
             AdminManager.ReloadAdmins();
         }
 
@@ -199,7 +199,7 @@ namespace SevenMod.Plugin.BaseCommands
             }
 
             cvar.Reset();
-            this.LogAction(e.Client, null, "\"{1:L}\" reset cvar (cvar \"{2:s}\") (value \"{3:s}\")", e.Client, cvar.Name, cvar.Value.AsString);
+            this.LogAction(e.Client, null, "\"{0:L}\" reset cvar (cvar \"{1:s}\") (value \"{2:s}\")", e.Client, cvar.Name, cvar.Value.AsString);
             this.ReplyToCommand(e.Client, "Changed ConVar", cvar.Name, cvar.Value.AsString);
         }
 

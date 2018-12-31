@@ -53,7 +53,7 @@ namespace SevenMod.Plugin.BaseBans
                 return;
             }
 
-            this.LogAction(e.Client, null, "\"{1:L}\" added ban (minutes \"{2:d}\") (id \"{3:s}\")", e.Client, 0, e.Arguments[0]);
+            this.LogAction(e.Client, null, "\"{0:L}\" added ban (minutes \"{1:d}\") (id \"{2:s}\")", e.Client, 0, e.Arguments[0]);
             SdtdConsole.Instance.ExecuteSync($"ban add {e.Arguments[0]}", null);
         }
 
@@ -78,7 +78,7 @@ namespace SevenMod.Plugin.BaseBans
 
             if (this.ParseSingleTargetString(e.Client, e.Arguments[0], out var target))
             {
-                this.LogAction(e.Client, target, "\"{1:L}\" banned \"{2:L}\" (minutes \"{3:d}\")", e.Client, target, duration);
+                this.LogAction(e.Client, target, "\"{0:L}\" banned \"{1:L}\" (minutes \"{2:d}\")", e.Client, target, duration);
 
                 var unit = "minutes";
                 if (duration == 0)
@@ -116,7 +116,7 @@ namespace SevenMod.Plugin.BaseBans
                 return;
             }
 
-            this.LogAction(e.Client, null, "\"{1:L}\" removed ban (filter \"{2:s}\")", e.Client, e.Arguments[0]);
+            this.LogAction(e.Client, null, "\"{0:L}\" removed ban (filter \"{1:s}\")", e.Client, e.Arguments[0]);
             SdtdConsole.Instance.ExecuteSync($"ban remove {e.Arguments[0]}", null);
         }
     }

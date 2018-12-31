@@ -72,7 +72,7 @@ namespace SevenMod.Plugin.BaseVotes
 
             if (VoteManager.CreateVote(e.Arguments[0]).SetOptions(e.Arguments.GetRange(1, e.Arguments.Count - 1)).Start())
             {
-                this.LogAction(e.Client, null, "\"{1:L}\" initiated a generic vote.", e.Client);
+                this.LogAction(e.Client, null, "\"{0:L}\" initiated a generic vote.", e.Client);
                 this.ShowActivity(e.Client, "Initiated Vote", e.Arguments[0]);
                 VoteManager.CurrentVote.Ended += this.OnVoteEnded;
             }
@@ -109,7 +109,7 @@ namespace SevenMod.Plugin.BaseVotes
             {
                 if (VoteManager.CreateVote("Voteban Started", target.PlayerName).SetData(target).Start())
                 {
-                    this.LogAction(e.Client, target, "\"{1:L}\" initiated a ban vote against \"{2:L}\"", e.Client, target);
+                    this.LogAction(e.Client, target, "\"{0:L}\" initiated a ban vote against \"{1:L}\"", e.Client, target);
                     this.ShowActivity(e.Client, "Initiated Vote Ban", target.PlayerName);
                     VoteManager.CurrentVote.Ended += this.OnBanVoteEnded;
                 }
@@ -127,12 +127,12 @@ namespace SevenMod.Plugin.BaseVotes
             if (e.Percents[0] >= this.voteBanPercent.AsFloat)
             {
                 this.PrintToChatAll("Voteban Succeeded", e.Percents[0], target.PlayerName);
-                this.LogAction(null, target, "Vote ban successful, banned \"{1:L}\" (minutes \"30\")", target);
+                this.LogAction(null, target, "Vote ban successful, banned \"{0:L}\" (minutes \"30\")", target);
                 SdtdConsole.Instance.ExecuteSync(this.GetString("Vote banned", target, target.PlayerId), null);
             }
             else
             {
-                this.LogAction(null, target, "Ban vote against \"{1:L}\" failed.", target);
+                this.LogAction(null, target, "Ban vote against \"{0:L}\" failed.", target);
                 this.PrintToChatAll("Vote Failed", e.Percents[0]);
             }
         }
@@ -154,7 +154,7 @@ namespace SevenMod.Plugin.BaseVotes
             {
                 if (VoteManager.CreateVote("Votekick Started", target.PlayerName).SetData(target).Start())
                 {
-                    this.LogAction(e.Client, target, "\"{1:L}\" initiated a kick vote against \"{2:L}\"", e.Client, target);
+                    this.LogAction(e.Client, target, "\"{0:L}\" initiated a kick vote against \"{1:L}\"", e.Client, target);
                     this.ShowActivity(e.Client, "Initiated Vote Kick", target.PlayerName);
                     VoteManager.CurrentVote.Ended += this.OnKickVoteEnded;
                 }
@@ -172,12 +172,12 @@ namespace SevenMod.Plugin.BaseVotes
             if (e.Percents[0] >= this.voteKickPercent.AsFloat)
             {
                 this.PrintToChatAll("Votekick Succeeded", e.Percents[0], target.PlayerName);
-                this.LogAction(null, target, "Vote kick successful, kicked \"{1:L}\"", target);
+                this.LogAction(null, target, "Vote kick successful, kicked \"{0:L}\"", target);
                 SdtdConsole.Instance.ExecuteSync(this.GetString("Vote kicked", target, target.PlayerId), null);
             }
             else
             {
-                this.LogAction(null, target, "Kick vote against \"{1:L}\" failed.", target);
+                this.LogAction(null, target, "Kick vote against \"{0:L}\" failed.", target);
                 this.PrintToChatAll("Vote Failed", e.Percents[0]);
             }
         }

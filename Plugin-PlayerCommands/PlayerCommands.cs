@@ -58,7 +58,7 @@ namespace SevenMod.Plugin.PlayerCommands
 
                 foreach (var target in targets)
                 {
-                    this.LogAction(e.Client, target, "\"{1:L}\" slayed \"{2:L}\"", e.Client, target);
+                    this.LogAction(e.Client, target, "\"{0:L}\" slayed \"{1:L}\"", e.Client, target);
                     if (targetName == null)
                     {
                         this.ShowActivity(e.Client, "Slayed player", target.PlayerName);
