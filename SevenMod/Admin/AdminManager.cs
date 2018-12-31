@@ -46,7 +46,10 @@ namespace SevenMod.Admin
         /// <summary>
         /// Maps admin auth IDs to their <see cref="AdminInfo"/> objects.
         /// </summary>
-        private static Dictionary<string, AdminInfo> admins = new Dictionary<string, AdminInfo>();
+        private static Dictionary<string, AdminInfo> admins = new Dictionary<string, AdminInfo>
+        {
+            { "-1", new AdminInfo("-1", 0, AdminFlags.Root) },
+        };
 
         /// <summary>
         /// Gets the map of admin access flag characters to the associated <see cref="AdminFlags"/> value.
@@ -94,7 +97,10 @@ namespace SevenMod.Admin
         /// </summary>
         public static void ReloadAdmins()
         {
+            var console = admins["-1"];
             admins.Clear();
+            admins["-1"] = console;
+
             foreach (var k in PluginManager.Plugins.Keys.ToArray())
             {
                 if (PluginManager.Plugins.TryGetValue(k, out var plugin) && plugin.LoadStatus == PluginContainer.Status.Loaded)

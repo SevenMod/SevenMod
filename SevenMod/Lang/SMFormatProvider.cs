@@ -6,6 +6,7 @@
 namespace SevenMod.Lang
 {
     using System;
+    using SevenMod.Core;
 
     /// <summary>
     /// Provides custom formats for SevenMod.
@@ -26,8 +27,8 @@ namespace SevenMod.Lang
             }
             else if (format == "L")
             {
-                var client = arg as ClientInfo;
-                if (client == null)
+                var client = arg as ClientInfo ?? (arg as SMClient)?.ClientInfo;
+                if (client == SMClient.Console.ClientInfo)
                 {
                     return "Console<0><Console><Console>";
                 }
@@ -38,7 +39,8 @@ namespace SevenMod.Lang
             }
             else if (format == "N")
             {
-                return arg is ClientInfo ? ((ClientInfo)arg).playerName : "Console";
+                var client = arg as ClientInfo ?? (arg as SMClient)?.ClientInfo;
+                return client.playerName;
             }
             else if (arg is IFormattable)
             {

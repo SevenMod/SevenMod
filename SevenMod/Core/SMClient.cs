@@ -22,6 +22,17 @@ namespace SevenMod.Core
         }
 
         /// <summary>
+        /// Gets the <see cref="SMClient"/> object representing the server console.
+        /// </summary>
+        public static SMClient Console { get; } = new SMClient(new ClientInfo
+        {
+            loginDone = true,
+            playerId = "-1",
+            playerName = "Console",
+            ownerId = "-1",
+        });
+
+        /// <summary>
         /// Gets the ping of the client.
         /// </summary>
         public int Ping { get => this.ClientInfo.ping; }

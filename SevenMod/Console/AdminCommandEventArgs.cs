@@ -24,7 +24,7 @@ namespace SevenMod.Console
         {
             this.Command = command;
             this.Arguments = arguments;
-            this.Client = (client == null) ? null : new SMClient(client);
+            this.Client = (client == null) ? SMClient.Console : new SMClient(client);
         }
 
         /// <summary>
