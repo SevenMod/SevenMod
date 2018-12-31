@@ -111,7 +111,7 @@
     <Compile Include="Core\PluginManager.cs" />
     <Compile Include="Core\Pos.cs" />
     <Compile Include="Core\SMClient.cs" />
-    <Compile Include="Core\SMLog.cs" />
+    <Compile Include="Logging\SMLog.cs" />
     <Compile Include="Core\SMPath.cs" />
     <Compile Include="Core\SMRespawnType.cs" />
     <Compile Include="Core\SteamUtils.cs" />

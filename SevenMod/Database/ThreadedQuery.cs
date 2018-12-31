@@ -9,6 +9,7 @@ namespace SevenMod.Database
     using System.Data;
     using System.Threading;
     using SevenMod.Core;
+    using SevenMod.Logging;
 
     /// <summary>
     /// Represents a threaded database query.

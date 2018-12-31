@@ -14,6 +14,7 @@ namespace SevenMod.Core
     using SevenMod.Console;
     using SevenMod.ConVar;
     using SevenMod.Lang;
+    using SevenMod.Logging;
 
     /// <summary>
     /// Manages plugins.

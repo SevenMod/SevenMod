@@ -6,6 +6,7 @@
 namespace SevenMod.Core
 {
     using System;
+    using SevenMod.Logging;
 
     /// <summary>
     /// Contains a plugin with its metadata

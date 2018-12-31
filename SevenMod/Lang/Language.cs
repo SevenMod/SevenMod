@@ -13,6 +13,7 @@ namespace SevenMod.Lang
     using System.Xml;
     using SevenMod.ConVar;
     using SevenMod.Core;
+    using SevenMod.Logging;
 
     /// <summary>
     /// Handles translating strings into the appropriate language.

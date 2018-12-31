@@ -10,6 +10,7 @@ namespace SevenMod.Voting
     using System.Timers;
     using SevenMod.Chat;
     using SevenMod.Core;
+    using SevenMod.Logging;
 
     /// <summary>
     /// Represents a vote.

@@ -9,6 +9,7 @@ namespace SevenMod.Chat
     using System.Collections.Generic;
     using SevenMod.ConVar;
     using SevenMod.Core;
+    using SevenMod.Logging;
 
     /// <summary>
     /// Hooks into the game chat and allows plugins to register their own chat hooks.

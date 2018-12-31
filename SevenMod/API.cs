@@ -13,6 +13,7 @@ namespace SevenMod
     using SevenMod.ConVar;
     using SevenMod.Core;
     using SevenMod.Lang;
+    using SevenMod.Logging;
 
     /// <summary>
     /// Represents the entry point of the mod.

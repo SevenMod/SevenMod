@@ -3,11 +3,13 @@
 // Licensed under the MIT license. See LICENSE.txt file in the project root for full license information.
 // </copyright>
 
-namespace SevenMod.Core
+namespace SevenMod.Logging
 {
     using System;
     using System.IO;
     using System.Reflection;
+    using SevenMod.Core;
+    using SevenMod.Lang;
 
     /// <summary>
     /// Logs messages to the SevenMod log files.
@@ -58,6 +60,19 @@ namespace SevenMod.Core
             {
                 WriteLine(errorLog, l.TrimEnd());
             }
+        }
+
+        /// <summary>
+        /// Logs an action performed by an admin.
+        /// </summary>
+        /// <param name="plugin">The plugin logging the action.</param>
+        /// <param name="client">The <see cref="ClientInfo"/> representing the client performing the action, if applicable.</param>
+        /// <param name="target">The <see cref="ClientInfo"/> representing the target of the action, if applicable.</param>
+        /// <param name="message">The message describing the action.</param>
+        /// <param name="args">The arguments for <paramref name="message"/>.</param>
+        public static void LogAction(IPlugin plugin, ClientInfo client, ClientInfo target, string message, params object[] args)
+        {
+            Out(Language.GetString(message, null, args), plugin.Container.File);
         }
 
         /// <summary>

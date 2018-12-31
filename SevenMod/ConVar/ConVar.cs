@@ -7,6 +7,7 @@ namespace SevenMod.ConVar
 {
     using System;
     using SevenMod.Core;
+    using SevenMod.Logging;
 
     /// <summary>
     /// Represents a console variable.

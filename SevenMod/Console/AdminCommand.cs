@@ -9,6 +9,7 @@ namespace SevenMod.Console
     using System.Collections.Generic;
     using SevenMod.Admin;
     using SevenMod.Core;
+    using SevenMod.Logging;
 
     /// <summary>
     /// Represents a command that can be executed by an admin user via the sm console command.

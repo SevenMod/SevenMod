@@ -11,6 +11,7 @@ namespace SevenMod.ConVar
     using System.Text;
     using System.Xml;
     using SevenMod.Core;
+    using SevenMod.Logging;
 
     /// <summary>
     /// Manages console variables.

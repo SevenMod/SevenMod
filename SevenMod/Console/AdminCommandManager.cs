@@ -13,6 +13,7 @@ namespace SevenMod.Console
     using SevenMod.Admin;
     using SevenMod.Chat;
     using SevenMod.Core;
+    using SevenMod.Logging;
 
     /// <summary>
     /// Manages admin commands.

@@ -12,6 +12,7 @@ namespace SevenMod.Core
     using SevenMod.Console;
     using SevenMod.ConVar;
     using SevenMod.Lang;
+    using SevenMod.Logging;
 
     /// <summary>
     /// Represents the default implementation of the <see cref="IPlugin"/> interface.
@@ -327,6 +328,18 @@ namespace SevenMod.Core
         protected void LogError(string message)
         {
             SMLog.Error(message, this.Container.File);
+        }
+
+        /// <summary>
+        /// Logs an action performed by an admin.
+        /// </summary>
+        /// <param name="client">The <see cref="SMClient"/> representing the client performing the action, if applicable.</param>
+        /// <param name="target">The <see cref="SMClient"/> representing the target of the action, if applicable.</param>
+        /// <param name="message">The message describing the action.</param>
+        /// <param name="args">The arguments for <paramref name="message"/>.</param>
+        protected void LogAction(SMClient client, SMClient target, string message, params object[] args)
+        {
+            SMLog.LogAction(this, client?.ClientInfo, target?.ClientInfo, message, args);
         }
 
         /// <summary>
