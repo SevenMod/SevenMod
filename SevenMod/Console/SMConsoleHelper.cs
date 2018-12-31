@@ -99,9 +99,10 @@ namespace SevenMod.Console
                 if (!AdminManager.CanTarget(client, target))
                 {
                     ChatHelper.ReplyToCommand(client, $"Cannot target {target.playerName}");
-                    list.Remove(target);
                 }
             }
+
+            list.RemoveAll((ClientInfo target) => !AdminManager.CanTarget(client, target));
 
             if (!nameIsPhrase && list.Count == 1)
             {
