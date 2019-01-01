@@ -182,7 +182,7 @@ namespace SevenMod.ConVar
             {
                 if (element.HasAttribute("name") && element.HasAttribute("value"))
                 {
-                    if (conVars.TryGetValue(element.GetAttribute("name"), out var conVar))
+                    if (conVars.TryGetValue(element.GetAttribute("name").Trim().ToLower(), out var conVar))
                     {
                         conVar.Value.Value = element.GetAttribute("value");
                     }
