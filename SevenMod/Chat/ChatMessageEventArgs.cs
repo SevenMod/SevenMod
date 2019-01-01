@@ -20,7 +20,7 @@ namespace SevenMod.Chat
         /// <param name="message">The message text.</param>
         internal ChatMessageEventArgs(ClientInfo client, string message)
         {
-            this.Client = new SMClient(client);
+            this.Client = (client == null) ? SMClient.Console : new SMClient(client);
             this.Message = message;
         }
 
