@@ -66,7 +66,7 @@ namespace SevenMod.Plugin.BaseBans
         {
             if (e.Arguments.Count < 2)
             {
-                e.Command.PrintUsage(e.Client, "<{1:t}> <{2:t}|0>", "target", "minutes");
+                e.Command.PrintUsage(e.Client, "<{0:t}> <{1:t}|0>", "target", "minutes");
                 return;
             }
 
