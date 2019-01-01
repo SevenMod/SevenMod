@@ -41,7 +41,7 @@ namespace SevenMod.Plugin.PlayerCommands
         {
             if (e.Arguments.Count < 1)
             {
-                this.ReplyToCommand(e.Client, "Not enough parameters");
+                e.Command.PrintUsage(e.Client, "<{0:t}>", "target");
                 return;
             }
 

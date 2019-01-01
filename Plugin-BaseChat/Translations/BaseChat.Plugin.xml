@@ -9,6 +9,12 @@
   <Phrase Name="Chat Description">
     <en>Sends a message to all admins</en>
   </Phrase>
+  <Phrase Name="message">
+    <en>message</en>
+  </Phrase>
+  <Phrase Name="color">
+    <en>color</en>
+  </Phrase>
   <Phrase Name="Private">
     <en>Private</en>
   </Phrase>

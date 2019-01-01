@@ -9,6 +9,12 @@
   <Phrase Name="Votekick Description">
     <en>Starts a vote to kick a player from the server</en>
   </Phrase>
+  <Phrase Name="question">
+    <en>question</en>
+  </Phrase>
+  <Phrase Name="option">
+    <en>option</en>
+  </Phrase>
   <Phrase Name="Too many options">
     <en>Too many options</en>
   </Phrase>

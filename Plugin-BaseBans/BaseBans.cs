@@ -43,7 +43,7 @@ namespace SevenMod.Plugin.BaseBans
         {
             if (e.Arguments.Count < 1)
             {
-                this.ReplyToCommand(e.Client, "Not enough parameters");
+                e.Command.PrintUsage(e.Client, "<playerId>");
                 return;
             }
 
@@ -66,7 +66,7 @@ namespace SevenMod.Plugin.BaseBans
         {
             if (e.Arguments.Count < 2)
             {
-                this.ReplyToCommand(e.Client, "Not enough parameters");
+                e.Command.PrintUsage(e.Client, "<{1:t}> <{2:t}|0>", "target", "minutes");
                 return;
             }
 
@@ -106,7 +106,7 @@ namespace SevenMod.Plugin.BaseBans
         {
             if (e.Arguments.Count < 1)
             {
-                this.ReplyToCommand(e.Client, "Not enough parameters");
+                e.Command.PrintUsage(e.Client, "<playerId>");
                 return;
             }
 

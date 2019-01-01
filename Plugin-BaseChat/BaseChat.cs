@@ -44,7 +44,7 @@ namespace SevenMod.Plugin.BaseChat
         {
             if (e.Arguments.Count < 1)
             {
-                this.ReplyToCommand(e.Client, "Not enough parameters");
+                e.Command.PrintUsage(e.Client, "[{0:t}] <{1:t}>", "color", "message");
                 return;
             }
 
@@ -77,7 +77,7 @@ namespace SevenMod.Plugin.BaseChat
         {
             if (e.Arguments.Count < 2)
             {
-                this.ReplyToCommand(e.Client, "Not enough parameters");
+                e.Command.PrintUsage(e.Client, "<{0:t}> <{1:t}>", "target", "message");
                 return;
             }
 
@@ -110,7 +110,7 @@ namespace SevenMod.Plugin.BaseChat
         {
             if (e.Arguments.Count < 1)
             {
-                this.ReplyToCommand(e.Client, "Not enough parameters");
+                e.Command.PrintUsage(e.Client, "<{0:t}>", "message");
                 return;
             }
 

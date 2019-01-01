@@ -9,6 +9,9 @@
   <Phrase Name="Unban Description">
     <en>Unbans a player from the server</en>
   </Phrase>
+  <Phrase Name="minutes">
+    <en>minutes</en>
+  </Phrase>
   <Phrase Name="Invalid ban duration">
     <en>Invalid ban duration</en>
   </Phrase>

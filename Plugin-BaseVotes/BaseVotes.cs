@@ -60,7 +60,7 @@ namespace SevenMod.Plugin.BaseVotes
         {
             if (e.Arguments.Count < 1)
             {
-                this.ReplyToCommand(e.Client, "Not enough parameters");
+                e.Command.PrintUsage(e.Client, "<{0:t}> [{1:t}] ...", "question", "option");
                 return;
             }
 
@@ -101,7 +101,7 @@ namespace SevenMod.Plugin.BaseVotes
         {
             if (e.Arguments.Count < 1)
             {
-                this.ReplyToCommand(e.Client, "Not enough parameters");
+                e.Command.PrintUsage(e.Client, "<{0:t}>", "target");
                 return;
             }
 
@@ -146,7 +146,7 @@ namespace SevenMod.Plugin.BaseVotes
         {
             if (e.Arguments.Count < 1)
             {
-                this.ReplyToCommand(e.Client, "Not enough parameters");
+                e.Command.PrintUsage(e.Client, "<{0:t}>", "target");
                 return;
             }
 

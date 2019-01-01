@@ -21,6 +21,12 @@
   <Phrase Name="Who Description">
     <en>Lists connected clients and their access flags</en>
   </Phrase>
+  <Phrase Name="value">
+    <en>value</en>
+  </Phrase>
+  <Phrase Name="command">
+    <en>command</en>
+  </Phrase>
   <Phrase Name="Vote not in progress">
     <en>A vote is not currently in progress</en>
   </Phrase>

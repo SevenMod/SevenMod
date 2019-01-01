@@ -70,7 +70,7 @@ namespace SevenMod.Plugin.BaseCommands
         {
             if (e.Arguments.Count < 1)
             {
-                this.ReplyToCommand(e.Client, "Not enough parameters");
+                e.Command.PrintUsage(e.Client, "<cvar> [{0:t}]", "value");
                 return;
             }
 
@@ -102,7 +102,7 @@ namespace SevenMod.Plugin.BaseCommands
         {
             if (e.Arguments.Count < 1)
             {
-                this.ReplyToCommand(e.Client, "Not enough parameters");
+                e.Command.PrintUsage(e.Client, "<{0:t}>", "target");
                 return;
             }
 
@@ -157,7 +157,7 @@ namespace SevenMod.Plugin.BaseCommands
         {
             if (e.Arguments.Count < 1)
             {
-                this.ReplyToCommand(e.Client, "Not enough parameters");
+                e.Command.PrintUsage(e.Client, "<{0:t}>", "command");
                 return;
             }
 
@@ -186,7 +186,7 @@ namespace SevenMod.Plugin.BaseCommands
         {
             if (e.Arguments.Count < 1)
             {
-                this.ReplyToCommand(e.Client, "Not enough parameters");
+                e.Command.PrintUsage(e.Client, "<cvar>");
                 return;
             }
 

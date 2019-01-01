@@ -8,7 +8,9 @@ namespace SevenMod.Console
     using System;
     using System.Collections.Generic;
     using SevenMod.Admin;
+    using SevenMod.Chat;
     using SevenMod.Core;
+    using SevenMod.Lang;
     using SevenMod.Logging;
 
     /// <summary>
@@ -49,6 +51,24 @@ namespace SevenMod.Console
         /// Gets the <see cref="AdminFlags"/> value required to execute this command.
         /// </summary>
         public AdminFlags AccessFlags { get; }
+
+        /// <summary>
+        /// Print the usage of the command to a client.
+        /// </summary>
+        /// <param name="client">The <see cref="SMClient"/> object representing the client.</param>
+        /// <param name="usage">The parameter string for the command.</param>
+        /// <param name="args">The format arguments for <paramref name="usage"/>.</param>
+        public void PrintUsage(SMClient client, string usage, params object[] args)
+        {
+            if (ChatHook.ShouldReplyToChat(client?.ClientInfo))
+            {
+                ChatHelper.SendTo(client.ClientInfo, null, "{0:t}: /{1:s} {2:s}", "Usage", this.Command, Language.GetString(usage, client.ClientInfo, args));
+            }
+            else
+            {
+                SdtdConsole.Instance.Output("[SM] " + Language.GetString("{0:t}: sm {1:s} {2:s}", client?.ClientInfo, "Usage", this.Command, Language.GetString(usage, client?.ClientInfo, args)));
+            }
+        }
 
         /// <summary>
         /// Checks whether a specified client has access to this command.
