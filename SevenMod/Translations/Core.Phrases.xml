@@ -21,9 +21,6 @@
   <Phrase Name="No Access">
     <en>You do not have access to that command</en>
   </Phrase>
-  <Phrase Name="Not enough parameters">
-    <en>Not enough parameters</en>
-  </Phrase>
   <Phrase Name="Server cannot target self">
     <en>Server cannot target self</en>
   </Phrase>
