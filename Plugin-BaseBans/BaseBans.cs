@@ -43,7 +43,7 @@ namespace SevenMod.Plugin.BaseBans
         {
             if (e.Arguments.Count < 1)
             {
-                e.Command.PrintUsage(e.Client, "<playerId> [{0:t}]", "reason");
+                e.Command.PrintUsage(e.Client, "<playerId> <{0:t}|0> [{1:t}]", "minutes", "reason");
                 return;
             }
 
@@ -53,9 +53,23 @@ namespace SevenMod.Plugin.BaseBans
                 return;
             }
 
-            var reason = e.Arguments.Count > 1 ? string.Join(" ", e.Arguments.GetRange(1, e.Arguments.Count - 1).ToArray()) : string.Empty;
-            this.LogAction(e.Client, null, "\"{0:L}\" added ban (minutes \"{1:d}\") (id \"{2:s}\") (reason \"{3:s}\")", e.Client, 0, e.Arguments[0], reason);
-            SdtdConsole.Instance.ExecuteSync($"ban add {e.Arguments[0]} \"{reason}\"", null);
+            if (!uint.TryParse(e.Arguments[1], out var duration))
+            {
+                this.ReplyToCommand(e.Client, "Invalid ban duration");
+                return;
+            }
+
+            var reason = e.Arguments.Count > 2 ? string.Join(" ", e.Arguments.GetRange(2, e.Arguments.Count - 2).ToArray()) : string.Empty;
+            this.LogAction(e.Client, null, "\"{0:L}\" added ban (minutes \"{1:d}\") (id \"{2:s}\") (reason \"{3:s}\")", e.Client, duration, e.Arguments[0], reason);
+
+            var unit = "minutes";
+            if (duration == 0)
+            {
+                unit = "years";
+                duration = 999999;
+            }
+
+            SdtdConsole.Instance.ExecuteSync($"ban add {e.Arguments[0]} {duration} {unit} \"{reason}\"", null);
         }
 
         /// <summary>
@@ -79,7 +93,7 @@ namespace SevenMod.Plugin.BaseBans
 
             if (this.ParseSingleTargetString(e.Client, e.Arguments[0], out var target))
             {
-                var reason = e.Arguments.Count > 1 ? string.Join(" ", e.Arguments.GetRange(1, e.Arguments.Count - 1).ToArray()) : string.Empty;
+                var reason = e.Arguments.Count > 2 ? string.Join(" ", e.Arguments.GetRange(2, e.Arguments.Count - 2).ToArray()) : string.Empty;
                 this.LogAction(e.Client, target, "\"{0:L}\" banned \"{1:L}\" (minutes \"{2:d}\") (reason \"{3:s}\")", e.Client, target, duration, reason);
 
                 var unit = "minutes";
