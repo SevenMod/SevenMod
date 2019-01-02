@@ -43,7 +43,7 @@ namespace SevenMod.Plugin.BaseBans
         {
             if (e.Arguments.Count < 1)
             {
-                e.Command.PrintUsage(e.Client, "<playerId>");
+                e.Command.PrintUsage(e.Client, "<playerId> [{0:t}]", "reason");
                 return;
             }
 
@@ -53,8 +53,9 @@ namespace SevenMod.Plugin.BaseBans
                 return;
             }
 
-            this.LogAction(e.Client, null, "\"{0:L}\" added ban (minutes \"{1:d}\") (id \"{2:s}\")", e.Client, 0, e.Arguments[0]);
-            SdtdConsole.Instance.ExecuteSync($"ban add {e.Arguments[0]}", null);
+            var reason = e.Arguments.Count > 1 ? string.Join(" ", e.Arguments.GetRange(1, e.Arguments.Count - 1).ToArray()) : string.Empty;
+            this.LogAction(e.Client, null, "\"{0:L}\" added ban (minutes \"{1:d}\") (id \"{2:s}\") (reason \"{3:s}\")", e.Client, 0, e.Arguments[0], reason);
+            SdtdConsole.Instance.ExecuteSync($"ban add {e.Arguments[0]} \"{reason}\"", null);
         }
 
         /// <summary>
@@ -66,7 +67,7 @@ namespace SevenMod.Plugin.BaseBans
         {
             if (e.Arguments.Count < 2)
             {
-                e.Command.PrintUsage(e.Client, "<{0:t}> <{1:t}|0>", "target", "minutes");
+                e.Command.PrintUsage(e.Client, "<{0:t}> <{1:t}|0> [{2:t}]", "target", "minutes", "reason");
                 return;
             }
 
@@ -78,7 +79,8 @@ namespace SevenMod.Plugin.BaseBans
 
             if (this.ParseSingleTargetString(e.Client, e.Arguments[0], out var target))
             {
-                this.LogAction(e.Client, target, "\"{0:L}\" banned \"{1:L}\" (minutes \"{2:d}\")", e.Client, target, duration);
+                var reason = e.Arguments.Count > 1 ? string.Join(" ", e.Arguments.GetRange(1, e.Arguments.Count - 1).ToArray()) : string.Empty;
+                this.LogAction(e.Client, target, "\"{0:L}\" banned \"{1:L}\" (minutes \"{2:d}\") (reason \"{3:s}\")", e.Client, target, duration, reason);
 
                 var unit = "minutes";
                 if (duration == 0)
@@ -93,7 +95,7 @@ namespace SevenMod.Plugin.BaseBans
                     this.ShowActivity(e.Client, "Banned player", target.PlayerName, duration);
                 }
 
-                SdtdConsole.Instance.ExecuteSync($"ban add {target.PlayerId} {duration} {unit}", null);
+                SdtdConsole.Instance.ExecuteSync($"ban add {target.PlayerId} {duration} {unit} \"{reason}\"", null);
             }
         }
 

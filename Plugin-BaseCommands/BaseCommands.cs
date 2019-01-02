@@ -102,12 +102,13 @@ namespace SevenMod.Plugin.BaseCommands
         {
             if (e.Arguments.Count < 1)
             {
-                e.Command.PrintUsage(e.Client, "<{0:t}>", "target");
+                e.Command.PrintUsage(e.Client, "<{0:t}> [{1:t}]", "target", "reason");
                 return;
             }
 
             if (this.ParseTargetString(e.Client, e.Arguments[0], out var targets, out var targetName, out var nameIsPhrase) > 0)
             {
+                var reason = e.Arguments.Count > 1 ? string.Join(" ", e.Arguments.GetRange(1, e.Arguments.Count - 1).ToArray()) : string.Empty;
                 if (nameIsPhrase)
                 {
                     this.ShowActivity(e.Client, "Kicked target", targetName);
@@ -120,7 +121,7 @@ namespace SevenMod.Plugin.BaseCommands
                 SMClient self = null;
                 foreach (var target in targets)
                 {
-                    this.LogAction(e.Client, target, "\"{0:L}\" kicked \"{1:L}\"", e.Client, target);
+                    this.LogAction(e.Client, target, "\"{0:L}\" kicked \"{1:L}\" (reason \"{2:s}\")", e.Client, target, reason);
                     if (target == e.Client)
                     {
                         self = target;
@@ -132,7 +133,7 @@ namespace SevenMod.Plugin.BaseCommands
                             this.ShowActivity(e.Client, "Kicked player", target.PlayerName);
                         }
 
-                        SdtdConsole.Instance.ExecuteSync($"kick {target.PlayerId}", null);
+                        SdtdConsole.Instance.ExecuteSync($"kick {target.PlayerId} \"{reason}\"", null);
                     }
                 }
 
@@ -143,7 +144,7 @@ namespace SevenMod.Plugin.BaseCommands
                         this.ShowActivity(e.Client, "Kicked player", self.PlayerName);
                     }
 
-                    SdtdConsole.Instance.ExecuteSync($"kick {self.PlayerId}", null);
+                    SdtdConsole.Instance.ExecuteSync($"kick {self.PlayerId} \"{reason}\"", null);
                 }
             }
         }

@@ -18,6 +18,9 @@
   <Phrase Name="target">
     <en>target</en>
   </Phrase>
+  <Phrase Name="reason">
+    <en>reason</en>
+  </Phrase>
   <Phrase Name="No Access">
     <en>You do not have access to that command</en>
   </Phrase>
