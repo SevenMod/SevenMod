@@ -66,7 +66,7 @@ namespace SevenMod.Plugin.BaseBans
             if (duration == 0)
             {
                 unit = "years";
-                duration = 999999;
+                duration = 1000;
             }
 
             SdtdConsole.Instance.ExecuteSync($"ban add {e.Arguments[0]} {duration} {unit} \"{reason}\"", null);
@@ -100,7 +100,7 @@ namespace SevenMod.Plugin.BaseBans
                 if (duration == 0)
                 {
                     unit = "years";
-                    duration = 999999;
+                    duration = 1000;
 
                     this.ShowActivity(e.Client, "Permabanned player", target.PlayerName);
                 }
