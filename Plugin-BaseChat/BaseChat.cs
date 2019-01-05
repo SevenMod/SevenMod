@@ -81,7 +81,7 @@ namespace SevenMod.Plugin.BaseChat
                 return;
             }
 
-            if (this.ParseSingleTargetString(e.Client, e.Arguments[0], out var target))
+            if (!this.ParseSingleTargetString(e.Client, e.Arguments[0], out var target))
             {
                 this.ReplyToCommand(e.Client, "Player not found");
                 return;
