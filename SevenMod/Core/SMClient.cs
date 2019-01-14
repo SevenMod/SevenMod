@@ -5,12 +5,10 @@
 
 namespace SevenMod.Core
 {
-    using System;
-
     /// <summary>
     /// Represents a client on the server.
     /// </summary>
-    public class SMClient : IEquatable<SMClient>
+    public class SMClient
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="SMClient"/> class.
@@ -67,10 +65,38 @@ namespace SevenMod.Core
         /// </summary>
         internal ClientInfo ClientInfo { get; }
 
-        /// <inheritdoc/>
-        public bool Equals(SMClient other)
+        /// <summary>
+        /// Equality operator.
+        /// </summary>
+        /// <param name="left">The left operand.</param>
+        /// <param name="right">The right operand.</param>
+        /// <returns>A value indicating whether <paramref name="left"/> is equal to <paramref name="right"/>.8</returns>
+        public static bool operator ==(SMClient left, SMClient right)
         {
-            return this.EntityId == other.EntityId;
+            return left.Equals(right);
+        }
+
+        /// <summary>
+        /// Inequality operator.
+        /// </summary>
+        /// <param name="left">The left operand.</param>
+        /// <param name="right">The right operand.</param>
+        /// <returns>A value indicating whether <paramref name="left"/> is not equal to <paramref name="right"/>.8</returns>
+        public static bool operator !=(SMClient left, SMClient right)
+        {
+            return !left.Equals(right);
+        }
+
+        /// <inheritdoc/>
+        public override int GetHashCode()
+        {
+            return this.ClientInfo.GetHashCode();
+        }
+
+        /// <inheritdoc/>
+        public override bool Equals(object obj)
+        {
+            return this.ClientInfo.Equals((obj as SMClient)?.ClientInfo);
         }
     }
 }
