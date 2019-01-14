@@ -8,6 +8,7 @@ namespace SevenMod.Chat
     using System.Text;
     using SevenMod.Admin;
     using SevenMod.ConVar;
+    using SevenMod.Core;
     using SevenMod.Lang;
 
     /// <summary>
@@ -49,7 +50,7 @@ namespace SevenMod.Chat
         {
             if ((client != null) && ChatHook.ShouldReplyToChat(client))
             {
-                SendTo(client, null, message, args);
+                SendTo(client, $"[\u200BSM] {message}", args);
             }
             else
             {
@@ -61,31 +62,29 @@ namespace SevenMod.Chat
         /// Sends a chat message to an individual client.
         /// </summary>
         /// <param name="client">The <see cref="ClientInfo"/> object representing the client.</param>
-        /// <param name="sender">The name to display as the sender of the message, or <c>null</c> to send without a name attached.</param>
         /// <param name="message">The language key or message to send.</param>
         /// <param name="args">The parameters for the language format string.</param>
-        public static void SendTo(ClientInfo client, string sender, string message, params object[] args)
+        public static void SendTo(ClientInfo client, string message, params object[] args)
         {
-            message = Language.GetString(message, client, args);
-            if (string.IsNullOrEmpty(sender))
+            if (client == null || client == SMClient.Console.ClientInfo)
             {
-                message = $"[{Colors.Green}][\u200BSM][-] {message}";
+                return;
             }
 
-            client.SendPackage(new NetPackageChat(EChatType.Global, 0, message, sender, false, null));
+            message = Language.GetString(message, client, args);
+            client.SendPackage(new NetPackageChat(EChatType.Global, 0, message, null, false, null));
         }
 
         /// <summary>
         /// Sends a chat message to all connected clients.
         /// </summary>
-        /// <param name="sender">The name to display as the sender of the message, or <c>null</c> to send without a name attached.</param>
         /// <param name="message">The language key or message to send.</param>
         /// <param name="args">The parameters for the language format string.</param>
-        public static void SendToAll(string sender, string message, params object[] args)
+        public static void SendToAll(string message, params object[] args)
         {
             foreach (var client in ConnectionManager.Instance.Clients.List)
             {
-                SendTo(client, sender, message, args);
+                SendTo(client, message, args);
             }
         }
 
@@ -104,7 +103,7 @@ namespace SevenMod.Chat
             {
                 if (c == client)
                 {
-                    SendTo(c, null, message, args);
+                    SendTo(c, $"[\u200BSM] {message}", args);
                     continue;
                 }
 
@@ -120,7 +119,7 @@ namespace SevenMod.Chat
                         actualTag = Language.GetString(tag, c);
                     }
 
-                    SendTo(c, null, $"{actualTag}: {message}", args);
+                    SendTo(c, $"[\u200BSM] {actualTag}: {message}", args);
                 }
                 else if ((show & 4) == 4 && AdminManager.CheckAccess(c, AdminFlags.Generic))
                 {
@@ -134,7 +133,7 @@ namespace SevenMod.Chat
                         actualTag = Language.GetString(tag, c);
                     }
 
-                    SendTo(c, null, $"{actualTag}: {message}", args);
+                    SendTo(c, $"[\u200BSM] {actualTag}: {message}", args);
                 }
             }
         }

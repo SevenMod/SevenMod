@@ -15,10 +15,16 @@
   <Phrase Name="color">
     <en>color</en>
   </Phrase>
-  <Phrase Name="Private">
-    <en>Private</en>
+  <Phrase Name="Chat admins">
+    <Format>{1:N}{2:s}</Format>
+    <en>[CYAN](ADMINS) {1}: {2}[-]</en>
   </Phrase>
-  <Phrase Name="Admins">
-    <en>Admins</en>
+  <Phrase Name="Chat to admins">
+    <Format>{1:N}{2:s}</Format>
+    <en>[CYAN](TO ADMINS) {1}: {2}[-]</en>
+  </Phrase>
+  <Phrase Name="Private say to">
+    <Format>{1:N},{2:N},{3:s}</Format>
+    <en>[i](Private to {1}) {2}: {3}</en>
   </Phrase>
 </Phrases>

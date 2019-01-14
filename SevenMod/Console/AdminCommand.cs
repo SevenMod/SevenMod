@@ -62,11 +62,11 @@ namespace SevenMod.Console
         {
             if (ChatHook.ShouldReplyToChat(client?.ClientInfo))
             {
-                ChatHelper.SendTo(client.ClientInfo, null, "{0:t}: /{1:s} {2:s}", "Usage", this.Command, Language.GetString(usage, client.ClientInfo, args));
+                ChatHelper.SendTo(client.ClientInfo, "[\u200BSM] {0:t}: /{1:s} {2:s}", "Usage", this.Command, Language.GetString(usage, client.ClientInfo, args));
             }
             else
             {
-                SdtdConsole.Instance.Output("[SM] " + Language.GetString("{0:t}: sm {1:s} {2:s}", client?.ClientInfo, "Usage", this.Command, Language.GetString(usage, client?.ClientInfo, args)));
+                SdtdConsole.Instance.Output(Language.GetString("[SM] {0:t}: sm {1:s} {2:s}", client?.ClientInfo, "Usage", this.Command, Language.GetString(usage, client?.ClientInfo, args)));
             }
         }
 

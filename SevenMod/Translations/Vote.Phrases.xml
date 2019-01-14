@@ -6,32 +6,34 @@
   <Phrase Name="No">
     <en>No</en>
   </Phrase>
-  <Phrase Name="Vote">
-    <en>Vote</en>
+  <Phrase Name="Vote question">
+    <Format>{1:s}</Format>
+    <en>[Vote] {1}</en>
   </Phrase>
-  <Phrase Name="Option">
-    <en>Option</en>
+  <Phrase Name="Vote option">
+    <Format>{1:d},{2:s}</Format>
+    <en>[Option] /{1}: {2}</en>
   </Phrase>
   <Phrase Name="Vote Yes Or No">
-    <en>Enter /yes or /no into chat to cast your vote</en>
+    <en>[Vote] Enter /yes or /no into chat to cast your vote</en>
   </Phrase>
   <Phrase Name="Vote Number">
-    <en>Enter /# into chat to cast your vote</en>
+    <en>[Vote] Enter /# into chat to cast your vote</en>
   </Phrase>
   <Phrase Name="Voted For">
     <Format>{1:s},{2:s}</Format>
-    <en>{1} voted for {2}</en>
+    <en>[Vote] {1} voted for {2}</en>
   </Phrase>
   <Phrase Name="You Voted">
     <Format>{1:s}</Format>
-    <en>You voted for {1}</en>
+    <en>[Vote] You voted for {1}</en>
   </Phrase>
   <Phrase Name="Vote Succeeded">
     <Format>{1:p2}</Format>
-    <en>Vote succeeded with {1} of the vote.</en>
+    <en>[Vote] Vote succeeded with {1} of the vote.</en>
   </Phrase>
   <Phrase Name="Vote Failed">
     <Format>{1:p2}</Format>
-    <en>Vote failed with {1} of the vote.</en>
+    <en>[Vote] Vote failed with {1} of the vote.</en>
   </Phrase>
 </Phrases>

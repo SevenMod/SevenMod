@@ -218,19 +218,7 @@ namespace SevenMod.Core
         /// <param name="args">The arguments for the message.</param>
         protected void PrintToChat(SMClient client, string message, params object[] args)
         {
-            ChatHelper.SendTo(client.ClientInfo, null, message, args);
-        }
-
-        /// <summary>
-        /// Sends a chat message to an individual client with a name attached.
-        /// </summary>
-        /// <param name="client">The <see cref="SMClient"/> object representing the client.</param>
-        /// <param name="sender">The name to display as the sender of the message.</param>
-        /// <param name="message">The message text.</param>
-        /// <param name="args">The arguments for the message.</param>
-        protected void PrintToChatFrom(SMClient client, string sender, string message, params object[] args)
-        {
-            ChatHelper.SendTo(client.ClientInfo, sender, message, args);
+            ChatHelper.SendTo(client.ClientInfo, message, args);
         }
 
         /// <summary>
@@ -240,18 +228,7 @@ namespace SevenMod.Core
         /// <param name="args">The arguments for the message.</param>
         protected void PrintToChatAll(string message, params object[] args)
         {
-            ChatHelper.SendToAll(null, message, args);
-        }
-
-        /// <summary>
-        /// Sends a chat message to all connected clients with a name attached.
-        /// </summary>
-        /// <param name="sender">The name to display as the sender of the message.</param>
-        /// <param name="message">The message text.</param>
-        /// <param name="args">The arguments for the message.</param>
-        protected void PrintToChatAllFrom(string sender, string message, params object[] args)
-        {
-            ChatHelper.SendToAll(sender, message, args);
+            ChatHelper.SendToAll(message, args);
         }
 
         /// <summary>

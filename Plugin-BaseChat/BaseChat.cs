@@ -87,18 +87,13 @@ namespace SevenMod.Plugin.BaseChat
                 return;
             }
 
-            string from;
-            if (e.Client == null)
+            var message = string.Join(" ", e.Arguments.GetRange(1, e.Arguments.Count - 1).ToArray());
+            if (e.Client != target)
             {
-                from = $"[i]({this.GetString("Private")}) [Console]";
-            }
-            else
-            {
-                from = $"[i]({this.GetString("Private")}) {e.Client.PlayerName}";
+                this.PrintToChat(e.Client, "Private say to", target, e.Client, message);
             }
 
-            var message = string.Join(" ", e.Arguments.GetRange(1, e.Arguments.Count - 1).ToArray());
-            this.PrintToChatFrom(target, from, $"{message}[/i]");
+            this.PrintToChat(target, "Private say to", target, e.Client, message);
         }
 
         /// <summary>
@@ -114,23 +109,13 @@ namespace SevenMod.Plugin.BaseChat
                 return;
             }
 
-            string from;
-            if (e.Client == null)
-            {
-                from = $"[{Colors.Cyan}]({this.GetString("Admins")}) [Console]";
-            }
-            else
-            {
-                from = $"[{Colors.Cyan}]({this.GetString("Admins")}) {e.Client.PlayerName}";
-            }
-
             var message = string.Join(" ", e.Arguments.ToArray());
-            message = $"{message}[-]";
+            var fromAdmin = e.Command.HasAccess(e.Client);
             foreach (var client in ClientHelper.List)
             {
-                if (AdminManager.IsAdmin(client.PlayerId))
+                if (client == e.Client || AdminManager.IsAdmin(client.PlayerId))
                 {
-                    this.PrintToChatFrom(client, from, message);
+                    this.PrintToChat(client, fromAdmin ? "Chat admins" : "Chat to admins", e.Client, message);
                 }
             }
         }

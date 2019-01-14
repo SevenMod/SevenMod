@@ -6,7 +6,6 @@
 namespace SevenMod.Voting
 {
     using System;
-    using SevenMod.Chat;
 
     /// <summary>
     /// Manages the voting system.
@@ -47,8 +46,7 @@ namespace SevenMod.Voting
             }
 
             VoteInProgress = true;
-            ChatHelper.SendToAll(null, builder.Message, builder.MessageArgs);
-            CurrentVote = new Vote(builder.Options, builder.Data);
+            CurrentVote = new Vote(builder);
             CurrentVote.Ended += VoteEnded;
             CurrentVote.Cancelled += VoteEnded;
 

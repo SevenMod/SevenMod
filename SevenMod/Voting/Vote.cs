@@ -10,6 +10,7 @@ namespace SevenMod.Voting
     using System.Timers;
     using SevenMod.Chat;
     using SevenMod.Core;
+    using SevenMod.Lang;
     using SevenMod.Logging;
 
     /// <summary>
@@ -45,22 +46,21 @@ namespace SevenMod.Voting
         /// <summary>
         /// Initializes a new instance of the <see cref="Vote"/> class.
         /// </summary>
-        /// <param name="options">The list of answer options; <c>null</c> for a boolean yes/no vote.</param>
-        /// <param name="data">Data to associate with this vote.</param>
-        internal Vote(List<string> options, object data)
+        /// <param name="builder">The <see cref="VoteBuilder"/> object with the vote information.</param>
+        internal Vote(VoteBuilder builder)
         {
-            if (options == null || options.Count == 0)
+            if (builder.Options == null || builder.Options.Count == 0)
             {
                 this.voteOptions = new string[] { "Yes", "No" };
                 this.boolVote = true;
             }
             else
             {
-                this.voteOptions = options.ToArray();
+                this.voteOptions = builder.Options.ToArray();
                 this.boolVote = false;
             }
 
-            this.data = data;
+            this.data = builder.Data;
 
             ChatHook.ChatMessage += this.OnChatMessage;
 
@@ -71,16 +71,17 @@ namespace SevenMod.Voting
             foreach (var client in ConnectionManager.Instance.Clients.List)
             {
                 this.votingPool.Add(client.playerId, -1);
+                ChatHelper.SendTo(client, "Vote question", Language.GetString(builder.Message, client, builder.MessageArgs));
                 if (this.boolVote)
                 {
-                    ChatHelper.SendTo(client, null, "Vote Yes Or No");
+                    ChatHelper.SendTo(client, "Vote Yes Or No");
                 }
                 else
                 {
-                    ChatHelper.SendTo(client, null, "Vote Number");
+                    ChatHelper.SendTo(client, "Vote Number");
                     for (var i = 0; i < this.voteOptions.Length; i++)
                     {
-                        ChatHelper.SendTo(client, null, $"/{i + 1}: {this.voteOptions[i]}");
+                        ChatHelper.SendTo(client, "Vote option", i + 1, this.voteOptions[i]);
                     }
                 }
             }
@@ -157,7 +158,7 @@ namespace SevenMod.Voting
 
             if ((index > -1) && (index < this.voteOptions.Length))
             {
-                ChatHelper.SendTo(e.Client.ClientInfo, null, "You Voted", this.voteOptions[index]);
+                ChatHelper.SendTo(e.Client.ClientInfo, "You Voted", this.voteOptions[index]);
                 this.votingPool[e.Client.PlayerId] = index;
                 e.Handled = true;
             }
