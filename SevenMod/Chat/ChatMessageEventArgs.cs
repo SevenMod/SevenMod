@@ -17,10 +17,12 @@ namespace SevenMod.Chat
         /// Initializes a new instance of the <see cref="ChatMessageEventArgs"/> class.
         /// </summary>
         /// <param name="client">The <see cref="ClientInfo"/> object representing the client that sent the message.</param>
+        /// <param name="type">The type of chat message.</param>
         /// <param name="message">The message text.</param>
-        internal ChatMessageEventArgs(ClientInfo client, string message)
+        internal ChatMessageEventArgs(ClientInfo client, EChatType type, string message)
         {
             this.Client = (client == null) ? SMClient.Console : new SMClient(client);
+            this.Type = (SMChatType)type;
             this.Message = message;
         }
 
@@ -28,6 +30,11 @@ namespace SevenMod.Chat
         /// Gets the <see cref="ClientInfo"/> object representing the client that sent the message.
         /// </summary>
         public SMClient Client { get; }
+
+        /// <summary>
+        /// Gets the <see cref="SMChatType"/> value representing the type of chat message.
+        /// </summary>
+        public SMChatType Type { get; }
 
         /// <summary>
         /// Gets the message text.

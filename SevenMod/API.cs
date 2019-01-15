@@ -61,12 +61,7 @@ namespace SevenMod
         /// <returns><c>true</c> to allow the message to continue propagating; <c>false</c> to consume the message.</returns>
         private bool OnChatMessage(ClientInfo client, EChatType type, string msg)
         {
-            if (type == EChatType.Global)
-            {
-                return ChatHook.HookChatMessage(client, msg);
-            }
-
-            return true;
+            return ChatHook.HookChatMessage(client, type, msg);
         }
 
         /// <summary>

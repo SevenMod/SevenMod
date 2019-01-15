@@ -8,6 +8,7 @@ namespace SevenMod.Plugin.BaseChat
     using SevenMod.Admin;
     using SevenMod.Chat;
     using SevenMod.Console;
+    using SevenMod.ConVar;
     using SevenMod.Core;
 
     /// <summary>
@@ -15,6 +16,31 @@ namespace SevenMod.Plugin.BaseChat
     /// </summary>
     public class BaseChat : PluginAbstract
     {
+        /// <summary>
+        /// The symbol for chat command shortcuts.
+        /// </summary>
+        private static readonly char ChatSymbol = '@';
+
+        /// <summary>
+        /// The value of the ChatMode <see cref="ConVar"/>.
+        /// </summary>
+        private ConVarValue chatMode;
+
+        /// <summary>
+        /// The say <see cref="AdminCommand"/>.
+        /// </summary>
+        private AdminCommand sayCommand;
+
+        /// <summary>
+        /// The psay <see cref="AdminCommand"/>.
+        /// </summary>
+        private AdminCommand psayCommand;
+
+        /// <summary>
+        /// The chat <see cref="AdminCommand"/>.
+        /// </summary>
+        private AdminCommand chatCommand;
+
         /// <inheritdoc/>
         public override PluginInfo Info => new PluginInfo
         {
@@ -30,9 +56,91 @@ namespace SevenMod.Plugin.BaseChat
         {
             this.LoadTranslations("BaseChat.Plugin");
 
-            this.RegAdminCmd("say", AdminFlags.Chat, "Say Description").Executed += this.OnSayCommandExecuted;
-            this.RegAdminCmd("psay", AdminFlags.Chat, "Psay Description").Executed += this.OnPsayCommandExecuted;
-            this.RegAdminCmd("chat", AdminFlags.Chat, "Chat Description").Executed += this.OnChatCommandExecuted;
+            this.chatMode = this.CreateConVar("ChatMode", "True", "Allow players to send messages to admin chat.").Value;
+
+            this.AutoExecConfig(true, "BaseChat");
+
+            this.sayCommand = this.RegAdminCmd("say", AdminFlags.Chat, "Say Description");
+            this.psayCommand = this.RegAdminCmd("psay", AdminFlags.Chat, "Psay Description");
+            this.chatCommand = this.RegAdminCmd("chat", AdminFlags.Chat, "Chat Description");
+
+            this.sayCommand.Executed += this.OnSayCommandExecuted;
+            this.psayCommand.Executed += this.OnPsayCommandExecuted;
+            this.chatCommand.Executed += this.OnChatCommandExecuted;
+
+            ChatHook.ChatMessage += this.OnChatMessage;
+        }
+
+        /// <inheritdoc/>
+        public override void OnUnloadPlugin()
+        {
+            ChatHook.ChatMessage -= this.OnChatMessage;
+        }
+
+        /// <summary>
+        /// Called when a chat message is received from a client.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">A <see cref="ChatMessageEventArgs"/> object containing the event data.</param>
+        private void OnChatMessage(object sender, ChatMessageEventArgs e)
+        {
+            var startIdx = 0;
+            if (e.Message[startIdx] != ChatSymbol)
+            {
+                return;
+            }
+
+            startIdx++;
+
+            if (e.Type == SMChatType.Global)
+            {
+                if (e.Message[startIdx] != ChatSymbol)
+                {
+                    if (!this.sayCommand.HasAccess(e.Client))
+                    {
+                        return;
+                    }
+
+                    this.SentChatToAll(e.Client, e.Message.Substring(startIdx));
+                    e.Handled = true;
+                }
+
+                startIdx++;
+
+                if (e.Message[startIdx] != ChatSymbol)
+                {
+                    if (!this.psayCommand.HasAccess(e.Client))
+                    {
+                        return;
+                    }
+
+                    var message = e.Message.Trim().Substring(startIdx);
+                    var breakIdx = message.IndexOf(' ');
+                    if (breakIdx == -1)
+                    {
+                        return;
+                    }
+
+                    if (!this.ParseSingleTargetString(e.Client, message.Substring(0, breakIdx), out var target))
+                    {
+                        e.Handled = true;
+                        return;
+                    }
+
+                    this.SentPrivateChat(e.Client, target, message.Substring(breakIdx + 1));
+                    e.Handled = true;
+                }
+            }
+            else
+            {
+                if (!this.chatCommand.HasAccess(e.Client) && !this.chatMode.AsBool)
+                {
+                    return;
+                }
+
+                this.SentChatToAdmins(e.Client, e.Message.Substring(startIdx));
+                e.Handled = true;
+            }
         }
 
         /// <summary>
@@ -48,24 +156,8 @@ namespace SevenMod.Plugin.BaseChat
                 return;
             }
 
-            var startIdx = 0;
-            var color = Colors.Green;
-            if (e.Arguments.Count > 1)
-            {
-                if (Colors.IsValidColorName(e.Arguments[0]))
-                {
-                    color = Colors.GetHexFromColorName(e.Arguments[0]);
-                    startIdx++;
-                }
-                else if (Colors.IsValidColorHex(e.Arguments[0]))
-                {
-                    color = e.Arguments[0].ToUpper();
-                    startIdx++;
-                }
-            }
-
-            var message = string.Join(" ", e.Arguments.GetRange(startIdx, e.Arguments.Count - startIdx).ToArray());
-            this.PrintToChatAll($"[{color}]{message}[-]");
+            var message = string.Join(" ", e.Arguments.ToArray());
+            this.SentChatToAll(e.Client, message);
         }
 
         /// <summary>
@@ -88,12 +180,7 @@ namespace SevenMod.Plugin.BaseChat
             }
 
             var message = string.Join(" ", e.Arguments.GetRange(1, e.Arguments.Count - 1).ToArray());
-            if (e.Client != target)
-            {
-                this.PrintToChat(e.Client, "Private say to", target, e.Client, message);
-            }
-
-            this.PrintToChat(target, "Private say to", target, e.Client, message);
+            this.SentPrivateChat(e.Client, target, message);
         }
 
         /// <summary>
@@ -110,12 +197,65 @@ namespace SevenMod.Plugin.BaseChat
             }
 
             var message = string.Join(" ", e.Arguments.ToArray());
-            var fromAdmin = e.Command.HasAccess(e.Client);
-            foreach (var client in ClientHelper.List)
+            this.SentChatToAdmins(e.Client, message);
+        }
+
+        /// <summary>
+        /// Sends a chat message to all players.
+        /// </summary>
+        /// <param name="client">The <see cref="SMClient"/> object representing the client sending the message.</param>
+        /// <param name="message">The message to send.</param>
+        private void SentChatToAll(SMClient client, string message)
+        {
+            var startIdx = message.IndexOf(' ');
+            var color = Colors.Green;
+            if (startIdx > -1)
             {
-                if (client == e.Client || AdminManager.IsAdmin(client.PlayerId))
+                var firstWord = message.Substring(0, startIdx);
+                if (Colors.IsValidColorName(firstWord))
                 {
-                    this.PrintToChat(client, fromAdmin ? "Chat admins" : "Chat to admins", e.Client, message);
+                    color = Colors.GetHexFromColorName(firstWord);
+                }
+                else if (Colors.IsValidColorHex(firstWord))
+                {
+                    color = firstWord.ToUpper();
+                }
+            }
+
+            startIdx++;
+
+            this.PrintToChatAll($"[{color}]{message.Substring(startIdx)}[-]");
+        }
+
+        /// <summary>
+        /// Sends a private message from one player to another.
+        /// </summary>
+        /// <param name="client">The <see cref="SMClient"/> object representing the client sending the message.</param>
+        /// <param name="target">The <see cref="SMClient"/> object representing the client to receive the message.</param>
+        /// <param name="message">The message to send.</param>
+        private void SentPrivateChat(SMClient client, SMClient target, string message)
+        {
+            if (client != target)
+            {
+                this.PrintToChat(client, "Private say to", target, client, message);
+            }
+
+            this.PrintToChat(target, "Private say to", target, client, message);
+        }
+
+        /// <summary>
+        /// Sends a chat message to all admins.
+        /// </summary>
+        /// <param name="client">The <see cref="SMClient"/> object representing the client sending the message.</param>
+        /// <param name="message">The message to send.</param>
+        private void SentChatToAdmins(SMClient client, string message)
+        {
+            var fromAdmin = this.chatCommand.HasAccess(client);
+            foreach (var c in ClientHelper.List)
+            {
+                if (c == client || this.chatCommand.HasAccess(c))
+                {
+                    this.PrintToChat(client, fromAdmin ? "Chat admins" : "Chat to admins", client, message);
                 }
             }
         }
