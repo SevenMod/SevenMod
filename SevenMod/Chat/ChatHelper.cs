@@ -101,9 +101,10 @@ namespace SevenMod.Chat
             var name = client == null ? "Console" : client.playerName;
             foreach (var c in ConnectionManager.Instance.Clients.List)
             {
+                var translated = Language.GetString(message, c, args);
                 if (c == client)
                 {
-                    SendTo(c, $"[\u200BSM] {message}", args);
+                    SendTo(c, $"[\u200BSM] {translated}");
                     continue;
                 }
 
@@ -119,7 +120,7 @@ namespace SevenMod.Chat
                         actualTag = Language.GetString(tag, c);
                     }
 
-                    SendTo(c, $"[\u200BSM] {actualTag}: {message}", args);
+                    SendTo(c, $"[\u200BSM] {actualTag}: {translated}");
                 }
                 else if ((show & 4) == 4 && AdminManager.CheckAccess(c, AdminFlags.Generic))
                 {
@@ -133,7 +134,7 @@ namespace SevenMod.Chat
                         actualTag = Language.GetString(tag, c);
                     }
 
-                    SendTo(c, $"[\u200BSM] {actualTag}: {message}", args);
+                    SendTo(c, $"[\u200BSM] {actualTag}: {translated}");
                 }
             }
         }

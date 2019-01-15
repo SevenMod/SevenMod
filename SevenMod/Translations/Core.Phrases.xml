@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Phrases>
-  <Phrase Name="Admin">
+  <Phrase Name="ADMIN">
     <en>ADMIN</en>
   </Phrase>
-  <Phrase Name="Player">
+  <Phrase Name="PLAYER">
     <en>PLAYER</en>
   </Phrase>
   <Phrase Name="All players">
