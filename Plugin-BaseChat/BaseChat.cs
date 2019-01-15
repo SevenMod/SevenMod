@@ -101,7 +101,7 @@ namespace SevenMod.Plugin.BaseChat
                         return;
                     }
 
-                    this.SentChatToAll(e.Client, e.Message.Substring(startIdx));
+                    this.SendChatToAll(e.Client, e.Message.Substring(startIdx));
                     e.Handled = true;
                 }
 
@@ -127,7 +127,7 @@ namespace SevenMod.Plugin.BaseChat
                         return;
                     }
 
-                    this.SentPrivateChat(e.Client, target, message.Substring(breakIdx + 1));
+                    this.SendPrivateChat(e.Client, target, message.Substring(breakIdx + 1));
                     e.Handled = true;
                 }
             }
@@ -138,7 +138,7 @@ namespace SevenMod.Plugin.BaseChat
                     return;
                 }
 
-                this.SentChatToAdmins(e.Client, e.Message.Substring(startIdx));
+                this.SendChatToAdmins(e.Client, e.Message.Substring(startIdx));
                 e.Handled = true;
             }
         }
@@ -157,7 +157,7 @@ namespace SevenMod.Plugin.BaseChat
             }
 
             var message = string.Join(" ", e.Arguments.ToArray());
-            this.SentChatToAll(e.Client, message);
+            this.SendChatToAll(e.Client, message);
         }
 
         /// <summary>
@@ -180,7 +180,7 @@ namespace SevenMod.Plugin.BaseChat
             }
 
             var message = string.Join(" ", e.Arguments.GetRange(1, e.Arguments.Count - 1).ToArray());
-            this.SentPrivateChat(e.Client, target, message);
+            this.SendPrivateChat(e.Client, target, message);
         }
 
         /// <summary>
@@ -197,7 +197,7 @@ namespace SevenMod.Plugin.BaseChat
             }
 
             var message = string.Join(" ", e.Arguments.ToArray());
-            this.SentChatToAdmins(e.Client, message);
+            this.SendChatToAdmins(e.Client, message);
         }
 
         /// <summary>
@@ -205,7 +205,7 @@ namespace SevenMod.Plugin.BaseChat
         /// </summary>
         /// <param name="client">The <see cref="SMClient"/> object representing the client sending the message.</param>
         /// <param name="message">The message to send.</param>
-        private void SentChatToAll(SMClient client, string message)
+        private void SendChatToAll(SMClient client, string message)
         {
             var startIdx = message.IndexOf(' ');
             var color = Colors.Green;
@@ -235,7 +235,7 @@ namespace SevenMod.Plugin.BaseChat
         /// <param name="client">The <see cref="SMClient"/> object representing the client sending the message.</param>
         /// <param name="target">The <see cref="SMClient"/> object representing the client to receive the message.</param>
         /// <param name="message">The message to send.</param>
-        private void SentPrivateChat(SMClient client, SMClient target, string message)
+        private void SendPrivateChat(SMClient client, SMClient target, string message)
         {
             if (client != target)
             {
@@ -250,7 +250,7 @@ namespace SevenMod.Plugin.BaseChat
         /// </summary>
         /// <param name="client">The <see cref="SMClient"/> object representing the client sending the message.</param>
         /// <param name="message">The message to send.</param>
-        private void SentChatToAdmins(SMClient client, string message)
+        private void SendChatToAdmins(SMClient client, string message)
         {
             this.LogAction(client, null, "\"{0:L}\" triggered sm chat (text {1:s})", client, message);
             var fromAdmin = this.chatCommand.HasAccess(client);
