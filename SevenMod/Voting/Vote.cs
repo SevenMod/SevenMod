@@ -158,7 +158,22 @@ namespace SevenMod.Voting
 
             if ((index > -1) && (index < this.voteOptions.Length))
             {
-                ChatHelper.SendTo(e.Client.ClientInfo, "You Voted", this.voteOptions[index]);
+                if (VoteManager.ShowVoteProgress.AsBool)
+                {
+                    if (this.votingPool[e.Client.PlayerId] == -1)
+                    {
+                        ChatHelper.SendToAll("Voted For", e.Client, this.voteOptions[index]);
+                    }
+                    else if (this.votingPool[e.Client.PlayerId] != index)
+                    {
+                        ChatHelper.SendToAll("Changed Vote", e.Client, this.voteOptions[index]);
+                    }
+                }
+                else
+                {
+                    ChatHelper.SendTo(e.Client.ClientInfo, "You Voted", this.voteOptions[index]);
+                }
+
                 this.votingPool[e.Client.PlayerId] = index;
                 e.Handled = true;
             }

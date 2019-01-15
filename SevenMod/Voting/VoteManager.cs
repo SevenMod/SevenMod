@@ -6,6 +6,7 @@
 namespace SevenMod.Voting
 {
     using System;
+    using SevenMod.ConVar;
 
     /// <summary>
     /// Manages the voting system.
@@ -23,6 +24,11 @@ namespace SevenMod.Voting
         public static Vote CurrentVote { get; private set; }
 
         /// <summary>
+        /// Gets the value of the ShowVoteProgress <see cref="ConVar"/>.
+        /// </summary>
+        internal static ConVarValue ShowVoteProgress { get; private set; }
+
+        /// <summary>
         /// Creates a new instance of the <see cref="VoteBuilder"/> class for starting a vote.
         /// </summary>
         /// <param name="message">The vote prompt.</param>
@@ -31,6 +37,14 @@ namespace SevenMod.Voting
         public static VoteBuilder CreateVote(string message, params object[] args)
         {
             return new VoteBuilder(message, args);
+        }
+
+        /// <summary>
+        /// Initializes the voting system.
+        /// </summary>
+        internal static void Init()
+        {
+            ShowVoteProgress = ConVarManager.CreateConVar(null, "ShowVoteProgress", "True", "Show votes in chat.").Value;
         }
 
         /// <summary>

@@ -14,6 +14,7 @@ namespace SevenMod
     using SevenMod.Core;
     using SevenMod.Lang;
     using SevenMod.Logging;
+    using SevenMod.Voting;
 
     /// <summary>
     /// Represents the entry point of the mod.
@@ -46,6 +47,7 @@ namespace SevenMod
             Language.Init();
             ChatHelper.Init();
             ChatHook.Init();
+            VoteManager.Init();
 
             ConVarManager.AutoExecConfig(null, true, "Core");
 

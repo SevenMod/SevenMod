@@ -21,8 +21,12 @@
     <en>[Vote] Enter /# into chat to cast your vote</en>
   </Phrase>
   <Phrase Name="Voted For">
-    <Format>{1:s},{2:s}</Format>
+    <Format>{1:N},{2:s}</Format>
     <en>[Vote] {1} voted for {2}</en>
+  </Phrase>
+  <Phrase Name="Changed Vote">
+    <Format>{1:N},{2:s}</Format>
+    <en>[Vote] {1} changed their vote to {2}</en>
   </Phrase>
   <Phrase Name="You Voted">
     <Format>{1:s}</Format>
