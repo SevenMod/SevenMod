@@ -223,8 +223,10 @@ namespace SevenMod.Plugin.BaseChat
             }
 
             startIdx++;
+            message = message.Substring(startIdx);
 
-            this.PrintToChatAll($"[{color}]{message.Substring(startIdx)}[-]");
+            this.LogAction(client, null, "\"{0:L}\" triggered sm say (text {1:s})", client, message);
+            this.PrintToChatAll($"[{color}]{message}[-]");
         }
 
         /// <summary>
@@ -250,6 +252,7 @@ namespace SevenMod.Plugin.BaseChat
         /// <param name="message">The message to send.</param>
         private void SentChatToAdmins(SMClient client, string message)
         {
+            this.LogAction(client, null, "\"{0:L}\" triggered sm chat (text {1:s})", client, message);
             var fromAdmin = this.chatCommand.HasAccess(client);
             foreach (var c in ClientHelper.List)
             {
