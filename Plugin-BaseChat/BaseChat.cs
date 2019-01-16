@@ -258,7 +258,7 @@ namespace SevenMod.Plugin.BaseChat
             {
                 if (c == client || this.chatCommand.HasAccess(c))
                 {
-                    this.PrintToChat(client, fromAdmin ? "Chat admins" : "Chat to admins", client, message);
+                    this.PrintToChat(c, fromAdmin ? "Chat admins" : "Chat to admins", client, message);
                 }
             }
         }
