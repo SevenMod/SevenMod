@@ -186,6 +186,7 @@ namespace SevenMod.Voting
         /// <param name="e">An <see cref="ElapsedEventArgs"/> object that contains the event data.</param>
         private void OnTimerElapsed(object sender, ElapsedEventArgs e)
         {
+            var total = 0;
             var counts = new int[this.voteOptions.Length];
             foreach (var vote in this.votingPool.Values)
             {
@@ -194,14 +195,14 @@ namespace SevenMod.Voting
                     continue;
                 }
 
+                total++;
                 counts[vote]++;
             }
 
-            float total = this.votingPool.Count;
             var percents = new float[this.voteOptions.Length];
             for (var i = 0; i < counts.Length; i++)
             {
-                percents[i] = counts[i] / total;
+                percents[i] = counts[i] / (float)total;
             }
 
             this.OnVoteEnded(counts, percents);
