@@ -164,7 +164,7 @@ namespace SevenMod.Plugin.BaseCommands
 
             var command = string.Join(" ", e.Arguments.ToArray());
             this.LogAction(e.Client, null, "\"{0:L}\" console command (cmdline \"{1:s}\")", e.Client, command);
-            this.ServerCommand(command, e.Client);
+            this.ServerCommand(command);
         }
 
         /// <summary>
