@@ -273,7 +273,7 @@ namespace SevenMod.Core
             {
                 var dll = Assembly.Load(File.ReadAllBytes(file));
                 var type = dll.GetType($"SevenMod.Plugin.{key}.{key}", true, true);
-                var container = new PluginContainer(Path.GetFileName(type.Assembly.Location));
+                var container = new PluginContainer(Path.GetFileName(file));
                 if (type.IsSubclassOf(PluginParentType))
                 {
                     try
