@@ -220,6 +220,10 @@ namespace SevenMod.Plugin.BaseChat
                 {
                     color = firstWord.ToUpper();
                 }
+                else
+                {
+                    startIdx = -1;
+                }
             }
 
             startIdx++;
