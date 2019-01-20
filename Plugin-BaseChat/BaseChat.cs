@@ -208,7 +208,7 @@ namespace SevenMod.Plugin.BaseChat
         private void SendChatToAll(SMClient client, string message)
         {
             var startIdx = message.IndexOf(' ');
-            var color = Colors.Green;
+            var color = Colors.White;
             if (startIdx > -1)
             {
                 var firstWord = message.Substring(0, startIdx);
