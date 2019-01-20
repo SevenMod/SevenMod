@@ -76,15 +76,15 @@ namespace SevenMod.Plugin.AdminSQL
                 }
 
                 var flags = row.ItemArray.GetValue(2).ToString();
-
-                var immunity = 1;
-                int.TryParse(row.ItemArray.GetValue(3).ToString(), out immunity);
+                int.TryParse(row.ItemArray.GetValue(3).ToString(), out var immunity);
 
                 groups.Add(id, new GroupInfo(name, immunity, flags));
             }
 
-            var bundle = new Dictionary<string, object>();
-            bundle["groups"] = groups;
+            var bundle = new Dictionary<string, object>
+            {
+                ["groups"] = groups,
+            };
             e.Database.TQuery("SELECT admin_id, group_id FROM sm_admins_groups", bundle).QueryCompleted += this.OnAdminGroupsQuery;
         }
 
@@ -141,8 +141,7 @@ namespace SevenMod.Plugin.AdminSQL
 
                 var identity = row.ItemArray.GetValue(1).ToString();
                 var flags = row.ItemArray.GetValue(2).ToString();
-                var immunity = 1;
-                int.TryParse(row.ItemArray.GetValue(3).ToString(), out immunity);
+                int.TryParse(row.ItemArray.GetValue(3).ToString(), out var immunity);
 
                 if (adminGroups.ContainsKey(id))
                 {
