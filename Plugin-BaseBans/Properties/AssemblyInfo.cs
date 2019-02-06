@@ -15,7 +15,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("SevenMod")]
-[assembly: AssemblyCopyright("Steve Guidetti")]
+[assembly: AssemblyCopyright("Steve 'StevoTVR' Guidetti")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
