@@ -235,8 +235,10 @@ namespace SevenMod.Console
 
             if (overrideWatcher == null)
             {
-                overrideWatcher = new FileSystemWatcher(Path.GetDirectoryName(ConfigPath), Path.GetFileName(ConfigPath));
-                overrideWatcher.NotifyFilter = NotifyFilters.FileName | NotifyFilters.LastWrite;
+                overrideWatcher = new FileSystemWatcher(Path.GetDirectoryName(ConfigPath), Path.GetFileName(ConfigPath))
+                {
+                    NotifyFilter = NotifyFilters.FileName | NotifyFilters.LastWrite,
+                };
                 overrideWatcher.Changed += OnOverrideFileChanged;
                 overrideWatcher.Deleted += OnOverrideFileChanged;
                 overrideWatcher.Renamed += OnOverrideFileChanged;
@@ -267,8 +269,10 @@ namespace SevenMod.Console
                 .Append("      Flag:    ").AppendLine("The new access flag, or leave empty to remove access restriction")
                 .Append("  ").ToString();
 
-            var settings = new XmlWriterSettings();
-            settings.Indent = true;
+            var settings = new XmlWriterSettings
+            {
+                Indent = true,
+            };
             using (var writer = XmlWriter.Create(ConfigPath, settings))
             {
                 writer.WriteStartElement("AdminCommandOverrides");

@@ -191,8 +191,10 @@ namespace SevenMod.ConVar
 
             if (watcher == null)
             {
-                watcher = new FileSystemWatcher(SMPath.Config, "*.xml");
-                watcher.NotifyFilter = NotifyFilters.LastWrite | NotifyFilters.FileName;
+                watcher = new FileSystemWatcher(SMPath.Config, "*.xml")
+                {
+                    NotifyFilter = NotifyFilters.LastWrite | NotifyFilters.FileName,
+                };
                 watcher.Changed += OnConfigFileChanged;
                 watcher.Deleted += OnConfigFileChanged;
                 watcher.Renamed += OnConfigFileChanged;

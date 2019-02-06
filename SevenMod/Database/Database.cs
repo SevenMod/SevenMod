@@ -334,8 +334,10 @@ namespace SevenMod.Database
 
             if (watcher == null)
             {
-                watcher = new FileSystemWatcher(Path.GetDirectoryName(ConfigPath), Path.GetFileName(ConfigPath));
-                watcher.NotifyFilter = NotifyFilters.FileName | NotifyFilters.LastWrite;
+                watcher = new FileSystemWatcher(Path.GetDirectoryName(ConfigPath), Path.GetFileName(ConfigPath))
+                {
+                    NotifyFilter = NotifyFilters.FileName | NotifyFilters.LastWrite,
+                };
                 watcher.Changed += OnConfigFileChanged;
                 watcher.Deleted += OnConfigFileChanged;
                 watcher.Renamed += OnConfigFileChanged;
