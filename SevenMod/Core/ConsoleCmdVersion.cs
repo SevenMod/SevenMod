@@ -8,6 +8,7 @@ namespace SevenMod.Core
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.Reflection;
+    using System.Security.Permissions;
 
     /// <summary>
     /// Console command to display SevenMod version information.
@@ -27,6 +28,7 @@ namespace SevenMod.Core
         }
 
         /// <inheritdoc/>
+        [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
         public override void Execute(List<string> _params, CommandSenderInfo _senderInfo)
         {
             SdtdConsole.Instance.Output($"    SevenMod Version: {FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location).FileVersion}");
