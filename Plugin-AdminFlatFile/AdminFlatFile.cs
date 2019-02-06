@@ -149,8 +149,10 @@ namespace SevenMod.Plugin.AdminFlatFile
 
             if (this.watcher == null)
             {
-                this.watcher = new FileSystemWatcher(Path.GetDirectoryName(ConfigPath), Path.GetFileName(ConfigPath));
-                this.watcher.NotifyFilter = NotifyFilters.FileName | NotifyFilters.LastWrite;
+                this.watcher = new FileSystemWatcher(Path.GetDirectoryName(ConfigPath), Path.GetFileName(ConfigPath))
+                {
+                    NotifyFilter = NotifyFilters.FileName | NotifyFilters.LastWrite,
+                };
                 this.watcher.Changed += this.OnAdminFileChanged;
                 this.watcher.Deleted += this.OnAdminFileChanged;
                 this.watcher.Renamed += this.OnAdminFileChanged;
@@ -217,8 +219,10 @@ namespace SevenMod.Plugin.AdminFlatFile
                 .Append("        Groups:   ").AppendLine("Comma separated list of group names")
                 .Append("    ").ToString();
 
-            var settings = new XmlWriterSettings();
-            settings.Indent = true;
+            var settings = new XmlWriterSettings
+            {
+                Indent = true,
+            };
             using (var writer = XmlWriter.Create(ConfigPath, settings))
             {
                 writer.WriteStartElement("AdminFlatFile");
