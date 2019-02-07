@@ -32,7 +32,7 @@ namespace SevenMod.Plugin.BaseVotes
             Name = "Basic Votes",
             Author = "SevenMod",
             Description = "Adds basic voting commands.",
-            Version = "0.1.0.0",
+            Version = "0.1.0",
             Website = "https://github.com/SevenMod/SevenMod"
         };
 

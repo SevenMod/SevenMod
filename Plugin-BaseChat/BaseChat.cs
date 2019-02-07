@@ -47,7 +47,7 @@ namespace SevenMod.Plugin.BaseChat
             Name = "Basic Chat Commands",
             Author = "SevenMod",
             Description = "Adds basic admin chat commands.",
-            Version = "0.1.0.0",
+            Version = "0.1.0",
             Website = "https://github.com/SevenMod/SevenMod"
         };
 

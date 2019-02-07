@@ -36,7 +36,7 @@ namespace SevenMod.Plugin.AdminFlatFile
             Name = "Admin File Reader",
             Author = "SevenMod",
             Description = "Loads admin users from a local configuration file.",
-            Version = "0.1.0.0",
+            Version = "0.1.0",
             Website = "https://github.com/SevenMod/SevenMod"
         };
 

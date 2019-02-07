@@ -20,7 +20,7 @@ namespace SevenMod.Plugin.BaseBans
             Name = "Basic Ban Commands",
             Author = "SevenMod",
             Description = "Adds basic banning commands.",
-            Version = "0.1.0.0",
+            Version = "0.1.0",
             Website = "https://github.com/SevenMod/SevenMod"
         };
 

@@ -38,7 +38,7 @@ namespace SevenMod.Plugin.AntiFlood
             Name = "Anti-Flood",
             Author = "SevenMod",
             Description = "Protects against chat flooding.",
-            Version = "0.1.0.0",
+            Version = "0.1.0",
             Website = "https://github.com/SevenMod/SevenMod"
         };
 

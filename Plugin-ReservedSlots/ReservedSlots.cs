@@ -31,7 +31,7 @@ namespace SevenMod.Plugin.ReservedSlots
             Name = "Reserved Slots",
             Author = "SevenMod",
             Description = "Adds reserved slots.",
-            Version = "0.1.0.0",
+            Version = "0.1.0",
             Website = "https://github.com/SevenMod/SevenMod"
         };
 
