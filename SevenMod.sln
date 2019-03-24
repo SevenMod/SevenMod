@@ -25,6 +25,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Plugin-AntiFlood", "Plugin-
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Plugin-AdminHelp", "Plugin-AdminHelp\Plugin-AdminHelp.csproj", "{9EE207FC-AFAC-479C-9B8F-344E484EC35D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Plugin-Advertisements", "Plugin-Advertisements\Plugin-Advertisements.csproj", "{0CAF8047-8F5C-407A-B570-BDC0513217D2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Plugin-BloodMoon", "Plugin-BloodMoon\Plugin-BloodMoon.csproj", "{0153098B-553D-4D1D-8C2E-9216FF773311}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Plugin-ServerShutdown", "Plugin-ServerShutdown\Plugin-ServerShutdown.csproj", "{EFB109B7-7FAF-43F8-9958-320D95369A71}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -75,6 +81,18 @@ Global
 		{9EE207FC-AFAC-479C-9B8F-344E484EC35D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9EE207FC-AFAC-479C-9B8F-344E484EC35D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9EE207FC-AFAC-479C-9B8F-344E484EC35D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0CAF8047-8F5C-407A-B570-BDC0513217D2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0CAF8047-8F5C-407A-B570-BDC0513217D2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0CAF8047-8F5C-407A-B570-BDC0513217D2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0CAF8047-8F5C-407A-B570-BDC0513217D2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0153098B-553D-4D1D-8C2E-9216FF773311}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0153098B-553D-4D1D-8C2E-9216FF773311}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0153098B-553D-4D1D-8C2E-9216FF773311}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0153098B-553D-4D1D-8C2E-9216FF773311}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EFB109B7-7FAF-43F8-9958-320D95369A71}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EFB109B7-7FAF-43F8-9958-320D95369A71}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EFB109B7-7FAF-43F8-9958-320D95369A71}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EFB109B7-7FAF-43F8-9958-320D95369A71}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

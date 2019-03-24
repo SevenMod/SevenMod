@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Phrases>
+  <Phrase Name="Bloodmoon Description">
+    <en>Shows the number of days until the next blood moon</en>
+  </Phrase>
+  <Phrase Name="Bloodmoon">
+    <Format>{1:d}</Format>
+    <en>[ORANGE]There are {1} days until the next blood moon.[-]</en>
+  </Phrase>
+  <Phrase Name="Bloodmoon One">
+    <en>[ORANGE]There is 1 day until the next blood moon.[-]</en>
+  </Phrase>
+  <Phrase Name="Bloodmoon Tonight">
+    <en>[ORANGE]The next blood moon is tonight![-]</en>
+  </Phrase>
+</Phrases>
