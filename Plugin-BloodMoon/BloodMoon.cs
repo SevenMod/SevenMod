@@ -31,7 +31,7 @@ namespace SevenMod.Plugin.BloodMoon
             Author = "SevenMod",
             Description = "Displays the number of days until the next blood moon.",
             Version = "0.1.0",
-            Website = "https://github.com/SevenMod/Plugin-BloodMoon"
+            Website = "https://github.com/SevenMod/SevenMod"
         };
 
         /// <inheritdoc/>

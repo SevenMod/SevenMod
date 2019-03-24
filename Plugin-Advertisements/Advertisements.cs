@@ -79,7 +79,7 @@ namespace SevenMod.Plugin.Advertisements
             Author = "SevenMod",
             Description = "Periodically shows messages in chat.",
             Version = "0.1.0",
-            Website = "https://github.com/SevenMod/Plugin-Advertisements"
+            Website = "https://github.com/SevenMod/SevenMod"
         };
 
         /// <inheritdoc/>
