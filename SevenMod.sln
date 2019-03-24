@@ -31,6 +31,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Plugin-BloodMoon", "Plugin-
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Plugin-ServerShutdown", "Plugin-ServerShutdown\Plugin-ServerShutdown.csproj", "{EFB109B7-7FAF-43F8-9958-320D95369A71}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Plugin-PlayerLog", "Plugin-PlayerLog\Plugin-PlayerLog.csproj", "{FDD2AD4D-4B70-4635-9DF1-AC180D25E2B2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -93,6 +95,10 @@ Global
 		{EFB109B7-7FAF-43F8-9958-320D95369A71}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EFB109B7-7FAF-43F8-9958-320D95369A71}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EFB109B7-7FAF-43F8-9958-320D95369A71}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FDD2AD4D-4B70-4635-9DF1-AC180D25E2B2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FDD2AD4D-4B70-4635-9DF1-AC180D25E2B2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FDD2AD4D-4B70-4635-9DF1-AC180D25E2B2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FDD2AD4D-4B70-4635-9DF1-AC180D25E2B2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
