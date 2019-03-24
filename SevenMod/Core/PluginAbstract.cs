@@ -152,7 +152,7 @@ namespace SevenMod.Core
         {
             if (!Language.PhraseExists(phrase))
             {
-                return phrase;
+                return Language.GetString(phrase, client?.ClientInfo, args);
             }
 
             return Language.GetString(phrase, client?.ClientInfo, args);
