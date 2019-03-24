@@ -28,13 +28,16 @@ SevenMod is a general server management mod for 7 Days to Die servers inspired b
   * [AdminFlatFile](https://github.com/SevenMod/SevenMod/wiki/AdminFlatFile)
   * [AdminHelp](https://github.com/SevenMod/SevenMod/wiki/AdminHelp)
   * [AdminSQL](https://github.com/SevenMod/SevenMod/wiki/AdminSQL)
+  * [Advertisements](https://github.com/SevenMod/SevenMod/wiki/Advertisements)
   * [AntiFlood](https://github.com/SevenMod/SevenMod/wiki/AntiFlood)
   * [BaseBans](https://github.com/SevenMod/SevenMod/wiki/BaseBans)
   * [BaseChat](https://github.com/SevenMod/SevenMod/wiki/BaseChat)
   * [BaseCommands](https://github.com/SevenMod/SevenMod/wiki/BaseCommands)
   * [BaseVotes](https://github.com/SevenMod/SevenMod/wiki/BaseVotes)
+  * [BloodMoon](https://github.com/SevenMod/SevenMod/wiki/BloodMoon)
   * [PlayerCommands](https://github.com/SevenMod/SevenMod/wiki/PlayerCommands)
   * [ReservedSlots](https://github.com/SevenMod/SevenMod/wiki/ReservedSlots)
+  * [ServerShutdown](https://github.com/SevenMod/SevenMod/wiki/ServerShutdown)
 
 ## License
 
