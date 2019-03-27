@@ -51,8 +51,9 @@ namespace SevenMod.Chat
         /// <param name="client">The <see cref="ClientInfo"/> object representing the client that sent the message.</param>
         /// <param name="type">The type of chat message.</param>
         /// <param name="message">The message text.</param>
+        /// <param name="recipientEntityIds">The list of entity IDs receiving the message.</param>
         /// <returns><c>true</c> to allow the message to continue propagating; <c>false</c> to consume the message.</returns>
-        internal static bool HookChatMessage(ClientInfo client, EChatType type, string message)
+        internal static bool HookChatMessage(ClientInfo client, EChatType type, string message, List<int> recipientEntityIds)
         {
             if (client == null)
             {
@@ -61,7 +62,7 @@ namespace SevenMod.Chat
 
             if (ChatMessage != null)
             {
-                var args = new ChatMessageEventArgs(client, type, message);
+                var args = new ChatMessageEventArgs(client, type, message, recipientEntityIds);
                 foreach (EventHandler<ChatMessageEventArgs> d in ChatMessage.GetInvocationList())
                 {
                     try

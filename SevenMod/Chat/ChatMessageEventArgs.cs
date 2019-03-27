@@ -6,6 +6,8 @@
 namespace SevenMod.Chat
 {
     using System;
+    using System.Collections.Generic;
+    using System.Collections.ObjectModel;
     using SevenMod.Core;
 
     /// <summary>
@@ -19,11 +21,13 @@ namespace SevenMod.Chat
         /// <param name="client">The <see cref="ClientInfo"/> object representing the client that sent the message.</param>
         /// <param name="type">The type of chat message.</param>
         /// <param name="message">The message text.</param>
-        internal ChatMessageEventArgs(ClientInfo client, EChatType type, string message)
+        /// <param name="recipientEntityIds">The list of entity IDs receiving the message.</param>
+        internal ChatMessageEventArgs(ClientInfo client, EChatType type, string message, List<int> recipientEntityIds)
         {
             this.Client = (client == null) ? SMClient.Console : new SMClient(client);
             this.Type = (SMChatType)type;
             this.Message = message;
+            this.RecipientEntityIds = recipientEntityIds?.AsReadOnly();
         }
 
         /// <summary>
@@ -40,6 +44,11 @@ namespace SevenMod.Chat
         /// Gets the message text.
         /// </summary>
         public string Message { get; }
+
+        /// <summary>
+        /// Gets tThe list of entity IDs receiving the message.
+        /// </summary>
+        public ReadOnlyCollection<int> RecipientEntityIds { get; }
 
         /// <summary>
         /// Gets or sets a value indicating whether the message has been handled.

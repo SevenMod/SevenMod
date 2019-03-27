@@ -34,7 +34,7 @@ namespace SevenMod
         /// <inheritdoc/>
         public void InitMod()
         {
-            ModEvents.ChatMessage.RegisterHandler((ClientInfo cInfo, EChatType chatType, int senderEntityId, string msg, string mainName, bool localizeMain, List<int> recipientEntityIds) => this.OnChatMessage(cInfo, chatType, msg));
+            ModEvents.ChatMessage.RegisterHandler((ClientInfo cInfo, EChatType chatType, int senderEntityId, string msg, string mainName, bool localizeMain, List<int> recipientEntityIds) => this.OnChatMessage(cInfo, chatType, msg, recipientEntityIds));
             ModEvents.GameAwake.RegisterHandler(this.OnGameAwake);
             ModEvents.GameShutdown.RegisterHandler(this.OnGameShutdown);
             ModEvents.GameStartDone.RegisterHandler(this.OnGameStartDone);
@@ -60,10 +60,11 @@ namespace SevenMod
         /// <param name="client">The <see cref="ClientInfo"/> object representing the client that sent the message.</param>
         /// <param name="type">The type of chat message.</param>
         /// <param name="msg">The message text.</param>
+        /// <param name="recipientEntityIds">The list of entity IDs receiving the message.</param>
         /// <returns><c>true</c> to allow the message to continue propagating; <c>false</c> to consume the message.</returns>
-        private bool OnChatMessage(ClientInfo client, EChatType type, string msg)
+        private bool OnChatMessage(ClientInfo client, EChatType type, string msg, List<int> recipientEntityIds)
         {
-            return ChatHook.HookChatMessage(client, type, msg);
+            return ChatHook.HookChatMessage(client, type, msg, recipientEntityIds);
         }
 
         /// <summary>
