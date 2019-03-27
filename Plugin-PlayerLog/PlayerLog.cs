@@ -107,7 +107,16 @@ namespace SevenMod.Plugin.PlayerLog
                         type = "Party";
                         break;
                     case SMChatType.Whisper:
-                        type = "Whisper";
+                        if (e.RecipientEntityIds.Count > 0)
+                        {
+                            var recipient = ConnectionManager.Instance.Clients.ForEntityId(e.RecipientEntityIds[0]);
+                            type = this.GetString("Whisper to {0:L}", null, recipient);
+                        }
+                        else
+                        {
+                            type = "Whisper";
+                        }
+
                         break;
                 }
 
