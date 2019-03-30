@@ -29,6 +29,11 @@ namespace SevenMod.Plugin.PlayerLog
         private ConVarValue logPlayerChat;
 
         /// <summary>
+        /// The value of the LogChatRecipients <see cref="ConVar"/>.
+        /// </summary>
+        private ConVarValue logChatRecipients;
+
+        /// <summary>
         /// The value of the LogPlayerKills <see cref="ConVar"/>.
         /// </summary>
         private ConVarValue logPlayerKills;
@@ -58,6 +63,7 @@ namespace SevenMod.Plugin.PlayerLog
         {
             this.silentChatTrigger = this.FindConVar("SilentChatTrigger").Value;
             this.logPlayerChat = this.CreateConVar("LogPlayerChat", "True", "Whether to log player chat messages.").Value;
+            this.logChatRecipients = this.CreateConVar("LogChatRecipients", "False", "Whether to list the recipients of friend and party chat messages.").Value;
             this.logPlayerKills = this.CreateConVar("LogPlayerKills", "True", "Whether to log player kills.").Value;
 
             this.AutoExecConfig(true, "PlayerLog");
@@ -138,48 +144,35 @@ namespace SevenMod.Plugin.PlayerLog
         /// <param name="e">A <see cref="ChatMessageEventArgs"/> object containing the event data.</param>
         private void OnChatMessage(object sender, ChatMessageEventArgs e)
         {
-            if (e.Message.StartsWith(this.silentChatTrigger.AsString))
-            {
-                return;
-            }
-
             if (this.logPlayerChat.AsBool)
             {
-                var type = string.Empty;
-                switch (e.Type)
+                if (e.Message.StartsWith(this.silentChatTrigger.AsString))
                 {
-                    case SMChatType.Global:
-                        type = "Global";
-                        break;
-                    case SMChatType.Friends:
-                        type = "Friends";
-                        break;
-                    case SMChatType.Party:
-                        type = "Party";
-                        break;
-                    case SMChatType.Whisper:
-                        if (e.RecipientEntityIds.Count > 0)
-                        {
-                            var recipient = ConnectionManager.Instance.Clients.ForEntityId(e.RecipientEntityIds[0]);
-                            type = this.GetString("Whisper to {0:L}", null, recipient);
-                        }
-                        else
-                        {
-                            type = "Whisper";
-                        }
-
-                        break;
+                    return;
                 }
 
-                if (e.RecipientEntityIds != null)
+                var type = "Global";
+                if (e.Type == SMChatType.Friends || e.Type == SMChatType.Party)
                 {
-                    var names = new List<string>();
-                    foreach (var i in e.RecipientEntityIds)
+                    if (e.RecipientEntityIds != null && this.logChatRecipients.AsBool)
                     {
-                        names.Add(this.GetString("{0:L}", SMClient.Console, ConnectionManager.Instance.Clients.ForEntityId(i)));
-                    }
+                        var names = new List<string>();
+                        foreach (var i in e.RecipientEntityIds)
+                        {
+                            if (i == e.Client.EntityId)
+                            {
+                                continue;
+                            }
 
-                    this.WriteLine(string.Join(", ", names.ToArray()));
+                            names.Add(this.GetString("{0:L}", SMClient.Console, ConnectionManager.Instance.Clients.ForEntityId(i)));
+                        }
+
+                        type = $"{(e.Type == SMChatType.Friends ? "Friends" : "Party")} to {string.Join(", ", names.ToArray())}";
+                    }
+                    else
+                    {
+                        type = e.Type == SMChatType.Friends ? "Friends" : "Party";
+                    }
                 }
 
                 this.WriteLine("{0:L} Chat ({1:s}) \"{2:s}\"", e.Client, type, e.Message);
