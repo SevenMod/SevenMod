@@ -15,9 +15,9 @@ namespace SevenMod.Plugin.BloodMoon
     public sealed class BloodMoon : PluginAbstract
     {
         /// <summary>
-        /// The value of the BloodMoonInterval <see cref="ConVar"/>.
+        /// The value of the BloodMoonFrequency server preference.
         /// </summary>
-        private ConVarValue interval;
+        private int interval;
 
         /// <summary>
         /// The value of the BloodMoonShowOnSpawn <see cref="ConVar"/>.
@@ -39,12 +39,13 @@ namespace SevenMod.Plugin.BloodMoon
         {
             this.LoadTranslations("BloodMoon.Plugin");
 
-            this.interval = this.CreateConVar("BloodMoonInterval", "7", "The number of days between blood moons.", true, 1).Value;
             this.showOnSpawn = this.CreateConVar("BloodMoonShowOnSpawn", "True", "Whether to show the number of days until the next blood moon to newly spawned players.").Value;
 
             this.AutoExecConfig(true, "BloodMoon");
 
             this.RegAdminCmd("bloodmoon", 0, "Bloodmoon Description").Executed += this.OnBloodmoonCommandExecuted;
+
+            this.interval = GamePrefs.GetInt(EnumGamePrefs.BloodMoonFrequency);
         }
 
         /// <inheritdoc/>
@@ -101,7 +102,7 @@ namespace SevenMod.Plugin.BloodMoon
         /// <returns>The number of days between today and the next blood moon.</returns>
         private int GetDays()
         {
-            return this.interval.AsInt - (GameUtils.WorldTimeToDays(GameManager.Instance.World.GetWorldTime()) % this.interval.AsInt);
+            return this.interval - (GameUtils.WorldTimeToDays(GameManager.Instance.World.GetWorldTime()) % this.interval);
         }
     }
 }
