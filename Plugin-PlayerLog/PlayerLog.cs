@@ -6,7 +6,9 @@
 namespace SevenMod.Plugin.PlayerLog
 {
     using System;
+    using System.Collections.Generic;
     using System.IO;
+    using System.Timers;
     using SevenMod.Chat;
     using SevenMod.ConVar;
     using SevenMod.Core;
@@ -27,9 +29,19 @@ namespace SevenMod.Plugin.PlayerLog
         private ConVarValue logPlayerChat;
 
         /// <summary>
+        /// The value of the LogPlayerKills <see cref="ConVar"/>.
+        /// </summary>
+        private ConVarValue logPlayerKills;
+
+        /// <summary>
         /// The player log file.
         /// </summary>
         private StreamWriter log;
+
+        /// <summary>
+        /// The timer to check for player kills.
+        /// </summary>
+        private Timer killCheckTimer;
 
         /// <inheritdoc/>
         public override PluginInfo Info => new PluginInfo
@@ -46,13 +58,10 @@ namespace SevenMod.Plugin.PlayerLog
         {
             this.silentChatTrigger = this.FindConVar("SilentChatTrigger").Value;
             this.logPlayerChat = this.CreateConVar("LogPlayerChat", "True", "Whether to log player chat messages.").Value;
+            this.logPlayerKills = this.CreateConVar("LogPlayerKills", "True", "Whether to log player kills.").Value;
 
             this.AutoExecConfig(true, "PlayerLog");
-        }
 
-        /// <inheritdoc/>
-        public override void OnConfigsExecuted()
-        {
             if (this.log == null)
             {
                 var fileName = $"player_{DateTime.Now.ToString("yyyyMMdd")}.log";
@@ -61,6 +70,19 @@ namespace SevenMod.Plugin.PlayerLog
             }
 
             ChatHook.ChatMessage += this.OnChatMessage;
+
+            this.logPlayerKills.ConVar.ValueChanged += this.OnLogPlayerKillsChanged;
+        }
+
+        /// <inheritdoc/>
+        public override void OnConfigsExecuted()
+        {
+            if (this.logPlayerKills.AsBool)
+            {
+                this.killCheckTimer = new Timer(1000);
+                this.killCheckTimer.Elapsed += this.OnKillCheckTimerElapsed;
+                this.killCheckTimer.Start();
+            }
         }
 
         /// <inheritdoc/>
@@ -72,12 +94,41 @@ namespace SevenMod.Plugin.PlayerLog
                 this.log.Dispose();
                 this.log = null;
             }
+
+            if (this.killCheckTimer != null)
+            {
+                this.killCheckTimer.Stop();
+                this.killCheckTimer.Dispose();
+                this.killCheckTimer = null;
+            }
         }
 
         /// <inheritdoc/>
         public void Dispose()
         {
             ((IDisposable)this.log).Dispose();
+            ((IDisposable)this.killCheckTimer).Dispose();
+        }
+
+        /// <summary>
+        /// Called when the LogPlayerKills <see cref="ConVar"/> changes.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">A <see cref="ConVarChangedEventArgs"/> object containing the event data.</param>
+        private void OnLogPlayerKillsChanged(object sender, ConVarChangedEventArgs e)
+        {
+            if (this.logPlayerKills.AsBool && this.killCheckTimer == null)
+            {
+                this.killCheckTimer = new Timer(1000);
+                this.killCheckTimer.Elapsed += this.OnKillCheckTimerElapsed;
+                this.killCheckTimer.Start();
+            }
+            else if (!this.logPlayerKills.AsBool && this.killCheckTimer != null)
+            {
+                this.killCheckTimer.Stop();
+                this.killCheckTimer.Dispose();
+                this.killCheckTimer = null;
+            }
         }
 
         /// <summary>
@@ -120,7 +171,51 @@ namespace SevenMod.Plugin.PlayerLog
                         break;
                 }
 
-                this.WriteLine(this.GetString("{0:L} Chat ({1:s}) \"{2:s}\"", null, e.Client, type, e.Message));
+                if (e.RecipientEntityIds != null)
+                {
+                    var names = new List<string>();
+                    foreach (var i in e.RecipientEntityIds)
+                    {
+                        names.Add(this.GetString("{0:L}", SMClient.Console, ConnectionManager.Instance.Clients.ForEntityId(i)));
+                    }
+
+                    this.WriteLine(string.Join(", ", names.ToArray()));
+                }
+
+                this.WriteLine(this.GetString("{0:L} Chat ({1:s}) \"{2:s}\"", SMClient.Console, e.Client, type, e.Message));
+            }
+        }
+
+        /// <summary>
+        /// Called by the <see cref="killCheckTimer"/> to check for player kills.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">An <see cref="ElapsedEventArgs"/> object containing the event data.</param>
+        private void OnKillCheckTimerElapsed(object sender, ElapsedEventArgs e)
+        {
+            var list = GameManager.Instance.World.Players.list;
+            foreach (var player1 in list)
+            {
+                if (player1.IsDead())
+                {
+                    foreach (var player2 in list)
+                    {
+                        if (player1 == player2)
+                        {
+                            continue;
+                        }
+
+                        var target = player2.GetDamagedTarget();
+                        if (target == player1)
+                        {
+                            var victim = ConnectionManager.Instance.Clients.ForEntityId(player1.entityId);
+                            var attacker = ConnectionManager.Instance.Clients.ForEntityId(player2.entityId);
+                            var weapon = player2.inventory.holdingItem.Name;
+
+                            this.WriteLine(this.GetString("{0:L} killed {1:L} with {2:s}", SMClient.Console, attacker, victim, weapon));
+                        }
+                    }
+                }
             }
         }
 
