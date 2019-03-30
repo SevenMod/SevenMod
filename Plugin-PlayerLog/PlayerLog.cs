@@ -117,7 +117,7 @@ namespace SevenMod.Plugin.PlayerLog
         }
 
         /// <summary>
-        /// Called when the LogPlayerKills <see cref="ConVar"/> changes.
+        /// Called when the value of the LogPlayerKills <see cref="ConVar"/> is changed.
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">A <see cref="ConVarChangedEventArgs"/> object containing the event data.</param>

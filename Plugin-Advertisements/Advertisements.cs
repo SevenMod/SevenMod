@@ -142,7 +142,7 @@ namespace SevenMod.Plugin.Advertisements
         }
 
         /// <summary>
-        /// Called when the interval console variable changes.
+        /// Called when the value of the AdvertInterval <see cref="ConVar"/> is changed.
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">A <see cref="ConVarChangedEventArgs"/> object containing the event data.</param>
