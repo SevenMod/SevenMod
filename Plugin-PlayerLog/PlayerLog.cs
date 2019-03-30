@@ -182,7 +182,7 @@ namespace SevenMod.Plugin.PlayerLog
                     this.WriteLine(string.Join(", ", names.ToArray()));
                 }
 
-                this.WriteLine(this.GetString("{0:L} Chat ({1:s}) \"{2:s}\"", SMClient.Console, e.Client, type, e.Message));
+                this.WriteLine("{0:L} Chat ({1:s}) \"{2:s}\"", e.Client, type, e.Message);
             }
         }
 
@@ -212,7 +212,7 @@ namespace SevenMod.Plugin.PlayerLog
                             var attacker = ConnectionManager.Instance.Clients.ForEntityId(player2.entityId);
                             var weapon = player2.inventory.holdingItem.Name;
 
-                            this.WriteLine(this.GetString("{0:L} killed {1:L} with {2:s}", SMClient.Console, attacker, victim, weapon));
+                            this.WriteLine("{0:L} killed {1:L} with {2:s}", attacker, victim, weapon);
                         }
                     }
                 }
@@ -222,10 +222,12 @@ namespace SevenMod.Plugin.PlayerLog
         /// <summary>
         /// Writes a log line.
         /// </summary>
-        /// <param name="line">The line to write.</param>
-        private void WriteLine(string line)
+        /// <param name="message">The message to write.</param>
+        /// <param name="args">The arguments for the message.</param>
+        private void WriteLine(string message, params object[] args)
         {
             var time = DateTime.Now.ToString("MM/dd/yyyy - HH:mm:ss");
+            var line = this.GetString(message, SMClient.Console, args);
             this.log.WriteLine($"L {time}: {line}");
             this.log.Flush();
         }
