@@ -51,9 +51,9 @@ namespace SevenMod.Plugin.BloodMoon
         /// <inheritdoc/>
         public override void OnPlayerSpawnedInWorld(SMClient client, SMRespawnType respawnReason, Pos pos)
         {
-            var days = this.GetDays();
             if (this.showOnSpawn.AsBool)
             {
+                var days = this.GetDays();
                 this.PrintToChat(client, this.GetMessage(days), days);
             }
         }
