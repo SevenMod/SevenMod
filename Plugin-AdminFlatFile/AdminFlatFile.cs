@@ -47,6 +47,16 @@ namespace SevenMod.Plugin.AdminFlatFile
         }
 
         /// <inheritdoc/>
+        public override void OnUnloadPlugin()
+        {
+            if (this.watcher != null)
+            {
+                this.watcher.Dispose();
+                this.watcher = null;
+            }
+        }
+
+        /// <inheritdoc/>
         public void Dispose()
         {
             ((IDisposable)this.watcher).Dispose();

@@ -104,6 +104,23 @@ namespace SevenMod.Plugin.Advertisements
         }
 
         /// <inheritdoc/>
+        public override void OnUnloadPlugin()
+        {
+            if (this.timer != null)
+            {
+                this.timer.Stop();
+                this.timer.Dispose();
+                this.timer = null;
+            }
+
+            if (this.watcher != null)
+            {
+                this.watcher.Dispose();
+                this.watcher = null;
+            }
+        }
+
+        /// <inheritdoc/>
         public void Dispose()
         {
             ((IDisposable)this.timer).Dispose();

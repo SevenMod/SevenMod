@@ -101,6 +101,17 @@ namespace SevenMod.Plugin.ServerShutdown
         }
 
         /// <inheritdoc/>
+        public override void OnUnloadPlugin()
+        {
+            if (this.shutdownTimer != null)
+            {
+                this.shutdownTimer.Stop();
+                this.shutdownTimer.Dispose();
+                this.shutdownTimer = null;
+            }
+        }
+
+        /// <inheritdoc/>
         public void Dispose()
         {
             ((IDisposable)this.shutdownTimer).Dispose();
