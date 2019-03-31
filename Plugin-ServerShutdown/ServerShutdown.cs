@@ -424,15 +424,35 @@ namespace SevenMod.Plugin.ServerShutdown
                 {
                     this.PrintToChatAll(this.autoRestart.AsBool ? "Restart Warning Final" : "Shutdown Warning Final");
                 }
-
-                this.countdown--;
             }
             else
             {
                 this.LogAction(null, null, "Shutting down the server");
-                this.ServerCommand("shutdown");
-                this.ScheduleNext();
+
+                foreach (var client in ConnectionManager.Instance.Clients.List)
+                {
+                    var kickReason = this.GetString($"{(this.autoRestart.AsBool ? "Restart" : "Shutdown")} Kick Reason", client);
+                    this.ServerCommand($"kick {client.playerId} \"{kickReason}\"");
+                }
+
+                this.shutdownInProgress = true;
+                this.shutdownTimer = new Timer(5000);
+                this.shutdownTimer.Elapsed += this.OnFinalShutdownTimerElapsed;
+                this.shutdownTimer.Enabled = true;
             }
+
+            this.countdown--;
+        }
+
+        /// <summary>
+        /// Called by the <see cref="shutdownTimer"/> to handle the final shutdown event.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">An <see cref="ElapsedEventArgs"/> object containing the event data.</param>
+        private void OnFinalShutdownTimerElapsed(object sender, ElapsedEventArgs e)
+        {
+            this.ServerCommand("shutdown");
+            this.ScheduleNext();
         }
     }
 }
