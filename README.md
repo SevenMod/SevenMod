@@ -36,6 +36,7 @@ SevenMod is a general server management mod for 7 Days to Die servers inspired b
   * [BaseVotes](https://github.com/SevenMod/SevenMod/wiki/BaseVotes)
   * [BloodMoon](https://github.com/SevenMod/SevenMod/wiki/BloodMoon)
   * [PlayerCommands](https://github.com/SevenMod/SevenMod/wiki/PlayerCommands)
+  * [PlayerLog](https://github.com/SevenMod/SevenMod/wiki/PlayerLog)
   * [ReservedSlots](https://github.com/SevenMod/SevenMod/wiki/ReservedSlots)
   * [ServerShutdown](https://github.com/SevenMod/SevenMod/wiki/ServerShutdown)
 
