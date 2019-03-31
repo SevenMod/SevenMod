@@ -37,6 +37,11 @@ namespace SevenMod.Plugin.BloodMoon
         /// <inheritdoc/>
         public override void OnLoadPlugin()
         {
+            if (GamePrefs.GetInt(EnumGamePrefs.BloodMoonRange) != 0)
+            {
+                this.SetFailState("Server preference BloodMoonRange must be set to 0");
+            }
+
             this.LoadTranslations("BloodMoon.Plugin");
 
             this.showOnSpawn = this.CreateConVar("BloodMoonShowOnSpawn", "True", "Whether to show the number of days until the next blood moon to newly spawned players.").Value;
