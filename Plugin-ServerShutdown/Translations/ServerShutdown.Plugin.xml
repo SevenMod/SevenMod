@@ -74,9 +74,6 @@
   <Phrase Name="Shutdown Warning Final">
     <en>[RED]Warning: Server shutting down in [i]1 minute[/i][-]</en>
   </Phrase>
-  <Phrase Name="Saving world state">
-    <en>Saving world state...</en>
-  </Phrase>
   <Phrase Name="Restart Kick Reason">
     <en>The server is restarting. Please come back when the server comes back online.</en>
   </Phrase>

@@ -423,8 +423,6 @@ namespace SevenMod.Plugin.ServerShutdown
                 else
                 {
                     this.PrintToChatAll(this.autoRestart.AsBool ? "Restart Warning Final" : "Shutdown Warning Final");
-                    this.PrintToChatAll("Saving world state");
-                    this.ServerCommand("saveworld");
                 }
 
                 this.countdown--;
