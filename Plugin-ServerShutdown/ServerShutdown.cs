@@ -7,6 +7,7 @@ namespace SevenMod.Plugin.ServerShutdown
 {
     using System;
     using System.Collections.Generic;
+    using System.Text;
     using System.Timers;
     using SevenMod.Admin;
     using SevenMod.Console;
@@ -53,6 +54,11 @@ namespace SevenMod.Plugin.ServerShutdown
         /// The value of the ServerShutdownVotePercent <see cref="ConVar"/>.
         /// </summary>
         private ConVarValue votePercent;
+
+        /// <summary>
+        /// The <see cref="AdminCommand"/> for cancelling a shutdown/restart.
+        /// </summary>
+        private AdminCommand cancelCommand;
 
         /// <summary>
         /// The timer for the next shutdown event.
@@ -112,6 +118,18 @@ namespace SevenMod.Plugin.ServerShutdown
         }
 
         /// <inheritdoc/>
+        public override bool OnPlayerLogin(SMClient client, StringBuilder rejectReason)
+        {
+            if (this.shutdownInProgress && ((this.countdown < 1 && !this.cancelCommand.HasAccess(client)) || this.countdown < 0))
+            {
+                rejectReason.Append(this.GetString($"{(this.autoRestart.AsBool ? "Restart" : "Shutdown")} Kick Reason"));
+                return false;
+            }
+
+            return base.OnPlayerLogin(client, rejectReason);
+        }
+
+        /// <inheritdoc/>
         public void Dispose()
         {
             ((IDisposable)this.shutdownTimer).Dispose();
@@ -126,13 +144,15 @@ namespace SevenMod.Plugin.ServerShutdown
             {
                 this.RegAdminCmd("restart", AdminFlags.RCON, "Restart Description").Executed += this.OnRestartCommandExecuted;
                 this.RegAdminCmd("voterestart", AdminFlags.Vote, "Voterestart Description").Executed += this.OnVoteshutdownCommandExecuted;
-                this.RegAdminCmd("cancelrestart", AdminFlags.Changemap, "Cancelrestart Description").Executed += this.OnCancelshutdownCommandExecuted;
+                this.cancelCommand = this.RegAdminCmd("cancelrestart", AdminFlags.Changemap, "Cancelrestart Description");
             }
             else
             {
                 this.RegAdminCmd("voteshutdown", AdminFlags.Vote, "Voteshutdown Description").Executed += this.OnVoteshutdownCommandExecuted;
-                this.RegAdminCmd("cancelshutdown", AdminFlags.Changemap, "Cancelshutdown Description").Executed += this.OnCancelshutdownCommandExecuted;
+                this.cancelCommand = this.RegAdminCmd("cancelshutdown", AdminFlags.Changemap, "Cancelshutdown Description");
             }
+
+            this.cancelCommand.Executed += this.OnCancelshutdownCommandExecuted;
         }
 
         /// <summary>

@@ -77,4 +77,10 @@
   <Phrase Name="Saving world state">
     <en>Saving world state...</en>
   </Phrase>
+  <Phrase Name="Restart Kick Reason">
+    <en>The server is restarting. Please come back when the server comes back online.</en>
+  </Phrase>
+  <Phrase Name="Shutdown Kick Reason">
+    <en>The server is shutting down.</en>
+  </Phrase>
 </Phrases>
