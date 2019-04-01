@@ -8,6 +8,7 @@ namespace SevenMod.Plugin.PlayerLog
     using System;
     using System.Collections.Generic;
     using System.IO;
+    using System.Text;
     using System.Timers;
     using SevenMod.Chat;
     using SevenMod.ConVar;
@@ -47,6 +48,11 @@ namespace SevenMod.Plugin.PlayerLog
         /// The timer to check for player kills.
         /// </summary>
         private Timer killCheckTimer;
+
+        /// <summary>
+        /// List of dead players' entity IDs.
+        /// </summary>
+        private HashSet<int> deadPlayers = new HashSet<int>();
 
         /// <inheritdoc/>
         public override PluginInfo Info => new PluginInfo
@@ -107,6 +113,12 @@ namespace SevenMod.Plugin.PlayerLog
                 this.killCheckTimer.Dispose();
                 this.killCheckTimer = null;
             }
+        }
+
+        /// <inheritdoc/>
+        public override void OnPlayerSpawning(SMClient client)
+        {
+            this.deadPlayers.Remove(client.EntityId);
         }
 
         /// <inheritdoc/>
@@ -189,7 +201,7 @@ namespace SevenMod.Plugin.PlayerLog
             var list = GameManager.Instance.World.Players.list;
             foreach (var player1 in list)
             {
-                if (player1.IsDead())
+                if (player1.IsDead() && this.deadPlayers.Add(player1.entityId))
                 {
                     foreach (var player2 in list)
                     {
