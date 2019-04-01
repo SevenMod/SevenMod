@@ -4,7 +4,7 @@
     <Name value="SevenMod"/>
     <Description value="Server management tool for 7 Days to Die"/>
     <Author value="Steve 'StevoTVR' Guidetti"/>
-    <Version value="0.1.0"/>
+    <Version value="0.2.0"/>
     <Website value="https://github.com/SevenMod/SevenMod"/>
   </ModInfo>
 </xml>

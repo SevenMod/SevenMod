@@ -30,7 +30,7 @@ namespace SevenMod.Plugin.BloodMoon
             Name = "BloodMoon Notice",
             Author = "SevenMod",
             Description = "Displays the number of days until the next blood moon.",
-            Version = "0.1.0",
+            Version = "0.2.0",
             Website = "https://github.com/SevenMod/SevenMod"
         };
 

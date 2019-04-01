@@ -81,7 +81,7 @@ namespace SevenMod.Plugin.ServerShutdown
             Name = "Server Shutdown Scheduler",
             Author = "SevenMod",
             Description = "Schedules automatic server shutdowns and enables shutdown votes.",
-            Version = "0.1.0",
+            Version = "0.2.0",
             Website = "https://github.com/SevenMod/SevenMod"
         };
 
