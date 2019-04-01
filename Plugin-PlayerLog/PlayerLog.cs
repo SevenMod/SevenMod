@@ -8,7 +8,6 @@ namespace SevenMod.Plugin.PlayerLog
     using System;
     using System.Collections.Generic;
     using System.IO;
-    using System.Text;
     using System.Timers;
     using SevenMod.Chat;
     using SevenMod.ConVar;
