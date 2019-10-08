@@ -72,7 +72,10 @@ namespace SevenMod.Chat
             }
 
             message = Language.GetString(message, client, args);
-            client.SendPackage(new NetPackageChat(EChatType.Global, 0, message, null, false, null));
+
+            var package = new NetPackageChat();
+            package.Setup(EChatType.Global, 0, message, null, false, null);
+            client.SendPackage(package);
         }
 
         /// <summary>
