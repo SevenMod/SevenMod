@@ -46,9 +46,6 @@
       <HintPath>..\7dtd-binaries\Assembly-CSharp-firstpass.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="MySql.Data, Version=6.7.9.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
-      <HintPath>..\packages\MySql.Data.6.7.9\lib\net45\MySql.Data.dll</HintPath>
-    </Reference>
     <Reference Include="System">
       <Private>True</Private>
     </Reference>
@@ -119,7 +116,6 @@
     <Compile Include="Database\DatabaseConfigException.cs" />
     <Compile Include="Database\QueryCompletedEventArgs.cs" />
     <Compile Include="Database\SQLiteDatabase.cs" />
-    <Compile Include="Database\MySqlDatabase.cs" />
     <Compile Include="Database\ThreadedQuery.cs" />
     <Compile Include="Lang\PhraseDictionary.cs" />
     <Compile Include="Lang\SMFormatProvider.cs" />

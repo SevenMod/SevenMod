@@ -65,11 +65,6 @@ namespace SevenMod.Database
             /// Represents the SQLite driver.
             /// </summary>
             SQLite,
-
-            /// <summary>
-            /// Represents the MySQL driver.
-            /// </summary>
-            MySQL,
         }
 
         /// <summary>
@@ -90,9 +85,6 @@ namespace SevenMod.Database
                 Database conn;
                 switch (connections[connectionName].Driver)
                 {
-                    case DatabaseDriver.MySQL:
-                        conn = new MySqlDatabase();
-                        break;
                     case DatabaseDriver.SQLite:
                     default:
                         conn = new SQLiteDatabase();
@@ -138,12 +130,13 @@ namespace SevenMod.Database
         /// Executes a query on the database and returns the result.
         /// </summary>
         /// <param name="sql">The SQL string to execute.</param>
+        /// <param name="parameters">The map of parameter names to values.</param>
         /// <returns>A <see cref="DataTable"/> object containing the result of the query.</returns>
-        public DataTable Query(string sql)
+        public DataTable Query(string sql, Dictionary<string, object> parameters)
         {
             lock (this)
             {
-                return this.RunQuery(sql);
+                return this.RunQuery(sql, parameters);
             }
         }
 
@@ -151,12 +144,13 @@ namespace SevenMod.Database
         /// Executes a query on the database without returning a result.
         /// </summary>
         /// <param name="sql">The SQL string to execute.</param>
+        /// <param name="parameters">The map of parameter names to values.</param>
         /// <returns>The number of affected rows.</returns>
-        public int FastQuery(string sql)
+        public int FastQuery(string sql, Dictionary<string, object> parameters)
         {
             lock (this)
             {
-                return this.RunFastQuery(sql);
+                return this.RunFastQuery(sql, parameters);
             }
         }
 
@@ -164,11 +158,12 @@ namespace SevenMod.Database
         /// Executes a threaded query on the database and returns the result to a callback function.
         /// </summary>
         /// <param name="sql">The SQL string to execute.</param>
+        /// <param name="parameters">The map of parameter names to values.</param>
         /// <param name="data">Data associated with this query.</param>
         /// <returns>A <see cref="ThreadedQuery"/> object representing the query running in the background.</returns>
-        public ThreadedQuery TQuery(string sql, object data = null)
+        public ThreadedQuery TQuery(string sql, Dictionary<string, object> parameters = null, object data = null)
         {
-            var query = ThreadedQuery.Query(sql, this, data);
+            var query = ThreadedQuery.Query(sql, parameters, this, data);
             queries.Add(query);
 
             return query;
@@ -178,22 +173,16 @@ namespace SevenMod.Database
         /// Executes a query on the database without returning a result.
         /// </summary>
         /// <param name="sql">The SQL string to execute.</param>
+        /// <param name="parameters">The map of parameter names to values.</param>
         /// <param name="data">Data associated with this query.</param>
         /// <returns>A <see cref="ThreadedQuery"/> object representing the query running in the background.</returns>
-        public ThreadedQuery TFastQuery(string sql, object data = null)
+        public ThreadedQuery TFastQuery(string sql, Dictionary<string, object> parameters = null, object data = null)
         {
-            var query = ThreadedQuery.FastQuery(sql, this, data);
+            var query = ThreadedQuery.FastQuery(sql, parameters, this, data);
             queries.Add(query);
 
             return query;
         }
-
-        /// <summary>
-        /// Escapes a string to be safely used in a query.
-        /// </summary>
-        /// <param name="str">The original unescaped string.</param>
-        /// <returns>The escaped string.</returns>
-        public abstract string Escape(string str);
 
         /// <inheritdoc/>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1063:ImplementIDisposableCorrectly", Justification = "Implemented as needed")]
@@ -205,15 +194,17 @@ namespace SevenMod.Database
         /// Executes a query on the database and returns the result.
         /// </summary>
         /// <param name="sql">The SQL string to execute.</param>
+        /// <param name="parameters">The map of parameter names to values.</param>
         /// <returns>A <see cref="DataTable"/> object containing the result of the query.</returns>
-        protected internal abstract DataTable RunQuery(string sql);
+        protected internal abstract DataTable RunQuery(string sql, Dictionary<string, object> parameters);
 
         /// <summary>
         /// Executes a query on the database without returning a result.
         /// </summary>
         /// <param name="sql">The SQL string to execute.</param>
+        /// <param name="parameters">The map of parameter names to values.</param>
         /// <returns>The number of affected rows.</returns>
-        protected internal abstract int RunFastQuery(string sql);
+        protected internal abstract int RunFastQuery(string sql, Dictionary<string, object> parameters);
 
         /// <summary>
         /// Sets up the connection to the backing database.
@@ -245,11 +236,6 @@ namespace SevenMod.Database
             }
 
             var defaultDriver = DatabaseDriver.SQLite;
-            var defaultDriverElements = xml.GetElementsByTagName("DefaultDriver");
-            if ((defaultDriverElements.Count > 0) && "mysql".EqualsCaseInsensitive(defaultDriverElements[0].InnerText))
-            {
-                defaultDriver = DatabaseDriver.MySQL;
-            }
 
             foreach (XmlElement element in xml.GetElementsByTagName("Connection"))
             {
@@ -272,10 +258,6 @@ namespace SevenMod.Database
                     {
                         driver = DatabaseDriver.SQLite;
                     }
-                    else if ("mysql".EqualsCaseInsensitive(driverElements[0].InnerText))
-                    {
-                        driver = DatabaseDriver.MySQL;
-                    }
                     else
                     {
                         continue;
@@ -290,46 +272,8 @@ namespace SevenMod.Database
 
                 var database = databaseElements[0].InnerText;
 
-                if (driver == DatabaseDriver.MySQL)
-                {
-                    var hostElements = element.GetElementsByTagName("Host");
-                    if (hostElements.Count == 0)
-                    {
-                        continue;
-                    }
-
-                    var host = hostElements[0].InnerText;
-
-                    var userElements = element.GetElementsByTagName("User");
-                    if (userElements.Count == 0)
-                    {
-                        continue;
-                    }
-
-                    var user = userElements[0].InnerText;
-
-                    var pass = string.Empty;
-                    var passElements = element.GetElementsByTagName("Pass");
-                    if (passElements.Count > 0)
-                    {
-                        pass = passElements[0].InnerText;
-                    }
-
-                    var port = 3306u;
-                    var portElements = element.GetElementsByTagName("Port");
-                    if (passElements.Count > 0)
-                    {
-                        uint.TryParse(portElements[0].InnerText, out port);
-                    }
-
-                    var connection = new ConnectionInfo(DatabaseDriver.MySQL, database, host, user, pass, port);
-                    connections.Add(name, connection);
-                }
-                else
-                {
-                    var connection = new ConnectionInfo(DatabaseDriver.SQLite, database);
-                    connections.Add(name, connection);
-                }
+                var connection = new ConnectionInfo(DatabaseDriver.SQLite, database);
+                connections.Add(name, connection);
             }
 
             if (watcher == null)
@@ -377,26 +321,6 @@ namespace SevenMod.Database
                 writer.WriteWhitespace("\r\n  ");
                 writer.WriteEndElement();
                 writer.WriteWhitespace("\r\n\r\n  ");
-
-                writer.WriteStartElement("Connection");
-                writer.WriteAttributeString("Name", "example");
-                writer.WriteWhitespace("\r\n    ");
-                writer.WriteElementString("Driver", "mysql");
-                writer.WriteWhitespace("\r\n    ");
-                writer.WriteElementString("Host", "127.0.0.1");
-                writer.WriteWhitespace("\r\n    ");
-                writer.WriteElementString("Database", "sevenmod");
-                writer.WriteWhitespace("\r\n    ");
-                writer.WriteElementString("User", "root");
-                writer.WriteWhitespace("\r\n    ");
-                writer.WriteStartElement("Pass");
-                writer.WriteRaw(string.Empty);
-                writer.WriteEndElement();
-                writer.WriteWhitespace("\r\n    ");
-                writer.WriteElementString("Port", "3306");
-                writer.WriteWhitespace("\r\n  ");
-                writer.WriteEndElement();
-                writer.WriteWhitespace("\r\n");
 
                 writer.WriteEndElement();
             }

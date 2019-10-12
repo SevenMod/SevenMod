@@ -6,6 +6,7 @@
 namespace SevenMod.Database
 {
     using System;
+    using System.Collections.Generic;
     using System.Data;
     using System.Threading;
     using SevenMod.Core;
@@ -92,10 +93,11 @@ namespace SevenMod.Database
         /// Initializes a new instance of the <see cref="ThreadedQuery"/> class.
         /// </summary>
         /// <param name="sql">The SQL string to execute.</param>
+        /// <param name="parameters">The map of parameter names to values.</param>
         /// <param name="database">The <see cref="Database"/> object creating this query.</param>
         /// <param name="data">The data associated with this query.</param>
         /// <returns>A new instance of the <see cref="ThreadedQuery"/> class.</returns>
-        internal static ThreadedQuery Query(string sql, Database database, object data)
+        internal static ThreadedQuery Query(string sql, Dictionary<string, object> parameters, Database database, object data)
         {
             var query = new ThreadedQuery(database, data);
             new Thread(() =>
@@ -105,7 +107,7 @@ namespace SevenMod.Database
                     query.status = Status.Running;
                     try
                     {
-                        query.results = database.RunQuery(sql);
+                        query.results = database.RunQuery(sql, parameters);
                     }
                     catch (Exception e)
                     {
@@ -123,10 +125,11 @@ namespace SevenMod.Database
         /// Initializes a new instance of the <see cref="ThreadedQuery"/> class for a query that does not return a result.
         /// </summary>
         /// <param name="sql">The SQL string to execute.</param>
+        /// <param name="parameters">The map of parameter names to values.</param>
         /// <param name="database">The <see cref="Database"/> object creating this query.</param>
         /// <param name="data">The data associated with this query.</param>
         /// <returns>A new instance of the <see cref="ThreadedQuery"/> class.</returns>
-        internal static ThreadedQuery FastQuery(string sql, Database database, object data)
+        internal static ThreadedQuery FastQuery(string sql, Dictionary<string, object> parameters, Database database, object data)
         {
             var query = new ThreadedQuery(database, data);
             new Thread(() =>
@@ -136,7 +139,7 @@ namespace SevenMod.Database
                     query.status = Status.Running;
                     try
                     {
-                        query.affectedRows = database.RunFastQuery(sql);
+                        query.affectedRows = database.RunFastQuery(sql, parameters);
                     }
                     catch (Exception e)
                     {

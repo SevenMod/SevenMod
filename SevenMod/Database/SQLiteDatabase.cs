@@ -6,9 +6,9 @@
 namespace SevenMod.Database
 {
     using System;
+    using System.Collections.Generic;
     using System.Data;
     using System.Data.SQLite;
-    using MySql.Data.MySqlClient;
     using SevenMod.Core;
 
     /// <summary>
@@ -22,25 +22,28 @@ namespace SevenMod.Database
         private SQLiteConnection connection;
 
         /// <inheritdoc/>
-        public override string Escape(string str)
-        {
-            return MySqlHelper.EscapeString(str);
-        }
-
-        /// <inheritdoc/>
         public sealed override void Dispose()
         {
             ((IDisposable)this.connection).Dispose();
         }
 
         /// <inheritdoc/>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2100:Review SQL queries for security vulnerabilities", Justification = "Sanitized by client")]
-        protected internal override DataTable RunQuery(string sql)
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2100:Review SQL queries for security vulnerabilities", Justification = "Use parameterized queries")]
+        protected internal override DataTable RunQuery(string sql, Dictionary<string, object> parameters = null)
         {
             var dataTable = new DataTable();
 
             this.connection.Open();
             var cmd = new SQLiteCommand(sql, this.connection);
+
+            if (parameters != null)
+            {
+                foreach (var p in parameters)
+                {
+                    cmd.Parameters.AddWithValue(p.Key, p.Value);
+                }
+            }
+
             var reader = cmd.ExecuteReader();
             dataTable.Load(reader);
             reader.Close();
@@ -50,11 +53,20 @@ namespace SevenMod.Database
         }
 
         /// <inheritdoc/>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2100:Review SQL queries for security vulnerabilities", Justification = "Sanitized by client")]
-        protected internal override int RunFastQuery(string sql)
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2100:Review SQL queries for security vulnerabilities", Justification = "Use parameterized queries")]
+        protected internal override int RunFastQuery(string sql, Dictionary<string, object> parameters = null)
         {
             this.connection.Open();
             var cmd = new SQLiteCommand(sql, this.connection);
+
+            if (parameters != null)
+            {
+                foreach (var p in parameters)
+                {
+                    cmd.Parameters.AddWithValue(p.Key, p.Value);
+                }
+            }
+
             var affectedRows = cmd.ExecuteNonQuery();
             this.connection.Close();
 
