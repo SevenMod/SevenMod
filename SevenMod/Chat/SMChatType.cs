@@ -28,6 +28,6 @@ namespace SevenMod.Chat
         /// <summary>
         /// A whisper.
         /// </summary>
-        Whisper = 3
+        Whisper = 3,
     }
 }

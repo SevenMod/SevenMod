@@ -70,7 +70,7 @@ namespace SevenMod.Core
         /// </summary>
         /// <param name="left">The left operand.</param>
         /// <param name="right">The right operand.</param>
-        /// <returns>A value indicating whether <paramref name="left"/> is equal to <paramref name="right"/>.8</returns>
+        /// <returns>A value indicating whether <paramref name="left"/> is equal to <paramref name="right"/>.</returns>
         public static bool operator ==(SMClient left, SMClient right)
         {
             return left.Equals(right);
@@ -81,7 +81,7 @@ namespace SevenMod.Core
         /// </summary>
         /// <param name="left">The left operand.</param>
         /// <param name="right">The right operand.</param>
-        /// <returns>A value indicating whether <paramref name="left"/> is not equal to <paramref name="right"/>.8</returns>
+        /// <returns>A value indicating whether <paramref name="left"/> is not equal to <paramref name="right"/>.</returns>
         public static bool operator !=(SMClient left, SMClient right)
         {
             return !left.Equals(right);

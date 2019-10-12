@@ -43,6 +43,6 @@ namespace SevenMod.Core
         /// <summary>
         /// Unknown reason.
         /// </summary>
-        Unknown = 6
+        Unknown = 6,
     }
 }

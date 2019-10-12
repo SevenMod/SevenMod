@@ -9,7 +9,7 @@ namespace SevenMod.Core
     using SevenMod.Logging;
 
     /// <summary>
-    /// Contains a plugin with its metadata
+    /// Contains a plugin with its metadata.
     /// </summary>
     public class PluginContainer
     {

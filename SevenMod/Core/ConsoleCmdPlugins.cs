@@ -106,7 +106,7 @@ namespace SevenMod.Core
             {
                 var p = list[i];
                 var error = p.LoadStatus == PluginContainer.Status.Error ? " <Failed>" : string.Empty;
-                SdtdConsole.Instance.Output($"{i + 1, 4:D2}{error} \"{p.PluginInfo.Name}\" ({p.PluginInfo.Version}) by {p.PluginInfo.Author}");
+                SdtdConsole.Instance.Output($"{i + 1,4:D2}{error} \"{p.PluginInfo.Name}\" ({p.PluginInfo.Version}) by {p.PluginInfo.Author}");
             }
 
             var errored = list.Where((PluginContainer p) => p.LoadStatus == PluginContainer.Status.Error);
