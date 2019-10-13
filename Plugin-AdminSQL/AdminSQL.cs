@@ -85,7 +85,7 @@ namespace SevenMod.Plugin.AdminSQL
             {
                 ["groups"] = groups,
             };
-            e.Database.TQuery("SELECT admin_id, group_id FROM sm_admins_groups", bundle).QueryCompleted += this.OnAdminGroupsQuery;
+            e.Database.TQuery("SELECT admin_id, group_id FROM sm_admins_groups", null, bundle).QueryCompleted += this.OnAdminGroupsQuery;
         }
 
         /// <summary>
@@ -118,7 +118,7 @@ namespace SevenMod.Plugin.AdminSQL
             }
 
             bundle["adminGroups"] = adminGroups;
-            e.Database.TQuery("SELECT id, identity, flags, immunity FROM sm_admins", bundle).QueryCompleted += this.OnAdminsQuery;
+            e.Database.TQuery("SELECT id, identity, flags, immunity FROM sm_admins", null, bundle).QueryCompleted += this.OnAdminsQuery;
         }
 
         /// <summary>
