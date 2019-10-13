@@ -15,11 +15,6 @@ namespace SevenMod.Plugin.BloodMoon
     public sealed class BloodMoon : PluginAbstract
     {
         /// <summary>
-        /// The value of the BloodMoonFrequency server preference.
-        /// </summary>
-        private int interval;
-
-        /// <summary>
         /// The value of the BloodMoonShowOnSpawn <see cref="ConVar"/>.
         /// </summary>
         private ConVarValue showOnSpawn;
@@ -37,11 +32,6 @@ namespace SevenMod.Plugin.BloodMoon
         /// <inheritdoc/>
         public override void OnLoadPlugin()
         {
-            if (GamePrefs.GetInt(EnumGamePrefs.BloodMoonRange) != 0)
-            {
-                this.SetFailState("Server preference BloodMoonRange must be set to 0");
-            }
-
             this.LoadTranslations("BloodMoon.Plugin");
 
             this.showOnSpawn = this.CreateConVar("BloodMoonShowOnSpawn", "True", "Whether to show the number of days until the next blood moon to newly spawned players.").Value;
@@ -49,8 +39,6 @@ namespace SevenMod.Plugin.BloodMoon
             this.AutoExecConfig(true, "BloodMoon");
 
             this.RegAdminCmd("bloodmoon", 0, "Bloodmoon Description").Executed += this.OnBloodmoonCommandExecuted;
-
-            this.interval = GamePrefs.GetInt(EnumGamePrefs.BloodMoonFrequency);
         }
 
         /// <inheritdoc/>
@@ -87,7 +75,7 @@ namespace SevenMod.Plugin.BloodMoon
         /// <returns>The formatted string.</returns>
         private string GetMessage(int days)
         {
-            if (days == 7)
+            if (days == 0)
             {
                 return "Bloodmoon Tonight";
             }
@@ -107,7 +95,9 @@ namespace SevenMod.Plugin.BloodMoon
         /// <returns>The number of days between today and the next blood moon.</returns>
         private int GetDays()
         {
-            return this.interval - (GameUtils.WorldTimeToDays(GameManager.Instance.World.GetWorldTime()) % this.interval);
+            var bloodMoonDay = GameStats.GetInt(EnumGameStats.BloodMoonDay);
+            var currentDay = GameUtils.WorldTimeToDays(GameManager.Instance.World.GetWorldTime());
+            return bloodMoonDay - currentDay;
         }
     }
 }
